@@ -117,7 +117,7 @@ function toSlug(name) {
 function fmtKickoff(iso) {
   return new Date(iso).toLocaleString('en-GB', {
     weekday: 'short', day: 'numeric', month: 'short',
-    hour: '2-digit', minute: '2-digit', timeZone: 'UTC', timeZoneName: 'short',
+    hour: '2-digit', minute: '2-digit', timeZoneName: 'short',
   });
 }
 
