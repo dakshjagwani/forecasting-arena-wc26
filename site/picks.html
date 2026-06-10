@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Forecasting Arena — Submit Picks</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.8.1/dist/nouislider.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- SCREEN: Name -->
+  <section id="screen-name" class="screen active">
+    <div class="screen-inner">
+      <div class="brand">⚽ Forecasting Arena</div>
+      <h1>Who are you?</h1>
+      <p class="subtitle">Your name appears on the leaderboard</p>
+      <input
+        type="text"
+        id="name-input"
+        placeholder="Enter your name"
+        autocomplete="name"
+        autocapitalize="words"
+        spellcheck="false"
+      >
+      <button id="btn-continue" class="btn-primary">Continue →</button>
+    </div>
+  </section>
+
+  <!-- SCREEN: Cards -->
+  <section id="screen-cards" class="screen">
+    <header class="cards-header">
+      <button id="btn-back" class="btn-ghost small">← Back</button>
+      <span id="progress-text" class="progress-text">1 / 8</span>
+      <span id="user-chip" class="user-chip"></span>
+    </header>
+
+    <div id="matchday-banner" class="matchday-banner" hidden></div>
+
+    <div class="cards-track" id="cards-track" role="list">
+      <!-- Match cards + submit card injected by picks.js -->
+    </div>
+
+    <div class="progress-rail">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </section>
+
+  <!-- SCREEN: Confirmation -->
+  <section id="screen-confirm" class="screen">
+    <div class="screen-inner confirm-inner">
+      <div class="confirm-check">✓</div>
+      <h1>Picks in!</h1>
+      <p id="confirm-detail" class="subtitle"></p>
+      <button id="btn-share" class="btn-primary">Share ⚽</button>
+      <button id="btn-edit" class="btn-ghost">Edit picks</button>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/nouislider@15.8.1/dist/nouislider.min.js"></script>
+  <script src="picks.js"></script>
+</body>
+</html>

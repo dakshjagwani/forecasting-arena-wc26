@@ -1,0 +1,382 @@
+/* ── Variables ──────────────────────────────────────────────────────────── */
+:root {
+  --bg:          #f8fafc;
+  --card-bg:     #ffffff;
+  --text:        #0f172a;
+  --text-sub:    #64748b;
+  --border:      #e2e8f0;
+  --home:        #7c3aed;   /* purple  — human accent */
+  --draw:        #94a3b8;   /* slate   — neutral */
+  --away:        #0891b2;   /* cyan    — AI accent */
+  --green:       #16a34a;
+  --red:         #dc2626;
+  --radius:      14px;
+  --shadow:      0 4px 24px rgba(0,0,0,.08);
+}
+
+/* ── Reset & base ───────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;          /* prevent body scroll; each screen scrolls itself */
+}
+
+/* ── Screen management ──────────────────────────────────────────────────── */
+.screen {
+  position: fixed;
+  inset: 0;
+  display: none;
+  overflow: hidden;
+}
+.screen.active { display: flex; flex-direction: column; }
+
+/* ── Screen: Name ───────────────────────────────────────────────────────── */
+.screen-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  gap: 1rem;
+  max-width: 480px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.brand {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--home);
+  letter-spacing: -.01em;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  text-align: center;
+}
+
+.subtitle {
+  color: var(--text-sub);
+  text-align: center;
+  font-size: .95rem;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: .85rem 1rem;
+  font-size: 1rem;        /* prevent iOS zoom */
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  outline: none;
+  transition: border-color .15s;
+  background: var(--card-bg);
+}
+input[type="text"]:focus { border-color: var(--home); }
+
+/* ── Buttons ────────────────────────────────────────────────────────────── */
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: .9rem 1.5rem;
+  background: var(--home);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 48px;
+  transition: opacity .15s;
+}
+.btn-primary:disabled { opacity: .6; cursor: default; }
+.btn-primary:active   { opacity: .85; }
+
+.btn-ghost {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: .55rem 1rem;
+  font-size: .875rem;
+  color: var(--text-sub);
+  cursor: pointer;
+  min-height: 40px;
+  transition: border-color .15s, color .15s;
+}
+.btn-ghost:hover { border-color: var(--text-sub); color: var(--text); }
+.btn-ghost.small { font-size: .8rem; padding: .4rem .75rem; min-height: 36px; }
+
+/* ── Screen: Cards header ───────────────────────────────────────────────── */
+.cards-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--card-bg);
+  flex-shrink: 0;
+  gap: .5rem;
+}
+
+.progress-text {
+  font-size: .875rem;
+  font-weight: 600;
+  color: var(--text-sub);
+}
+
+.user-chip {
+  font-size: .8rem;
+  background: #ede9fe;
+  color: var(--home);
+  border-radius: 999px;
+  padding: .25rem .75rem;
+  font-weight: 600;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Matchday banner ────────────────────────────────────────────────────── */
+.matchday-banner {
+  padding: .5rem 1rem;
+  font-size: .8rem;
+  font-weight: 500;
+  background: #f0fdf4;
+  color: #166534;
+  border-bottom: 1px solid #bbf7d0;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* ── Cards track (scroll-snap) ──────────────────────────────────────────── */
+.cards-track {
+  flex: 1;
+  display: flex;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.cards-track::-webkit-scrollbar { display: none; }
+
+.card {
+  scroll-snap-align: start;
+  flex: 0 0 100%;
+  max-width: 100%;
+  overflow-y: auto;
+  padding: 1.25rem 1rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.card-inner {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ── Card: meta row ─────────────────────────────────────────────────────── */
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.stage-badge {
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text-sub);
+}
+
+.filled-badge {
+  font-size: .72rem;
+  font-weight: 700;
+  background: #dcfce7;
+  color: #166534;
+  border-radius: 999px;
+  padding: .15rem .55rem;
+}
+
+/* ── Card: teams ────────────────────────────────────────────────────────── */
+.teams-row {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+
+.team {
+  flex: 1;
+  text-align: left;
+}
+.team.away { text-align: right; }
+
+.team-name {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  line-height: 1.2;
+}
+
+.vs-badge {
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--text-sub);
+  flex-shrink: 0;
+}
+
+/* ── Card: match info ───────────────────────────────────────────────────── */
+.kick-time  { font-size: .8rem; font-weight: 600; color: var(--text); }
+.kick-venue { font-size: .75rem; color: var(--text-sub); }
+
+/* ── Card: slider section ───────────────────────────────────────────────── */
+.slider-section {
+  display: flex;
+  flex-direction: column;
+  gap: .9rem;
+  padding: 1rem;
+  background: var(--bg);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.slider-el { margin: .5rem 0; }
+
+/* noUiSlider connect segment colours */
+.noUi-connect:nth-child(1) { background: var(--home) !important; }
+.noUi-connect:nth-child(2) { background: var(--draw) !important; }
+.noUi-connect:nth-child(3) { background: var(--away) !important; }
+
+/* Larger handles for fat fingers */
+.noUi-handle {
+  width:  34px  !important;
+  height: 34px  !important;
+  right:  -17px !important;
+  top:    -12px !important;
+  border-radius: 50% !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,.18) !important;
+  cursor: grab !important;
+}
+.noUi-handle::before, .noUi-handle::after { display: none !important; }
+
+.noUi-target { height: 10px !important; border-radius: 5px !important; }
+
+/* ── Percentage labels ──────────────────────────────────────────────────── */
+.pct-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pct-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .2rem;
+  flex: 1;
+}
+.pct-col.home-col { align-items: flex-start; }
+.pct-col.away-col { align-items: flex-end; }
+
+.pct-val {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+.home-col .pct-val { color: var(--home); }
+.draw-col .pct-val { color: var(--text-sub); }
+.away-col .pct-val { color: var(--away); }
+
+.pct-lbl {
+  font-size: .7rem;
+  font-weight: 600;
+  color: var(--text-sub);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  max-width: 70px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.home-col .pct-lbl { text-align: left; }
+.away-col .pct-lbl { text-align: right; }
+
+/* ── Submit card ────────────────────────────────────────────────────────── */
+.submit-card {
+  align-items: center;
+  background: var(--card-bg);
+}
+
+.submit-inner {
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  padding: 2rem 1.5rem;
+}
+
+.submit-emoji { font-size: 3rem; }
+
+.submit-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -.03em;
+}
+
+.submit-count {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-sub);
+}
+
+.submit-as {
+  font-size: .875rem;
+  color: var(--text-sub);
+}
+
+.submit-note {
+  font-size: .75rem;
+  color: var(--text-sub);
+  max-width: 280px;
+}
+
+.submit-warn {
+  font-size: .8rem;
+  color: var(--red);
+  font-weight: 600;
+}
+
+/* ── Progress rail ──────────────────────────────────────────────────────── */
+.progress-rail {
+  height: 3px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--home);
+  width: 0%;
+  transition: width .25s;
+}
+
+/* ── Screen: Confirmation ───────────────────────────────────────────────── */
+.confirm-inner { gap: 1.25rem; text-align: center; }
+
+.confirm-check {
+  font-size: 4rem;
+  color: var(--green);
+}
+
+/* ── Disabled state (frozen matchday) ───────────────────────────────────── */
+.noUi-target.noUi-target-disabled { opacity: .5; cursor: not-allowed; }
