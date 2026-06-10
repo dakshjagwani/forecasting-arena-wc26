@@ -44,9 +44,14 @@ function fmtCountdown(ms) {
 }
 
 function groupByDate(all) {
+  // Group by UTC-8 date so late-night US games (e.g. 04:00Z) stay with
+  // the same campaign day as the earlier matches they're frozen alongside.
+  const OFFSET_MS = 8 * 60 * 60 * 1000;
   const map = {};
   for (const f of all) {
-    (map[f.matchday_label] ??= []).push(f);
+    const day = new Date(new Date(f.kickoff_utc).getTime() - OFFSET_MS)
+      .toISOString().slice(0, 10);
+    (map[day] ??= []).push(f);
   }
   return Object.entries(map)
     .sort(([a], [b]) => a.localeCompare(b))
@@ -321,10 +326,12 @@ async function submitPicks() {
   btn.textContent = 'Submitting…';
 
   try {
+    // mode: 'no-cors' avoids CORS preflight which Apps Script doesn't support.
+    // Response is opaque so we can't read it, but the POST reaches the sheet.
     await fetch(APPS_SCRIPT_URL, {
-      method:  'POST',
-      body:    JSON.stringify(payload),
-      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
+      mode:   'no-cors',
+      body:   JSON.stringify(payload),
     });
     showConfirmation(payload.length);
   } catch {
