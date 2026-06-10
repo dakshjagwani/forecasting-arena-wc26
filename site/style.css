@@ -49,6 +49,39 @@ html, body {
   width: 100%;
 }
 
+/* ── World Cup branding (name screen) ───────────────────────────────────── */
+.wc-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .3rem;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #1e3a5f 0%, #0f2540 100%);
+  border-radius: var(--radius);
+  color: #fff;
+  width: 100%;
+  text-align: center;
+}
+
+.wc-host-flags {
+  font-size: 1.4rem;
+  letter-spacing: .3em;
+}
+
+.wc-title {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: #f0c040;
+}
+
+.wc-meta {
+  font-size: .72rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
 .brand {
   font-size: 1.1rem;
   font-weight: 700;
@@ -67,6 +100,7 @@ h1 {
   color: var(--text-sub);
   text-align: center;
   font-size: .95rem;
+  line-height: 1.5;
 }
 
 input[type="text"] {
@@ -191,6 +225,7 @@ input[type="text"]:focus { border-color: var(--home); }
   display: flex;
   align-items: center;
   gap: .5rem;
+  flex-wrap: wrap;
 }
 
 .stage-badge {
@@ -199,6 +234,15 @@ input[type="text"]:focus { border-color: var(--home); }
   text-transform: uppercase;
   letter-spacing: .06em;
   color: var(--text-sub);
+}
+
+.match-num {
+  font-size: .72rem;
+  font-weight: 600;
+  background: #f1f5f9;
+  color: var(--text-sub);
+  border-radius: 999px;
+  padding: .15rem .55rem;
 }
 
 .filled-badge {
@@ -220,26 +264,51 @@ input[type="text"]:focus { border-color: var(--home); }
 .team {
   flex: 1;
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
 }
-.team.away { text-align: right; }
+.team.away { text-align: right; align-items: flex-end; }
+
+.team-flag {
+  font-size: 2rem;
+  line-height: 1;
+}
 
 .team-name {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 800;
   letter-spacing: -.02em;
   line-height: 1.2;
 }
 
 .vs-badge {
-  font-size: .75rem;
-  font-weight: 700;
+  font-size: .7rem;
+  font-weight: 800;
   color: var(--text-sub);
+  letter-spacing: .08em;
   flex-shrink: 0;
 }
 
-/* ── Card: match info ───────────────────────────────────────────────────── */
+/* ── Card: match info row ───────────────────────────────────────────────── */
+.match-info-row {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
 .kick-time  { font-size: .8rem; font-weight: 600; color: var(--text); }
 .kick-venue { font-size: .75rem; color: var(--text-sub); }
+
+/* ── Fun fact chip ──────────────────────────────────────────────────────── */
+.fun-fact {
+  font-size: .75rem;
+  color: #92400e;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  padding: .6rem .75rem;
+  line-height: 1.5;
+}
 
 /* ── Card: slider section ───────────────────────────────────────────────── */
 .slider-section {
@@ -371,11 +440,16 @@ input[type="text"]:focus { border-color: var(--home); }
 }
 
 /* ── Screen: Confirmation ───────────────────────────────────────────────── */
-.confirm-inner { gap: 1.25rem; text-align: center; }
+.confirm-inner { gap: 1rem; text-align: center; }
 
-.confirm-check {
+.confirm-trophy {
   font-size: 4rem;
-  color: var(--green);
+}
+
+.confirm-tag {
+  font-size: .85rem;
+  color: var(--text-sub);
+  font-style: italic;
 }
 
 /* ── Disabled state (frozen matchday) ───────────────────────────────────── */

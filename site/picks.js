@@ -8,6 +8,91 @@ const LS_NAME_KEY     = 'fa_name';
 const LS_PICKS_KEY    = 'fa_picks';
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Flag emoji helpers
+// ─────────────────────────────────────────────────────────────────────────────
+
+const FIFA_TO_ISO = {
+  ALG:'DZ', ARG:'AR', AUS:'AU', AUT:'AT', BEL:'BE', BRA:'BR', CAN:'CA',
+  CIV:'CI', COL:'CO', CPV:'CV', CRO:'HR', CUR:'CW', ECU:'EC', EGY:'EG',
+  ESP:'ES', FRA:'FR', GER:'DE', GHA:'GH', HAI:'HT', IRN:'IR', JOR:'JO',
+  JPN:'JP', KOR:'KR', KSA:'SA', MAR:'MA', MEX:'MX', NED:'NL', NOR:'NO',
+  NZL:'NZ', PAN:'PA', PAR:'PY', POR:'PT', QAT:'QA', RSA:'ZA', SEN:'SN',
+  SUI:'CH', TUN:'TN', URU:'UY', USA:'US', UZB:'UZ',
+};
+
+const SPECIAL_FLAGS = { ENG:'🏴󠁧󠁢󠁥󠁮󠁧󠁿', SCO:'🏴󠁧󠁢󠁳󠁣󠁴󠁿', WAL:'🏴󠁧󠁢󠁷󠁬󠁳󠁿' };
+
+function teamFlag(code) {
+  if (!code) return '🌍';
+  if (SPECIAL_FLAGS[code]) return SPECIAL_FLAGS[code];
+  const iso = FIFA_TO_ISO[code];
+  if (!iso) return '🏳️';
+  return [...iso].map(c => String.fromCodePoint(c.charCodeAt(0) + 127397)).join('');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Fun facts (per team, fallback from home → away)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const MATCHUP_FACTS = {
+  'ARG-BRA': 'El Superclásico: the fiercest rivalry in South American football. Argentina lead WC h2h 2-1.',
+  'BRA-ARG': 'The Superclásico! Brazil vs Argentina at a World Cup is as big as it gets.',
+  'ENG-GER': 'England beat Germany in the 1966 final (4-2). Germany have won every WC knockout tie since.',
+  'GER-ENG': 'Germany have not lost a World Cup knockout match to England since 1966.',
+  'USA-MEX': 'El Tráfico at a World Cup — the fiercest rivalry in CONCACAF history.',
+  'MEX-USA': 'El Tráfico! Mexico vs USA is the most-played rivalry in CONCACAF.',
+};
+
+const TEAM_FACTS = {
+  ARG: 'Defending champions! Argentina beat France on penalties in Qatar 2022 🏆',
+  BRA: 'Brazil are the most successful WC nation ever, with 5 titles (1958-2002).',
+  FRA: 'France won it in 2018 and were runners-up in 2022 — back-to-back finals.',
+  GER: '4-time World Cup winners — the most successful European nation in history.',
+  ENG: "England's only World Cup win was on home soil in 1966. The 60-year wait continues…",
+  ESP: "Spain's 2010 win was the first World Cup won by a European team outside Europe.",
+  NED: 'The Netherlands have been World Cup runners-up 3 times (1974, 1978, 2010) — never won.',
+  URU: 'Uruguay won the very first World Cup in 1930, then again in 1950 (the Maracanazo).',
+  MEX: 'Mexico has played in every World Cup since 1994 without missing one. The Azteca has hosted 2 finals.',
+  USA: 'The USA last hosted the World Cup in 1994 — they reached the Round of 16 that year.',
+  CAN: "Canada's last World Cup was 1986. They played 3 games, scored 0 goals. 40 years later, they're back.",
+  MAR: 'Morocco made history in 2022 as the first African team ever to reach a World Cup semi-final.',
+  KOR: 'South Korea finished 4th in 2002 — still the best World Cup result by any Asian nation.',
+  JPN: 'Japan stunned both Germany and Spain in 2022, topping their group before losing on penalties.',
+  KSA: 'Saudi Arabia pulled off one of the greatest WC upsets: beating Argentina 2-1 in Qatar 2022.',
+  AUS: "Australia's Socceroos reached the quarter-finals in 2022 — their best ever World Cup result.",
+  SEN: 'Senegal are reigning AFCON champions and have been one of Africa\'s most consistent qualifiers.',
+  CRO: '3rd in 2022, 2nd in 2018 — Croatia keep overachieving with a population of just 4 million.',
+  NOR: 'Norway famously beat Brazil 2-1 at France 98 — still one of the biggest WC upsets.',
+  ECU: 'Ecuador opened the Qatar 2022 tournament with a victory against the host nation.',
+  GHA: "Ghana came agonisingly close to a WC semi-final in 2010 before Suárez's infamous handball.",
+  ALG: "Algeria's 1982 group stage fate inspired FIFA to make all final group games simultaneous.",
+  SUI: 'Switzerland have reached 12 World Cups — but have never gone past the quarter-finals.',
+  CIV: "Ivory Coast's golden generation — Drogba, the Touré brothers, Gervinho — 3 WCs in a row.",
+  QAT: 'Qatar 2022 hosts became the first host nation eliminated in the group stage.',
+  BEL: "Belgium's 'golden generation' finished 3rd in 2018 — their best World Cup result.",
+  COL: 'Colombia reached the quarter-finals in 2014; James Rodríguez won the Golden Boot.',
+  IRN: "Iran's most celebrated WC moment: beating the USA 2-1 at France 1998.",
+  NZL: 'New Zealand went the entire 2010 World Cup unbeaten — they drew all 3 group games.',
+  PAN: 'Panama only reached their first-ever World Cup in 2018, just 8 years ago.',
+  PAR: 'Paraguay reached the quarter-finals in 2010 — their best ever World Cup performance.',
+  HAI: "Haiti's only previous World Cup was 1974 — over 50 years ago.",
+  EGY: 'Egypt are the most successful team in African Cup of Nations history with 7 titles.',
+  TUN: 'Tunisia are appearing at their 6th World Cup, having qualified every time since 1978.',
+  POR: 'Portugal\'s Eusébio won the Golden Boot at the 1966 World Cup — on the same stage that England won.',
+  CUR: 'Curaçao (pop. ~150,000) is one of the smallest nations ever to qualify for a World Cup 🏝️',
+  CPV: 'Cape Verde — a volcanic archipelago off West Africa — are making their World Cup debut!',
+  UZB: 'Uzbekistan are one of the more surprising qualifiers, making their World Cup debut.',
+  JOR: 'Jordan are making their historic first-ever World Cup appearance 🎉',
+};
+
+function getMatchFact(match) {
+  const k  = `${match.home_code}-${match.away_code}`;
+  const rk = `${match.away_code}-${match.home_code}`;
+  return MATCHUP_FACTS[k] || MATCHUP_FACTS[rk]
+      || TEAM_FACTS[match.home_code] || TEAM_FACTS[match.away_code] || null;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // State
 // ─────────────────────────────────────────────────────────────────────────────
 let fixtures      = [];
@@ -98,11 +183,14 @@ function savePick(matchId, home, draw, away) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function buildMatchCard(match, idx) {
-  const saved  = picks[match.match_id];
-  const h0     = saved ? Math.round(saved.p_home * 100) : 40;
-  const d0     = saved ? Math.round(saved.p_draw * 100) : 30;
-  const a0     = 100 - h0 - d0;
-  const filled = !!saved;
+  const saved     = picks[match.match_id];
+  const h0        = saved ? Math.round(saved.p_home * 100) : 40;
+  const d0        = saved ? Math.round(saved.p_draw * 100) : 30;
+  const a0        = 100 - h0 - d0;
+  const filled    = !!saved;
+  const homeFlag  = teamFlag(match.home_code);
+  const awayFlag  = teamFlag(match.away_code);
+  const fact      = getMatchFact(match);
 
   const card       = document.createElement('article');
   card.className   = 'card match-card';
@@ -114,21 +202,26 @@ function buildMatchCard(match, idx) {
     <div class="card-inner">
       <div class="card-meta">
         <span class="stage-badge">${match.stage}</span>
-        ${filled ? '<span class="filled-badge">✓ filled</span>' : ''}
+        <span class="match-num">Match ${match.match_number}</span>
+        ${filled ? '<span class="filled-badge">✓</span>' : ''}
       </div>
 
       <div class="teams-row">
         <div class="team">
+          <div class="team-flag">${homeFlag}</div>
           <div class="team-name">${match.home || 'TBD'}</div>
         </div>
-        <div class="vs-badge">vs</div>
+        <div class="vs-badge">VS</div>
         <div class="team away">
+          <div class="team-flag">${awayFlag}</div>
           <div class="team-name">${match.away || 'TBD'}</div>
         </div>
       </div>
 
-      <div class="kick-time">${fmtKickoff(match.kickoff_utc)}</div>
-      <div class="kick-venue">${match.venue}</div>
+      <div class="match-info-row">
+        <span class="kick-time">🕐 ${fmtKickoff(match.kickoff_utc)}</span>
+        <span class="kick-venue">📍 ${match.venue}</span>
+      </div>
 
       <div class="slider-section">
         <div class="slider-el" id="sl-${match.match_id}"></div>
@@ -147,6 +240,8 @@ function buildMatchCard(match, idx) {
           </div>
         </div>
       </div>
+
+      ${fact ? `<div class="fun-fact">💡 ${fact}</div>` : ''}
     </div>
   `;
   return card;

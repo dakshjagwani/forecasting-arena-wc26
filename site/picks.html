@@ -12,18 +12,23 @@
   <!-- SCREEN: Name -->
   <section id="screen-name" class="screen active">
     <div class="screen-inner">
+      <div class="wc-brand">
+        <div class="wc-host-flags">🇺🇸 🇲🇽 🇨🇦</div>
+        <div class="wc-title">FIFA World Cup 2026™</div>
+        <div class="wc-meta">11 Jun – 19 Jul · 48 teams · 104 matches</div>
+      </div>
       <div class="brand">⚽ Forecasting Arena</div>
-      <h1>Who are you?</h1>
-      <p class="subtitle">Your name appears on the leaderboard</p>
+      <h1>Make your picks</h1>
+      <p class="subtitle">You vs AI models vs the betting market.<br>Who's actually calibrated?</p>
       <input
         type="text"
         id="name-input"
-        placeholder="Enter your name"
+        placeholder="Your name (shows on leaderboard)"
         autocomplete="name"
         autocapitalize="words"
         spellcheck="false"
       >
-      <button id="btn-continue" class="btn-primary">Continue →</button>
+      <button id="btn-continue" class="btn-primary">Enter the Arena →</button>
     </div>
   </section>
 
@@ -49,10 +54,11 @@
   <!-- SCREEN: Confirmation -->
   <section id="screen-confirm" class="screen">
     <div class="screen-inner confirm-inner">
-      <div class="confirm-check">✓</div>
-      <h1>Picks in!</h1>
+      <div class="confirm-trophy">🏆</div>
+      <h1>Picks submitted!</h1>
       <p id="confirm-detail" class="subtitle"></p>
-      <button id="btn-share" class="btn-primary">Share ⚽</button>
+      <p class="confirm-tag">Locked in. Now we wait for the AI… and reality.</p>
+      <button id="btn-share" class="btn-primary">Share my picks ⚽</button>
       <button id="btn-edit" class="btn-ghost">Edit picks</button>
     </div>
   </section>
