@@ -186,58 +186,14 @@ def query_groq(match: dict, api_key: str, model: str = "llama-3.3-70b-versatile"
                 time.sleep(2 ** attempt)
     return {"status": "failed"}
 
-def query_claude(match: dict, api_key: str,
-                 model: str = "claude-haiku-4-5-20251001") -> dict:
-    body = {
-        "model": model,
-        "max_tokens": 512,
-        "temperature": 0,
-        "messages": [{"role": "user", "content": make_prompt(match)}],
-    }
-    for attempt in range(3):
-        try:
-            resp = http_post(
-                "https://api.anthropic.com/v1/messages",
-                {"x-api-key": api_key, "anthropic-version": "2023-06-01"},
-                body,
-            )
-            raw = resp["content"][0]["text"]
-            return _parse_and_normalise(raw, "claude")
-        except Exception as e:
-            log.warning(f"  claude attempt {attempt + 1}: {e}")
-            if attempt < 2:
-                time.sleep(2 ** attempt)
-    return {"status": "failed"}
-
-def query_openai(match: dict, api_key: str, model: str = "gpt-4o-mini") -> dict:
-    body = {
-        "model": model,
-        "messages": [{"role": "user", "content": make_prompt(match)}],
-        "temperature": 0.0,
-        "max_tokens": 300,
-    }
-    for attempt in range(3):
-        try:
-            resp = http_post(
-                "https://api.openai.com/v1/chat/completions",
-                {"Authorization": f"Bearer {api_key}"},
-                body,
-            )
-            raw = resp["choices"][0]["message"]["content"]
-            return _parse_and_normalise(raw, "gpt-4o-mini")
-        except Exception as e:
-            log.warning(f"  gpt-4o-mini attempt {attempt + 1}: {e}")
-            if attempt < 2:
-                time.sleep(2 ** attempt)
-    return {"status": "failed"}
-
 def query_openrouter(match: dict, api_key: str,
-                     model: str = "google/gemma-4-31b-it:free") -> dict:
+                     model: str = "google/gemma-4-31b-it:free",
+                     forecaster_id: str = "gemma") -> dict:
     body = {
         "model": model,
         "messages": [{"role": "user", "content": make_prompt(match)}],
         "temperature": 0.0,
-        "max_tokens": 300,
+        "max_tokens": 512,
     }
     for attempt in range(3):
         try:
@@ -251,9 +207,9 @@ def query_openrouter(match: dict, api_key: str,
                 body,
             )
             raw = resp["choices"][0]["message"]["content"]
-            return _parse_and_normalise(raw, "gemma")
+            return _parse_and_normalise(raw, forecaster_id)
         except Exception as e:
-            log.warning(f"  gemma attempt {attempt + 1}: {e}")
+            log.warning(f"  {forecaster_id} attempt {attempt + 1}: {e}")
             if attempt < 2:
                 time.sleep(2 ** attempt)
     return {"status": "failed"}
@@ -429,11 +385,7 @@ def main() -> None:
         log.error(f"Missing secrets: {missing}")
         sys.exit(1)
 
-    # Optional models — warn but don't abort if keys missing
-    optional_models = {"ANTHROPIC_API_KEY": "claude", "OPENAI_API_KEY": "gpt-4o-mini"}
-    for k, name in optional_models.items():
-        if not os.environ.get(k):
-            log.warning(f"  {k} not set — {name} will be skipped")
+    # All AI models run via required keys; no optional model keys needed.
 
     freeze_utc = datetime.now(timezone.utc)
     log.info(f"Freeze time: {freeze_utc.isoformat()}")
@@ -525,23 +477,30 @@ def main() -> None:
 
         # OpenRouter Gemma
         log.info("  Querying gemma (OpenRouter)...")
-        forecasts["gemma"] = query_openrouter(match, os.environ["OPENROUTER_API_KEY"])
+        forecasts["gemma"] = query_openrouter(
+            match, os.environ["OPENROUTER_API_KEY"],
+            model="google/gemma-4-31b-it:free", forecaster_id="gemma",
+        )
         log.info(f"  gemma: {forecasts['gemma'].get('status', '?')}")
         time.sleep(1)
 
-        # Claude (optional)
-        if os.environ.get("ANTHROPIC_API_KEY"):
-            log.info("  Querying claude...")
-            forecasts["claude"] = query_claude(match, os.environ["ANTHROPIC_API_KEY"])
-            log.info(f"  claude: {forecasts['claude'].get('status', '?')}")
-            time.sleep(1)
+        # DeepSeek R1 (OpenRouter free)
+        log.info("  Querying deepseek-r1 (OpenRouter)...")
+        forecasts["deepseek-r1"] = query_openrouter(
+            match, os.environ["OPENROUTER_API_KEY"],
+            model="deepseek/deepseek-r1:free", forecaster_id="deepseek-r1",
+        )
+        log.info(f"  deepseek-r1: {forecasts['deepseek-r1'].get('status', '?')}")
+        time.sleep(1)
 
-        # OpenAI GPT-4o-mini (optional)
-        if os.environ.get("OPENAI_API_KEY"):
-            log.info("  Querying gpt-4o-mini...")
-            forecasts["gpt-4o-mini"] = query_openai(match, os.environ["OPENAI_API_KEY"])
-            log.info(f"  gpt-4o-mini: {forecasts['gpt-4o-mini'].get('status', '?')}")
-            time.sleep(1)
+        # Mistral Small 3.1 (OpenRouter free)
+        log.info("  Querying mistral-small (OpenRouter)...")
+        forecasts["mistral-small"] = query_openrouter(
+            match, os.environ["OPENROUTER_API_KEY"],
+            model="mistralai/mistral-small-3.1-24b-instruct:free", forecaster_id="mistral-small",
+        )
+        log.info(f"  mistral-small: {forecasts['mistral-small'].get('status', '?')}")
+        time.sleep(1)
 
         # Human picks for this match
         for slug, slug_picks in human_picks.items():
@@ -586,7 +545,7 @@ def main() -> None:
     log.info(f"Written: {out_path}")
 
     # ── Summarise ─────────────────────────────────────────────────────────────
-    ai_models = ["gemini-flash", "llama-70b", "gemma", "claude", "gpt-4o-mini"]
+    ai_models = ["gemini-flash", "llama-70b", "gemma", "deepseek-r1", "mistral-small"]
     active_ai = [m for m in ai_models if any(
         mr["forecasts"].get(m) for mr in match_results
     )]

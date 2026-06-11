@@ -212,12 +212,77 @@ function getActiveMatchday(all) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Screen switching
+// Screen switching (CSS opacity transition handles the animation)
 // ─────────────────────────────────────────────────────────────────────────────
 
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + id).classList.add('active');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Desktop navigation arrows
+// ─────────────────────────────────────────────────────────────────────────────
+
+function setupNavArrows() {
+  const track = document.getElementById('cards-track');
+  const prev  = document.getElementById('nav-prev');
+  const next  = document.getElementById('nav-next');
+  if (!track || !prev || !next) return;
+
+  function scrollTo(dir) {
+    const w    = track.clientWidth;
+    const curr = Math.round(track.scrollLeft / w);
+    const dest = dir === 'next' ? curr + 1 : curr - 1;
+    const max  = track.querySelectorAll('.card').length - 1;
+    if (dest < 0 || dest > max) return;
+    track.scrollTo({ left: dest * w, behavior: 'smooth' });
+  }
+
+  prev.addEventListener('click', () => scrollTo('prev'));
+  next.addEventListener('click', () => scrollTo('next'));
+
+  function updateArrows() {
+    const w    = track.clientWidth;
+    const curr = Math.round(track.scrollLeft / w);
+    const max  = track.querySelectorAll('.card').length - 1;
+    prev.style.opacity = curr === 0   ? '0.3' : '1';
+    next.style.opacity = curr === max ? '0.3' : '1';
+    prev.style.pointerEvents = curr === 0   ? 'none' : 'auto';
+    next.style.pointerEvents = curr === max ? 'none' : 'auto';
+  }
+
+  track.addEventListener('scroll', updateArrows, { passive: true });
+  updateArrows();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Confetti burst (confirmation screen)
+// ─────────────────────────────────────────────────────────────────────────────
+
+function spawnConfetti() {
+  const container = document.getElementById('screen-confirm');
+  if (!container) return;
+  const colors = ['#7c3aed','#0891b2','#f0c040','#22c55e','#f43f5e','#fb923c'];
+  const shapes = ['2px','4px','6px'];
+
+  for (let i = 0; i < 72; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    const size = shapes[Math.floor(Math.random() * shapes.length)];
+    el.style.cssText = [
+      `left:${Math.random() * 100}%`,
+      `background:${colors[Math.floor(Math.random() * colors.length)]}`,
+      `width:${6 + Math.random() * 6}px`,
+      `height:${8 + Math.random() * 8}px`,
+      `border-radius:${Math.random() > .5 ? '50%' : '2px'}`,
+      `animation-duration:${1.2 + Math.random() * 1.4}s`,
+      `animation-delay:${Math.random() * 0.6}s`,
+      `transform:rotate(${Math.random() * 360}deg)`,
+    ].join(';');
+    container.appendChild(el);
+    setTimeout(() => el.remove(), 2800);
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -353,14 +418,26 @@ function initSlider(matchId, frozen) {
     return;
   }
 
+  sl.on('start', () => navigator.vibrate?.(3));
+
   sl.on('update', ([v1, v2]) => {
     const home = Math.round(v1);
     const away = 100 - Math.round(v2);
     const draw = 100 - home - away;
 
-    document.getElementById('ph-' + matchId).textContent = home + '%';
-    document.getElementById('pd-' + matchId).textContent = draw + '%';
-    document.getElementById('pa-' + matchId).textContent = away + '%';
+    function setVal(id, val) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (el.textContent !== val + '%') {
+        el.textContent = val + '%';
+        el.classList.remove('pop');
+        void el.offsetWidth;
+        el.classList.add('pop');
+      }
+    }
+    setVal('ph-' + matchId, home);
+    setVal('pd-' + matchId, draw);
+    setVal('pa-' + matchId, away);
 
     savePick(matchId, home, draw, away);
     refreshSubmitCount();
@@ -447,6 +524,9 @@ function renderCards() {
 
   // Submit button
   document.getElementById('btn-submit')?.addEventListener('click', submitPicks);
+
+  // Desktop navigation arrows
+  setupNavArrows();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -522,6 +602,7 @@ function showConfirmation(n) {
   };
 
   showScreen('confirm');
+  requestAnimationFrame(spawnConfetti);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
