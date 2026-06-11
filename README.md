@@ -82,3 +82,4 @@ each prediction file's commit predates the kickoffs inside it.
 - `site/` — the picks app and leaderboard (plain HTML/CSS/JS, no build step)
 - `tests/` — pytest suite + golden-file integration test ([TESTING.md](TESTING.md))
 - [CLAUDE.md](CLAUDE.md) — full project spec; [TESTING.md](TESTING.md) — validation standard
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — full system diagrams: every API, script, and data flow
