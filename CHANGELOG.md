@@ -4,6 +4,15 @@ Every data correction and every decision that affects the experiment's
 integrity is logged here, newest first. Scores JSONs are never hand-edited;
 they are recomputed from raw data after any correction.
 
+## 2026-06-12 — EXPERIMENT LIVE from the 2026-06-12 campaign day
+
+- Freeze cron re-enabled (18:00 UTC daily). The first scored matchday is
+  **2026-06-12** (Canada vs Bosnia and Herzegovina, USA vs Paraguay).
+  Matches 1–2 (Mexico–South Africa, South Korea–Czechia) predate the launch
+  and are unscored for all forecasters. The lineup is now permanently frozen.
+- `FOOTBALL_DATA_API_KEY` added to Actions secrets — results fetch + scoring
+  (06:00 UTC daily) is now fully automated, with manual entry as fallback.
+
 ## 2026-06-11 (later still) — deepseek-r1 replaced pre-launch
 
 - The dress rehearsal revealed OpenRouter has **discontinued its free

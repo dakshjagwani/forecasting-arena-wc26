@@ -1,13 +1,12 @@
 name: Daily freeze
 
 on:
-  # CRON PAUSED until the relaunch matchday is decided (CHANGELOG 2026-06-11).
-  # Re-enable by uncommenting — and keep FREEZE_HOUR_UTC in site/picks.js in
-  # sync with the cron hour.
-  # schedule:
-  #   # 18:00 UTC daily — before all group-stage kickoffs (earliest 19:00 UTC).
-  #   # Adjust to 16:00 UTC for knockout rounds which can start at 17:00 UTC.
-  #   - cron: '0 18 * * *'
+  schedule:
+    # 18:00 UTC daily — before all group-stage kickoffs (earliest 19:00 UTC).
+    # Adjust to 16:00 UTC for knockout rounds which can start at 17:00 UTC —
+    # and keep FREEZE_HOUR_UTC in site/picks.js in sync with this hour.
+    # EXPERIMENT LIVE from the 2026-06-12 campaign day (CHANGELOG.md).
+    - cron: '0 18 * * *'
   workflow_dispatch:   # allow manual trigger from GitHub UI
 
 permissions:
