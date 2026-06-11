@@ -783,3 +783,116 @@ input[type="text"]:focus {
   .feature-desc { display: none; }
   .screen-inner { gap: .9rem; }
 }
+
+/* ── Theme toggle button (fixed, always visible) ────────────────────────── */
+.theme-toggle {
+  position: fixed;
+  top: .6rem;
+  right: .75rem;
+  z-index: 200;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--card-bg);
+  border: 1.5px solid var(--border);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  line-height: 1;
+  box-shadow: var(--shadow-card);
+  transition: border-color var(--dur-fast), box-shadow var(--dur-fast), background var(--dur-med);
+}
+.theme-toggle:hover {
+  border-color: var(--home);
+  box-shadow: 0 2px 12px rgba(124,58,237,.25);
+}
+
+/* ── Expandable feature tile detail panel ───────────────────────────────── */
+.feature-item {
+  cursor: pointer;
+  position: relative;
+}
+.feature-item::after {
+  content: '▾';
+  position: absolute;
+  bottom: .35rem;
+  right: .45rem;
+  font-size: .55rem;
+  color: var(--text-sub);
+  opacity: .7;
+  transition: transform var(--dur-fast);
+}
+.feature-item.active-feature::after { transform: rotate(180deg); }
+
+.feature-item.active-feature {
+  border-color: var(--home);
+  background: var(--home-light);
+}
+.feature-item.active-feature .feature-name { color: var(--home); }
+
+.feature-detail {
+  width: 100%;
+  background: var(--card-bg);
+  border: 1.5px solid var(--home);
+  border-radius: 12px;
+  padding: .8rem .95rem;
+  font-size: .82rem;
+  color: var(--text-sub);
+  line-height: 1.6;
+  animation: fadeInUp var(--dur-fast) ease both;
+}
+
+/* ── Dark mode ──────────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg:         #0f172a;
+  --card-bg:    #1e293b;
+  --text:       #f1f5f9;
+  --text-sub:   #94a3b8;
+  --border:     #334155;
+  --home-light: rgba(124,58,237,.22);
+  --away-light: rgba(8,145,178,.18);
+  --shadow:      0 2px 12px rgba(0,0,0,.35);
+  --shadow-card: 0 4px 28px rgba(0,0,0,.5);
+}
+
+[data-theme="dark"] .wc-brand {
+  background: linear-gradient(135deg, #162032 0%, #0b1a30 100%);
+}
+
+[data-theme="dark"] .intel-panel {
+  background: linear-gradient(135deg, #162032 0%, #1a1535 100%);
+  border-color: #334155;
+}
+
+[data-theme="dark"] .intel-h2h { border-color: #334155; }
+
+[data-theme="dark"] .fun-fact {
+  background: #1c1804;
+  border-color: #3d3410;
+  color: #d97706;
+}
+
+[data-theme="dark"] .matchday-banner {
+  background: #0a1f11;
+  color: #4ade80;
+  border-color: #14532d;
+}
+
+[data-theme="dark"] .match-num,
+[data-theme="dark"] .vs-badge { background: #334155; }
+
+[data-theme="dark"] .noUi-target  { background: #334155 !important; }
+[data-theme="dark"] .noUi-handle  { background: #1e293b !important; border-color: #475569 !important; }
+
+[data-theme="dark"] tbody tr:hover { background: #1e2a3a; }
+[data-theme="dark"] tbody tr { border-color: var(--border); }
+[data-theme="dark"] thead th { border-color: var(--border); }
+
+[data-theme="dark"] .lb-stats { background: var(--card-bg); border-color: var(--border); }
+[data-theme="dark"] .feature-detail { border-color: var(--home); }
+
+[data-theme="dark"] .lb-hero {
+  background: linear-gradient(135deg, #0f2540 0%, #06111f 100%);
+}

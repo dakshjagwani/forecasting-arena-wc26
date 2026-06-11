@@ -11,6 +11,64 @@ const LS_PICKS_KEY      = 'fa_picks';
 let matchContexts = {};  // { match_id: context_object }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Dark mode toggle
+// ─────────────────────────────────────────────────────────────────────────────
+
+function setupThemeToggle() {
+  const btn  = document.getElementById('theme-toggle');
+  const icon = btn?.querySelector('.theme-icon');
+  if (!btn || !icon) return;
+
+  function syncIcon() {
+    icon.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+  }
+
+  syncIcon();
+
+  btn.addEventListener('click', () => {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+    localStorage.setItem('fa_theme', dark ? 'light' : 'dark');
+    syncIcon();
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Expandable feature tiles (landing screen)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const FEATURE_INFO = {
+  ai: "Six models compete on every match: Gemini 2.5 Flash (Google), Llama 3.3 70B (Meta via Groq), Gemma 4 31B (Google via OpenRouter), DeepSeek R1 (reasoning model via OpenRouter), and GPT-4o Mini (OpenAI). Each model receives identical statistical context: Elo ratings, last-10 form, head-to-head history, and venue conditions — the same data you see on each card. No internet browsing, no live news.",
+  brier: "We use the multiclass Brier score: the sum of squared errors across all three outcomes (home win, draw, away win). Perfect prediction = 0.0. Maximally wrong (100% on the losing side) = 2.0. A uniform 33%/33%/33% guess = 0.667. It punishes overconfidence — saying 90% on a team that loses hurts far more than saying 50%. You can't win by always going all-in.",
+  live: "Rankings update after every full-time result. Every prediction is committed to a public GitHub repository before kickoff — immutable, timestamped, auditable. Anyone can verify that no model or human changed their prediction after seeing the result. The git history is the official record.",
+};
+
+function setupFeatureTiles() {
+  const detail     = document.getElementById('feature-detail');
+  const detailText = document.getElementById('feature-detail-text');
+  if (!detail || !detailText) return;
+
+  let activeKey = null;
+
+  document.querySelectorAll('.feature-item[data-key]').forEach(item => {
+    item.addEventListener('click', () => {
+      const key = item.dataset.key;
+      if (activeKey === key) {
+        detail.hidden = true;
+        item.classList.remove('active-feature');
+        activeKey = null;
+        return;
+      }
+      document.querySelectorAll('.feature-item').forEach(i => i.classList.remove('active-feature'));
+      item.classList.add('active-feature');
+      detailText.textContent = FEATURE_INFO[key] || '';
+      detail.hidden = false;
+      activeKey = key;
+    });
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Flag emoji helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -682,6 +740,8 @@ async function init() {
   document.getElementById('btn-back').addEventListener('click', () => showScreen('name'));
 
   setupKeyboard();
+  setupThemeToggle();
+  setupFeatureTiles();
 
   // Skip name screen if name already saved
   if (userName) {

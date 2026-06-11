@@ -385,7 +385,9 @@ def main() -> None:
         log.error(f"Missing secrets: {missing}")
         sys.exit(1)
 
-    # All AI models run via required keys; no optional model keys needed.
+    # GPT-4o-mini is optional — warn but don't abort if key missing
+    if not os.environ.get("OPENAI_API_KEY"):
+        log.warning("  OPENAI_API_KEY not set — gpt-4o-mini will be skipped")
 
     freeze_utc = datetime.now(timezone.utc)
     log.info(f"Freeze time: {freeze_utc.isoformat()}")
@@ -493,14 +495,33 @@ def main() -> None:
         log.info(f"  deepseek-r1: {forecasts['deepseek-r1'].get('status', '?')}")
         time.sleep(1)
 
-        # Mistral Small 3.1 (OpenRouter free)
-        log.info("  Querying mistral-small (OpenRouter)...")
-        forecasts["mistral-small"] = query_openrouter(
-            match, os.environ["OPENROUTER_API_KEY"],
-            model="mistralai/mistral-small-3.1-24b-instruct:free", forecaster_id="mistral-small",
-        )
-        log.info(f"  mistral-small: {forecasts['mistral-small'].get('status', '?')}")
-        time.sleep(1)
+        # GPT-4o-mini (optional — needs OPENAI_API_KEY)
+        if os.environ.get("OPENAI_API_KEY"):
+            log.info("  Querying gpt-4o-mini (OpenAI)...")
+            body = {
+                "model": "gpt-4o-mini",
+                "messages": [{"role": "user", "content": make_prompt(match)}],
+                "temperature": 0.0,
+                "max_tokens": 300,
+            }
+            for attempt in range(3):
+                try:
+                    resp = http_post(
+                        "https://api.openai.com/v1/chat/completions",
+                        {"Authorization": f"Bearer {os.environ['OPENAI_API_KEY']}"},
+                        body,
+                    )
+                    raw = resp["choices"][0]["message"]["content"]
+                    forecasts["gpt-4o-mini"] = _parse_and_normalise(raw, "gpt-4o-mini")
+                    break
+                except Exception as e:
+                    log.warning(f"  gpt-4o-mini attempt {attempt + 1}: {e}")
+                    if attempt < 2:
+                        time.sleep(2 ** attempt)
+            else:
+                forecasts["gpt-4o-mini"] = {"status": "failed"}
+            log.info(f"  gpt-4o-mini: {forecasts['gpt-4o-mini'].get('status', '?')}")
+            time.sleep(1)
 
         # Human picks for this match
         for slug, slug_picks in human_picks.items():
@@ -545,7 +566,7 @@ def main() -> None:
     log.info(f"Written: {out_path}")
 
     # ── Summarise ─────────────────────────────────────────────────────────────
-    ai_models = ["gemini-flash", "llama-70b", "gemma", "deepseek-r1", "mistral-small"]
+    ai_models = ["gemini-flash", "llama-70b", "gemma", "deepseek-r1", "gpt-4o-mini"]
     active_ai = [m for m in ai_models if any(
         mr["forecasts"].get(m) for mr in match_results
     )]

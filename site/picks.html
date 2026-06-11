@@ -6,8 +6,19 @@
   <title>Forecasting Arena — World Cup 2026</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.8.1/dist/nouislider.min.css">
   <link rel="stylesheet" href="style.css">
+  <!-- Anti-FOUC: apply saved theme before first paint -->
+  <script>
+    (function() {
+      var t = localStorage.getItem('fa_theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
 </head>
 <body>
+
+  <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+    <span class="theme-icon">🌙</span>
+  </button>
 
   <!-- SCREEN: Landing / Pitch -->
   <section id="screen-name" class="screen active">
@@ -25,21 +36,24 @@
       </div>
 
       <div class="features-grid">
-        <div class="feature-item">
+        <div class="feature-item" data-key="ai">
           <div class="feature-icon">🤖</div>
           <div class="feature-name">6 AI Models</div>
           <div class="feature-desc">Gemini, Llama, DeepSeek & more</div>
         </div>
-        <div class="feature-item">
+        <div class="feature-item" data-key="brier">
           <div class="feature-icon">📐</div>
           <div class="feature-name">Calibrated</div>
           <div class="feature-desc">Brier scoring, not gut picks</div>
         </div>
-        <div class="feature-item">
+        <div class="feature-item" data-key="live">
           <div class="feature-icon">📡</div>
           <div class="feature-name">Live</div>
           <div class="feature-desc">Rankings after every match</div>
         </div>
+      </div>
+      <div class="feature-detail" id="feature-detail" hidden>
+        <p id="feature-detail-text"></p>
       </div>
 
       <div class="entry-block">
