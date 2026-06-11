@@ -23,7 +23,7 @@ PREDICTIONS_DIR = ROOT / "data" / "predictions"
 # with this registry. Adding/removing a model after the experiment's first
 # scored matchday invalidates the comparison — a CHANGELOG.md entry is
 # mandatory to change this tuple, and only ever to RETIRE a model, never swap.
-AI_LINEUP = ("gemini-flash", "llama-70b", "gemma", "deepseek-r1", "gpt-4o-mini")
+AI_LINEUP = ("gemini-flash", "llama-70b", "gemma", "gpt-oss-120b", "gpt-4o-mini")
 NON_AI_FORECASTERS = ("market", "crowd")
 
 logging.basicConfig(
@@ -176,12 +176,13 @@ def query_gemini(match: dict, api_key: str, model: str = "gemini-2.5-flash") -> 
                 time.sleep(2 ** attempt)
     return {"status": "failed"}
 
-def query_groq(match: dict, api_key: str, model: str = "llama-3.3-70b-versatile") -> dict:
+def query_groq(match: dict, api_key: str, model: str = "llama-3.3-70b-versatile",
+               forecaster_id: str = "llama-70b", max_tokens: int = 300) -> dict:
     body = {
         "model": model,
         "messages": [{"role": "user", "content": make_prompt(match)}],
         "temperature": 0.0,
-        "max_tokens": 300,
+        "max_tokens": max_tokens,
     }
     for attempt in range(3):
         try:
@@ -191,9 +192,9 @@ def query_groq(match: dict, api_key: str, model: str = "llama-3.3-70b-versatile"
                 body,
             )
             raw = resp["choices"][0]["message"]["content"]
-            return _parse_and_normalise(raw, "llama-70b")
+            return _parse_and_normalise(raw, forecaster_id)
         except Exception as e:
-            log.warning(f"  llama-70b attempt {attempt + 1}: {e}")
+            log.warning(f"  {forecaster_id} attempt {attempt + 1}: {e}")
             if attempt < 2:
                 time.sleep(2 ** attempt)
     return {"status": "failed"}
@@ -546,17 +547,17 @@ def main() -> None:
             log.warning(f"  market: no odds found")
 
         # AI lineup — dispatch table keyed by the frozen registry.
-        # deepseek-r1 emits long reasoning before its JSON answer, so it gets
-        # a larger completion budget than the instruct models.
+        # gpt-oss-120b is a reasoning model: its thinking can spill into the
+        # completion, so it gets a larger token budget than the instruct models.
         ai_queries = {
             "gemini-flash": lambda m: query_gemini(m, os.environ["GEMINI_API_KEY"]),
             "llama-70b":    lambda m: query_groq(m, os.environ["GROQ_API_KEY"]),
             "gemma":        lambda m: query_openrouter(
                 m, os.environ["OPENROUTER_API_KEY"],
                 model="google/gemma-4-31b-it:free", forecaster_id="gemma"),
-            "deepseek-r1":  lambda m: query_openrouter(
-                m, os.environ["OPENROUTER_API_KEY"],
-                model="deepseek/deepseek-r1:free", forecaster_id="deepseek-r1",
+            "gpt-oss-120b": lambda m: query_groq(
+                m, os.environ["GROQ_API_KEY"],
+                model="openai/gpt-oss-120b", forecaster_id="gpt-oss-120b",
                 max_tokens=2048),
             "gpt-4o-mini":  lambda m: query_github_models(
                 m, os.environ["GITHUB_TOKEN"]),

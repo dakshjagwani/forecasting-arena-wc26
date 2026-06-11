@@ -84,7 +84,7 @@ scripts/freeze.py; freeze.py aborts if its output drifts from it):
 | `gemini-flash` | AI | Gemini 2.5 Flash, Gemini API free tier | temp 0, fixed prompt |
 | `llama-70b` | AI | Llama 3.3 70B, Groq free tier | temp 0, fixed prompt |
 | `gemma` | AI | Gemma, OpenRouter free models | temp 0, fixed prompt |
-| `deepseek-r1` | AI | DeepSeek R1, OpenRouter free models | temp 0, max_tokens 2048 (reasoning precedes JSON) |
+| `gpt-oss-120b` | AI | GPT-OSS-120B (OpenAI open-weights, reasoning), Groq free tier | temp 0, max_tokens 2048 (reasoning can spill into completion) |
 | `gpt-4o-mini` | AI | GitHub Models free tier (GITHUB_TOKEN) | temp 0, fixed prompt |
 | `human:<slug>` | human | Custom web app (picks.html) | slug = lowercased name, deduped to latest submission pre-freeze |
 | `crowd` | derived | mean of all human triples per match, renormalised | computed at freeze, immutable after |

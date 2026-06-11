@@ -39,7 +39,7 @@ function setupThemeToggle() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const FEATURE_INFO = {
-  ai: "Six models compete on every match: Gemini 2.5 Flash (Google), Llama 3.3 70B (Meta via Groq), Gemma 4 31B (Google via OpenRouter), DeepSeek R1 (reasoning model via OpenRouter), and GPT-4o Mini (OpenAI). Each model receives identical statistical context: Elo ratings, last-10 form, head-to-head history, and venue conditions — the same data you see on each card. No internet browsing, no live news.",
+  ai: "Five models compete on every match: Gemini 2.5 Flash (Google), Llama 3.3 70B (Meta), Gemma 4 31B (Google), GPT-OSS-120B (OpenAI's open-weights reasoning model), and GPT-4o Mini (OpenAI). Each model receives identical statistical context: Elo ratings, last-10 form, head-to-head history, and venue conditions — the same data you see on each card. No internet browsing, no live news.",
   brier: "We use the multiclass Brier score: the sum of squared errors across all three outcomes (home win, draw, away win). Perfect prediction = 0.0. Maximally wrong (100% on the losing side) = 2.0. A uniform 33%/33%/33% guess = 0.667. It punishes overconfidence — saying 90% on a team that loses hurts far more than saying 50%. You can't win by always going all-in.",
   live: "Rankings update after every full-time result. Every prediction is committed to a public GitHub repository before kickoff — immutable, timestamped, auditable. Anyone can verify that no model or human changed their prediction after seeing the result. The git history is the official record.",
 };

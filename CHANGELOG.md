@@ -4,6 +4,17 @@ Every data correction and every decision that affects the experiment's
 integrity is logged here, newest first. Scores JSONs are never hand-edited;
 they are recomputed from raw data after any correction.
 
+## 2026-06-11 (later still) — deepseek-r1 replaced pre-launch
+
+- The dress rehearsal revealed OpenRouter has **discontinued its free
+  DeepSeek R1 tier** (404 on `deepseek/deepseek-r1:free`; no free DeepSeek
+  models remain on the platform). Because the experiment has not yet scored
+  a single match, a pre-launch replacement is legitimate: `deepseek-r1` →
+  **`gpt-oss-120b`** (OpenAI's open-weights reasoning model, Groq free
+  tier), keeping a reasoning model in the lineup. Verified working with a
+  live call. This is the LAST lineup change — from the first scored
+  matchday, models can only retire.
+
 ## 2026-06-11 (later) — Playoff placeholders resolved; freeze cron paused
 
 - **Six group-stage placeholder slots resolved** with the March 2026 playoff

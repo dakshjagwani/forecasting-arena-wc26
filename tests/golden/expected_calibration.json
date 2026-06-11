@@ -147,7 +147,7 @@
       }
     ]
   },
-  "deepseek-r1": {
+  "gpt-oss-120b": {
     "buckets": [
       {
         "lo": 0.0,

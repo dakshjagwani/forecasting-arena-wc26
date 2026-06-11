@@ -23,7 +23,7 @@ who got lucky.
 | `gemini-flash` | AI | Gemini 2.5 Flash (Google AI free tier) |
 | `llama-70b` | AI | Llama 3.3 70B (Groq free tier) |
 | `gemma` | AI | Gemma (OpenRouter free tier) |
-| `deepseek-r1` | AI | DeepSeek R1 reasoning model (OpenRouter free tier) |
+| `gpt-oss-120b` | AI | GPT-OSS-120B, OpenAI's open-weights reasoning model (Groq free tier) |
 | `gpt-4o-mini` | AI | GPT-4o mini (GitHub Models free tier) |
 | `human:<name>` | human | The [picks app](site/picks.html) — swipe cards, three-way probability slider |
 | `crowd` | derived | Mean of all human triples per match, renormalised at freeze |

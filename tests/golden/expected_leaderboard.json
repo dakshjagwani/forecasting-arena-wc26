@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-06-11T18:37:53Z",
+  "updated_utc": "2026-06-11T22:26:34Z",
   "matches_scored": 3,
   "rows": [
     {
@@ -35,7 +35,7 @@
       "qualified": true
     },
     {
-      "forecaster": "deepseek-r1",
+      "forecaster": "gpt-oss-120b",
       "type": "ai",
       "n_predicted": 3,
       "mean_brier": 0.4983,

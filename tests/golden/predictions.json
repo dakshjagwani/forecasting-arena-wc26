@@ -8,7 +8,7 @@
         "market":       {"p_home": 0.6, "p_draw": 0.25, "p_away": 0.15, "raw_odds": [1.6, 4.0, 6.5]},
         "gemini-flash": {"p_home": 0.5, "p_draw": 0.3, "p_away": 0.2, "reasoning": "g", "status": "ok"},
         "gemma":        {"status": "failed", "raw": "no json"},
-        "deepseek-r1":  {"p_home": 0.55, "p_draw": 0.25, "p_away": 0.2, "reasoning": "d", "status": "ok"},
+        "gpt-oss-120b":  {"p_home": 0.55, "p_draw": 0.25, "p_away": 0.2, "reasoning": "d", "status": "ok"},
         "gpt-4o-mini":  {"p_home": 0.45, "p_draw": 0.3, "p_away": 0.25, "reasoning": "o", "status": "ok"},
         "human:alice":  {"p_home": 0.7, "p_draw": 0.2, "p_away": 0.1, "name": "Alice"},
         "crowd":        {"p_home": 0.7, "p_draw": 0.2, "p_away": 0.1, "n": 1}
@@ -19,7 +19,7 @@
       "forecasts": {
         "market":       {"p_home": 0.4, "p_draw": 0.3, "p_away": 0.3, "raw_odds": [2.4, 3.3, 3.3]},
         "gemma":        {"p_home": 0.35, "p_draw": 0.35, "p_away": 0.3, "reasoning": "g", "status": "ok"},
-        "deepseek-r1":  {"p_home": 0.4, "p_draw": 0.35, "p_away": 0.25, "reasoning": "d", "status": "ok"},
+        "gpt-oss-120b":  {"p_home": 0.4, "p_draw": 0.35, "p_away": 0.25, "reasoning": "d", "status": "ok"},
         "gpt-4o-mini":  {"p_home": 0.34, "p_draw": 0.33, "p_away": 0.33, "reasoning": "o", "status": "ok"},
         "human:alice":  {"p_home": 0.2, "p_draw": 0.5, "p_away": 0.3, "name": "Alice"},
         "human:bob":    {"p_home": 0.3, "p_draw": 0.4, "p_away": 0.3, "name": "Bob"},
@@ -33,7 +33,7 @@
         "gemini-flash": {"p_home": 0.25, "p_draw": 0.3, "p_away": 0.45, "reasoning": "g", "status": "ok"},
         "llama-70b":    {"p_home": 0.2, "p_draw": 0.3, "p_away": 0.5, "reasoning": "l", "status": "ok"},
         "gemma":        {"p_home": 0.3, "p_draw": 0.35, "p_away": 0.35, "reasoning": "g", "status": "ok"},
-        "deepseek-r1":  {"p_home": 0.25, "p_draw": 0.35, "p_away": 0.4, "reasoning": "d", "status": "ok"},
+        "gpt-oss-120b":  {"p_home": 0.25, "p_draw": 0.35, "p_away": 0.4, "reasoning": "d", "status": "ok"},
         "gpt-4o-mini":  {"p_home": 0.33, "p_draw": 0.33, "p_away": 0.34, "reasoning": "o", "status": "ok"},
         "human:alice":  {"p_home": 0.1, "p_draw": 0.2, "p_away": 0.7, "name": "Alice"},
         "crowd":        {"p_home": 0.1, "p_draw": 0.2, "p_away": 0.7, "n": 1}
