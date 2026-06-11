@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "match_id": "md001-MEX-RSA",
+    "score_home": 2,
+    "score_away": 0,
+    "outcome": "home",
+    "status": "FT"
+  }
+]

@@ -37,13 +37,15 @@ def outcome_from_score(score_home: int, score_away: int) -> str:
     return "draw"
 
 # ── Team name fuzzy matching ──────────────────────────────────────────────────
-def names_match(api_name: str, fixture_name: str) -> bool:
-    a, b = api_name.lower().strip(), fixture_name.lower().strip()
-    return a == b or a in b or b in a
+# Reuses freeze.py's alias table: football-data.org uses the same bookmaker-ish
+# names ("Korea Republic", "Czech Republic", "United States") that plain
+# substring matching misses against our fixture names.
+sys.path.insert(0, str(Path(__file__).parent))
+from freeze import _names_match
 
 def find_fixture(home_api: str, away_api: str, fixture_by_teams: dict) -> dict | None:
     for (h, a), f in fixture_by_teams.items():
-        if names_match(home_api, h) and names_match(away_api, a):
+        if _names_match(h, home_api) and _names_match(a, away_api):
             return f
     return None
 
@@ -91,7 +93,19 @@ def main() -> None:
             for m in data.get("matches", []):
                 if m.get("status") != "FINISHED":
                     continue
-                score = m.get("score", {}).get("fullTime", {})
+                # We score the 90-MINUTE result (pre-registered). For knockout
+                # matches that went to extra time, "fullTime" includes ET —
+                # the 90-minute score lives in "regularTime".
+                score_obj = m.get("score", {})
+                if score_obj.get("duration", "REGULAR") == "REGULAR":
+                    score = score_obj.get("fullTime") or {}
+                else:
+                    score = score_obj.get("regularTime") or {}
+                    if score.get("home") is None:
+                        print(f"Warning: ET match without regularTime score "
+                              f"({m['homeTeam']['name']} vs {m['awayTeam']['name']}) "
+                              f"— enter the 90-min result manually", file=sys.stderr)
+                        continue
                 sh, sa = score.get("home"), score.get("away")
                 if sh is None or sa is None:
                     continue
