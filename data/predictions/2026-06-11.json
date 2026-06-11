@@ -1,0 +1,99 @@
+{
+  "date": "2026-06-11",
+  "freeze_utc": "2026-06-11T09:00:34Z",
+  "matches": [
+    {
+      "match_id": "md001-MEX-RSA",
+      "forecasts": {
+        "market": {
+          "p_home": 0.645161,
+          "p_draw": 0.225806,
+          "p_away": 0.129032,
+          "raw_odds": [
+            1.4,
+            4.0,
+            7.0
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.75,
+          "p_draw": 0.2,
+          "p_away": 0.05,
+          "reasoning": "Mexico has a strong home advantage at Estadio Azteca, a historically difficult venue for visiting teams. They also generally possess higher quality players than South Africa.",
+          "raw": "{\"p_home\": 0.75, \"p_draw\": 0.2, \"p_away\": 0.05, \"reasoning\": \"Mexico has a strong home advantage at Estadio Azteca, a historically difficult venue for visiting teams. They also generally possess higher quality players than South Africa.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.65,
+          "p_draw": 0.25,
+          "p_away": 0.1,
+          "reasoning": "Mexico's home advantage and stronger team",
+          "raw": "{\"p_home\": 0.65, \"p_draw\": 0.25, \"p_away\": 0.10, \"reasoning\": \"Mexico's home advantage and stronger team\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "status": "failed"
+        },
+        "human:test-user": {
+          "p_home": 0.6,
+          "p_draw": 0.25,
+          "p_away": 0.15,
+          "name": "Test User"
+        },
+        "human:daksh": {
+          "p_home": 0.75,
+          "p_draw": 0.15,
+          "p_away": 0.1,
+          "name": "Daksh"
+        },
+        "crowd": {
+          "p_home": 0.675,
+          "p_draw": 0.2,
+          "p_away": 0.125,
+          "n": 2
+        }
+      }
+    },
+    {
+      "match_id": "md002-KOR-UEPD",
+      "forecasts": {
+        "gemini-flash": {
+          "p_home": 0.6,
+          "p_draw": 0.25,
+          "p_away": 0.15,
+          "reasoning": "South Korea has a strong, established squad with World Cup experience. The UEFA Playoff D winner will likely be a lower-ranked European team, potentially lacking the same quality and cohesion. South K",
+          "raw": "```json\n{\n  \"p_home\": 0.60,\n  \"p_draw\": 0.25,\n  \"p_away\": 0.15,\n  \"reasoning\": \"South Korea has a strong, established squad with World Cup experience. The UEFA Playoff D winner will likely be a lower-ranked European team, potentially lacking the same quality and cohesion. South Korea's attacking talent should prevail.\"\n}\n```",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.45,
+          "p_draw": 0.28,
+          "p_away": 0.27,
+          "reasoning": "South Korea's home advantage slightly edges UEFA playoff winner",
+          "raw": "{\"p_home\": 0.45, \"p_draw\": 0.28, \"p_away\": 0.27, \"reasoning\": \"South Korea's home advantage slightly edges UEFA playoff winner\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.35,
+          "p_draw": 0.28,
+          "p_away": 0.37,
+          "reasoning": "South Korea is a consistent performer, but the UEFA Playoff winner is typically a mid-to-high tier European side. The neutral venue in Mexico favors the technical quality of the European side slightly",
+          "raw": "```json\n{\"p_home\": 0.35, \"p_draw\": 0.28, \"p_away\": 0.37, \"reasoning\": \"South Korea is a consistent performer, but the UEFA Playoff winner is typically a mid-to-high tier European side. The neutral venue in Mexico favors the technical quality of the European side slightly, though Korea's cohesion provides a strong competitive edge.\"}\n```",
+          "status": "ok"
+        },
+        "human:daksh": {
+          "p_home": 0.4,
+          "p_draw": 0.3,
+          "p_away": 0.3,
+          "name": "Daksh"
+        },
+        "crowd": {
+          "p_home": 0.4,
+          "p_draw": 0.3,
+          "p_away": 0.3,
+          "n": 1
+        }
+      }
+    }
+  ]
+}

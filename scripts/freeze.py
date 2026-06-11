@@ -98,7 +98,7 @@ _PROMPT = (
     "Match: {home} vs {away}, {stage}, {venue}, {date}.\n"
     "Give your honest probability estimate for the 90-minute result.\n"
     'Respond with ONLY this JSON, no other text:\n'
-    '{"p_home": <float>, "p_draw": <float>, "p_away": <float>, "reasoning": "<max 50 words>"}\n'
+    '{{"p_home": <float>, "p_draw": <float>, "p_away": <float>, "reasoning": "<max 50 words>"}}\n'
     "The three probabilities must sum to 1.0."
 )
 
@@ -122,14 +122,18 @@ def _parse_and_normalise(raw: str, forecaster: str) -> dict:
         "reasoning": reasoning, "raw": raw[:1000], "status": "ok",
     }
 
-def query_gemini(match: dict, api_key: str, model: str = "gemini-1.5-flash") -> dict:
+def query_gemini(match: dict, api_key: str, model: str = "gemini-2.5-flash") -> dict:
     url = (
         f"https://generativelanguage.googleapis.com/v1beta/models/"
         f"{model}:generateContent?key={api_key}"
     )
     body = {
         "contents": [{"parts": [{"text": make_prompt(match)}]}],
-        "generationConfig": {"temperature": 0.0, "maxOutputTokens": 300},
+        "generationConfig": {
+            "temperature": 0.0,
+            "maxOutputTokens": 512,
+            "thinkingConfig": {"thinkingBudget": 0},
+        },
     }
     for attempt in range(3):
         try:
@@ -165,7 +169,7 @@ def query_groq(match: dict, api_key: str, model: str = "llama-3.3-70b-versatile"
     return {"status": "failed"}
 
 def query_openrouter(match: dict, api_key: str,
-                     model: str = "deepseek/deepseek-chat-v3-0324:free") -> dict:
+                     model: str = "google/gemma-4-31b-it:free") -> dict:
     body = {
         "model": model,
         "messages": [{"role": "user", "content": make_prompt(match)}],
@@ -184,9 +188,9 @@ def query_openrouter(match: dict, api_key: str,
                 body,
             )
             raw = resp["choices"][0]["message"]["content"]
-            return _parse_and_normalise(raw, "deepseek")
+            return _parse_and_normalise(raw, "gemma")
         except Exception as e:
-            log.warning(f"  deepseek attempt {attempt + 1}: {e}")
+            log.warning(f"  gemma attempt {attempt + 1}: {e}")
             if attempt < 2:
                 time.sleep(2 ** attempt)
     return {"status": "failed"}
@@ -441,10 +445,10 @@ def main() -> None:
         log.info(f"  llama-70b: {forecasts['llama-70b'].get('status', '?')}")
         time.sleep(1)
 
-        # OpenRouter DeepSeek
-        log.info("  Querying deepseek (OpenRouter)...")
-        forecasts["deepseek"] = query_openrouter(match, os.environ["OPENROUTER_API_KEY"])
-        log.info(f"  deepseek: {forecasts['deepseek'].get('status', '?')}")
+        # OpenRouter Gemma
+        log.info("  Querying gemma (OpenRouter)...")
+        forecasts["gemma"] = query_openrouter(match, os.environ["OPENROUTER_API_KEY"])
+        log.info(f"  gemma: {forecasts['gemma'].get('status', '?')}")
         time.sleep(1)
 
         # Human picks for this match

@@ -19,7 +19,7 @@ When in doubt, optimise for (1) experiment integrity, (2) shipping speed,
    a probability triple `p_home + p_draw + p_away = 1.0` for the
    **90-minute result** (draws are valid in knockouts too — matches market
    convention).
-3. **£0 stack.** Free API tiers, GitHub Actions, GitHub Pages, Google Forms.
+3. **£0 stack.** Free API tiers, GitHub Actions, GitHub Pages, Google Sheets + Apps Script.
    If a step requires payment, find the free substitute or cut the feature.
 4. **Probabilities, not picks.** No exact-score predictions feed the
    leaderboard. (Optional exact-score side-bet is display-only.)
@@ -31,30 +31,45 @@ When in doubt, optimise for (1) experiment integrity, (2) shipping speed,
 ## 2. Architecture (all static, no backend)
 
 ```
-Google Form ──> Google Sheet ──(published CSV)──┐
-                                                 v
-Free LLM APIs (Gemini, Groq, OpenRouter) ──> freeze.py ──> data/predictions/mdNN.json  (committed pre-kickoff)
-Local Ollama model (runs on Daksh's Mac) ──> freeze_local.py ──> merged by freeze.py
-The Odds API (free tier) ───────────────────────┘
+Custom web app (site/picks.html) ──POST──> Google Apps Script ──> Google Sheet ──(published CSV)──┐
+                                                                                                    v
+Free LLM APIs (Gemini, Groq, OpenRouter) ──────────────────────────────────────────────────> freeze.py ──> data/predictions/YYYY-MM-DD.json  (committed pre-kickoff)
+Local Ollama model (runs on Daksh's Mac) ──> freeze_local.py ──> merged by freeze.py ────────────┘
+The Odds API (free tier) ──────────────────────────────────────────────────────────────────────────┘
 
 After full time:
-results fetch/entry ──> score.py ──> data/scores/leaderboard.json + calibration.json
+fetch_results.py (football-data.org) ──> results.json ──> score.py ──> data/scores/leaderboard.json + calibration.json
 
 GitHub Pages (static /site) reads the JSONs ──> leaderboard, match grid, personal cards
 GitHub Actions cron drives freeze + scoring. Repo is public = open source + audit log.
 ```
 
+**Key design decision**: The original Google Form was replaced with a custom mobile-first swipe-card
+web app (site/picks.html). The Google Sheet remains as the storage backend — freeze.py still reads
+the published CSV at `SHEET_CSV_URL`. Only the human-facing frontend changed.
+
+**UTC-8 date grouping**: Campaign days are defined as `(kickoff_utc − 8h).date()` so late-night
+US matches (e.g. 04:00 UTC June 12) stay with their correct campaign day (June 11). This logic
+is identical in both picks.js and freeze.py — do not change it independently.
+
 ## 3. Tech stack
 
-- **Python 3.11+**, stdlib + `requests`, `pandas` (only if needed). No frameworks.
-- **GitHub Actions**: two workflows — `freeze.yml` (daily, pre-kickoff) and
-  `score.yml` (post-matches, late evening UTC + manual dispatch).
+- **Python 3.8+**, stdlib + `requests`. No pandas, no frameworks. Scripts must use
+  `from __future__ import annotations` for union type hints to work on Python 3.8.
+- **GitHub Actions**: two workflows — `freeze.yml` (cron 18:00 UTC daily) and
+  `score.yml` (cron 06:00 UTC daily + manual dispatch).
 - **GitHub Pages** serving `/site` (plain HTML/CSS/JS + Chart.js from CDN).
-  No build step. No React. Pages read JSON via fetch.
-- **Human picks**: Google Form -> linked Sheet -> File > Share > Publish to
-  web > CSV. `freeze.py` fetches the CSV URL at freeze time.
-- **Secrets** (GitHub Actions secrets): `GEMINI_API_KEY`, `GROQ_API_KEY`,
-  `OPENROUTER_API_KEY`, `ODDS_API_KEY`. Never commit keys.
+  No build step. No React. Pages read JSON via `fetch()`.
+- **Human picks**: Custom web app (`site/picks.html`) → POST (mode: no-cors) →
+  Google Apps Script (`scripts/apps_script.gs`, deployed manually) → Google Sheet →
+  published CSV → `freeze.py` fetches `SHEET_CSV_URL` at freeze time.
+- **noUiSlider v15.8.1** (CDN): 3-way probability slider in picks.html. Two handles
+  divide the track into Home/Draw/Away segments. Segment colours: purple/grey/teal.
+- **Secrets** (`.env` locally, GitHub Actions secrets in CI):
+  `GEMINI_API_KEY`, `GROQ_API_KEY`, `OPENROUTER_API_KEY`, `ODDS_API_KEY`,
+  `SHEET_CSV_URL`, `FOOTBALL_DATA_API_KEY` (optional — fetch_results.py). Never commit keys.
+- **Apps Script CORS note**: Picks are POSTed with `mode: 'no-cors'` and no
+  Content-Type header to avoid preflight. The response is opaque but the write succeeds.
 
 ## 4. The forecasters
 
@@ -66,7 +81,7 @@ GitHub Actions cron drives freeze + scoring. Repo is public = open source + audi
 | `deepseek` | AI | OpenRouter free models | temp 0, fixed prompt |
 | `mistral` | AI | Mistral free API tier (optional 4th) | temp 0 |
 | `qwen-laptop` | AI (local) | Ollama on M5 MacBook Air | the "runs on my laptop" storyline; may miss days — that's allowed and logged |
-| `human:<slug>` | human | Google Form | slug = lowercased name, deduped to latest submission pre-freeze |
+| `human:<slug>` | human | Custom web app (picks.html) | slug = lowercased name, deduped to latest submission pre-freeze |
 | `crowd` | derived | mean of all human triples per match, renormalised | computed at freeze, immutable after |
 
 Model lineup is frozen after matchday 1. Adding/removing models mid-tournament
@@ -149,63 +164,74 @@ personal cards.
 ## 8. Repo layout
 
 ```
-/CLAUDE.md                  <- this file
+/CLAUDE.md                  <- this file (project bible, read by Claude Code on every session)
 /README.md                  <- public-facing: what, why, methodology, how to reproduce
+/CHANGELOG.md               <- every data correction logged here (never edit scores JSONs by hand)
+/requirements.txt           <- pinned: requests>=2.31.0, pytest>=7.0.0. NO mid-tournament upgrades.
 /scripts/
-  freeze.py                 <- fetch odds + query LLMs + ingest form CSV + write predictions JSON
-  freeze_local.py           <- runs on the Mac: query Ollama, commit local-model triples
-  score.py                  <- fetch/read results, compute Brier + calibration, write scores JSONs
-  fetch_results.py          <- football-data.org free tier; fallback: manual entry into results.json
-  make_fixtures.py          <- one-off: build fixtures.json for all 104 matches
-  bias_lab.py               <- Phase 3: anonymised-team counterfactual experiment
+  freeze.py          ✅     <- fetch odds + query LLMs + ingest picks CSV + write predictions JSON
+  score.py           ✅     <- compute Brier + calibration from results, write leaderboard.json
+  fetch_results.py   ✅     <- football-data.org free tier; falls back to manual entry
+  make_fixtures.py   ✅     <- one-off completed: generated fixtures.json for all 104 matches
+  apps_script.gs     ✅     <- Google Apps Script source (deployed manually); POST endpoint for picks
+  freeze_local.py    ←      <- PENDING Phase 2: Ollama on Mac for qwen-laptop forecaster
+  bias_lab.py        ←      <- PENDING Phase 3: anonymised-team counterfactual experiment
 /data/
-  fixtures/ predictions/ results/ scores/
+  fixtures/          ✅     <- fixtures.json (104 matches, all fields)
+  predictions/              <- YYYY-MM-DD.json per campaign day (written by freeze.py pre-kickoff)
+  results/                  <- results.json (appended by fetch_results.py or manual entry)
+  scores/                   <- leaderboard.json + calibration.json (written by score.py)
 /site/
-  index.html                <- leaderboard + today's frozen grid
-  card.html?name=sarah-k    <- personal calibration card (shareable, html2canvas export to PNG)
-  methodology.html          <- scoring rules, prompt, freeze policy (publish day 1 = pre-registration)
-  app.js  style.css
+  picks.html         ✅     <- mobile-first swipe-card picks UI (replaced Google Form)
+  picks.js           ✅     <- matchday detection, noUiSlider, Apps Script POST, localStorage
+  style.css          ✅     <- shared styles; scroll-snap layout, card styles, noUiSlider theming
+  index.html         ✅     <- live leaderboard (fetches leaderboard.json)
+  card.html          ←      <- PENDING Phase 2: personal calibration card, html2canvas PNG export
+  methodology.html   ←      <- PENDING Phase 2: pre-registration artifact (publish asap)
 /.github/workflows/
-  freeze.yml  score.yml
+  freeze.yml         ✅     <- cron 18:00 UTC daily; ntfy.sh on success/failure
+  score.yml          ✅     <- cron 06:00 UTC daily + manual dispatch
+/tests/
+  conftest.py        ✅     <- sys.path setup so scripts/ is importable
+  test_scoring.py    ✅     <- 37 unit tests passing (Brier, normalise, parse, slug, crowd, etc.)
+  golden/            ←      <- PENDING Phase 1: synthetic golden-file data for integration test
 ```
 
 ## 9. Build phases & acceptance criteria
 
-### Phase 0 — TONIGHT (before first kickoff, 11 Jun)
+### Phase 0 — TONIGHT (before first kickoff, 11 Jun) — STATUS: COMPLETE ✅
 Goal: matchday 1 predictions frozen and committed. Nothing else matters.
-- [ ] Repo created (public), this file at root, README stub.
-- [ ] `make_fixtures.py` -> fixtures.json (hand-verify matchday 1 rows).
-- [ ] Google Form live: Name field + per match two number fields
-      ("{home} win %", "Draw %"); away = 100 − sum, validated in freeze.py.
-      Sheet published as CSV; URL in repo config.
-- [ ] `freeze.py` working end-to-end for >= 2 LLM providers + odds + form CSV.
-      Run it MANUALLY tonight if the cron isn't ready — manual run is fine,
-      the commit timestamp is the integrity proof.
-- [ ] WhatsApp message sent with form link.
-- [ ] Full dress rehearsal: run the entire pipeline once on a FAKE fixture
-      (freeze -> fake result -> score) before the real freeze. See section 13.
-Acceptance: `data/predictions/2026-06-11.json` committed before first kickoff.
+- [x] Repo created (public), this file at root, README stub.
+- [x] `make_fixtures.py` → fixtures.json (104 matches, hand-verified matchday 1 rows).
+- [x] Custom web app live (picks.html + picks.js + style.css) — replaced Google Form.
+      Sheet published as CSV; URL in .env as SHEET_CSV_URL.
+- [x] Apps Script deployed; source committed at scripts/apps_script.gs.
+- [x] `freeze.py` working end-to-end for Gemini, Groq, OpenRouter, Odds API, picks CSV.
+- [x] WhatsApp message sent with picks.html link.
+- [ ] **Full dress rehearsal** — STILL PENDING (run before scoring any real results):
+      `python scripts/freeze.py --date 2026-06-10 --dry-run` then hand-write a fake result
+      → `python scripts/score.py` → verify leaderboard.json output.
+Acceptance: `data/predictions/2026-06-11.json` committed before first kickoff at 21:00 UTC.
 
-### Phase 1 — Days 1–3
-- [ ] `freeze.yml` cron (daily, 1h before earliest kickoff that day; kickoffs
-      are US/MX/CA local -> mostly 16:00–03:00 UTC; single daily freeze at a
-      fixed UTC time before the first match is acceptable and simpler).
-- [ ] `score.py` + `score.yml` (run 06:00 UTC daily, scores yesterday's FT matches).
-- [ ] pytest suite for scoring + validation (section 13) wired into CI on every push.
-- [ ] `site/index.html` v1: leaderboard table (rank, badge HUM/AI/MKT, name,
-      n, mean Brier, vs market) + today's frozen grid. Static fetch of JSONs.
-- [ ] Daily WhatsApp matchday card = screenshot of a `/site/daily.html` panel
-      (auto-generated text: best/worst forecaster, one-line summary).
+### Phase 1 — Days 1–3 — STATUS: MOSTLY COMPLETE ✅
+- [x] `freeze.yml` cron (18:00 UTC daily — before the earliest kickoff each day).
+- [x] `score.py` + `score.yml` (cron 06:00 UTC daily, scores yesterday's FT matches).
+- [x] pytest suite: 37 unit tests passing, wired into CI on every push.
+      Golden-file integration test PENDING (tests/golden/ has only .gitkeep).
+- [x] `site/index.html` v1: leaderboard table (rank, badge HUM/AI/MKT, name,
+      n, mean Brier, vs market). Static fetch of JSONs.
+- [ ] Daily WhatsApp matchday card (site/daily.html or screenshot of index.html).
+      Pending — generate manually until automated.
 Acceptance: a colleague can submit picks, see them frozen, and find their rank
-next morning without Daksh touching anything.
+next morning without Daksh touching anything. ← needs first real freeze to verify.
 
-### Phase 2 — Week 1
+### Phase 2 — Week 1 — STATUS: PENDING
 - [ ] `card.html`: personal calibration curve + rank + plain-English one-liner
       ("overconfident on favourites by Xpp"), PNG export via html2canvas.
-- [ ] `crowd` forecaster computed at freeze.
+- [x] `crowd` forecaster computed at freeze (already in freeze.py).
 - [ ] `freeze_local.py` on the Mac via launchd (daily, before CI freeze) for
       the Ollama model. Missed days logged as not-predicted.
-- [ ] methodology.html complete (this is the pre-registration artifact).
+- [ ] methodology.html complete (this is the pre-registration artifact — publish ASAP).
 
 ### Phase 3 — Mid-tournament (~24 Jun, matchday 3 window)
 - [ ] `bias_lab.py`: re-ask each model the same fixtures with teams anonymised
