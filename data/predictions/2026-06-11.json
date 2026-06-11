@@ -1,37 +1,48 @@
 {
   "date": "2026-06-11",
-  "freeze_utc": "2026-06-11T09:00:34Z",
+  "freeze_utc": "2026-06-11T10:51:47Z",
   "matches": [
     {
       "match_id": "md001-MEX-RSA",
       "forecasts": {
         "market": {
-          "p_home": 0.645161,
-          "p_draw": 0.225806,
-          "p_away": 0.129032,
+          "p_home": 0.433526,
+          "p_draw": 0.485549,
+          "p_away": 0.080925,
           "raw_odds": [
             1.4,
-            4.0,
-            7.0
+            1.25,
+            7.5
           ]
         },
         "gemini-flash": {
           "p_home": 0.75,
-          "p_draw": 0.2,
-          "p_away": 0.05,
-          "reasoning": "Mexico has a strong home advantage at Estadio Azteca, a historically difficult venue for visiting teams. They also generally possess higher quality players than South Africa.",
-          "raw": "{\"p_home\": 0.75, \"p_draw\": 0.2, \"p_away\": 0.05, \"reasoning\": \"Mexico has a strong home advantage at Estadio Azteca, a historically difficult venue for visiting teams. They also generally possess higher quality players than South Africa.\"}",
+          "p_draw": 0.18,
+          "p_away": 0.07,
+          "reasoning": "Mexico has a significant Elo advantage and home-field advantage at high altitude. South Africa's recent form is weaker, and historical H2H is mixed but Mexico has stronger wins. The altitude will heav",
+          "raw": "```json\n{\n  \"p_home\": 0.75,\n  \"p_draw\": 0.18,\n  \"p_away\": 0.07,\n  \"reasoning\": \"Mexico has a significant Elo advantage and home-field advantage at high altitude. South Africa's recent form is weaker, and historical H2H is mixed but Mexico has stronger wins. The altitude will heavily favor Mexico.\"\n}\n```",
           "status": "ok"
         },
         "llama-70b": {
           "p_home": 0.65,
           "p_draw": 0.25,
           "p_away": 0.1,
-          "reasoning": "Mexico's home advantage and stronger team",
-          "raw": "{\"p_home\": 0.65, \"p_draw\": 0.25, \"p_away\": 0.10, \"reasoning\": \"Mexico's home advantage and stronger team\"}",
+          "reasoning": "Mexico's home advantage and higher Elo rating give them an edge.",
+          "raw": "{\"p_home\": 0.65, \"p_draw\": 0.25, \"p_away\": 0.10, \"reasoning\": \"Mexico's home advantage and higher Elo rating give them an edge.\"}",
           "status": "ok"
         },
         "gemma": {
+          "p_home": 0.68,
+          "p_draw": 0.2,
+          "p_away": 0.12,
+          "reasoning": "Mexico holds a significant Elo advantage (+310) and strong recent form. The extreme altitude of Estadio Azteca provides a massive physiological edge for the home side, while South Africa's poor recent",
+          "raw": "```json\n{\"p_home\": 0.68, \"p_draw\": 0.20, \"p_away\": 0.12, \"reasoning\": \"Mexico holds a significant Elo advantage (+310) and strong recent form. The extreme altitude of Estadio Azteca provides a massive physiological edge for the home side, while South Africa's poor recent form and away status make an upset unlikely.\"}\n```",
+          "status": "ok"
+        },
+        "claude": {
+          "status": "failed"
+        },
+        "gpt-4o-mini": {
           "status": "failed"
         },
         "human:test-user": {
@@ -77,9 +88,15 @@
           "p_home": 0.35,
           "p_draw": 0.28,
           "p_away": 0.37,
-          "reasoning": "South Korea is a consistent performer, but the UEFA Playoff winner is typically a mid-to-high tier European side. The neutral venue in Mexico favors the technical quality of the European side slightly",
-          "raw": "```json\n{\"p_home\": 0.35, \"p_draw\": 0.28, \"p_away\": 0.37, \"reasoning\": \"South Korea is a consistent performer, but the UEFA Playoff winner is typically a mid-to-high tier European side. The neutral venue in Mexico favors the technical quality of the European side slightly, though Korea's cohesion provides a strong competitive edge.\"}\n```",
+          "reasoning": "South Korea is a consistent performer, but the UEFA Playoff winner is likely a mid-tier European side with a tactical edge. The neutral venue in Mexico and the uncertainty of the opponent suggest a hi",
+          "raw": "```json\n{\"p_home\": 0.35, \"p_draw\": 0.28, \"p_away\": 0.37, \"reasoning\": \"South Korea is a consistent performer, but the UEFA Playoff winner is likely a mid-tier European side with a tactical edge. The neutral venue in Mexico and the uncertainty of the opponent suggest a highly competitive, balanced match.\"}\n```",
           "status": "ok"
+        },
+        "claude": {
+          "status": "failed"
+        },
+        "gpt-4o-mini": {
+          "status": "failed"
         },
         "human:daksh": {
           "p_home": 0.4,
