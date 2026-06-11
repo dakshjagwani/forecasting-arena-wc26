@@ -372,6 +372,12 @@ def ingest_human_picks(csv_url: str, freeze_utc: datetime,
             slug = (row.get("slug") or "").strip() or to_slug(name)
             if not slug:
                 continue
+            # Moderation rule (pre-registered, CHANGELOG 2026-06-12): slugs
+            # named "test" or prefixed "test-" are dev/test submissions and
+            # are never ingested.
+            if slug == "test" or slug.startswith("test-"):
+                log.info(f"  excluded test slug: {slug}")
+                continue
             mid = row["match_id"].strip()
             ph, pd, pa = float(row["p_home"]), float(row["p_draw"]), float(row["p_away"])
             # Handle percentage-scale submissions (sum ~100)

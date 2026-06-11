@@ -283,6 +283,15 @@ def test_ingest_malformed_rows_skipped(monkeypatch):
     )
     assert _ingest(csv_text, monkeypatch) == {}
 
+def test_ingest_test_slugs_excluded(monkeypatch):
+    csv_text = CSV_HEADER + (
+        "2026-06-11T10:00:00Z,Test-Daksh,,g1-AAA-BBB,0.5,0.3,0.2\n"
+        "2026-06-11T10:00:00Z,test,,g1-AAA-BBB,0.5,0.3,0.2\n"
+        "2026-06-11T10:00:00Z,Tessa,,g1-AAA-BBB,0.6,0.2,0.2\n"  # real name, kept
+    )
+    picks = _ingest(csv_text, monkeypatch)
+    assert set(picks) == {"tessa"}
+
 # ── Odds fuzzy matching ───────────────────────────────────────────────────────
 
 def test_match_odds_exact_and_fuzzy():

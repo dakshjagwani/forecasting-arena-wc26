@@ -4,6 +4,12 @@ Every data correction and every decision that affects the experiment's
 integrity is logged here, newest first. Scores JSONs are never hand-edited;
 they are recomputed from raw data after any correction.
 
+## 2026-06-12 — Test-slug exclusion rule (pre-registered moderation)
+
+- Submissions whose slug is `test` or starts with `test-` are never ingested
+  at freeze time. Registered before the first freeze so it cannot
+  retroactively affect any scored forecaster.
+
 ## 2026-06-12 — EXPERIMENT LIVE from the 2026-06-12 campaign day
 
 - Freeze cron re-enabled (18:00 UTC daily). The first scored matchday is

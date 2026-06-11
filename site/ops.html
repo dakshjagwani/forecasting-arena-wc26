@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ops Dashboard — The Forecasting Arena</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    (function() {
+      var t = localStorage.getItem('fa_theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <style>
+    html, body { overflow: auto; height: auto; }
+    .ops {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 4rem;
+    }
+    .ops h1 { font-size: 1.4rem; letter-spacing: -.02em; }
+    .ops-sub { color: var(--text-sub); font-size: .8rem; margin: .3rem 0 1.5rem; }
+    .ops h2 {
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--text-sub);
+      margin: 1.6rem 0 .6rem;
+    }
+    .check {
+      display: flex;
+      align-items: flex-start;
+      gap: .7rem;
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: .75rem .9rem;
+      margin-bottom: .55rem;
+    }
+    .check-icon { font-size: 1.1rem; line-height: 1.3; flex-shrink: 0; }
+    .check-body { flex: 1; min-width: 0; }
+    .check-title { font-size: .85rem; font-weight: 700; }
+    .check-detail { font-size: .75rem; color: var(--text-sub); line-height: 1.5; word-break: break-word; }
+    .check.ok   { border-color: #86efac; }
+    .check.bad  { border-color: #fca5a5; background: rgba(220,38,38,.04); }
+    .check.wait { border-color: var(--border); }
+    .check a { color: var(--home); }
+    .todo label {
+      display: flex;
+      gap: .6rem;
+      align-items: flex-start;
+      font-size: .82rem;
+      padding: .45rem .2rem;
+      cursor: pointer;
+      line-height: 1.45;
+    }
+    .todo input { margin-top: .2rem; accent-color: var(--home); }
+    .todo label.done { opacity: .45; text-decoration: line-through; }
+    .links { font-size: .82rem; line-height: 2; }
+    .links a { color: var(--home); }
+    .refresh-note { font-size: .7rem; color: var(--text-sub); margin-top: 2rem; }
+  </style>
+</head>
+<body>
+  <main class="ops">
+    <h1>🛠 Ops Dashboard</h1>
+    <p class="ops-sub">Everything that must be true today, checked automatically.
+      Campaign day <strong id="campaign-day">…</strong> ·
+      <a href="index.html" style="color:var(--home)">leaderboard</a> ·
+      <a href="picks.html" style="color:var(--home)">picks</a></p>
+
+    <h2>Automatic checks</h2>
+    <div id="auto-checks"><div class="check wait"><span class="check-icon">⏳</span>
+      <div class="check-body"><div class="check-title">Loading…</div></div></div></div>
+
+    <h2>Your manual checklist (resets daily)</h2>
+    <div class="todo" id="todo"></div>
+
+    <h2>Quick links</h2>
+    <p class="links">
+      📊 <a href="https://github.com/dakshjagwani/forecasting-arena-wc26/actions" target="_blank">GitHub Actions runs</a><br>
+      🔔 <a href="https://ntfy.sh/forecasting-arena-daksh" target="_blank">ntfy notifications</a> (subscribe in the ntfy app for pushes)<br>
+      📝 Google Sheet — bookmark your sheet's edit URL here in your browser<br>
+      🏟 <a href="https://www.bbc.co.uk/sport/football/scores-fixtures" target="_blank">BBC scores</a> (for spot-checking results)<br>
+      📜 <a href="https://github.com/dakshjagwani/forecasting-arena-wc26/blob/main/CHANGELOG.md" target="_blank">CHANGELOG</a>
+    </p>
+
+    <p class="refresh-note">Auto-refreshes every 60s. Data served via GitHub Pages may
+    lag pushes by up to ~10 minutes. Freeze runs at <strong>18:00 UTC</strong>; scoring
+    at <strong>06:00 UTC</strong>.</p>
+  </main>
+
+<script>
+const REPO = 'dakshjagwani/forecasting-arena-wc26';
+const AI_LINEUP = ['gemini-flash', 'llama-70b', 'gemma', 'gpt-oss-120b', 'gpt-4o-mini'];
+const FREEZE_HOUR_UTC = 18;
+
+function campaignDay(d = new Date()) {
+  return new Date(d.getTime() - 8 * 3600_000).toISOString().slice(0, 10);
+}
+
+function check(state, title, detail) {
+  const icon = state === 'ok' ? '✅' : state === 'bad' ? '🚨' : '⏳';
+  return `<div class="check ${state}"><span class="check-icon">${icon}</span>
+    <div class="check-body"><div class="check-title">${title}</div>
+    <div class="check-detail">${detail}</div></div></div>`;
+}
+
+async function fetchJson(url) {
+  const r = await fetch(url, { cache: 'no-store' });
+  if (!r.ok) throw new Error(r.status);
+  return r.json();
+}
+
+async function freezeCheck(day) {
+  const freezeAt = Date.UTC(...day.split('-').map(Number).map((v, i) => i === 1 ? v - 1 : v), FREEZE_HOUR_UTC);
+  try {
+    const p = await fetchJson(`../data/predictions/${day}.json`);
+    const n = p.matches.length;
+    let ok = 0, failed = [], humans = new Set();
+    for (const m of p.matches) {
+      for (const [f, fc] of Object.entries(m.forecasts)) {
+        if (AI_LINEUP.includes(f)) (fc.status === 'ok' ? ok++ : failed.push(`${f}@${m.match_id}`));
+        if (f.startsWith('human:')) humans.add(f);
+      }
+    }
+    const fState = failed.length === 0 ? 'ok' : 'bad';
+    return check(fState, `Freeze done for ${day} (${p.freeze_utc})`,
+      `${n} matches · AI forecasts ${ok}/${n * AI_LINEUP.length} ok` +
+      (failed.length ? ` · FAILED: ${failed.join(', ')}` : '') +
+      ` · ${humans.size} humans` + (humans.size === 0 ? ' — ⚠ nobody submitted picks!' : ''));
+  } catch {
+    if (Date.now() < freezeAt) {
+      const mins = Math.round((freezeAt - Date.now()) / 60000);
+      return check('wait', `Freeze for ${day} not yet due`,
+        `Runs at 18:00 UTC — in ${Math.floor(mins / 60)}h ${mins % 60}m. Remind people to submit picks before then.`);
+    }
+    return check('bad', `Freeze for ${day} MISSING past 18:00 UTC`,
+      `Cron may have failed. Check <a href="https://github.com/${REPO}/actions" target="_blank">Actions</a>; ` +
+      `fallback: run <code>python scripts/freeze.py</code> locally before kickoff, commit and push.`);
+  }
+}
+
+async function workflowChecks() {
+  try {
+    const data = await fetchJson(`https://api.github.com/repos/${REPO}/actions/runs?per_page=30`);
+    const latest = {};
+    for (const r of data.workflow_runs) {
+      if (!latest[r.name]) latest[r.name] = r;
+    }
+    let html = '';
+    for (const name of ['Daily freeze', 'Daily score', 'Tests']) {
+      const r = latest[name];
+      if (!r) { html += check('wait', `${name}: no runs yet`, ''); continue; }
+      const when = new Date(r.created_at).toLocaleString('en-GB');
+      const good = r.conclusion === 'success';
+      html += check(good ? 'ok' : (r.status === 'in_progress' ? 'wait' : 'bad'),
+        `${name}: ${r.conclusion || r.status}`,
+        `${when} · <a href="${r.html_url}" target="_blank">view run</a>`);
+    }
+    return html;
+  } catch (e) {
+    return check('wait', 'GitHub Actions status unavailable',
+      'API rate-limited or offline — check the Actions tab directly.');
+  }
+}
+
+async function scoringCheck() {
+  let html = '';
+  try {
+    const results = await fetchJson('../data/results/results.json');
+    const ft = results.filter(r => r.status === 'FT').length;
+    html += check(results.length ? 'ok' : 'wait',
+      `Results recorded: ${ft} full-time`,
+      results.length ? `Latest: ${results.slice(-3).map(r =>
+        `${r.match_id} ${r.score_home ?? '?'}–${r.score_away ?? '?'}`).join(' · ')}`
+        : 'None yet — first results arrive after the first scored matchday.');
+  } catch { html += check('wait', 'Results: none yet', 'results.json absent or empty.'); }
+  try {
+    const lb = await fetchJson('../data/scores/leaderboard.json');
+    const age = (Date.now() - Date.parse(lb.updated_utc)) / 3600_000;
+    html += check('ok', `Leaderboard: ${lb.matches_scored} matches scored, ${lb.rows.length} forecasters`,
+      `Updated ${lb.updated_utc} (${age.toFixed(1)}h ago)`);
+  } catch { html += check('wait', 'Leaderboard not generated yet', ''); }
+  return html;
+}
+
+const TODOS = [
+  'Spot-check yesterday\'s scored results against BBC (1 random match is enough)',
+  'Open the Google Sheet — delete junk/joke names before 18:00 UTC',
+  'ntfy notification received for last night\'s freeze + this morning\'s score run',
+  'Knockout era only: are any TBD fixtures now decided? Update fixtures.json',
+];
+
+function renderTodos() {
+  const day = campaignDay();
+  const key = `fa_ops_${day}`;
+  const done = JSON.parse(localStorage.getItem(key) || '[]');
+  const el = document.getElementById('todo');
+  el.innerHTML = TODOS.map((t, i) =>
+    `<label class="${done.includes(i) ? 'done' : ''}">
+       <input type="checkbox" data-i="${i}" ${done.includes(i) ? 'checked' : ''}> ${t}</label>`).join('');
+  el.querySelectorAll('input').forEach(cb => cb.addEventListener('change', () => {
+    const d = JSON.parse(localStorage.getItem(key) || '[]');
+    const i = +cb.dataset.i;
+    localStorage.setItem(key, JSON.stringify(cb.checked ? [...d, i] : d.filter(x => x !== i)));
+    renderTodos();
+  }));
+}
+
+async function refresh() {
+  const day = campaignDay();
+  document.getElementById('campaign-day').textContent = day;
+  const parts = await Promise.all([freezeCheck(day), workflowChecks(), scoringCheck()]);
+  document.getElementById('auto-checks').innerHTML = parts.join('');
+}
+
+renderTodos();
+refresh();
+setInterval(refresh, 60_000);
+</script>
+</body>
+</html>
