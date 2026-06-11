@@ -98,38 +98,38 @@ function teamFlag(code) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const MATCHUP_FACTS = {
-  'ARG-BRA': 'El Superclásico: the fiercest rivalry in South American football. Argentina lead WC h2h 2-1.',
-  'BRA-ARG': 'The Superclásico! Brazil vs Argentina at a World Cup is as big as it gets.',
-  'ENG-GER': 'England beat Germany in the 1966 final (4-2). Germany have won every WC knockout tie since.',
-  'GER-ENG': 'Germany have not lost a World Cup knockout match to England since 1966.',
-  'USA-MEX': 'El Tráfico at a World Cup — the fiercest rivalry in CONCACAF history.',
-  'MEX-USA': 'El Tráfico! Mexico vs USA is the most-played rivalry in CONCACAF.',
+  'ARG-BRA': 'The Superclásico: the fiercest rivalry in South American football. Brazil lead the World Cup h2h 2-1 (1 draw).',
+  'BRA-ARG': 'The Superclásico! Brazil vs Argentina at a World Cup is as big as it gets — Brazil lead the WC h2h 2-1.',
+  'ENG-GER': 'England beat West Germany 4-2 in the 1966 final. Germany have won every WC knockout tie between them since.',
+  'GER-ENG': 'Germany have not lost a World Cup knockout match to England since the 1966 final.',
+  'USA-MEX': "USA vs Mexico — CONCACAF's fiercest rivalry. The USMNT won 2-0 so many times it became a chant: 'Dos a cero'.",
+  'MEX-USA': 'Mexico vs USA is the most-played international rivalry in CONCACAF history.',
 };
 
 const TEAM_FACTS = {
   ARG: 'Defending champions! Argentina beat France on penalties in Qatar 2022 🏆',
   BRA: 'Brazil are the most successful WC nation ever, with 5 titles (1958-2002).',
   FRA: 'France won it in 2018 and were runners-up in 2022 — back-to-back finals.',
-  GER: '4-time World Cup winners — the most successful European nation in history.',
+  GER: '4-time World Cup winners — level with Italy as the most successful European nation.',
   ENG: "England's only World Cup win was on home soil in 1966. The 60-year wait continues…",
   ESP: "Spain's 2010 win was the first World Cup won by a European team outside Europe.",
   NED: 'The Netherlands have been World Cup runners-up 3 times (1974, 1978, 2010) — never won.',
   URU: 'Uruguay won the very first World Cup in 1930, then again in 1950 (the Maracanazo).',
   MEX: 'Mexico has played in every World Cup since 1994 without missing one. The Azteca has hosted 2 finals.',
   USA: 'The USA last hosted the World Cup in 1994 — they reached the Round of 16 that year.',
-  CAN: "Canada's last World Cup was 1986. They played 3 games, scored 0 goals. 40 years later, they're back.",
+  CAN: "Canada went goalless at their 1986 debut; Alphonso Davies scored their first-ever WC goal in 2022. Now they're co-hosts.",
   MAR: 'Morocco made history in 2022 as the first African team ever to reach a World Cup semi-final.',
   KOR: 'South Korea finished 4th in 2002 — still the best World Cup result by any Asian nation.',
   JPN: 'Japan stunned both Germany and Spain in 2022, topping their group before losing on penalties.',
   KSA: 'Saudi Arabia pulled off one of the greatest WC upsets: beating Argentina 2-1 in Qatar 2022.',
-  AUS: "Australia's Socceroos reached the quarter-finals in 2022 — their best ever World Cup result.",
-  SEN: 'Senegal are reigning AFCON champions and have been one of Africa\'s most consistent qualifiers.',
+  AUS: "Australia's Socceroos reached the Round of 16 in 2022, matching their best ever World Cup run (2006).",
+  SEN: 'Senegal won their first AFCON in 2021 and have reached the knockouts in two of their three World Cups.',
   CRO: '3rd in 2022, 2nd in 2018 — Croatia keep overachieving with a population of just 4 million.',
   NOR: 'Norway famously beat Brazil 2-1 at France 98 — still one of the biggest WC upsets.',
   ECU: 'Ecuador opened the Qatar 2022 tournament with a victory against the host nation.',
   GHA: "Ghana came agonisingly close to a WC semi-final in 2010 before Suárez's infamous handball.",
   ALG: "Algeria's 1982 group stage fate inspired FIFA to make all final group games simultaneous.",
-  SUI: 'Switzerland have reached 12 World Cups — but have never gone past the quarter-finals.',
+  SUI: 'Switzerland are at their 13th World Cup — but have never gone past the quarter-finals.',
   CIV: "Ivory Coast's golden generation — Drogba, the Touré brothers, Gervinho — 3 WCs in a row.",
   QAT: 'Qatar 2022 hosts became the first host nation eliminated in the group stage.',
   BEL: "Belgium's 'golden generation' finished 3rd in 2018 — their best World Cup result.",
@@ -140,7 +140,7 @@ const TEAM_FACTS = {
   PAR: 'Paraguay reached the quarter-finals in 2010 — their best ever World Cup performance.',
   HAI: "Haiti's only previous World Cup was 1974 — over 50 years ago.",
   EGY: 'Egypt are the most successful team in African Cup of Nations history with 7 titles.',
-  TUN: 'Tunisia are appearing at their 6th World Cup, having qualified every time since 1978.',
+  TUN: 'Tunisia are at their 7th World Cup — they have never yet reached the knockout rounds.',
   POR: 'Portugal\'s Eusébio won the Golden Boot at the 1966 World Cup — on the same stage that England won.',
   CUR: 'Curaçao (pop. ~150,000) is one of the smallest nations ever to qualify for a World Cup 🏝️',
   CPV: 'Cape Verde — a volcanic archipelago off West Africa — are making their World Cup debut!',
@@ -212,6 +212,7 @@ function buildIntelPanel(match) {
       </div>
       <div class="intel-h2h">${h2hStr}</div>
       ${altitudeHtml}
+      <div class="intel-note">Elo rates team strength from past results — higher is stronger, and a gap of 100+ points is a clear edge.</div>
     </div>`;
 }
 
@@ -684,6 +685,34 @@ function renderCards() {
 
   // 3D carousel transforms
   setup3DCarousel();
+
+  // Mobile swipe affordance
+  setupSwipeHint();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Swipe hint (touch devices) — shown until the user swipes once, ever
+// ─────────────────────────────────────────────────────────────────────────────
+
+function setupSwipeHint() {
+  if (!window.matchMedia('(pointer: coarse)').matches) return;
+  if (localStorage.getItem('fa_swipe_hint_done')) return;
+
+  const track   = document.getElementById('cards-track');
+  const wrapper = track?.parentElement;
+  if (!track || !wrapper || track.querySelectorAll('.card').length < 2) return;
+
+  const hint = document.createElement('div');
+  hint.className = 'swipe-hint';
+  hint.innerHTML = 'Swipe to see the next match <span class="swipe-hint-arrow">→</span>';
+  wrapper.appendChild(hint);
+
+  track.addEventListener('scroll', function dismiss() {
+    localStorage.setItem('fa_swipe_hint_done', '1');
+    hint.classList.add('swipe-hint-out');
+    setTimeout(() => hint.remove(), 400);
+    track.removeEventListener('scroll', dismiss);
+  }, { passive: true });
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

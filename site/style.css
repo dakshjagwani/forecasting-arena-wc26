@@ -566,6 +566,17 @@ input[type="text"]:focus {
 
 .intel-climate { font-size: .7rem; color: var(--text-sub); margin-top: .28rem; }
 
+.intel-note {
+  font-size: .62rem;
+  color: var(--text-sub);
+  opacity: .85;
+  line-height: 1.45;
+  border-top: 1px dashed #c7d2fe;
+  padding-top: .35rem;
+  margin-top: .4rem;
+}
+[data-theme="dark"] .intel-note { border-color: #334155; }
+
 /* ── Fun fact chip ──────────────────────────────────────────────────────── */
 .fun-fact {
   font-size: .76rem;
@@ -988,4 +999,42 @@ input[type="text"]:focus {
   .page-picks::before, .page-picks::after { animation: none; }
   .btn-primary.btn-glow     { animation: none; }
   .submit-emoji             { animation: none; }
+  .swipe-hint-arrow         { animation: none; }
+}
+
+/* ── Swipe hint (touch devices, until first swipe) ──────────────────────── */
+.swipe-hint {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  background: rgba(15, 23, 42, .82);
+  color: #f1f5f9;
+  font-size: .78rem;
+  font-weight: 600;
+  padding: .5rem .95rem;
+  border-radius: 999px;
+  box-shadow: var(--shadow-card);
+  pointer-events: none;
+  white-space: nowrap;
+  backdrop-filter: blur(4px);
+  animation: fadeInUp var(--dur-slow) ease 1.2s both;
+  transition: opacity var(--dur-med) ease, transform var(--dur-med) ease;
+}
+.swipe-hint-arrow {
+  display: inline-block;
+  animation: swipeNudge 1.6s ease-in-out .6s infinite;
+}
+@keyframes swipeNudge {
+  0%, 100% { transform: translateX(0); }
+  50%       { transform: translateX(6px); }
+}
+.swipe-hint-out {
+  opacity: 0;
+  transform: translateX(-50%) translateY(8px);
+}
+[data-theme="dark"] .swipe-hint {
+  background: rgba(241, 245, 249, .92);
+  color: #0f172a;
 }
