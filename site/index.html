@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forecasting Arena — WC 2026 Leaderboard</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Leaderboard-specific styles */
+    .lb-page {
+      min-height: 100vh;
+      background: var(--bg);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .lb-hero {
+      background: linear-gradient(135deg, #1e3a5f 0%, #0f2540 100%);
+      color: #fff;
+      padding: 2rem 1.5rem 1.5rem;
+      text-align: center;
+    }
+
+    .lb-hero .wc-host-flags { font-size: 1.6rem; letter-spacing: .3em; margin-bottom: .5rem; }
+    .lb-hero .wc-title { font-size: 1rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: #f0c040; }
+    .lb-hero h1 { font-size: 1.8rem; font-weight: 800; margin: .5rem 0 .25rem; letter-spacing: -.02em; }
+    .lb-hero .tagline { font-size: .9rem; color: #94a3b8; }
+
+    .lb-stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem 1.5rem;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .lb-stat { text-align: center; }
+    .lb-stat .val { font-size: 1.4rem; font-weight: 800; color: var(--text); }
+    .lb-stat .lbl { font-size: .7rem; font-weight: 600; color: var(--text-sub); text-transform: uppercase; letter-spacing: .06em; }
+
+    .lb-actions {
+      display: flex;
+      justify-content: center;
+      gap: .75rem;
+      padding: 1rem 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .lb-table-wrap {
+      overflow-x: auto;
+      padding: 0 1rem 2rem;
+      flex: 1;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .875rem;
+      min-width: 520px;
+    }
+
+    thead th {
+      padding: .6rem .75rem;
+      text-align: left;
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--text-sub);
+      border-bottom: 2px solid var(--border);
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background .1s;
+    }
+    tbody tr:hover { background: #f8fafc; }
+    tbody tr.unqualified { opacity: .5; }
+
+    tbody td {
+      padding: .65rem .75rem;
+      vertical-align: middle;
+    }
+
+    .rank { font-weight: 700; color: var(--text-sub); width: 2rem; text-align: center; }
+    .rank.top1 { color: #f0c040; }
+    .rank.top2 { color: #94a3b8; }
+    .rank.top3 { color: #cd7f32; }
+
+    .badge {
+      display: inline-block;
+      font-size: .65rem;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: .2rem .55rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .badge-human   { background: #ede9fe; color: #6d28d9; }
+    .badge-ai      { background: #e0f2fe; color: #0369a1; }
+    .badge-market  { background: #f1f5f9; color: #475569; }
+    .badge-crowd   { background: #fef9c3; color: #92400e; }
+    .badge-baseline{ background: #f1f5f9; color: #94a3b8; }
+
+    .forecaster-name { font-weight: 600; color: var(--text); }
+    .human-name { color: #6d28d9; }
+    .ai-name    { color: #0369a1; }
+
+    .brier { font-variant-numeric: tabular-nums; font-weight: 700; }
+    .brier-best { color: var(--green); }
+
+    .vs-market { font-size: .8rem; }
+    .vs-better { color: var(--green); }
+    .vs-worse  { color: var(--red); }
+    .vs-same   { color: var(--text-sub); }
+
+    .unqualified-tag {
+      font-size: .65rem;
+      color: var(--text-sub);
+      font-style: italic;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 1.5rem;
+      color: var(--text-sub);
+    }
+    .empty-state .big { font-size: 3rem; margin-bottom: .5rem; }
+    .empty-state p { margin: .25rem 0; }
+
+    .updated { font-size: .72rem; color: var(--text-sub); text-align: center; padding: .5rem; }
+
+    @media (max-width: 480px) {
+      .lb-hero h1 { font-size: 1.4rem; }
+      .lb-stat .val { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="lb-page">
+
+  <!-- Hero -->
+  <div class="lb-hero">
+    <div class="wc-host-flags">🇺🇸 🇲🇽 🇨🇦</div>
+    <div class="wc-title">FIFA World Cup 2026</div>
+    <h1>Forecasting Arena</h1>
+    <p class="tagline">Humans vs AI models vs the betting market — who's actually calibrated?</p>
+  </div>
+
+  <!-- Stats row -->
+  <div class="lb-stats" id="stats-row">
+    <div class="lb-stat">
+      <div class="val" id="stat-scored">–</div>
+      <div class="lbl">Matches scored</div>
+    </div>
+    <div class="lb-stat">
+      <div class="val" id="stat-forecasters">–</div>
+      <div class="lbl">Forecasters</div>
+    </div>
+    <div class="lb-stat">
+      <div class="val" id="stat-humans">–</div>
+      <div class="lbl">Humans</div>
+    </div>
+    <div class="lb-stat">
+      <div class="val">104</div>
+      <div class="lbl">Total matches</div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="lb-actions">
+    <a href="picks.html" class="btn-primary" style="text-decoration:none;display:inline-block;padding:.75rem 1.5rem;border-radius:14px;font-size:.95rem;font-weight:700;">
+      ⚽ Make my picks
+    </a>
+  </div>
+
+  <!-- Leaderboard table -->
+  <div class="lb-table-wrap">
+    <div id="leaderboard-container">
+      <div class="empty-state">
+        <div class="big">⏳</div>
+        <p><strong>Loading leaderboard…</strong></p>
+        <p>No matches scored yet — check back after the first matchday.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="updated" id="updated-time"></div>
+
+</div>
+
+<script>
+const LEADERBOARD_URL = '../data/scores/leaderboard.json';
+
+const TYPE_BADGE = {
+  human:   ['HUM', 'badge-human'],
+  ai:      ['AI',  'badge-ai'],
+  market:  ['MKT', 'badge-market'],
+  crowd:   ['CROWD','badge-crowd'],
+  baseline:['BASE','badge-baseline'],
+};
+
+function fmt(n) {
+  return n === null || n === undefined ? '–' : n.toFixed(3);
+}
+
+function vsMarketCell(vs) {
+  if (vs === null || vs === undefined) return '<span class="vs-same">–</span>';
+  if (Math.abs(vs) < 0.0005) return '<span class="vs-same">±0.000</span>';
+  const sign = vs < 0 ? '–' : '+';
+  const cls  = vs < 0 ? 'vs-better' : 'vs-worse';
+  return `<span class="${cls}">${sign}${Math.abs(vs).toFixed(3)}</span>`;
+}
+
+function displayName(row) {
+  if (row.forecaster.startsWith('human:')) {
+    const slug = row.forecaster.slice(6);
+    return slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
+  const names = {
+    'market': 'Betting Market',
+    'crowd': 'Human Crowd',
+    'uniform': 'Uniform (1/3)',
+    'gemini-flash': 'Gemini Flash',
+    'llama-70b': 'Llama 3.3 70B',
+    'deepseek': 'DeepSeek V3',
+    'qwen-laptop': 'Qwen (laptop)',
+  };
+  return names[row.forecaster] || row.forecaster;
+}
+
+async function loadLeaderboard() {
+  try {
+    const res  = await fetch(LEADERBOARD_URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    render(data);
+  } catch (e) {
+    // leaderboard.json doesn't exist yet — show friendly empty state
+    document.getElementById('leaderboard-container').innerHTML = `
+      <div class="empty-state">
+        <div class="big">🏁</div>
+        <p><strong>No matches scored yet.</strong></p>
+        <p>Results appear here after each matchday.</p>
+        <p style="margin-top:1rem"><a href="picks.html">Make your picks →</a></p>
+      </div>`;
+  }
+}
+
+function render(data) {
+  const rows = data.rows || [];
+  const matched = data.matches_scored || 0;
+
+  // Stats
+  document.getElementById('stat-scored').textContent = matched;
+  document.getElementById('stat-forecasters').textContent = rows.length;
+  document.getElementById('stat-humans').textContent =
+    rows.filter(r => r.type === 'human').length;
+  document.getElementById('updated-time').textContent =
+    `Updated ${new Date(data.updated_utc).toLocaleString('en-GB', {timeZoneName:'short'})}`;
+
+  if (rows.length === 0) {
+    document.getElementById('leaderboard-container').innerHTML = `
+      <div class="empty-state">
+        <div class="big">🏁</div>
+        <p><strong>No matches scored yet.</strong></p>
+        <p>Results appear here after each matchday.</p>
+      </div>`;
+    return;
+  }
+
+  const qualifiedRows   = rows.filter(r => r.qualified);
+  const unqualifiedRows = rows.filter(r => !r.qualified);
+  const bestBrier = Math.min(...qualifiedRows.map(r => r.mean_brier));
+
+  function buildRow(row, rank, showRank) {
+    const [badgeLabel, badgeClass] = TYPE_BADGE[row.type] || ['?', 'badge-baseline'];
+    const rankStr = showRank
+      ? `<td class="rank ${rank===1?'top1':rank===2?'top2':rank===3?'top3':''}">${rank}</td>`
+      : `<td class="rank">–</td>`;
+    const brierClass = row.mean_brier === bestBrier && row.qualified ? 'brier brier-best' : 'brier';
+    const nameClass  = row.type === 'human' ? 'forecaster-name human-name' : 'forecaster-name';
+
+    return `<tr class="${row.qualified ? '' : 'unqualified'}">
+      ${rankStr}
+      <td><span class="badge ${badgeClass}">${badgeLabel}</span></td>
+      <td class="${nameClass}">${displayName(row)}${!row.qualified ? ' <span class="unqualified-tag">(needs more picks)</span>':''}
+      </td>
+      <td style="text-align:center">${row.n_predicted}</td>
+      <td class="${brierClass}">${fmt(row.mean_brier)}</td>
+      <td>${vsMarketCell(row.vs_market)}</td>
+    </tr>`;
+  }
+
+  let rank = 0;
+  let tableRows = qualifiedRows.map(row => {
+    rank++;
+    return buildRow(row, rank, true);
+  });
+  tableRows = tableRows.concat(unqualifiedRows.map(row => buildRow(row, 0, false)));
+
+  document.getElementById('leaderboard-container').innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Type</th>
+          <th>Forecaster</th>
+          <th style="text-align:center">Predictions</th>
+          <th>Brier ↓</th>
+          <th>vs Market</th>
+        </tr>
+      </thead>
+      <tbody>${tableRows.join('')}</tbody>
+    </table>
+    <p style="font-size:.72rem;color:#94a3b8;margin:.75rem 0 0 .25rem">
+      Lower Brier score = better. Market is the benchmark.
+      Greyed rows haven't predicted ≥60% of available matches yet.
+    </p>`;
+}
+
+loadLeaderboard();
+</script>
+</body>
+</html>

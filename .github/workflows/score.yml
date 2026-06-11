@@ -1,0 +1,44 @@
+name: Daily score
+
+on:
+  schedule:
+    # 06:00 UTC daily — after all late-night matches have finished
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  score:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Fetch results from football-data.org
+        run: python scripts/fetch_results.py
+        env:
+          FOOTBALL_DATA_API_KEY: ${{ secrets.FOOTBALL_DATA_API_KEY }}
+        continue-on-error: true  # graceful fallback: manual entry via results.json
+
+      - name: Compute Brier scores
+        run: python scripts/score.py
+
+      - name: Commit results and scores
+        run: |
+          git config user.name  "Forecasting Arena Bot"
+          git config user.email "bot@forecasting-arena.com"
+          git add data/results/ data/scores/
+          git diff --staged --quiet || \
+            git commit -m "score: $(date -u +%Y-%m-%d) [skip ci]"
+          git push

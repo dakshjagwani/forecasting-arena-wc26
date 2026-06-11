@@ -1,0 +1,61 @@
+name: Daily freeze
+
+on:
+  schedule:
+    # 18:00 UTC daily — before all group-stage kickoffs (earliest 19:00 UTC).
+    # Adjust to 16:00 UTC for knockout rounds which can start at 17:00 UTC.
+    - cron: '0 18 * * *'
+  workflow_dispatch:   # allow manual trigger from GitHub UI
+
+permissions:
+  contents: write
+
+jobs:
+  freeze:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run freeze
+        run: python scripts/freeze.py
+        env:
+          GEMINI_API_KEY:      ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY:        ${{ secrets.GROQ_API_KEY }}
+          OPENROUTER_API_KEY:  ${{ secrets.OPENROUTER_API_KEY }}
+          ODDS_API_KEY:        ${{ secrets.ODDS_API_KEY }}
+          SHEET_CSV_URL:       ${{ secrets.SHEET_CSV_URL }}
+
+      - name: Commit predictions
+        run: |
+          git config user.name  "Forecasting Arena Bot"
+          git config user.email "bot@forecasting-arena.com"
+          git add data/predictions/
+          git diff --staged --quiet || \
+            git commit -m "freeze: $(date -u +%Y-%m-%d) predictions [skip ci]"
+          git push
+
+      - name: Notify success
+        if: success()
+        run: |
+          curl -s -X POST "https://ntfy.sh/forecasting-arena-daksh" \
+            -H "Title: ✅ Freeze OK" \
+            -H "Priority: default" \
+            -d "$(date -u +%Y-%m-%d) freeze complete" || true
+
+      - name: Notify failure
+        if: failure()
+        run: |
+          curl -s -X POST "https://ntfy.sh/forecasting-arena-daksh" \
+            -H "Title: 🚨 Freeze FAILED" \
+            -H "Priority: urgent" \
+            -d "$(date -u +%Y-%m-%d) freeze failed — check Actions logs NOW" || true
