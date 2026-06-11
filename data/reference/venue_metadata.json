@@ -1,0 +1,162 @@
+{
+  "Estadio Azteca, Mexico City": {
+    "altitude_m": 2240,
+    "altitude_cat": "very_high",
+    "altitude_note": "Very high altitude (2,240m) — significant disadvantage for away teams; home teams adapted, visiting teams suffer reduced aerobic capacity",
+    "city": "Mexico City",
+    "country": "Mexico",
+    "june_temp_c": 18,
+    "june_humidity": "moderate",
+    "climate_note": "Mild and cool due to altitude (18°C), moderate humidity"
+  },
+  "Estadio Akron, Guadalajara": {
+    "altitude_m": 1566,
+    "altitude_cat": "high",
+    "altitude_note": "High altitude (1,566m) — meaningful disadvantage for teams from sea-level countries",
+    "city": "Guadalajara",
+    "country": "Mexico",
+    "june_temp_c": 25,
+    "june_humidity": "moderate",
+    "climate_note": "Warm (25°C), beginning of rainy season, moderate humidity"
+  },
+  "Estadio BBVA, Monterrey": {
+    "altitude_m": 538,
+    "altitude_cat": "moderate",
+    "altitude_note": "Moderate altitude (538m) — minor effect, mainly noticed over 90 minutes",
+    "city": "Monterrey",
+    "country": "Mexico",
+    "june_temp_c": 37,
+    "june_humidity": "high",
+    "climate_note": "Very hot (37°C) and humid in June — significant heat stress for European teams"
+  },
+  "AT&T Stadium, Dallas": {
+    "altitude_m": 183,
+    "altitude_cat": "negligible",
+    "altitude_note": null,
+    "city": "Dallas",
+    "country": "USA",
+    "june_temp_c": 35,
+    "june_humidity": "high",
+    "climate_note": "Hot (35°C) and humid — difficult conditions for European teams"
+  },
+  "NRG Stadium, Houston": {
+    "altitude_m": 15,
+    "altitude_cat": "negligible",
+    "altitude_note": null,
+    "city": "Houston",
+    "country": "USA",
+    "june_temp_c": 33,
+    "june_humidity": "very_high",
+    "climate_note": "Hot (33°C) and very humid — indoor AC stadium mitigates some heat"
+  },
+  "SoFi Stadium, Los Angeles": {
+    "altitude_m": 86,
+    "altitude_cat": "negligible",
+    "altitude_note": null,
+    "city": "Los Angeles",
+    "country": "USA",
+    "june_temp_c": 22,
+    "june_humidity": "low",
+    "climate_note": "Mild (22°C), dry and pleasant — near-ideal conditions"
+  },
+  "MetLife Stadium, New York/New Jersey": {
+    "altitude_m": 10,
+    "altitude_cat": "negligible",
+    "altitude_note": null,
+    "city": "East Rutherford",
+    "country": "USA",
+    "june_temp_c": 26,
+    "june_humidity": "moderate",
+    "climate_note": "Warm (26°C), moderate humidity"
+  },
+  "Levi's Stadium, San Francisco Bay Area": {
+    "altitude_m": 15,
+    "altitude_cat": "negligible",
+    "altitude_note": null,
+    "city": "Santa Clara",
+    "country": "USA",
+    "june_temp_c": 19,
+    "june_humidity": "low",
+    "climate_note": "Cool (19°C) and dry — excellent playing conditions"
+  },
+  "Arrowhead Stadium, Kansas City": {
+    "altitude_m": 318,
+    "altitude_cat": "negligible",
+    "altitude_note": null,
+    "city": "Kansas City",
+    "country": "USA",
+    "june_temp_c": 29,
+    "june_humidity": "moderate",
+    "climate_note": "Warm (29°C), moderate humidity"
+  },
+  "Gillette Stadium, Boston": {
+    "altitude_m": 15,
+    "altitude_cat": "negligible",
+    "altitude_note": null,
+    "city": "Foxborough",
+    "country": "USA",
+    "june_temp_c": 22,
+    "june_humidity": "moderate",
+    "climate_note": "Mild (22°C), comfortable conditions"
+  },
+  "Lincoln Financial Field, Philadelphia": {
+    "altitude_m": 12,
+    "altitude_cat": "negligible",
+    "altitude_note": null,
+    "city": "Philadelphia",
+    "country": "USA",
+    "june_temp_c": 27,
+    "june_humidity": "moderate",
+    "climate_note": "Warm (27°C), moderate humidity"
+  },
+  "Hard Rock Stadium, Miami": {
+    "altitude_m": 3,
+    "altitude_cat": "negligible",
+    "altitude_note": null,
+    "city": "Miami Gardens",
+    "country": "USA",
+    "june_temp_c": 31,
+    "june_humidity": "very_high",
+    "climate_note": "Hot (31°C) and very humid — demanding for all teams"
+  },
+  "Mercedes-Benz Stadium, Atlanta": {
+    "altitude_m": 303,
+    "altitude_cat": "negligible",
+    "altitude_note": null,
+    "city": "Atlanta",
+    "country": "USA",
+    "june_temp_c": 30,
+    "june_humidity": "high",
+    "climate_note": "Hot (30°C) and humid — retractable roof may be used"
+  },
+  "Lumen Field, Seattle": {
+    "altitude_m": 6,
+    "altitude_cat": "negligible",
+    "altitude_note": null,
+    "city": "Seattle",
+    "country": "USA",
+    "june_temp_c": 18,
+    "june_humidity": "low",
+    "climate_note": "Cool (18°C) and dry in June — excellent conditions"
+  },
+  "BMO Field, Toronto": {
+    "altitude_m": 76,
+    "altitude_cat": "negligible",
+    "altitude_note": null,
+    "city": "Toronto",
+    "country": "Canada",
+    "june_temp_c": 22,
+    "june_humidity": "moderate",
+    "climate_note": "Warm (22°C), comfortable conditions"
+  },
+  "BC Place, Vancouver": {
+    "altitude_m": 15,
+    "altitude_cat": "negligible",
+    "altitude_note": null,
+    "city": "Vancouver",
+    "country": "Canada",
+    "june_temp_c": 18,
+    "june_humidity": "low",
+    "climate_note": "Mild (18°C) and pleasant — good playing conditions"
+  }
+}

@@ -93,7 +93,18 @@ def http_post(url: str, headers: dict, body: dict, timeout: int = 30) -> dict:
         return json.loads(r.read())
 
 # ── LLM prompt ───────────────────────────────────────────────────────────────
-_PROMPT = (
+_PROMPT_ENRICHED = (
+    "You are forecasting a FIFA World Cup 2026 match.\n"
+    "Use the statistical context below to give a calibrated probability estimate.\n\n"
+    "{context_block}\n\n"
+    "Give your probability estimate for the 90-minute result "
+    "(a draw is a valid outcome, even in knockout rounds).\n"
+    'Respond with ONLY this JSON, no other text:\n'
+    '{{"p_home": <float>, "p_draw": <float>, "p_away": <float>, "reasoning": "<max 50 words>"}}\n'
+    "The three probabilities must sum to 1.0."
+)
+
+_PROMPT_FALLBACK = (
     "You are forecasting a FIFA World Cup 2026 match.\n"
     "Match: {home} vs {away}, {stage}, {venue}, {date}.\n"
     "Give your honest probability estimate for the 90-minute result.\n"
@@ -103,7 +114,14 @@ _PROMPT = (
 )
 
 def make_prompt(match: dict) -> str:
-    return _PROMPT.format(
+    try:
+        from context_builder import get_context_block
+        ctx = get_context_block(match)
+        if ctx:
+            return _PROMPT_ENRICHED.format(context_block=ctx)
+    except Exception:
+        pass
+    return _PROMPT_FALLBACK.format(
         home=match["home"], away=match["away"],
         stage=match["stage"], venue=match["venue"],
         date=match["kickoff_utc"][:10],
@@ -164,6 +182,51 @@ def query_groq(match: dict, api_key: str, model: str = "llama-3.3-70b-versatile"
             return _parse_and_normalise(raw, "llama-70b")
         except Exception as e:
             log.warning(f"  llama-70b attempt {attempt + 1}: {e}")
+            if attempt < 2:
+                time.sleep(2 ** attempt)
+    return {"status": "failed"}
+
+def query_claude(match: dict, api_key: str,
+                 model: str = "claude-haiku-4-5-20251001") -> dict:
+    body = {
+        "model": model,
+        "max_tokens": 512,
+        "temperature": 0,
+        "messages": [{"role": "user", "content": make_prompt(match)}],
+    }
+    for attempt in range(3):
+        try:
+            resp = http_post(
+                "https://api.anthropic.com/v1/messages",
+                {"x-api-key": api_key, "anthropic-version": "2023-06-01"},
+                body,
+            )
+            raw = resp["content"][0]["text"]
+            return _parse_and_normalise(raw, "claude")
+        except Exception as e:
+            log.warning(f"  claude attempt {attempt + 1}: {e}")
+            if attempt < 2:
+                time.sleep(2 ** attempt)
+    return {"status": "failed"}
+
+def query_openai(match: dict, api_key: str, model: str = "gpt-4o-mini") -> dict:
+    body = {
+        "model": model,
+        "messages": [{"role": "user", "content": make_prompt(match)}],
+        "temperature": 0.0,
+        "max_tokens": 300,
+    }
+    for attempt in range(3):
+        try:
+            resp = http_post(
+                "https://api.openai.com/v1/chat/completions",
+                {"Authorization": f"Bearer {api_key}"},
+                body,
+            )
+            raw = resp["choices"][0]["message"]["content"]
+            return _parse_and_normalise(raw, "gpt-4o-mini")
+        except Exception as e:
+            log.warning(f"  gpt-4o-mini attempt {attempt + 1}: {e}")
             if attempt < 2:
                 time.sleep(2 ** attempt)
     return {"status": "failed"}
@@ -366,6 +429,12 @@ def main() -> None:
         log.error(f"Missing secrets: {missing}")
         sys.exit(1)
 
+    # Optional models — warn but don't abort if keys missing
+    optional_models = {"ANTHROPIC_API_KEY": "claude", "OPENAI_API_KEY": "gpt-4o-mini"}
+    for k, name in optional_models.items():
+        if not os.environ.get(k):
+            log.warning(f"  {k} not set — {name} will be skipped")
+
     freeze_utc = datetime.now(timezone.utc)
     log.info(f"Freeze time: {freeze_utc.isoformat()}")
 
@@ -407,6 +476,15 @@ def main() -> None:
     log.info("Fetching odds from The Odds API...")
     odds_map = fetch_odds(os.environ["ODDS_API_KEY"])
     log.info(f"  Got odds for {len(odds_map)} events")
+
+    # ── Build context data (enriches LLM prompts) ────────────────────────────
+    try:
+        sys.path.insert(0, str(Path(__file__).parent))
+        from context_builder import build_match_contexts_json
+        build_match_contexts_json(fixtures)
+        log.info("Match contexts JSON written for picks UI")
+    except Exception as e:
+        log.warning(f"context_builder unavailable: {e} — using basic prompts")
 
     # ── Ingest human picks ────────────────────────────────────────────────────
     log.info("Fetching human picks from Google Sheet...")
@@ -451,6 +529,20 @@ def main() -> None:
         log.info(f"  gemma: {forecasts['gemma'].get('status', '?')}")
         time.sleep(1)
 
+        # Claude (optional)
+        if os.environ.get("ANTHROPIC_API_KEY"):
+            log.info("  Querying claude...")
+            forecasts["claude"] = query_claude(match, os.environ["ANTHROPIC_API_KEY"])
+            log.info(f"  claude: {forecasts['claude'].get('status', '?')}")
+            time.sleep(1)
+
+        # OpenAI GPT-4o-mini (optional)
+        if os.environ.get("OPENAI_API_KEY"):
+            log.info("  Querying gpt-4o-mini...")
+            forecasts["gpt-4o-mini"] = query_openai(match, os.environ["OPENAI_API_KEY"])
+            log.info(f"  gpt-4o-mini: {forecasts['gpt-4o-mini'].get('status', '?')}")
+            time.sleep(1)
+
         # Human picks for this match
         for slug, slug_picks in human_picks.items():
             if match["match_id"] in slug_picks:
@@ -494,14 +586,17 @@ def main() -> None:
     log.info(f"Written: {out_path}")
 
     # ── Summarise ─────────────────────────────────────────────────────────────
-    total_humans = sum(1 for k in (
-        k for mr in match_results for k in mr["forecasts"]
-    ) if k.startswith("human:"))
-    ai_ok = sum(1 for mr in match_results for f in ["gemini-flash", "llama-70b", "deepseek"]
-                if mr["forecasts"].get(f, {}).get("status") == "ok")
+    ai_models = ["gemini-flash", "llama-70b", "gemma", "claude", "gpt-4o-mini"]
+    active_ai = [m for m in ai_models if any(
+        mr["forecasts"].get(m) for mr in match_results
+    )]
+    ai_ok = sum(
+        1 for mr in match_results for m in active_ai
+        if mr["forecasts"].get(m, {}).get("status") == "ok"
+    )
     log.info(
         f"Summary: {len(today_matches)} matches | "
-        f"{ai_ok}/{len(today_matches)*3} AI forecasts OK | "
+        f"{ai_ok}/{len(today_matches)*len(active_ai)} AI forecasts OK | "
         f"{len(human_picks)} humans"
     )
     log.info("DONE — commit data/predictions/ and push to git")

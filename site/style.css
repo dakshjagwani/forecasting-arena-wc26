@@ -299,6 +299,101 @@ input[type="text"]:focus { border-color: var(--home); }
 .kick-time  { font-size: .8rem; font-weight: 600; color: var(--text); }
 .kick-venue { font-size: .75rem; color: var(--text-sub); }
 
+/* ── Match Intel panel ──────────────────────────────────────────────────── */
+.intel-panel {
+  background: #f0f4ff;
+  border: 1px solid #c7d2fe;
+  border-radius: 10px;
+  padding: .6rem .75rem;
+  font-size: .75rem;
+}
+
+.intel-header {
+  font-size: .65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: #4338ca;
+  margin-bottom: .4rem;
+}
+
+.intel-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: .3rem;
+  margin-bottom: .35rem;
+}
+
+.intel-col { display: flex; flex-direction: column; gap: .2rem; }
+.intel-col-right { align-items: flex-end; }
+
+.intel-mid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .1rem;
+  padding: 0 .4rem;
+}
+
+.intel-elo { font-weight: 800; font-size: .9rem; color: var(--text); }
+.home-elo  { color: var(--home); }
+.away-elo  { color: var(--away); }
+.intel-elo-label, .intel-form-label {
+  font-size: .55rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--text-sub);
+  font-weight: 600;
+}
+.intel-elo-diff {
+  font-size: .7rem;
+  font-weight: 700;
+  padding: .1rem .3rem;
+  border-radius: 4px;
+}
+.home-fav { color: var(--home); background: #ede9fe; }
+.away-fav { color: var(--away); background: #e0f2fe; }
+.even     { color: var(--text-sub); }
+
+.intel-form-row {
+  display: flex;
+  gap: 3px;
+  flex-wrap: nowrap;
+}
+
+.form-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot-w { background: #16a34a; }
+.dot-d { background: #ca8a04; }
+.dot-l { background: #dc2626; }
+
+.intel-h2h {
+  font-size: .72rem;
+  color: var(--text-sub);
+  border-top: 1px solid #c7d2fe;
+  padding-top: .3rem;
+  margin-top: .2rem;
+}
+
+.intel-altitude {
+  font-size: .72rem;
+  color: #92400e;
+  font-weight: 600;
+  margin-top: .3rem;
+}
+
+.intel-climate {
+  font-size: .7rem;
+  color: var(--text-sub);
+  margin-top: .3rem;
+}
+
 /* ── Fun fact chip ──────────────────────────────────────────────────────── */
 .fun-fact {
   font-size: .75rem;

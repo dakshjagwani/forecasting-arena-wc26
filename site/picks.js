@@ -1,11 +1,14 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Config — fill APPS_SCRIPT_URL after deploying scripts/apps_script.gs
 // ─────────────────────────────────────────────────────────────────────────────
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbygSsO7AtvvORFXO6ItV7TgWxFOGvl59RtGuq8g-jrjjgyHYUJhjumS2DpDLtIFcqtH/exec';
-const FIXTURES_URL    = '../data/fixtures/fixtures.json';
-const FREEZE_LEAD_MS  = 60 * 60 * 1000; // lock picks 1 h before earliest kickoff
-const LS_NAME_KEY     = 'fa_name';
-const LS_PICKS_KEY    = 'fa_picks';
+const APPS_SCRIPT_URL   = 'https://script.google.com/macros/s/AKfycbygSsO7AtvvORFXO6ItV7TgWxFOGvl59RtGuq8g-jrjjgyHYUJhjumS2DpDLtIFcqtH/exec';
+const FIXTURES_URL      = '../data/fixtures/fixtures.json';
+const CONTEXTS_URL      = '../data/reference/match_contexts.json';
+const FREEZE_LEAD_MS    = 60 * 60 * 1000;
+const LS_NAME_KEY       = 'fa_name';
+const LS_PICKS_KEY      = 'fa_picks';
+
+let matchContexts = {};  // { match_id: context_object }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Flag emoji helpers
@@ -90,6 +93,60 @@ function getMatchFact(match) {
   const rk = `${match.away_code}-${match.home_code}`;
   return MATCHUP_FACTS[k] || MATCHUP_FACTS[rk]
       || TEAM_FACTS[match.home_code] || TEAM_FACTS[match.away_code] || null;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Match Intel panel (context from match_contexts.json)
+// ─────────────────────────────────────────────────────────────────────────────
+
+function formDot(result) {
+  const cls = result === 'W' ? 'dot-w' : result === 'D' ? 'dot-d' : 'dot-l';
+  return `<span class="form-dot ${cls}" title="${result}"></span>`;
+}
+
+function buildIntelPanel(match) {
+  const ctx = matchContexts[match.match_id];
+  if (!ctx || ctx.placeholder) return '';
+
+  const homeElo = ctx.home_elo || 0;
+  const awayElo = ctx.away_elo || 0;
+  const eloDiff = homeElo - awayElo;
+  const homeForm5 = (ctx.home_form5 || []).map(formDot).join('');
+  const awayForm5 = (ctx.away_form5 || []).map(formDot).join('');
+
+  const h2hStr = ctx.h2h_played > 0
+    ? `H2H: ${ctx.h2h_home_wins}W ${ctx.h2h_draws}D ${ctx.h2h_away_wins}L (${ctx.h2h_played} played)`
+    : 'H2H: No previous meetings';
+
+  const altitudeHtml = ctx.altitude_m > 800
+    ? `<div class="intel-altitude">⛰️ ${ctx.altitude_m.toLocaleString()}m altitude</div>`
+    : (ctx.climate_note && ctx.altitude_m === 0 || ctx.altitude_m < 800)
+      ? `<div class="intel-climate">🌡️ ${ctx.climate_note || ''}</div>`
+      : '';
+
+  return `
+    <div class="intel-panel">
+      <div class="intel-header">📊 Match Intel</div>
+      <div class="intel-grid">
+        <div class="intel-col">
+          <div class="intel-elo home-elo">${homeElo}</div>
+          <div class="intel-form-row">${homeForm5}</div>
+        </div>
+        <div class="intel-mid">
+          <div class="intel-elo-label">Elo</div>
+          <div class="intel-elo-diff ${eloDiff > 50 ? 'home-fav' : eloDiff < -50 ? 'away-fav' : 'even'}">
+            ${Math.abs(eloDiff) > 30 ? (eloDiff > 0 ? '▲' : '▼') + Math.abs(eloDiff) : '≈'}
+          </div>
+          <div class="intel-form-label">Last 5</div>
+        </div>
+        <div class="intel-col intel-col-right">
+          <div class="intel-elo away-elo">${awayElo}</div>
+          <div class="intel-form-row">${awayForm5}</div>
+        </div>
+      </div>
+      <div class="intel-h2h">${h2hStr}</div>
+      ${altitudeHtml}
+    </div>`;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -240,6 +297,8 @@ function buildMatchCard(match, idx) {
           </div>
         </div>
       </div>
+
+      ${buildIntelPanel(match)}
 
       ${fact ? `<div class="fun-fact">💡 ${fact}</div>` : ''}
     </div>
@@ -492,7 +551,7 @@ function setupKeyboard() {
 async function init() {
   loadState();
 
-  // Load fixtures
+  // Load fixtures + context data (context is optional — fails silently)
   let res;
   try {
     res = await fetch(FIXTURES_URL);
@@ -502,6 +561,11 @@ async function init() {
       '<p style="padding:2rem;color:#dc2626">Failed to load fixtures — please refresh.</p>';
     return;
   }
+
+  try {
+    const ctxRes = await fetch(CONTEXTS_URL);
+    if (ctxRes.ok) matchContexts = await ctxRes.json();
+  } catch { /* context unavailable — intel panels just won't show */ }
 
   activeDay = getActiveMatchday(fixtures);
 
