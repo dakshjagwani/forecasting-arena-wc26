@@ -29,6 +29,8 @@ FIXTURE_TO_MARTJ42: dict[str, str] = {
     "Cabo Verde":     "Cape Verde",
     "IR Iran":        "Iran",
     "Curaçao":        "Curacao",
+    "Czechia":        "Czech Republic",
+    "Türkiye":        "Turkey",
 }
 
 # Reverse map built at module level

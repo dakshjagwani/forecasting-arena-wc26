@@ -33,10 +33,70 @@
     "climate_note": "Mild and cool due to altitude (18\u00b0C), moderate humidity"
   },
   "md002-KOR-UEPD": {
-    "placeholder": true
+    "home_elo": 1874,
+    "away_elo": 1800,
+    "home_form5": [
+      "W",
+      "W",
+      "L",
+      "L",
+      "W"
+    ],
+    "away_form5": [
+      "W",
+      "W",
+      "D",
+      "D",
+      "W"
+    ],
+    "home_w10": 5,
+    "home_d10": 0,
+    "home_l10": 2,
+    "away_w10": 4,
+    "away_d10": 2,
+    "away_l10": 1,
+    "home_gpg": 1.57,
+    "away_gpg": 2.71,
+    "h2h_played": 4,
+    "h2h_home_wins": 1,
+    "h2h_draws": 1,
+    "h2h_away_wins": 1,
+    "altitude_m": 1566,
+    "altitude_note": "High altitude (1,566m) \u2014 meaningful disadvantage for teams from sea-level countries",
+    "climate_note": "Warm (25\u00b0C), beginning of rainy season, moderate humidity"
   },
   "md003-CAN-UEPA": {
-    "placeholder": true
+    "home_elo": 1891,
+    "away_elo": 1624,
+    "home_form5": [
+      "D",
+      "W",
+      "D",
+      "D",
+      "W"
+    ],
+    "away_form5": [
+      "D",
+      "D",
+      "D",
+      "D",
+      "D"
+    ],
+    "home_w10": 2,
+    "home_d10": 5,
+    "home_l10": 0,
+    "away_w10": 2,
+    "away_d10": 5,
+    "away_l10": 0,
+    "home_gpg": 1.0,
+    "away_gpg": 1.57,
+    "h2h_played": 1,
+    "h2h_home_wins": 0,
+    "h2h_draws": 0,
+    "h2h_away_wins": 0,
+    "altitude_m": 76,
+    "altitude_note": null,
+    "climate_note": "Warm (22\u00b0C), comfortable conditions"
   },
   "md004-USA-PAR": {
     "home_elo": 1818,
@@ -171,7 +231,37 @@
     "climate_note": "Mild (22\u00b0C), comfortable conditions"
   },
   "md008-AUS-UEPC": {
-    "placeholder": true
+    "home_elo": 1876,
+    "away_elo": 1954,
+    "home_form5": [
+      "D",
+      "L",
+      "W",
+      "W",
+      "L"
+    ],
+    "away_form5": [
+      "W",
+      "W",
+      "W",
+      "W",
+      "D"
+    ],
+    "home_w10": 2,
+    "home_d10": 1,
+    "home_l10": 4,
+    "away_w10": 6,
+    "away_d10": 1,
+    "away_l10": 0,
+    "home_gpg": 1.14,
+    "away_gpg": 2.29,
+    "h2h_played": 3,
+    "h2h_home_wins": 0,
+    "h2h_draws": 0,
+    "h2h_away_wins": 2,
+    "altitude_m": 15,
+    "altitude_note": null,
+    "climate_note": "Mild (18\u00b0C) and pleasant \u2014 good playing conditions"
   },
   "md009-GER-CUR": {
     "home_elo": 1982,
@@ -267,7 +357,37 @@
     "climate_note": "Warm (27\u00b0C), moderate humidity"
   },
   "md012-UEPB-TUN": {
-    "placeholder": true
+    "home_elo": 1749,
+    "away_elo": 1723,
+    "home_form5": [
+      "D",
+      "L",
+      "W",
+      "W",
+      "D"
+    ],
+    "away_form5": [
+      "L",
+      "L",
+      "D",
+      "W",
+      "D"
+    ],
+    "home_w10": 2,
+    "home_d10": 2,
+    "home_l10": 3,
+    "away_w10": 1,
+    "away_d10": 3,
+    "away_l10": 3,
+    "home_gpg": 1.57,
+    "away_gpg": 0.71,
+    "h2h_played": 5,
+    "h2h_home_wins": 2,
+    "h2h_draws": 1,
+    "h2h_away_wins": 1,
+    "altitude_m": 538,
+    "altitude_note": "Moderate altitude (538m) \u2014 minor effect, mainly noticed over 90 minutes",
+    "climate_note": "Very hot (37\u00b0C) and humid in June \u2014 significant heat stress for European teams"
   },
   "md013-ESP-CPV": {
     "home_elo": 2168,
@@ -435,7 +555,37 @@
     "climate_note": "Warm (26\u00b0C), moderate humidity"
   },
   "md018-FP02-NOR": {
-    "placeholder": true
+    "home_elo": 1741,
+    "away_elo": 1966,
+    "home_form5": [
+      "L",
+      "D",
+      "W",
+      "W",
+      "L"
+    ],
+    "away_form5": [
+      "D",
+      "W",
+      "D",
+      "L",
+      "W"
+    ],
+    "home_w10": 3,
+    "home_d10": 1,
+    "home_l10": 3,
+    "away_w10": 3,
+    "away_d10": 3,
+    "away_l10": 1,
+    "home_gpg": 0.86,
+    "away_gpg": 2.0,
+    "h2h_played": 1,
+    "h2h_home_wins": 0,
+    "h2h_draws": 0,
+    "h2h_away_wins": 0,
+    "altitude_m": 15,
+    "altitude_note": null,
+    "climate_note": "Mild (22\u00b0C), comfortable conditions"
   },
   "md019-ARG-ALG": {
     "home_elo": 2175,
@@ -504,7 +654,37 @@
     "climate_note": "Cool (19\u00b0C) and dry \u2014 excellent playing conditions"
   },
   "md021-POR-FP01": {
-    "placeholder": true
+    "home_elo": 2053,
+    "away_elo": 1758,
+    "home_form5": [
+      "W",
+      "W",
+      "W",
+      "D",
+      "W"
+    ],
+    "away_form5": [
+      "L",
+      "D",
+      "W",
+      "W",
+      "L"
+    ],
+    "home_w10": 4,
+    "home_d10": 2,
+    "home_l10": 1,
+    "away_w10": 3,
+    "away_d10": 2,
+    "away_l10": 2,
+    "home_gpg": 2.43,
+    "away_gpg": 1.14,
+    "h2h_played": 1,
+    "h2h_home_wins": 0,
+    "h2h_draws": 0,
+    "h2h_away_wins": 0,
+    "altitude_m": 15,
+    "altitude_note": null,
+    "climate_note": "Hot (33\u00b0C) and very humid \u2014 indoor AC stadium mitigates some heat"
   },
   "md022-ENG-CRO": {
     "home_elo": 2072,
@@ -606,10 +786,70 @@
     "climate_note": "Mild and cool due to altitude (18\u00b0C), moderate humidity"
   },
   "md025-UEPD-RSA": {
-    "placeholder": true
+    "home_elo": 1800,
+    "away_elo": 1664,
+    "home_form5": [
+      "W",
+      "W",
+      "D",
+      "D",
+      "W"
+    ],
+    "away_form5": [
+      "W",
+      "D",
+      "L",
+      "D",
+      "L"
+    ],
+    "home_w10": 4,
+    "home_d10": 2,
+    "home_l10": 1,
+    "away_w10": 2,
+    "away_d10": 2,
+    "away_l10": 3,
+    "home_gpg": 2.71,
+    "away_gpg": 1.0,
+    "h2h_played": 2,
+    "h2h_home_wins": 0,
+    "h2h_draws": 1,
+    "h2h_away_wins": 0,
+    "altitude_m": 303,
+    "altitude_note": null,
+    "climate_note": "Hot (30\u00b0C) and humid \u2014 retractable roof may be used"
   },
   "md026-SUI-UEPA": {
-    "placeholder": true
+    "home_elo": 1904,
+    "away_elo": 1624,
+    "home_form5": [
+      "D",
+      "W",
+      "D",
+      "L",
+      "D"
+    ],
+    "away_form5": [
+      "D",
+      "D",
+      "D",
+      "D",
+      "D"
+    ],
+    "home_w10": 2,
+    "home_d10": 4,
+    "home_l10": 1,
+    "away_w10": 2,
+    "away_d10": 5,
+    "away_l10": 0,
+    "home_gpg": 1.86,
+    "away_gpg": 1.57,
+    "h2h_played": 2,
+    "h2h_home_wins": 0,
+    "h2h_draws": 0,
+    "h2h_away_wins": 1,
+    "altitude_m": 86,
+    "altitude_note": null,
+    "climate_note": "Mild (22\u00b0C), dry and pleasant \u2014 near-ideal conditions"
   },
   "md027-CAN-QAT": {
     "home_elo": 1891,
@@ -777,10 +1017,70 @@
     "climate_note": "Warm (27\u00b0C), moderate humidity"
   },
   "md032-UEPC-PAR": {
-    "placeholder": true
+    "home_elo": 1954,
+    "away_elo": 1906,
+    "home_form5": [
+      "W",
+      "W",
+      "W",
+      "W",
+      "D"
+    ],
+    "away_form5": [
+      "W",
+      "L",
+      "W",
+      "W",
+      "L"
+    ],
+    "home_w10": 6,
+    "home_d10": 1,
+    "home_l10": 0,
+    "away_w10": 3,
+    "away_d10": 1,
+    "away_l10": 3,
+    "home_gpg": 2.29,
+    "away_gpg": 1.57,
+    "h2h_played": 1,
+    "h2h_home_wins": 0,
+    "h2h_draws": 0,
+    "h2h_away_wins": 0,
+    "altitude_m": 15,
+    "altitude_note": null,
+    "climate_note": "Cool (19\u00b0C) and dry \u2014 excellent playing conditions"
   },
   "md033-NED-UEPB": {
-    "placeholder": true
+    "home_elo": 1995,
+    "away_elo": 1749,
+    "home_form5": [
+      "W",
+      "L",
+      "D",
+      "W",
+      "W"
+    ],
+    "away_form5": [
+      "D",
+      "L",
+      "W",
+      "W",
+      "D"
+    ],
+    "home_w10": 4,
+    "home_d10": 2,
+    "home_l10": 1,
+    "away_w10": 2,
+    "away_d10": 2,
+    "away_l10": 3,
+    "home_gpg": 2.0,
+    "away_gpg": 1.57,
+    "h2h_played": 26,
+    "h2h_home_wins": 11,
+    "h2h_draws": 6,
+    "h2h_away_wins": 8,
+    "altitude_m": 15,
+    "altitude_note": null,
+    "climate_note": "Hot (33\u00b0C) and very humid \u2014 indoor AC stadium mitigates some heat"
   },
   "md034-GER-CIV": {
     "home_elo": 1982,
@@ -1041,7 +1341,37 @@
     "climate_note": "Hot (35\u00b0C) and humid \u2014 difficult conditions for European teams"
   },
   "md042-FRA-FP02": {
-    "placeholder": true
+    "home_elo": 2128,
+    "away_elo": 1741,
+    "home_form5": [
+      "W",
+      "L",
+      "W",
+      "W",
+      "W"
+    ],
+    "away_form5": [
+      "L",
+      "D",
+      "W",
+      "W",
+      "L"
+    ],
+    "home_w10": 5,
+    "home_d10": 1,
+    "home_l10": 1,
+    "away_w10": 3,
+    "away_d10": 1,
+    "away_l10": 3,
+    "home_gpg": 2.57,
+    "away_gpg": 0.86,
+    "h2h_played": 1,
+    "h2h_home_wins": 0,
+    "h2h_draws": 0,
+    "h2h_away_wins": 0,
+    "altitude_m": 12,
+    "altitude_note": null,
+    "climate_note": "Warm (27\u00b0C), moderate humidity"
   },
   "md043-NOR-SEN": {
     "home_elo": 1966,
@@ -1209,7 +1539,37 @@
     "climate_note": "Warm (22\u00b0C), comfortable conditions"
   },
   "md048-COL-FP01": {
-    "placeholder": true
+    "home_elo": 2050,
+    "away_elo": 1758,
+    "home_form5": [
+      "W",
+      "W",
+      "L",
+      "L",
+      "W"
+    ],
+    "away_form5": [
+      "L",
+      "D",
+      "W",
+      "W",
+      "L"
+    ],
+    "home_w10": 4,
+    "home_d10": 1,
+    "home_l10": 2,
+    "away_w10": 3,
+    "away_d10": 2,
+    "away_l10": 2,
+    "home_gpg": 1.71,
+    "away_gpg": 1.14,
+    "h2h_played": 1,
+    "h2h_home_wins": 0,
+    "h2h_draws": 0,
+    "h2h_away_wins": 0,
+    "altitude_m": 1566,
+    "altitude_note": "High altitude (1,566m) \u2014 meaningful disadvantage for teams from sea-level countries",
+    "climate_note": "Warm (25\u00b0C), beginning of rainy season, moderate humidity"
   },
   "md049-SUI-CAN": {
     "home_elo": 1904,
@@ -1245,7 +1605,37 @@
     "climate_note": "Mild (18\u00b0C) and pleasant \u2014 good playing conditions"
   },
   "md050-UEPA-QAT": {
-    "placeholder": true
+    "home_elo": 1624,
+    "away_elo": 1580,
+    "home_form5": [
+      "D",
+      "D",
+      "D",
+      "D",
+      "D"
+    ],
+    "away_form5": [
+      "D",
+      "L",
+      "L",
+      "D",
+      "L"
+    ],
+    "home_w10": 2,
+    "home_d10": 5,
+    "home_l10": 0,
+    "away_w10": 1,
+    "away_d10": 2,
+    "away_l10": 4,
+    "home_gpg": 1.57,
+    "away_gpg": 0.57,
+    "h2h_played": 3,
+    "h2h_home_wins": 0,
+    "h2h_draws": 1,
+    "h2h_away_wins": 1,
+    "altitude_m": 6,
+    "altitude_note": null,
+    "climate_note": "Cool (18\u00b0C) and dry in June \u2014 excellent conditions"
   },
   "md051-SCO-BRA": {
     "home_elo": 1852,
@@ -1314,7 +1704,37 @@
     "climate_note": "Hot (30\u00b0C) and humid \u2014 retractable roof may be used"
   },
   "md053-UEPD-MEX": {
-    "placeholder": true
+    "home_elo": 1800,
+    "away_elo": 1974,
+    "home_form5": [
+      "W",
+      "W",
+      "D",
+      "D",
+      "W"
+    ],
+    "away_form5": [
+      "W",
+      "W",
+      "W",
+      "D",
+      "D"
+    ],
+    "home_w10": 4,
+    "home_d10": 2,
+    "home_l10": 1,
+    "away_w10": 5,
+    "away_d10": 2,
+    "away_l10": 0,
+    "home_gpg": 2.71,
+    "away_gpg": 2.0,
+    "h2h_played": 2,
+    "h2h_home_wins": 1,
+    "h2h_draws": 0,
+    "h2h_away_wins": 0,
+    "altitude_m": 2240,
+    "altitude_note": "Very high altitude (2,240m) \u2014 significant disadvantage for away teams; home teams adapted, visiting teams suffer reduced aerobic capacity",
+    "climate_note": "Mild and cool due to altitude (18\u00b0C), moderate humidity"
   },
   "md054-RSA-KOR": {
     "home_elo": 1664,
@@ -1410,7 +1830,37 @@
     "climate_note": "Warm (26\u00b0C), moderate humidity"
   },
   "md057-JPN-UEPB": {
-    "placeholder": true
+    "home_elo": 1974,
+    "away_elo": 1749,
+    "home_form5": [
+      "W",
+      "W",
+      "W",
+      "W",
+      "W"
+    ],
+    "away_form5": [
+      "D",
+      "L",
+      "W",
+      "W",
+      "D"
+    ],
+    "home_w10": 6,
+    "home_d10": 1,
+    "home_l10": 0,
+    "away_w10": 2,
+    "away_d10": 2,
+    "away_l10": 3,
+    "home_gpg": 1.86,
+    "away_gpg": 1.57,
+    "h2h_played": 5,
+    "h2h_home_wins": 0,
+    "h2h_draws": 3,
+    "h2h_away_wins": 1,
+    "altitude_m": 183,
+    "altitude_note": null,
+    "climate_note": "Hot (35\u00b0C) and humid \u2014 difficult conditions for European teams"
   },
   "md058-TUN-NED": {
     "home_elo": 1723,
@@ -1446,7 +1896,37 @@
     "climate_note": "Warm (29\u00b0C), moderate humidity"
   },
   "md059-UEPC-USA": {
-    "placeholder": true
+    "home_elo": 1954,
+    "away_elo": 1818,
+    "home_form5": [
+      "W",
+      "W",
+      "W",
+      "W",
+      "D"
+    ],
+    "away_form5": [
+      "L",
+      "W",
+      "L",
+      "L",
+      "W"
+    ],
+    "home_w10": 6,
+    "home_d10": 1,
+    "home_l10": 0,
+    "away_w10": 4,
+    "away_d10": 0,
+    "away_l10": 3,
+    "home_gpg": 2.29,
+    "away_gpg": 2.14,
+    "h2h_played": 6,
+    "h2h_home_wins": 2,
+    "h2h_draws": 1,
+    "h2h_away_wins": 2,
+    "altitude_m": 86,
+    "altitude_note": null,
+    "climate_note": "Mild (22\u00b0C), dry and pleasant \u2014 near-ideal conditions"
   },
   "md060-PAR-AUS": {
     "home_elo": 1906,
@@ -1515,7 +1995,37 @@
     "climate_note": "Mild (22\u00b0C), comfortable conditions"
   },
   "md062-SEN-FP02": {
-    "placeholder": true
+    "home_elo": 1908,
+    "away_elo": 1741,
+    "home_form5": [
+      "D",
+      "L",
+      "W",
+      "W",
+      "L"
+    ],
+    "away_form5": [
+      "L",
+      "D",
+      "W",
+      "W",
+      "L"
+    ],
+    "home_w10": 4,
+    "home_d10": 1,
+    "home_l10": 2,
+    "away_w10": 3,
+    "away_d10": 1,
+    "away_l10": 3,
+    "home_gpg": 1.29,
+    "away_gpg": 0.86,
+    "h2h_played": 1,
+    "h2h_home_wins": 0,
+    "h2h_draws": 0,
+    "h2h_away_wins": 0,
+    "altitude_m": 76,
+    "altitude_note": null,
+    "climate_note": "Warm (22\u00b0C), comfortable conditions"
   },
   "md063-CPV-KSA": {
     "home_elo": 1634,
@@ -1749,7 +2259,37 @@
     "climate_note": "Hot (31\u00b0C) and very humid \u2014 demanding for all teams"
   },
   "md070-FP01-UZB": {
-    "placeholder": true
+    "home_elo": 1758,
+    "away_elo": 1805,
+    "home_form5": [
+      "L",
+      "D",
+      "W",
+      "W",
+      "L"
+    ],
+    "away_form5": [
+      "L",
+      "L",
+      "D",
+      "W",
+      "D"
+    ],
+    "home_w10": 3,
+    "home_d10": 2,
+    "home_l10": 2,
+    "away_w10": 2,
+    "away_d10": 3,
+    "away_l10": 2,
+    "home_gpg": 1.14,
+    "away_gpg": 1.14,
+    "h2h_played": 1,
+    "h2h_home_wins": 0,
+    "h2h_draws": 0,
+    "h2h_away_wins": 0,
+    "altitude_m": 303,
+    "altitude_note": null,
+    "climate_note": "Hot (30\u00b0C) and humid \u2014 retractable roof may be used"
   },
   "md071-ALG-AUT": {
     "home_elo": 1875,

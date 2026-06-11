@@ -14,7 +14,7 @@
     })();
   </script>
 </head>
-<body>
+<body class="page-picks">
 
   <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
     <span class="theme-icon">🌙</span>
@@ -24,7 +24,7 @@
   <section id="screen-name" class="screen active">
     <div class="screen-inner">
 
-      <div class="wc-brand">
+      <div class="wc-brand" data-tilt>
         <div class="wc-host-flags">🇺🇸 🇲🇽 🇨🇦</div>
         <div class="wc-title">FIFA World Cup 2026™</div>
         <div class="wc-meta">11 Jun – 19 Jul · 48 teams · 104 matches</div>
@@ -36,17 +36,17 @@
       </div>
 
       <div class="features-grid">
-        <div class="feature-item" data-key="ai">
+        <div class="feature-item" data-key="ai" data-tilt>
           <div class="feature-icon">🤖</div>
           <div class="feature-name">6 AI Models</div>
           <div class="feature-desc">Gemini, Llama, DeepSeek & more</div>
         </div>
-        <div class="feature-item" data-key="brier">
+        <div class="feature-item" data-key="brier" data-tilt>
           <div class="feature-icon">📐</div>
           <div class="feature-name">Calibrated</div>
           <div class="feature-desc">Brier scoring, not gut picks</div>
         </div>
-        <div class="feature-item" data-key="live">
+        <div class="feature-item" data-key="live" data-tilt>
           <div class="feature-icon">📡</div>
           <div class="feature-name">Live</div>
           <div class="feature-desc">Rankings after every match</div>
@@ -67,7 +67,8 @@
           spellcheck="false"
         >
         <button id="btn-continue" class="btn-primary btn-glow">Make my picks →</button>
-        <p class="entry-hint">Free · No account · 2 min per matchday</p>
+        <p class="entry-hint">Free · No account · 2 min per matchday ·
+          <a href="methodology.html" style="color:inherit">methodology</a></p>
       </div>
 
     </div>

@@ -1,0 +1,29 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run unit + integration tests
+        run: pytest tests/ -v
+
+      - name: Validate data tree
+        run: |
+          if [ -f scripts/validate_data.py ]; then
+            python scripts/validate_data.py
+          else
+            echo "::warning::scripts/validate_data.py not yet implemented (TESTING.md §3.2)"
+          fi

@@ -67,25 +67,32 @@ is identical in both picks.js and freeze.py — do not change it independently.
   divide the track into Home/Draw/Away segments. Segment colours: purple/grey/teal.
 - **Secrets** (`.env` locally, GitHub Actions secrets in CI):
   `GEMINI_API_KEY`, `GROQ_API_KEY`, `OPENROUTER_API_KEY`, `ODDS_API_KEY`,
-  `SHEET_CSV_URL`, `FOOTBALL_DATA_API_KEY` (optional — fetch_results.py). Never commit keys.
+  `SHEET_CSV_URL`, `GITHUB_TOKEN` (GitHub Models free tier for gpt-4o-mini —
+  built-in in Actions via `permissions: models: read`, a PAT locally),
+  `FOOTBALL_DATA_API_KEY` (optional — fetch_results.py). Never commit keys.
 - **Apps Script CORS note**: Picks are POSTed with `mode: 'no-cors'` and no
   Content-Type header to avoid preflight. The response is opaque but the write succeeds.
 
 ## 4. The forecasters
 
+FINAL LINEUP — frozen 2026-06-11 (single source of truth: `AI_LINEUP` in
+scripts/freeze.py; freeze.py aborts if its output drifts from it):
+
 | ID | Type | Source | Notes |
 |----|------|--------|-------|
 | `market` | benchmark | The Odds API free tier (500 req/mo) | h2h closing odds, de-vig (normalise implied probs) |
-| `gemini-flash` | AI | Gemini API free tier | temp 0, fixed prompt |
-| `llama-70b` | AI | Groq free tier | temp 0, fixed prompt |
-| `deepseek` | AI | OpenRouter free models | temp 0, fixed prompt |
-| `mistral` | AI | Mistral free API tier (optional 4th) | temp 0 |
-| `qwen-laptop` | AI (local) | Ollama on M5 MacBook Air | the "runs on my laptop" storyline; may miss days — that's allowed and logged |
+| `gemini-flash` | AI | Gemini 2.5 Flash, Gemini API free tier | temp 0, fixed prompt |
+| `llama-70b` | AI | Llama 3.3 70B, Groq free tier | temp 0, fixed prompt |
+| `gemma` | AI | Gemma, OpenRouter free models | temp 0, fixed prompt |
+| `deepseek-r1` | AI | DeepSeek R1, OpenRouter free models | temp 0, max_tokens 2048 (reasoning precedes JSON) |
+| `gpt-4o-mini` | AI | GitHub Models free tier (GITHUB_TOKEN) | temp 0, fixed prompt |
 | `human:<slug>` | human | Custom web app (picks.html) | slug = lowercased name, deduped to latest submission pre-freeze |
 | `crowd` | derived | mean of all human triples per match, renormalised | computed at freeze, immutable after |
 
-Model lineup is frozen after matchday 1. Adding/removing models mid-tournament
-invalidates the experiment — do not do it.
+Claude was removed pre-launch (no free tier — see CHANGELOG.md 2026-06-11).
+From the first scored matchday onwards this lineup only ever SHRINKS (a model
+that loses its free tier retires); it is never swapped or extended — doing so
+invalidates the experiment.
 
 ## 5. Fixed LLM prompt (do not vary across models or days)
 
@@ -199,6 +206,12 @@ personal cards.
 
 ## 9. Build phases & acceptance criteria
 
+> **RELAUNCH (2026-06-11)**: launch was moved past matchday 1 to fix
+> data-integrity defects (see CHANGELOG.md). The experiment starts at the
+> first clean frozen matchday — Daksh enables the freeze cron when fixtures
+> placeholders are resolved and the dress rehearsal passes. Earlier matches
+> are unscored for everyone.
+
 ### Phase 0 — TONIGHT (before first kickoff, 11 Jun) — STATUS: COMPLETE ✅
 Goal: matchday 1 predictions frozen and committed. Nothing else matters.
 - [x] Repo created (public), this file at root, README stub.
@@ -277,11 +290,17 @@ Everything else can be ugly-but-clear.
 
 ## 13. Testing strategy (risk-weighted — do not gold-plate)
 
+**AUTHORITATIVE STANDARD: see /TESTING.md** (added 2026-06-11). It defines the
+module lifecycle (requirement → test → implement → verify → freeze), risk
+tiers, all test layers including frontend smoke tests, and CI enforcement.
+Where this section conflicts with TESTING.md, TESTING.md wins — in particular,
+frontend behavioural smoke tests ARE in scope (the "do NOT test HTML/CSS" rule
+below is superseded; pixel-perfect/visual-polish testing remains out of scope).
+
 Testing effort is allocated by what is UNRECOVERABLE, not by coverage %.
 Unrecoverable: a freeze after kickoff; wrong scoring math discovered weeks in.
-Recoverable: everything on the site. Claude Code: do NOT write tests for HTML,
-CSS, or page rendering. Budget: the whole suite is a few hours, written in
-Phase 1, frozen alongside the scoring rules.
+Budget: the suite stays small and behavioural, frozen alongside the scoring
+rules.
 
 ### 13.1 Unit tests (pytest, `/tests/`)
 - **Brier scoring** against hand-computed cases:

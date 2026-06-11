@@ -1,0 +1,62 @@
+[
+  {
+    "match_id": "g1-AAA-BBB",
+    "match_number": 1,
+    "matchday_label": "2026-06-11",
+    "stage": "Group X",
+    "home": "Alphaland",
+    "away": "Betaland",
+    "home_code": "AAA",
+    "away_code": "BBB",
+    "is_placeholder": false,
+    "kickoff_utc": "2026-06-11T18:00:00Z",
+    "venue": "Golden Stadium, Testville",
+    "city": "Testville",
+    "country": "Testland"
+  },
+  {
+    "match_id": "g2-CCC-DDD",
+    "match_number": 2,
+    "matchday_label": "2026-06-11",
+    "stage": "Group X",
+    "home": "Gammaland",
+    "away": "Deltaland",
+    "home_code": "CCC",
+    "away_code": "DDD",
+    "is_placeholder": false,
+    "kickoff_utc": "2026-06-11T21:00:00Z",
+    "venue": "Golden Stadium, Testville",
+    "city": "Testville",
+    "country": "Testland"
+  },
+  {
+    "match_id": "g3-EEE-FFF",
+    "match_number": 3,
+    "matchday_label": "2026-06-11",
+    "stage": "Group Y",
+    "home": "Epsilonia",
+    "away": "Zetaland",
+    "home_code": "EEE",
+    "away_code": "FFF",
+    "is_placeholder": false,
+    "kickoff_utc": "2026-06-12T02:00:00Z",
+    "venue": "Golden Arena, Testburg",
+    "city": "Testburg",
+    "country": "Testland"
+  },
+  {
+    "match_id": "g4-GGG-HHH",
+    "match_number": 4,
+    "matchday_label": "2026-06-12",
+    "stage": "Group Y",
+    "home": "Etaland",
+    "away": "Thetaland",
+    "home_code": "GGG",
+    "away_code": "HHH",
+    "is_placeholder": false,
+    "kickoff_utc": "2026-06-12T18:00:00Z",
+    "venue": "Golden Arena, Testburg",
+    "city": "Testburg",
+    "country": "Testland"
+  }
+]

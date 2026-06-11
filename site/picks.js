@@ -4,7 +4,8 @@
 const APPS_SCRIPT_URL   = 'https://script.google.com/macros/s/AKfycbygSsO7AtvvORFXO6ItV7TgWxFOGvl59RtGuq8g-jrjjgyHYUJhjumS2DpDLtIFcqtH/exec';
 const FIXTURES_URL      = '../data/fixtures/fixtures.json';
 const CONTEXTS_URL      = '../data/reference/match_contexts.json';
-const FREEZE_LEAD_MS    = 60 * 60 * 1000;
+const FREEZE_LEAD_MS    = 60 * 60 * 1000;  // safety margin before first kickoff
+const FREEZE_HOUR_UTC   = 18;              // freeze.yml cron hour — keep in sync
 const LS_NAME_KEY       = 'fa_name';
 const LS_PICKS_KEY      = 'fa_picks';
 
@@ -79,6 +80,7 @@ const FIFA_TO_ISO = {
   JPN:'JP', KOR:'KR', KSA:'SA', MAR:'MA', MEX:'MX', NED:'NL', NOR:'NO',
   NZL:'NZ', PAN:'PA', PAR:'PY', POR:'PT', QAT:'QA', RSA:'ZA', SEN:'SN',
   SUI:'CH', TUN:'TN', URU:'UY', USA:'US', UZB:'UZ',
+  BIH:'BA', SWE:'SE', TUR:'TR', CZE:'CZ', COD:'CD', IRQ:'IQ',
 };
 
 const SPECIAL_FLAGS = { ENG:'🏴󠁧󠁢󠁥󠁮󠁧󠁿', SCO:'🏴󠁧󠁢󠁳󠁣󠁴󠁿', WAL:'🏴󠁧󠁢󠁷󠁬󠁳󠁿' };
@@ -144,6 +146,12 @@ const TEAM_FACTS = {
   CPV: 'Cape Verde — a volcanic archipelago off West Africa — are making their World Cup debut!',
   UZB: 'Uzbekistan are one of the more surprising qualifiers, making their World Cup debut.',
   JOR: 'Jordan are making their historic first-ever World Cup appearance 🎉',
+  CZE: 'Czechia knocked out Denmark on penalties in the playoffs — their first World Cup as an independent nation since 2006.',
+  TUR: 'Türkiye finished 3rd at the 2002 World Cup — their first appearance since then came via a playoff win over Kosovo.',
+  SWE: 'Sweden beat Poland 3-2 in the playoff final — their first World Cup since 2018.',
+  BIH: 'Bosnia and Herzegovina beat ITALY on penalties to qualify — Italy miss a third straight World Cup.',
+  COD: 'DR Congo qualified for the first time since 1974, when they played as Zaire.',
+  IRQ: "Iraq's first World Cup since 1986 — they beat Bolivia in the playoff final to get here.",
 };
 
 function getMatchFact(match) {
@@ -258,11 +266,21 @@ function groupByDate(all) {
     .map(([date, matches]) => ({ date, matches }));
 }
 
+// The REAL freeze is the freeze.yml cron (18:00 UTC on the campaign day), or
+// earlier if a kickoff is unusually early. The banner must never promise a
+// later freeze than the one that actually runs — a pick after the real freeze
+// is silently void, which is worse than showing "locked" early.
+function freezeTimeFor(dateStr, earliestKickoff) {
+  const [y, mo, d] = dateStr.split('-').map(Number);
+  const cronMs = Date.UTC(y, mo - 1, d, FREEZE_HOUR_UTC);
+  return Math.min(cronMs, earliestKickoff - FREEZE_LEAD_MS);
+}
+
 function getActiveMatchday(all) {
   const now = Date.now();
   for (const day of groupByDate(all)) {
     const earliest = Math.min(...day.matches.map(m => +new Date(m.kickoff_utc)));
-    const freezeAt = earliest - FREEZE_LEAD_MS;
+    const freezeAt = freezeTimeFor(day.date, earliest);
     if (now < freezeAt)  return { ...day, status: 'open',   freezeAt, earliest };
     if (now < earliest)  return { ...day, status: 'locked', freezeAt, earliest };
   }
@@ -315,6 +333,61 @@ function setupNavArrows() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// 3D — scroll-linked card carousel + pointer tilt
+// Both are skipped entirely for users with prefers-reduced-motion.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function setup3DCarousel() {
+  if (REDUCED_MOTION) return;
+  const track = document.getElementById('cards-track');
+  if (!track) return;
+
+  let raf = null;
+  function apply() {
+    raf = null;
+    const w = track.clientWidth;
+    if (!w) return;
+    track.querySelectorAll('.card').forEach(card => {
+      const inner = card.querySelector('.card-inner');
+      if (!inner) return;
+      // t = 0 when centred, ±1 when one full viewport away
+      const t = Math.max(-1, Math.min(1, (card.offsetLeft - track.scrollLeft) / w));
+      const abs = Math.abs(t);
+      inner.style.transform =
+        `perspective(1200px) rotateY(${(-t * 16).toFixed(2)}deg)` +
+        ` translateZ(${(-abs * 90).toFixed(1)}px)` +
+        ` scale(${(1 - abs * 0.06).toFixed(3)})`;
+      inner.style.opacity = String(1 - abs * 0.3);
+    });
+  }
+  track.addEventListener('scroll', () => {
+    if (!raf) raf = requestAnimationFrame(apply);
+  }, { passive: true });
+  window.addEventListener('resize', () => {
+    if (!raf) raf = requestAnimationFrame(apply);
+  }, { passive: true });
+  apply();
+}
+
+function setupTilt() {
+  if (REDUCED_MOTION) return;
+  if (!window.matchMedia('(hover: hover)').matches) return;
+  document.querySelectorAll('[data-tilt]').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width  - 0.5;
+      const y = (e.clientY - r.top)  / r.height - 0.5;
+      el.style.transform =
+        `perspective(700px) rotateY(${(x * 10).toFixed(2)}deg)` +
+        ` rotateX(${(-y * 8).toFixed(2)}deg) translateZ(8px)`;
+    });
+    el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Confetti burst (confirmation screen)
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -363,14 +436,39 @@ function savePick(matchId, home, draw, away) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function buildMatchCard(match, idx) {
-  const saved     = picks[match.match_id];
-  const h0        = saved ? Math.round(saved.p_home * 100) : 40;
-  const d0        = saved ? Math.round(saved.p_draw * 100) : 30;
-  const a0        = 100 - h0 - d0;
-  const filled    = !!saved;
-  const homeFlag  = teamFlag(match.home_code);
-  const awayFlag  = teamFlag(match.away_code);
-  const fact      = getMatchFact(match);
+  const saved       = picks[match.match_id];
+  const h0          = saved ? Math.round(saved.p_home * 100) : 40;
+  const d0          = saved ? Math.round(saved.p_draw * 100) : 30;
+  const a0          = 100 - h0 - d0;
+  const filled      = !!saved;
+  const placeholder = !!match.is_placeholder;
+  const homeFlag    = teamFlag(match.home_code);
+  const awayFlag    = placeholder ? '⏳' : teamFlag(match.away_code);
+  const fact        = getMatchFact(match);
+
+  const sliderHtml = placeholder
+    ? `<div class="tbd-panel">
+         <div class="tbd-title">Opponent not confirmed yet</div>
+         <div class="tbd-sub">This match opens for picks once the team is decided.
+         It doesn't count towards your total.</div>
+       </div>`
+    : `<div class="slider-section">
+        <div class="slider-el" id="sl-${match.match_id}"></div>
+        <div class="pct-row">
+          <div class="pct-col home-col">
+            <span class="pct-val" id="ph-${match.match_id}">${h0}%</span>
+            <span class="pct-lbl" title="${match.home || 'Home'}">${match.home || 'Home'}</span>
+          </div>
+          <div class="pct-col draw-col">
+            <span class="pct-val" id="pd-${match.match_id}">${d0}%</span>
+            <span class="pct-lbl">Draw</span>
+          </div>
+          <div class="pct-col away-col">
+            <span class="pct-val" id="pa-${match.match_id}">${a0}%</span>
+            <span class="pct-lbl" title="${match.away || 'Away'}">${match.away || 'Away'}</span>
+          </div>
+        </div>
+      </div>`;
 
   const card       = document.createElement('article');
   card.className   = 'card match-card';
@@ -403,25 +501,9 @@ function buildMatchCard(match, idx) {
         <span class="kick-venue">📍 ${match.venue}</span>
       </div>
 
-      <div class="slider-section">
-        <div class="slider-el" id="sl-${match.match_id}"></div>
-        <div class="pct-row">
-          <div class="pct-col home-col">
-            <span class="pct-val" id="ph-${match.match_id}">${h0}%</span>
-            <span class="pct-lbl">${match.home || 'Home'}</span>
-          </div>
-          <div class="pct-col draw-col">
-            <span class="pct-val" id="pd-${match.match_id}">${d0}%</span>
-            <span class="pct-lbl">Draw</span>
-          </div>
-          <div class="pct-col away-col">
-            <span class="pct-val" id="pa-${match.match_id}">${a0}%</span>
-            <span class="pct-lbl">${match.away || 'Away'}</span>
-          </div>
-        </div>
-      </div>
+      ${sliderHtml}
 
-      ${buildIntelPanel(match)}
+      ${placeholder ? '' : buildIntelPanel(match)}
 
       ${fact ? `<div class="fun-fact">💡 ${fact}</div>` : ''}
     </div>
@@ -435,13 +517,14 @@ function buildSubmitCard(matches, idx) {
   card.dataset.idx = idx;
   card.setAttribute('role', 'listitem');
 
-  const n = matches.filter(m => picks[m.match_id]).length;
+  const pickable = matches.filter(m => !m.is_placeholder);
+  const n = pickable.filter(m => picks[m.match_id]).length;
 
   card.innerHTML = `
     <div class="card-inner submit-inner">
       <div class="submit-emoji">⚽</div>
       <h2 class="submit-title">Ready to submit</h2>
-      <p class="submit-count" id="submit-count">${n} / ${matches.length} matches filled</p>
+      <p class="submit-count" id="submit-count">${n} / ${pickable.length} matches filled</p>
       <p class="submit-as">Submitting as <strong id="submit-name"></strong></p>
       <button class="btn-primary" id="btn-submit">Submit picks →</button>
       <p class="submit-note">You can re-submit any time before the freeze — only your latest counts.</p>
@@ -478,11 +561,17 @@ function initSlider(matchId, frozen) {
 
   sl.on('start', () => navigator.vibrate?.(3));
 
-  sl.on('update', ([v1, v2]) => {
+  function readValues([v1, v2]) {
     const home = Math.round(v1);
     const away = 100 - Math.round(v2);
-    const draw = 100 - home - away;
+    return { home, away, draw: 100 - home - away };
+  }
 
+  // 'update' fires on bind and on programmatic set() — DISPLAY ONLY.
+  // Persisting here would record the 40/30/30 default as a real pick for
+  // every card merely rendered (shipped bug, 2026-06-11 — TESTING.md §6 #2).
+  sl.on('update', (values) => {
+    const { home, draw, away } = readValues(values);
     function setVal(id, val) {
       const el = document.getElementById(id);
       if (!el) return;
@@ -496,7 +585,12 @@ function initSlider(matchId, frozen) {
     setVal('ph-' + matchId, home);
     setVal('pd-' + matchId, draw);
     setVal('pa-' + matchId, away);
+  });
 
+  // 'slide' only ever fires from user interaction (drag, tap, arrow keys) —
+  // this is the only place a pick is recorded.
+  sl.on('slide', (values) => {
+    const { home, draw, away } = readValues(values);
     savePick(matchId, home, draw, away);
     refreshSubmitCount();
     refreshFilledBadge(matchId);
@@ -518,8 +612,9 @@ function refreshFilledBadge(matchId) {
 function refreshSubmitCount() {
   const el = document.getElementById('submit-count');
   if (!el || !activeDay) return;
-  const n = activeDay.matches.filter(m => picks[m.match_id]).length;
-  el.textContent = `${n} / ${activeDay.matches.length} matches filled`;
+  const pickable = activeDay.matches.filter(m => !m.is_placeholder);
+  const n = pickable.filter(m => picks[m.match_id]).length;
+  el.textContent = `${n} / ${pickable.length} matches filled`;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -575,9 +670,10 @@ function renderCards() {
 
   track.querySelectorAll('.card').forEach(c => cardObserver.observe(c));
 
-  // Init sliders on next frame (DOM must be painted)
+  // Init sliders on next frame (DOM must be painted); placeholders get none
   requestAnimationFrame(() => {
-    matches.forEach(m => initSlider(m.match_id, frozen));
+    matches.filter(m => !m.is_placeholder)
+           .forEach(m => initSlider(m.match_id, frozen));
   });
 
   // Submit button
@@ -585,6 +681,9 @@ function renderCards() {
 
   // Desktop navigation arrows
   setupNavArrows();
+
+  // 3D carousel transforms
+  setup3DCarousel();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -696,8 +795,14 @@ async function init() {
     res = await fetch(FIXTURES_URL);
     fixtures = await res.json();
   } catch {
+    // fetch() can't read local files — a file:// open always lands here.
+    const hint = location.protocol === 'file:'
+      ? 'This page was opened directly from disk — browsers block data loading ' +
+        'over file://. Serve it instead: run <code>python3 -m http.server</code> ' +
+        'in the project root and open <code>http://localhost:8000/site/picks.html</code>.'
+      : 'Failed to load fixtures — please refresh.';
     document.body.innerHTML =
-      '<p style="padding:2rem;color:#dc2626">Failed to load fixtures — please refresh.</p>';
+      `<p style="padding:2rem;color:#dc2626;line-height:1.6;font-family:sans-serif">${hint}</p>`;
     return;
   }
 
@@ -742,6 +847,7 @@ async function init() {
   setupKeyboard();
   setupThemeToggle();
   setupFeatureTiles();
+  setupTilt();
 
   // Skip name screen if name already saved
   if (userName) {

@@ -1,0 +1,86 @@
+{
+  "updated_utc": "2026-06-11T18:37:53Z",
+  "matches_scored": 3,
+  "rows": [
+    {
+      "forecaster": "human:alice",
+      "type": "human",
+      "n_predicted": 3,
+      "mean_brier": 0.22,
+      "vs_market": -0.2883,
+      "qualified": true
+    },
+    {
+      "forecaster": "crowd",
+      "type": "crowd",
+      "n_predicted": 3,
+      "mean_brier": 0.245,
+      "vs_market": -0.2633,
+      "qualified": true
+    },
+    {
+      "forecaster": "llama-70b",
+      "type": "ai",
+      "n_predicted": 1,
+      "mean_brier": 0.38,
+      "vs_market": -0.1283,
+      "qualified": true
+    },
+    {
+      "forecaster": "gemini-flash",
+      "type": "ai",
+      "n_predicted": 2,
+      "mean_brier": 0.4175,
+      "vs_market": -0.0908,
+      "qualified": true
+    },
+    {
+      "forecaster": "deepseek-r1",
+      "type": "ai",
+      "n_predicted": 3,
+      "mean_brier": 0.4983,
+      "vs_market": -0.01,
+      "qualified": true
+    },
+    {
+      "forecaster": "market",
+      "type": "market",
+      "n_predicted": 3,
+      "mean_brier": 0.5083,
+      "vs_market": null,
+      "qualified": true
+    },
+    {
+      "forecaster": "gpt-4o-mini",
+      "type": "ai",
+      "n_predicted": 3,
+      "mean_brier": 0.5939,
+      "vs_market": 0.0856,
+      "qualified": true
+    },
+    {
+      "forecaster": "gemma",
+      "type": "ai",
+      "n_predicted": 2,
+      "mean_brier": 0.635,
+      "vs_market": 0.1267,
+      "qualified": true
+    },
+    {
+      "forecaster": "uniform",
+      "type": "baseline",
+      "n_predicted": 3,
+      "mean_brier": 0.6667,
+      "vs_market": 0.1584,
+      "qualified": true
+    },
+    {
+      "forecaster": "human:bob",
+      "type": "human",
+      "n_predicted": 1,
+      "mean_brier": 0.54,
+      "vs_market": 0.0317,
+      "qualified": false
+    }
+  ]
+}

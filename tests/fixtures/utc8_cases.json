@@ -1,0 +1,12 @@
+{
+  "comment": "Shared truth for the UTC-8 campaign-day grouping. Consumed by tests/test_scoring.py (group_by_utc8) and intended for a future JS parity test of picks.js groupByDate. Do not change without changing both implementations.",
+  "cases": [
+    {"kickoff_utc": "2026-06-11T21:00:00Z", "expected_day": "2026-06-11"},
+    {"kickoff_utc": "2026-06-12T02:00:00Z", "expected_day": "2026-06-11"},
+    {"kickoff_utc": "2026-06-12T04:00:00Z", "expected_day": "2026-06-11"},
+    {"kickoff_utc": "2026-06-12T07:59:59Z", "expected_day": "2026-06-11"},
+    {"kickoff_utc": "2026-06-12T08:00:00Z", "expected_day": "2026-06-12"},
+    {"kickoff_utc": "2026-06-12T19:00:00Z", "expected_day": "2026-06-12"},
+    {"kickoff_utc": "2026-07-01T00:30:00Z", "expected_day": "2026-06-30"}
+  ]
+}

@@ -1,14 +1,18 @@
 name: Daily freeze
 
 on:
-  schedule:
-    # 18:00 UTC daily — before all group-stage kickoffs (earliest 19:00 UTC).
-    # Adjust to 16:00 UTC for knockout rounds which can start at 17:00 UTC.
-    - cron: '0 18 * * *'
+  # CRON PAUSED until the relaunch matchday is decided (CHANGELOG 2026-06-11).
+  # Re-enable by uncommenting — and keep FREEZE_HOUR_UTC in site/picks.js in
+  # sync with the cron hour.
+  # schedule:
+  #   # 18:00 UTC daily — before all group-stage kickoffs (earliest 19:00 UTC).
+  #   # Adjust to 16:00 UTC for knockout rounds which can start at 17:00 UTC.
+  #   - cron: '0 18 * * *'
   workflow_dispatch:   # allow manual trigger from GitHub UI
 
 permissions:
   contents: write
+  models: read   # gpt-4o-mini via the free GitHub Models tier
 
 jobs:
   freeze:
@@ -34,6 +38,10 @@ jobs:
           OPENROUTER_API_KEY:  ${{ secrets.OPENROUTER_API_KEY }}
           ODDS_API_KEY:        ${{ secrets.ODDS_API_KEY }}
           SHEET_CSV_URL:       ${{ secrets.SHEET_CSV_URL }}
+          GITHUB_TOKEN:        ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Validate data tree before committing
+        run: python scripts/validate_data.py
 
       - name: Commit predictions
         run: |

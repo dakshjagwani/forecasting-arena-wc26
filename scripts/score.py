@@ -9,12 +9,14 @@ computes multiclass Brier scores, writes:
 
 Idempotent: safe to re-run after correcting results.json.
 """
-import json, math, sys
+import json, math, os, sys
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
-ROOT = Path(__file__).parent.parent
+# FORECASTING_ROOT lets the golden-file integration test point this script at
+# a synthetic data tree (TESTING.md §3.3). Defaults to the repo root.
+ROOT = Path(os.environ.get("FORECASTING_ROOT") or Path(__file__).parent.parent)
 
 # ── Scoring functions (tested in tests/test_scoring.py) ──────────────────────
 def brier(p_home: float, p_draw: float, p_away: float, outcome: str) -> float:
@@ -44,17 +46,16 @@ def load_all_predictions() -> dict:
             all_preds[m["match_id"]] = m["forecasts"]
     return all_preds
 
-# ── Qualification rule ────────────────────────────────────────────────────────
-def is_qualified(n_predicted: int, total_scored: int,
-                 first_match_number: int, total_matches: int) -> bool:
+# ── Qualification rule (pre-registered — CLAUDE.md §7) ───────────────────────
+def is_qualified(n_predicted: int, n_available: int) -> bool:
     """
-    A forecaster qualifies if they predicted >= 60% of matches available
-    since their first submission.
+    A forecaster qualifies if they predicted >= 60% of the matches available
+    since their first submission (n_available = scored matches from their
+    first predicted match onwards, in kickoff order).
     """
-    if total_scored == 0:
+    if n_available == 0:
         return False
-    available = total_scored  # simplified: all scored matches
-    return n_predicted >= math.ceil(0.6 * available)
+    return n_predicted >= math.ceil(0.6 * n_available)
 
 # ── Calibration buckets ───────────────────────────────────────────────────────
 _BUCKETS = [(i / 10, (i + 1) / 10) for i in range(10)]
@@ -113,9 +114,11 @@ def validate_leaderboard(leaderboard: dict, all_preds: dict) -> None:
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 def main() -> None:
-    # Load fixtures (for referential integrity check)
+    # Load fixtures (for referential integrity check + kickoff ordering)
     fixtures_path = ROOT / "data" / "fixtures" / "fixtures.json"
-    fixture_ids = {m["match_id"] for m in json.loads(fixtures_path.read_text())}
+    fixtures = json.loads(fixtures_path.read_text())
+    fixture_ids = {m["match_id"] for m in fixtures}
+    kickoff_of = {m["match_id"]: m["kickoff_utc"] for m in fixtures}
 
     # Load results
     results_path = ROOT / "data" / "results" / "results.json"
@@ -133,22 +136,23 @@ def main() -> None:
     # Load predictions
     all_preds = load_all_predictions()
 
-    # Score each FT match
+    # Scoreable matches in kickoff order (drives the qualification rule)
+    scoreable = sorted(
+        (
+            (mid, r["outcome"]) for mid, r in results.items()
+            if r.get("status") == "FT"
+            and r.get("outcome") in ("home", "draw", "away")
+            and mid in all_preds
+        ),
+        key=lambda t: kickoff_of.get(t[0], ""),
+    )
+    total_scored = len(scoreable)
+
     forecaster_stats: dict[str, dict] = defaultdict(
-        lambda: {"n": 0, "sum_brier": 0.0}
+        lambda: {"n": 0, "sum_brier": 0.0, "first_idx": None}
     )
 
-    total_scored = 0
-    for match_id, result in results.items():
-        if result.get("status") != "FT":
-            continue
-        outcome = result.get("outcome")
-        if outcome not in ("home", "draw", "away"):
-            continue
-        if match_id not in all_preds:
-            continue
-
-        total_scored += 1
+    for idx, (match_id, outcome) in enumerate(scoreable):
         for forecaster, fc in all_preds[match_id].items():
             if fc.get("status") == "failed":
                 continue
@@ -156,16 +160,15 @@ def main() -> None:
             s = forecaster_stats[forecaster]
             s["n"] += 1
             s["sum_brier"] += b
+            if s["first_idx"] is None:
+                s["first_idx"] = idx
 
-    # Always score the uniform baseline across all FT results
-    scored_outcomes = [
-        r for r in results.values()
-        if r.get("status") == "FT" and r.get("outcome") in ("home", "draw", "away")
-    ]
+    # Uniform baseline scored over the same matches as everyone else
     uni = forecaster_stats["uniform"]
-    for r in scored_outcomes:
+    uni["first_idx"] = 0
+    for _, outcome in scoreable:
         uni["n"] += 1
-        uni["sum_brier"] += brier(1 / 3, 1 / 3, 1 / 3, r["outcome"])
+        uni["sum_brier"] += brier(1 / 3, 1 / 3, 1 / 3, outcome)
 
     # Build leaderboard rows
     rows = []
@@ -191,9 +194,10 @@ def main() -> None:
         else:
             ftype = "ai"
 
+        n_available = total_scored - (s["first_idx"] or 0)
         qualified = (
             True if forecaster in REFERENCE
-            else n >= math.ceil(0.6 * total_scored)
+            else is_qualified(n, n_available)
         )
 
         rows.append({

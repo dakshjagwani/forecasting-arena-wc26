@@ -34,6 +34,9 @@ jobs:
       - name: Compute Brier scores
         run: python scripts/score.py
 
+      - name: Validate data tree before committing
+        run: python scripts/validate_data.py
+
       - name: Commit results and scores
         run: |
           git config user.name  "Forecasting Arena Bot"

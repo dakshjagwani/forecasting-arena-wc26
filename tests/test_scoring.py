@@ -3,11 +3,14 @@ Unit tests for scoring, validation, parsing, and ingestion logic.
 Run: pytest tests/
 """
 import json, math, pytest
+from datetime import datetime, timezone
 from pathlib import Path
 
 # Import from scripts/ via conftest.py sys.path manipulation
+import freeze
 from score import brier, outcome_from_score, is_qualified
-from freeze import normalise, parse_llm_response, to_slug, compute_crowd
+from freeze import (normalise, parse_llm_response, to_slug, compute_crowd,
+                    group_by_utc8, ingest_human_picks, match_odds)
 
 ROOT = Path(__file__).parent.parent
 
@@ -98,6 +101,24 @@ def test_parse_empty_string_returns_none():
 def test_parse_only_prose_returns_none():
     assert parse_llm_response("I cannot predict this match.") is None
 
+def test_parse_reasoning_model_braces_before_answer():
+    # DeepSeek-R1-style output: think-text containing brace blocks that are
+    # NOT the answer must be skipped, not parsed.
+    raw = ('<think>maybe {0.5}? or {"elo_gap": 120}...</think>\n'
+           '{"p_home": 0.5, "p_draw": 0.3, "p_away": 0.2, "reasoning": "ok"}')
+    result = parse_llm_response(raw)
+    assert result is not None
+    assert result[0] == pytest.approx(0.5)
+
+def test_parse_truncated_json_returns_none():
+    # Completion cut off mid-JSON (max_tokens) → must fail, never partial-parse
+    raw = '{"p_home": 0.5, "p_draw": 0.3, "p_aw'
+    assert parse_llm_response(raw) is None
+
+def test_parse_none_like_input_returns_none():
+    assert parse_llm_response("") is None
+    assert parse_llm_response("{}") is None
+
 # ── Odds de-vig ───────────────────────────────────────────────────────────────
 
 def test_devig_known_odds():
@@ -157,21 +178,27 @@ def test_crowd_no_picks_for_match():
     assert compute_crowd(human_picks, "md001-MEX-RSA") is None
 
 # ── Qualification rule ────────────────────────────────────────────────────────
+# is_qualified(n_predicted, n_available) — n_available counts scored matches
+# from the forecaster's first predicted match onwards.
 
 def test_qualification_exactly_60pct():
     # 60% of 10 = 6 → qualifies with 6
-    assert is_qualified(6, 10, 1, 104) is True
+    assert is_qualified(6, 10) is True
 
 def test_qualification_below_60pct():
-    assert is_qualified(5, 10, 1, 104) is False
+    assert is_qualified(5, 10) is False
 
 def test_qualification_zero_scored():
-    assert is_qualified(0, 0, 1, 104) is False
+    assert is_qualified(0, 0) is False
 
 def test_qualification_rounds_up():
     # 60% of 7 = 4.2 → ceil = 5 → need 5 to qualify
-    assert is_qualified(4, 7, 1, 104) is False
-    assert is_qualified(5, 7, 1, 104) is True
+    assert is_qualified(4, 7) is False
+    assert is_qualified(5, 7) is True
+
+def test_qualification_mid_tournament_joiner():
+    # Joined when only 4 matches remained, predicted 3 of them → 3 >= ceil(2.4)
+    assert is_qualified(3, 4) is True
 
 # ── Outcome derivation ────────────────────────────────────────────────────────
 
@@ -191,40 +218,135 @@ def test_outcome_knockout_draw():
     # Knockout draws are valid — scored on 90-min result
     assert outcome_from_score(2, 2) == "draw"
 
-# ── Golden-file integration test ─────────────────────────────────────────────
+# ── UTC-8 campaign-day grouping ──────────────────────────────────────────────
+# Shared truth file: tests/fixtures/utc8_cases.json (JS parity uses it too)
+
+def test_group_by_utc8_shared_cases():
+    cases = json.loads(
+        (ROOT / "tests" / "fixtures" / "utc8_cases.json").read_text()
+    )["cases"]
+    fixtures = [
+        {"match_id": f"c{i}", "kickoff_utc": c["kickoff_utc"]}
+        for i, c in enumerate(cases)
+    ]
+    day_map = group_by_utc8(fixtures)
+    for i, c in enumerate(cases):
+        days_with_match = [d for d, ms in day_map.items()
+                           if any(m["match_id"] == f"c{i}" for m in ms)]
+        assert days_with_match == [c["expected_day"]], (
+            f"{c['kickoff_utc']} grouped to {days_with_match}, "
+            f"expected {c['expected_day']}"
+        )
+
+# ── Human picks ingestion ─────────────────────────────────────────────────────
+
+FREEZE_T = datetime(2026, 6, 11, 18, 0, tzinfo=timezone.utc)
+TODAY_IDS = {"g1-AAA-BBB"}
+
+def _ingest(csv_text, monkeypatch, freeze_utc=FREEZE_T, today_ids=TODAY_IDS):
+    monkeypatch.setattr(freeze, "http_get", lambda url, **kw: csv_text.encode())
+    return ingest_human_picks("http://fake", freeze_utc, today_ids)
+
+CSV_HEADER = "submitted_at,name,slug,match_id,p_home,p_draw,p_away\n"
+
+def test_ingest_latest_pre_freeze_wins(monkeypatch):
+    csv_text = CSV_HEADER + (
+        "2026-06-11T10:00:00Z,Alice,,g1-AAA-BBB,0.5,0.3,0.2\n"
+        "2026-06-11T12:00:00Z,Alice,,g1-AAA-BBB,0.7,0.2,0.1\n"
+    )
+    picks = _ingest(csv_text, monkeypatch)
+    assert picks["alice"]["g1-AAA-BBB"]["p_home"] == pytest.approx(0.7, rel=0.01)
+
+def test_ingest_post_freeze_ignored(monkeypatch):
+    csv_text = CSV_HEADER + (
+        "2026-06-11T10:00:00Z,Alice,,g1-AAA-BBB,0.5,0.3,0.2\n"
+        "2026-06-11T19:00:00Z,Alice,,g1-AAA-BBB,0.9,0.05,0.05\n"  # after freeze
+    )
+    picks = _ingest(csv_text, monkeypatch)
+    assert picks["alice"]["g1-AAA-BBB"]["p_home"] == pytest.approx(0.5, rel=0.01)
+
+def test_ingest_percentage_scale_normalised(monkeypatch):
+    csv_text = CSV_HEADER + "2026-06-11T10:00:00Z,Bob,,g1-AAA-BBB,50,30,20\n"
+    picks = _ingest(csv_text, monkeypatch)
+    t = picks["bob"]["g1-AAA-BBB"]
+    assert t["p_home"] == pytest.approx(0.5, rel=0.01)
+    assert abs(t["p_home"] + t["p_draw"] + t["p_away"] - 1.0) < 1e-6
+
+def test_ingest_other_day_match_ignored(monkeypatch):
+    csv_text = CSV_HEADER + "2026-06-11T10:00:00Z,Bob,,g9-XXX-YYY,0.5,0.3,0.2\n"
+    assert _ingest(csv_text, monkeypatch) == {}
+
+def test_ingest_malformed_rows_skipped(monkeypatch):
+    csv_text = CSV_HEADER + (
+        "not-a-date,Eve,,g1-AAA-BBB,0.5,0.3,0.2\n"
+        "2026-06-11T10:00:00Z,Eve,,g1-AAA-BBB,abc,0.3,0.2\n"
+    )
+    assert _ingest(csv_text, monkeypatch) == {}
+
+# ── Odds fuzzy matching ───────────────────────────────────────────────────────
+
+def test_match_odds_exact_and_fuzzy():
+    odds_map = {("South Korea", "Denmark"): {"p_home": 0.3, "p_draw": 0.3, "p_away": 0.4}}
+    assert match_odds({"home": "South Korea", "away": "Denmark"}, odds_map) is not None
+    assert match_odds({"home": "Korea", "away": "Denmark"}, odds_map) is not None
+
+def test_match_odds_placeholder_never_matches():
+    odds_map = {("South Korea", "Denmark"): {"p_home": 0.3, "p_draw": 0.3, "p_away": 0.4}}
+    m = {"home": "South Korea", "away": "Winner UEFA Playoff D"}
+    assert match_odds(m, odds_map) is None
+
+def test_match_odds_aliases():
+    # Bookmaker naming differs from our fixtures — aliases must bridge it
+    odds_map = {
+        ("United States", "Czech Republic"): {"p_home": 0.5, "p_draw": 0.25, "p_away": 0.25},
+        ("Turkey", "Korea Republic"):        {"p_home": 0.4, "p_draw": 0.3, "p_away": 0.3},
+    }
+    assert match_odds({"home": "USA", "away": "Czechia"}, odds_map) is not None
+    assert match_odds({"home": "Türkiye", "away": "South Korea"}, odds_map) is not None
+    # And a wrong pairing must still not match
+    assert match_odds({"home": "USA", "away": "South Korea"}, odds_map) is None
+
+# ── Golden-file integration test (TESTING.md §3.3) ───────────────────────────
 
 GOLDEN_DIR = ROOT / "tests" / "golden"
 
-@pytest.mark.skipif(
-    not (GOLDEN_DIR / "expected_leaderboard.json").exists(),
-    reason="Golden files not yet generated — run tests/generate_golden.py first",
-)
-def test_golden_leaderboard():
+def _strip_volatile(obj):
+    obj = dict(obj)
+    obj.pop("updated_utc", None)
+    return obj
+
+def test_golden_score_pipeline(tmp_path):
     """
-    Runs score.py against synthetic fixtures/predictions/results in tests/golden/,
-    and checks the output matches the committed expected_leaderboard.json.
+    Full score.py run against the synthetic golden tree. Output must match
+    the committed expected files exactly (modulo updated_utc). Regression
+    net for any refactor of scoring, qualification, or calibration.
     """
-    import subprocess, tempfile, shutil, os
+    import os, shutil, subprocess, sys as _sys
 
-    # Copy golden data into a temp ROOT-like structure
-    with tempfile.TemporaryDirectory() as tmp:
-        tmp = Path(tmp)
-        (tmp / "data" / "fixtures").mkdir(parents=True)
-        (tmp / "data" / "predictions").mkdir(parents=True)
-        (tmp / "data" / "results").mkdir(parents=True)
-        (tmp / "data" / "scores").mkdir(parents=True)
+    for sub in ("fixtures", "predictions", "results", "scores"):
+        (tmp_path / "data" / sub).mkdir(parents=True)
+    shutil.copy(GOLDEN_DIR / "fixtures.json", tmp_path / "data/fixtures/fixtures.json")
+    shutil.copy(GOLDEN_DIR / "predictions.json", tmp_path / "data/predictions/2026-06-11.json")
+    shutil.copy(GOLDEN_DIR / "results.json", tmp_path / "data/results/results.json")
 
-        shutil.copy(GOLDEN_DIR / "fixtures.json", tmp / "data" / "fixtures" / "fixtures.json")
-        shutil.copy(GOLDEN_DIR / "predictions.json", tmp / "data" / "predictions" / "2026-06-11.json")
-        shutil.copy(GOLDEN_DIR / "results.json", tmp / "data" / "results" / "results.json")
+    env = {**os.environ, "FORECASTING_ROOT": str(tmp_path)}
+    result = subprocess.run(
+        [_sys.executable, str(ROOT / "scripts" / "score.py")],
+        env=env, capture_output=True, text=True,
+    )
+    assert result.returncode == 0, result.stderr
 
-        env = os.environ.copy()
-        result = subprocess.run(
-            ["python", str(ROOT / "scripts" / "score.py")],
-            env={**env, "FORECASTING_ROOT": str(tmp)},
-            capture_output=True, text=True,
-        )
-        # score.py uses ROOT from __file__, so we need a workaround:
-        # For now just verify the script exits cleanly with our real data
-        # Full golden test requires patching ROOT — deferred to Phase 1
-        assert result.returncode == 0 or "No results yet" in result.stderr
+    got_lb = json.loads((tmp_path / "data/scores/leaderboard.json").read_text())
+    exp_lb = json.loads((GOLDEN_DIR / "expected_leaderboard.json").read_text())
+    assert _strip_volatile(got_lb) == _strip_volatile(exp_lb)
+
+    got_cal = json.loads((tmp_path / "data/scores/calibration.json").read_text())
+    exp_cal = json.loads((GOLDEN_DIR / "expected_calibration.json").read_text())
+    assert got_cal == exp_cal
+
+    # The golden tree must also satisfy the repo-wide validator
+    v = subprocess.run(
+        [_sys.executable, str(ROOT / "scripts" / "validate_data.py")],
+        env=env, capture_output=True, text=True,
+    )
+    assert v.returncode == 0, v.stderr

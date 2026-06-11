@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Methodology — The Forecasting Arena</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    (function() {
+      var t = localStorage.getItem('fa_theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <style>
+    /* This page scrolls — override the app shell's overflow:hidden */
+    html, body { overflow: auto; height: auto; }
+    .doc {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+      line-height: 1.65;
+      font-size: .95rem;
+    }
+    .doc h1 { font-size: 1.6rem; letter-spacing: -.02em; margin-bottom: .4rem; }
+    .doc .doc-sub { color: var(--text-sub); font-size: .85rem; margin-bottom: 2rem; }
+    .doc h2 {
+      font-size: 1.05rem;
+      margin: 2rem 0 .6rem;
+      padding-bottom: .3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc p, .doc li { color: var(--text); }
+    .doc ul { padding-left: 1.2rem; margin: .5rem 0; }
+    .doc li { margin: .35rem 0; }
+    .doc code {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: .08rem .35rem;
+      font-size: .85em;
+    }
+    .doc .formula {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .8rem 1rem;
+      margin: .8rem 0;
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: .85rem;
+      overflow-x: auto;
+    }
+    .doc a { color: var(--home); }
+    .doc .backlink { display: inline-block; margin-bottom: 1.5rem; font-size: .85rem; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <main class="doc">
+    <a class="backlink" href="index.html">← Leaderboard</a>
+    <h1>Methodology</h1>
+    <p class="doc-sub">Pre-registered before the experiment's first scored matchday.
+    Any later change to these rules is logged in the public
+    <a href="https://github.com/dakshjagwani/forecasting-arena-wc26/blob/main/CHANGELOG.md">CHANGELOG</a>
+    and would be a reason to distrust the results — that's the point of publishing them now.</p>
+
+    <h2>1. The question</h2>
+    <p>Across the 2026 World Cup, who assigns the most accurate probabilities to
+    match outcomes: large language models, the betting market, individual humans,
+    or the human crowd average?</p>
+
+    <h2>2. The forecast format</h2>
+    <p>One unit of play per match for every forecaster: a probability triple
+    <code>(p_home, p_draw, p_away)</code> for the <strong>90-minute result</strong>,
+    summing to 1.0. A draw is a valid outcome in knockout rounds too (this matches
+    betting-market convention). No exact-score predictions are scored.</p>
+
+    <h2>3. Freezing — the no-cheating mechanism</h2>
+    <ul>
+      <li>All forecasts for a matchday are collected and committed to a public
+      git repository <strong>before the day's first kickoff</strong>. The freeze
+      script hard-aborts if it would run after kickoff.</li>
+      <li>A late prediction is a void prediction. Nothing is ever backfilled,
+      for any forecaster, including the market.</li>
+      <li>Humans may resubmit until the freeze; only the latest pre-freeze
+      submission counts.</li>
+      <li>Matches whose opponent is not yet decided (playoff placeholders) are
+      not forecast by anyone until the fixture is real.</li>
+    </ul>
+
+    <h2>4. The AI protocol</h2>
+    <ul>
+      <li>Fixed lineup, frozen at launch: Gemini 2.5 Flash, Llama 3.3 70B,
+      Gemma, DeepSeek R1, GPT-4o mini — all on free tiers. A model that loses
+      its free tier retires and is never replaced.</li>
+      <li>Identical prompt for every model and every match, temperature 0,
+      with identical statistical context (Elo ratings, last-10 form,
+      head-to-head, venue). No browsing, no live news.</li>
+      <li>Up to 2 retries on invalid JSON. If a model still fails, that
+      match is recorded as <code>failed</code> — never replaced with a default.
+      Raw responses are stored verbatim.</li>
+      <li>Parsed probabilities are clamped to [0.01, 0.98] and renormalised to
+      sum to 1.0 (same rule for humans and the market's de-vigged odds).</li>
+    </ul>
+
+    <h2>5. Scoring</h2>
+    <p>Multiclass Brier score per match, where <code>y</code> is the one-hot
+    actual outcome:</p>
+    <div class="formula">Brier = (p_home − y_home)² + (p_draw − y_draw)² + (p_away − y_away)²</div>
+    <ul>
+      <li>0 = perfect · 0.667 = uniform (⅓,⅓,⅓) guess · 2 = certain and wrong.</li>
+      <li>Leaderboard metric: <strong>mean Brier over matches predicted</strong>,
+      not over all matches.</li>
+      <li>Reference rows always shown: <code>market</code>, <code>crowd</code>
+      (mean of human triples, computed at freeze), and <code>uniform</code>.</li>
+      <li>Abandoned/postponed matches are excluded entirely.</li>
+    </ul>
+
+    <h2>6. Qualification</h2>
+    <p>To appear in the final rankings, a forecaster must have predicted at least
+    60% of the matches scored since their first submission. This lets people join
+    mid-tournament without being punished for matches before they arrived, while
+    preventing cherry-picking. Unqualified rows are shown greyed out.</p>
+
+    <h2>7. Integrity & corrections</h2>
+    <ul>
+      <li>Scores are always recomputed from raw committed data; the scoring
+      pipeline is idempotent and its output is never hand-edited.</li>
+      <li>Every data correction is logged publicly in the CHANGELOG.</li>
+      <li>The repository — code, every prediction, every result, every raw
+      LLM response — is public. Verify the timeline yourself: each prediction
+      file's commit timestamp must predate the kickoffs inside it.</li>
+      <li>The test suite (scoring math against hand-computed cases, a
+      golden-file pipeline test, and a repo-wide data validator) runs in CI
+      on every push.</li>
+    </ul>
+
+    <h2>8. What would falsify what</h2>
+    <p>If the market beats all models and humans: calibration still belongs to
+    the bookmakers. If the crowd beats its individual members: wisdom-of-crowds
+    replicates here. If a free LLM beats the market: that is genuinely
+    surprising and worth a closer look (and a check for leakage). Negative
+    results are publishable results.</p>
+  </main>
+</body>
+</html>

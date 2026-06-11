@@ -18,6 +18,14 @@ ROOT = Path(__file__).parent.parent
 FIXTURES_PATH = ROOT / "data" / "fixtures" / "fixtures.json"
 PREDICTIONS_DIR = ROOT / "data" / "predictions"
 
+# ── FINAL MODEL LINEUP — frozen at relaunch (see CHANGELOG.md 2026-06-11) ─────
+# Single source of truth. The freeze aborts if the forecasts written disagree
+# with this registry. Adding/removing a model after the experiment's first
+# scored matchday invalidates the comparison — a CHANGELOG.md entry is
+# mandatory to change this tuple, and only ever to RETIRE a model, never swap.
+AI_LINEUP = ("gemini-flash", "llama-70b", "gemma", "deepseek-r1", "gpt-4o-mini")
+NON_AI_FORECASTERS = ("market", "crowd")
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(message)s",
@@ -53,25 +61,29 @@ def normalise(p_home: float, p_draw: float, p_away: float) -> list:
 def parse_llm_response(raw: str):
     """
     Extract (p_home, p_draw, p_away, reasoning) from raw LLM output.
-    Handles markdown fences and prose before the JSON object.
-    Returns None on any parse failure.
+    Handles markdown fences, prose before/after the JSON, and reasoning-model
+    output where earlier {...} blocks (e.g. inside <think> text) are not the
+    answer: every brace-delimited candidate is tried, first one carrying all
+    three probability keys wins. Returns None on any parse failure — never a
+    silent default.
     """
+    if not raw:
+        return None
     text = re.sub(r"```(?:json)?\s*", "", raw, flags=re.IGNORECASE).strip()
-    m = re.search(r"\{[^}]+\}", text, re.DOTALL)
-    if not m:
-        return None
-    try:
-        obj = json.loads(m.group())
-    except json.JSONDecodeError:
-        return None
-    try:
-        ph = float(obj["p_home"])
-        pd = float(obj["p_draw"])
-        pa = float(obj["p_away"])
-    except (KeyError, ValueError, TypeError):
-        return None
-    reasoning = str(obj.get("reasoning", ""))[:200]
-    return ph, pd, pa, reasoning
+    for m in re.finditer(r"\{[^{}]*\}", text, re.DOTALL):
+        try:
+            obj = json.loads(m.group())
+        except json.JSONDecodeError:
+            continue
+        try:
+            ph = float(obj["p_home"])
+            pd = float(obj["p_draw"])
+            pa = float(obj["p_away"])
+        except (KeyError, ValueError, TypeError):
+            continue
+        reasoning = str(obj.get("reasoning", ""))[:200]
+        return ph, pd, pa, reasoning
+    return None
 
 # ── HTTP helpers ──────────────────────────────────────────────────────────────
 def http_get(url: str, headers: dict | None = None, timeout: int = 30) -> bytes:
@@ -188,12 +200,13 @@ def query_groq(match: dict, api_key: str, model: str = "llama-3.3-70b-versatile"
 
 def query_openrouter(match: dict, api_key: str,
                      model: str = "google/gemma-4-31b-it:free",
-                     forecaster_id: str = "gemma") -> dict:
+                     forecaster_id: str = "gemma",
+                     max_tokens: int = 512) -> dict:
     body = {
         "model": model,
         "messages": [{"role": "user", "content": make_prompt(match)}],
         "temperature": 0.0,
-        "max_tokens": 512,
+        "max_tokens": max_tokens,
     }
     for attempt in range(3):
         try:
@@ -204,6 +217,32 @@ def query_openrouter(match: dict, api_key: str,
                     "HTTP-Referer": "https://github.com/dakshjagwani/forecasting-arena-wc26",
                     "X-Title": "Forecasting Arena WC 2026",
                 },
+                body,
+            )
+            raw = resp["choices"][0]["message"]["content"]
+            return _parse_and_normalise(raw, forecaster_id)
+        except Exception as e:
+            log.warning(f"  {forecaster_id} attempt {attempt + 1}: {e}")
+            if attempt < 2:
+                time.sleep(2 ** attempt)
+    return {"status": "failed"}
+
+def query_github_models(match: dict, token: str,
+                        model: str = "openai/gpt-4o-mini",
+                        forecaster_id: str = "gpt-4o-mini") -> dict:
+    """GitHub Models free inference tier — OpenAI-compatible, auth via a
+    GitHub token with models:read (the built-in GITHUB_TOKEN works in CI)."""
+    body = {
+        "model": model,
+        "messages": [{"role": "user", "content": make_prompt(match)}],
+        "temperature": 0.0,
+        "max_tokens": 300,
+    }
+    for attempt in range(3):
+        try:
+            resp = http_post(
+                "https://models.github.ai/inference/chat/completions",
+                {"Authorization": f"Bearer {token}"},
                 body,
             )
             raw = resp["choices"][0]["message"]["content"]
@@ -259,15 +298,37 @@ def fetch_odds(api_key: str) -> dict:
             continue
     return result
 
+# Bookmakers name some teams differently from our fixtures. Substring
+# matching alone misses these entirely (e.g. "USA" vs "United States"),
+# which silently drops the market forecast for that match.
+ODDS_ALIASES = {
+    "USA":                    ["United States", "United States of America"],
+    "South Korea":            ["Korea Republic"],
+    "IR Iran":                ["Iran"],
+    "Côte d'Ivoire":          ["Ivory Coast", "Cote d'Ivoire"],
+    "Cabo Verde":             ["Cape Verde"],
+    "Curaçao":                ["Curacao"],
+    "Czechia":                ["Czech Republic"],
+    "Türkiye":                ["Turkey", "Turkiye"],
+    "Bosnia and Herzegovina": ["Bosnia & Herzegovina", "Bosnia-Herzegovina"],
+    "DR Congo":               ["Congo DR", "Democratic Republic of the Congo"],
+}
+
+def _names_match(fixture_name: str, odds_name: str) -> bool:
+    odds_l = odds_name.lower()
+    for cand in [fixture_name] + ODDS_ALIASES.get(fixture_name, []):
+        c = cand.lower()
+        if c in odds_l or odds_l in c:
+            return True
+    return False
+
 def match_odds(match: dict, odds_map: dict) -> dict | None:
-    """Fuzzy match a fixture to an odds entry."""
+    """Fuzzy match a fixture to an odds entry (alias-aware)."""
     home, away = match["home"], match["away"]
     if (home, away) in odds_map:
         return odds_map[(home, away)]
-    home_l, away_l = home.lower(), away.lower()
     for (h, a), data in odds_map.items():
-        if (home_l in h.lower() or h.lower() in home_l) and \
-           (away_l in a.lower() or a.lower() in away_l):
+        if _names_match(home, h) and _names_match(away, a):
             return data
     return None
 
@@ -350,8 +411,16 @@ def group_by_utc8(fixtures: list) -> dict:
 
 # ── Post-freeze validation ────────────────────────────────────────────────────
 def validate_output(match_results: list) -> None:
+    allowed = set(AI_LINEUP) | set(NON_AI_FORECASTERS)
     for mr in match_results:
         for forecaster, fc in mr["forecasts"].items():
+            # Lineup gate: any forecaster outside the frozen registry means
+            # code and registry have drifted — abort rather than commit.
+            if forecaster not in allowed and not forecaster.startswith("human:"):
+                log.error(
+                    f"Forecaster {forecaster!r} not in frozen lineup {AI_LINEUP}"
+                )
+                sys.exit(4)
             if fc.get("status") == "failed":
                 continue
             for k in ("p_home", "p_draw", "p_away"):
@@ -378,16 +447,14 @@ def main() -> None:
     args = parser.parse_args()
 
     # ── Pre-flight: required secrets ─────────────────────────────────────────
+    # GITHUB_TOKEN drives gpt-4o-mini via the free GitHub Models tier:
+    # built-in in Actions (permissions: models: read), a PAT locally.
     required = ["GEMINI_API_KEY", "GROQ_API_KEY", "OPENROUTER_API_KEY",
-                "ODDS_API_KEY", "SHEET_CSV_URL"]
+                "ODDS_API_KEY", "SHEET_CSV_URL", "GITHUB_TOKEN"]
     missing = [k for k in required if not os.environ.get(k)]
     if missing:
         log.error(f"Missing secrets: {missing}")
         sys.exit(1)
-
-    # GPT-4o-mini is optional — warn but don't abort if key missing
-    if not os.environ.get("OPENAI_API_KEY"):
-        log.warning("  OPENAI_API_KEY not set — gpt-4o-mini will be skipped")
 
     freeze_utc = datetime.now(timezone.utc)
     log.info(f"Freeze time: {freeze_utc.isoformat()}")
@@ -397,9 +464,22 @@ def main() -> None:
     day_map = group_by_utc8(fixtures)
 
     target_date = args.date or (freeze_utc - _UTC8).strftime("%Y-%m-%d")
-    today_matches = day_map.get(target_date, [])
-    if not today_matches:
+    all_today = day_map.get(target_date, [])
+    if not all_today:
         log.error(f"No fixtures found for {target_date}")
+        sys.exit(1)
+
+    # ── Placeholder gate: never forecast an unknown opponent ─────────────────
+    skipped = [m for m in all_today if m.get("is_placeholder")]
+    today_matches = [m for m in all_today if not m.get("is_placeholder")]
+    for m in skipped:
+        log.warning(
+            f"SKIP (placeholder): {m['match_id']} {m['home']} vs {m['away']} — "
+            f"update fixtures.json with the resolved team to include it"
+        )
+    if not today_matches:
+        log.error(f"All {len(skipped)} fixtures for {target_date} are "
+                  f"placeholders — nothing to freeze")
         sys.exit(1)
 
     log.info(f"Freezing {len(today_matches)} matches for {target_date}")
@@ -465,62 +545,28 @@ def main() -> None:
         else:
             log.warning(f"  market: no odds found")
 
-        # Gemini Flash
-        log.info("  Querying gemini-flash...")
-        forecasts["gemini-flash"] = query_gemini(match, os.environ["GEMINI_API_KEY"])
-        log.info(f"  gemini-flash: {forecasts['gemini-flash'].get('status', '?')}")
-        time.sleep(1)
+        # AI lineup — dispatch table keyed by the frozen registry.
+        # deepseek-r1 emits long reasoning before its JSON answer, so it gets
+        # a larger completion budget than the instruct models.
+        ai_queries = {
+            "gemini-flash": lambda m: query_gemini(m, os.environ["GEMINI_API_KEY"]),
+            "llama-70b":    lambda m: query_groq(m, os.environ["GROQ_API_KEY"]),
+            "gemma":        lambda m: query_openrouter(
+                m, os.environ["OPENROUTER_API_KEY"],
+                model="google/gemma-4-31b-it:free", forecaster_id="gemma"),
+            "deepseek-r1":  lambda m: query_openrouter(
+                m, os.environ["OPENROUTER_API_KEY"],
+                model="deepseek/deepseek-r1:free", forecaster_id="deepseek-r1",
+                max_tokens=2048),
+            "gpt-4o-mini":  lambda m: query_github_models(
+                m, os.environ["GITHUB_TOKEN"]),
+        }
+        assert set(ai_queries) == set(AI_LINEUP), "dispatch/lineup drift"
 
-        # Groq Llama-70B
-        log.info("  Querying llama-70b (Groq)...")
-        forecasts["llama-70b"] = query_groq(match, os.environ["GROQ_API_KEY"])
-        log.info(f"  llama-70b: {forecasts['llama-70b'].get('status', '?')}")
-        time.sleep(1)
-
-        # OpenRouter Gemma
-        log.info("  Querying gemma (OpenRouter)...")
-        forecasts["gemma"] = query_openrouter(
-            match, os.environ["OPENROUTER_API_KEY"],
-            model="google/gemma-4-31b-it:free", forecaster_id="gemma",
-        )
-        log.info(f"  gemma: {forecasts['gemma'].get('status', '?')}")
-        time.sleep(1)
-
-        # DeepSeek R1 (OpenRouter free)
-        log.info("  Querying deepseek-r1 (OpenRouter)...")
-        forecasts["deepseek-r1"] = query_openrouter(
-            match, os.environ["OPENROUTER_API_KEY"],
-            model="deepseek/deepseek-r1:free", forecaster_id="deepseek-r1",
-        )
-        log.info(f"  deepseek-r1: {forecasts['deepseek-r1'].get('status', '?')}")
-        time.sleep(1)
-
-        # GPT-4o-mini (optional — needs OPENAI_API_KEY)
-        if os.environ.get("OPENAI_API_KEY"):
-            log.info("  Querying gpt-4o-mini (OpenAI)...")
-            body = {
-                "model": "gpt-4o-mini",
-                "messages": [{"role": "user", "content": make_prompt(match)}],
-                "temperature": 0.0,
-                "max_tokens": 300,
-            }
-            for attempt in range(3):
-                try:
-                    resp = http_post(
-                        "https://api.openai.com/v1/chat/completions",
-                        {"Authorization": f"Bearer {os.environ['OPENAI_API_KEY']}"},
-                        body,
-                    )
-                    raw = resp["choices"][0]["message"]["content"]
-                    forecasts["gpt-4o-mini"] = _parse_and_normalise(raw, "gpt-4o-mini")
-                    break
-                except Exception as e:
-                    log.warning(f"  gpt-4o-mini attempt {attempt + 1}: {e}")
-                    if attempt < 2:
-                        time.sleep(2 ** attempt)
-            else:
-                forecasts["gpt-4o-mini"] = {"status": "failed"}
-            log.info(f"  gpt-4o-mini: {forecasts['gpt-4o-mini'].get('status', '?')}")
+        for forecaster_id in AI_LINEUP:
+            log.info(f"  Querying {forecaster_id}...")
+            forecasts[forecaster_id] = ai_queries[forecaster_id](match)
+            log.info(f"  {forecaster_id}: {forecasts[forecaster_id].get('status', '?')}")
             time.sleep(1)
 
         # Human picks for this match
@@ -566,17 +612,13 @@ def main() -> None:
     log.info(f"Written: {out_path}")
 
     # ── Summarise ─────────────────────────────────────────────────────────────
-    ai_models = ["gemini-flash", "llama-70b", "gemma", "deepseek-r1", "gpt-4o-mini"]
-    active_ai = [m for m in ai_models if any(
-        mr["forecasts"].get(m) for mr in match_results
-    )]
     ai_ok = sum(
-        1 for mr in match_results for m in active_ai
+        1 for mr in match_results for m in AI_LINEUP
         if mr["forecasts"].get(m, {}).get("status") == "ok"
     )
     log.info(
         f"Summary: {len(today_matches)} matches | "
-        f"{ai_ok}/{len(today_matches)*len(active_ai)} AI forecasts OK | "
+        f"{ai_ok}/{len(today_matches)*len(AI_LINEUP)} AI forecasts OK | "
         f"{len(human_picks)} humans"
     )
     log.info("DONE — commit data/predictions/ and push to git")
