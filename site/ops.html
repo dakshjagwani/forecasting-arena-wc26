@@ -78,6 +78,10 @@
 
     <h2>Quick links</h2>
     <p class="links">
+      ▶️ <a href="https://github.com/dakshjagwani/forecasting-arena-wc26/actions/workflows/freeze.yml" target="_blank"><strong>Trigger freeze manually</strong></a>
+      — press “Run workflow” (tick <em>remaining</em> if a kickoff already passed)<br>
+      ▶️ <a href="https://github.com/dakshjagwani/forecasting-arena-wc26/actions/workflows/score.yml" target="_blank">Trigger scoring manually</a>
+      — e.g. right after a late-night match instead of waiting for 06:00 UTC<br>
       📊 <a href="https://github.com/dakshjagwani/forecasting-arena-wc26/actions" target="_blank">GitHub Actions runs</a><br>
       🔔 <a href="https://ntfy.sh/forecasting-arena-daksh" target="_blank">ntfy notifications</a> (subscribe in the ntfy app for pushes)<br>
       📝 Google Sheet — bookmark your sheet's edit URL here in your browser<br>
@@ -192,6 +196,7 @@ async function scoringCheck() {
 }
 
 const TODOS = [
+  'Morning: run  python scripts/verify_cycle.py  — one command verifies the whole previous cycle',
   'Spot-check yesterday\'s scored results against BBC (1 random match is enough)',
   'Open the Google Sheet — delete junk/joke names before 17:45 UTC',
   'ntfy notification received for last night\'s freeze + this morning\'s score run',
