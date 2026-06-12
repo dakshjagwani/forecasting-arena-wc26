@@ -1,0 +1,224 @@
+{
+  "date": "2026-06-12",
+  "freeze_utc": "2026-06-12T18:29:24Z",
+  "matches": [
+    {
+      "match_id": "md003-CAN-UEPA",
+      "forecasts": {
+        "market": {
+          "p_home": 0.511628,
+          "p_draw": 0.27907,
+          "p_away": 0.209302,
+          "raw_odds": [
+            1.8,
+            3.3,
+            4.4
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.72,
+          "p_draw": 0.19,
+          "p_away": 0.09,
+          "reasoning": "Canada has a significant Elo advantage (1891 vs 1624) and is playing at home. Their recent form is better than Bosnia's, who have drawn all their last five matches. This suggests a strong likelihood o",
+          "raw": "{\"p_home\": 0.72, \"p_draw\": 0.19, \"p_away\": 0.09, \"reasoning\": \"Canada has a significant Elo advantage (1891 vs 1624) and is playing at home. Their recent form is better than Bosnia's, who have drawn all their last five matches. This suggests a strong likelihood of a Canadian win.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.65,
+          "p_draw": 0.25,
+          "p_away": 0.1,
+          "reasoning": "Canada's higher Elo and home advantage",
+          "raw": "{\"p_home\": 0.65, \"p_draw\": 0.25, \"p_away\": 0.10, \"reasoning\": \"Canada's higher Elo and home advantage\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.62,
+          "p_draw": 0.23,
+          "p_away": 0.15,
+          "reasoning": "Canada holds a significant Elo advantage (+267) and home-field advantage in Toronto. Their recent form is stronger (unbeaten in 5), while Bosnia's tendency to draw suggests a lack of clinical finishin",
+          "raw": "```json\n{\"p_home\": 0.62, \"p_draw\": 0.23, \"p_away\": 0.15, \"reasoning\": \"Canada holds a significant Elo advantage (+267) and home-field advantage in Toronto. Their recent form is stronger (unbeaten in 5), while Bosnia's tendency to draw suggests a lack of clinical finishing. Canada is the clear favorite to secure a win.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.73,
+          "p_draw": 0.12,
+          "p_away": 0.15,
+          "reasoning": "Canada's Elo is 267 points higher, giving ~82% win odds; adjusting for a lower draw likelihood in mismatched games yields ~12% draw, leaving ~15% for Bosnia.",
+          "raw": "{\"p_home\": 0.73, \"p_draw\": 0.12, \"p_away\": 0.15, \"reasoning\": \"Canada's Elo is 267 points higher, giving ~82% win odds; adjusting for a lower draw likelihood in mismatched games yields ~12% draw, leaving ~15% for Bosnia.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.55,
+          "p_draw": 0.25,
+          "p_away": 0.2,
+          "reasoning": "Canada's higher Elo rating and recent form suggest a strong home advantage, while Bosnia's poor performance in recent matches indicates difficulty in securing a win.",
+          "raw": "{\"p_home\": 0.55, \"p_draw\": 0.25, \"p_away\": 0.20, \"reasoning\": \"Canada's higher Elo rating and recent form suggest a strong home advantage, while Bosnia's poor performance in recent matches indicates difficulty in securing a win.\"}",
+          "status": "ok"
+        },
+        "human:vijay": {
+          "p_home": 0.5,
+          "p_draw": 0.2,
+          "p_away": 0.3,
+          "name": "Vijay"
+        },
+        "human:sakshi": {
+          "p_home": 0.47,
+          "p_draw": 0.33,
+          "p_away": 0.2,
+          "name": "Sakshi"
+        },
+        "human:logan": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Logan"
+        },
+        "human:football": {
+          "p_home": 0.45,
+          "p_draw": 0.2,
+          "p_away": 0.35,
+          "name": "Football"
+        },
+        "human:rounak-kulkarni": {
+          "p_home": 0.45,
+          "p_draw": 0.3,
+          "p_away": 0.25,
+          "name": "Rounak Kulkarni"
+        },
+        "human:ned": {
+          "p_home": 0.5,
+          "p_draw": 0.3,
+          "p_away": 0.2,
+          "name": "Ned"
+        },
+        "human:daksh": {
+          "p_home": 0.2,
+          "p_draw": 0.15,
+          "p_away": 0.65,
+          "name": "Daksh"
+        },
+        "human:vanita": {
+          "p_home": 0.693069,
+          "p_draw": 0.009901,
+          "p_away": 0.29703,
+          "name": "Vanita"
+        },
+        "human:dilip-s-jagwani": {
+          "p_home": 0.693069,
+          "p_draw": 0.009901,
+          "p_away": 0.29703,
+          "name": "Dilip S Jagwani"
+        },
+        "crowd": {
+          "p_home": 0.54846,
+          "p_draw": 0.167756,
+          "p_away": 0.283784,
+          "n": 9
+        }
+      }
+    },
+    {
+      "match_id": "md004-USA-PAR",
+      "forecasts": {
+        "market": {
+          "p_home": 0.452822,
+          "p_draw": 0.288422,
+          "p_away": 0.258756,
+          "raw_odds": [
+            2.0,
+            3.14,
+            3.5
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.38,
+          "p_draw": 0.29,
+          "p_away": 0.33,
+          "reasoning": "Paraguay's higher Elo and recent form edge them slightly, but USA's strong home advantage, head-to-head record, and recent win against Paraguay balance the odds. A draw is a significant possibility gi",
+          "raw": "{\"p_home\": 0.38, \"p_draw\": 0.29, \"p_away\": 0.33, \"reasoning\": \"Paraguay's higher Elo and recent form edge them slightly, but USA's strong home advantage, head-to-head record, and recent win against Paraguay balance the odds. A draw is a significant possibility given the group stage context.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.38,
+          "p_draw": 0.29,
+          "p_away": 0.33,
+          "reasoning": "USA home advantage countered by Paraguay's higher Elo rating.",
+          "raw": "{\"p_home\": 0.38, \"p_draw\": 0.29, \"p_away\": 0.33, \"reasoning\": \"USA home advantage countered by Paraguay's higher Elo rating.\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.38,
+          "p_draw": 0.27,
+          "p_away": 0.35,
+          "reasoning": "Paraguay holds a higher Elo rating and better recent form, but the USA has a strong historical head-to-head record and significant home-field advantage at SoFi Stadium, balancing the probabilities tow",
+          "raw": "```json\n{\"p_home\": 0.38, \"p_draw\": 0.27, \"p_away\": 0.35, \"reasoning\": \"Paraguay holds a higher Elo rating and better recent form, but the USA has a strong historical head-to-head record and significant home-field advantage at SoFi Stadium, balancing the probabilities toward a slight home edge despite the Elo gap.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.53,
+          "p_draw": 0.22,
+          "p_away": 0.25,
+          "reasoning": "Paraguay's +88 Elo is offset by USA's home advantage (~+100 Elo) and favorable head\u2011to\u2011head, giving USA a slight edge. Draws are moderately likely; Paraguay remains competitive but less favored.",
+          "raw": "{\"p_home\": 0.53, \"p_draw\": 0.22, \"p_away\": 0.25, \"reasoning\": \"Paraguay's +88 Elo is offset by USA's home advantage (~+100 Elo) and favorable head\u2011to\u2011head, giving USA a slight edge. Draws are moderately likely; Paraguay remains competitive but less favored.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.35,
+          "p_draw": 0.25,
+          "p_away": 0.4,
+          "reasoning": "Paraguay's higher Elo rating and recent form suggest a slight edge, but USA's home advantage and historical head-to-head success balance the probabilities, leading to a competitive match.",
+          "raw": "{\"p_home\": 0.35, \"p_draw\": 0.25, \"p_away\": 0.40, \"reasoning\": \"Paraguay's higher Elo rating and recent form suggest a slight edge, but USA's home advantage and historical head-to-head success balance the probabilities, leading to a competitive match.\"}",
+          "status": "ok"
+        },
+        "human:vijay": {
+          "p_home": 0.52,
+          "p_draw": 0.18,
+          "p_away": 0.3,
+          "name": "Vijay"
+        },
+        "human:sakshi": {
+          "p_home": 0.31,
+          "p_draw": 0.29,
+          "p_away": 0.4,
+          "name": "Sakshi"
+        },
+        "human:logan": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Logan"
+        },
+        "human:football": {
+          "p_home": 0.21,
+          "p_draw": 0.18,
+          "p_away": 0.61,
+          "name": "Football"
+        },
+        "human:rounak-kulkarni": {
+          "p_home": 0.45,
+          "p_draw": 0.17,
+          "p_away": 0.38,
+          "name": "Rounak Kulkarni"
+        },
+        "human:daksh": {
+          "p_home": 0.17,
+          "p_draw": 0.13,
+          "p_away": 0.7,
+          "name": "Daksh"
+        },
+        "human:vanita": {
+          "p_home": 0.693069,
+          "p_draw": 0.009901,
+          "p_away": 0.29703,
+          "name": "Vanita"
+        },
+        "crowd": {
+          "p_home": 0.476153,
+          "p_draw": 0.138557,
+          "p_away": 0.38529,
+          "n": 7
+        }
+      }
+    }
+  ]
+}
