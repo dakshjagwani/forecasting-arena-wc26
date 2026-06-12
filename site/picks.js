@@ -793,6 +793,37 @@ function showConfirmation(n) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Day watcher — keeps an open tab honest without a reload:
+// live countdown, open→locked at the freeze, and rollover to the next
+// matchday once the day's first match kicks off.
+// ─────────────────────────────────────────────────────────────────────────────
+
+function startDayWatcher() {
+  setInterval(() => {
+    if (!fixtures.length || !activeDay) return;
+    const fresh = getActiveMatchday(fixtures);
+
+    if (fresh.status === 'over') { location.reload(); return; }
+
+    if (fresh.date !== activeDay.date || fresh.status !== activeDay.status) {
+      activeDay = fresh;
+      if (document.getElementById('screen-cards').classList.contains('active')) {
+        renderCards();
+      }
+      return;
+    }
+
+    if (fresh.status === 'open') {
+      const banner = document.getElementById('matchday-banner');
+      if (banner && !banner.hidden) {
+        banner.textContent =
+          `🟢 Picks open · Freeze in ${fmtCountdown(fresh.freezeAt - Date.now())}`;
+      }
+    }
+  }, 30_000);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Keyboard navigation (desktop)
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -878,6 +909,7 @@ async function init() {
   setupThemeToggle();
   setupFeatureTiles();
   setupTilt();
+  startDayWatcher();
 
   // Skip name screen if name already saved
   if (userName) {

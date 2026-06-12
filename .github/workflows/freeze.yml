@@ -2,15 +2,17 @@ name: Daily freeze
 
 on:
   schedule:
-    # Primary 17:45 UTC + retry 18:20 UTC daily, before group-stage kickoffs
-    # (earliest 19:00 UTC). GitHub drops/delays xx:00 crons under load — it
-    # skipped 18:00 entirely on 2026-06-12 (CHANGELOG) — so we run off-peak
-    # minutes and a second attempt. The retry is a clean no-op if the first
-    # succeeded (freeze.py exits 0 on already-frozen). For knockout rounds
-    # with 17:00 UTC kickoffs move BOTH crons ~2h earlier — and keep the
-    # freeze time in site/picks.js (freezeTimeFor) in sync with the PRIMARY.
+    # Defense in depth (docs/RELIABILITY.md): GitHub's cron is best-effort —
+    # it skipped 18:00 entirely on 2026-06-12 (CHANGELOG). Three attempts on
+    # off-peak minutes; an already-frozen day is a clean no-op, so retries
+    # never false-alarm. An EXTERNAL trigger (cron-job.org → this workflow's
+    # dispatch API) plus a healthchecks.io dead-man's switch cover the case
+    # where GitHub's scheduler drops all three. For knockout rounds with
+    # 17:00 UTC kickoffs move ALL crons ~2h earlier — and keep the freeze
+    # time in site/picks.js (freezeTimeFor) in sync with the PRIMARY (17:45).
     - cron: '45 17 * * *'
     - cron: '20 18 * * *'
+    - cron: '40 18 * * *'
   workflow_dispatch:   # manual trigger — also the incident-playbook path
     inputs:
       date:
@@ -19,6 +21,10 @@ on:
         default: ''
       dry_run:
         description: 'Dry run — query everything, write/commit nothing'
+        type: boolean
+        default: false
+      remaining:
+        description: 'Rescue mode — freeze only matches that have not kicked off yet (passed ones are void for everyone)'
         type: boolean
         default: false
 
@@ -47,6 +53,7 @@ jobs:
           ARGS=""
           if [ -n "${{ inputs.date }}" ]; then ARGS="$ARGS --date ${{ inputs.date }}"; fi
           if [ "${{ inputs.dry_run }}" = "true" ]; then ARGS="$ARGS --dry-run"; fi
+          if [ "${{ inputs.remaining }}" = "true" ]; then ARGS="$ARGS --remaining"; fi
           python scripts/freeze.py $ARGS
         env:
           GEMINI_API_KEY:      ${{ secrets.GEMINI_API_KEY }}
@@ -75,6 +82,18 @@ jobs:
             -H "Title: ✅ Freeze OK" \
             -H "Priority: default" \
             -d "$(date -u +%Y-%m-%d) freeze complete" || true
+
+      - name: Dead-man's switch ping
+        # healthchecks.io expects this ping daily by its deadline; if NOTHING
+        # ran (scheduler silently dead), the absence of the ping raises the
+        # alarm — a failure email can't catch a job that never started.
+        if: success() && inputs.dry_run != true
+        env:
+          HEALTHCHECK_URL: ${{ secrets.HEALTHCHECK_URL }}
+        run: |
+          if [ -n "$HEALTHCHECK_URL" ]; then
+            curl -fsS --retry 3 "$HEALTHCHECK_URL" > /dev/null || true
+          fi
 
       - name: Notify failure
         if: failure()

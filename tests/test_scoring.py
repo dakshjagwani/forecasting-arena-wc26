@@ -10,7 +10,8 @@ from pathlib import Path
 import freeze
 from score import brier, outcome_from_score, is_qualified
 from freeze import (normalise, parse_llm_response, to_slug, compute_crowd,
-                    group_by_utc8, ingest_human_picks, match_odds)
+                    group_by_utc8, ingest_human_picks, match_odds,
+                    split_remaining)
 
 ROOT = Path(__file__).parent.parent
 
@@ -291,6 +292,19 @@ def test_ingest_test_slugs_excluded(monkeypatch):
     )
     picks = _ingest(csv_text, monkeypatch)
     assert set(picks) == {"tessa"}
+
+# ── Rescue mode (--remaining) ─────────────────────────────────────────────────
+
+def test_split_remaining():
+    now = datetime(2026, 6, 12, 20, 0, tzinfo=timezone.utc)
+    matches = [
+        {"match_id": "a", "kickoff_utc": "2026-06-12T19:00:00Z"},  # kicked off
+        {"match_id": "b", "kickoff_utc": "2026-06-12T20:01:00Z"},  # inside grace
+        {"match_id": "c", "kickoff_utc": "2026-06-12T22:00:00Z"},  # freezable
+    ]
+    freezable, voided = split_remaining(matches, now)
+    assert [m["match_id"] for m in freezable] == ["c"]
+    assert [m["match_id"] for m in voided] == ["a", "b"]
 
 # ── Odds fuzzy matching ───────────────────────────────────────────────────────
 

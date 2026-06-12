@@ -4,6 +4,19 @@ Every data correction and every decision that affects the experiment's
 integrity is logged here, newest first. Scores JSONs are never hand-edited;
 they are recomputed from raw data after any correction.
 
+## 2026-06-12 (later) — Six-layer freeze failover (docs/RELIABILITY.md)
+
+- Third GitHub cron (18:40 UTC); external independent trigger via
+  cron-job.org → workflow dispatch API (18:30 UTC); healthchecks.io
+  dead-man's switch (alerts if no successful freeze pinged by ~18:50);
+  rescue mode `--remaining` freezes only not-yet-kicked-off matches after a
+  late incident (passed matches void for everyone — the pre-registered rule).
+- Picks page now rolls to the next matchday automatically in open tabs and
+  keeps the freeze countdown live (30s watcher) — previously required a
+  reload after the day's first kickoff.
+- The advertised pick deadline is now uniformly **17:45 UTC (18:45 UK)**
+  across the banner, dashboard, and all documentation.
+
 ## 2026-06-12 — First freeze: cron skipped, manual freeze ran in time; schedule hardened
 
 - GitHub dropped the 18:00 UTC scheduled run entirely (a known weakness of

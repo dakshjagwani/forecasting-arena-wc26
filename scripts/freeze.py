@@ -405,6 +405,18 @@ def compute_crowd(human_picks: dict, match_id: str) -> dict | None:
     normed = normalise(avg_h, avg_d, avg_a)
     return {"p_home": normed[0], "p_draw": normed[1], "p_away": normed[2], "n": n}
 
+# ── Rescue mode helper ────────────────────────────────────────────────────────
+def split_remaining(matches: list, now: datetime, grace_min: int = 2):
+    """--remaining rescue mode: split a day's matches into (freezable, voided)
+    by whether kickoff is still at least grace_min away. Voided matches are
+    void for ALL forecasters that day (fair) per the incident playbook."""
+    cutoff = now + timedelta(minutes=grace_min)
+    freezable, voided = [], []
+    for m in matches:
+        ko = datetime.fromisoformat(m["kickoff_utc"].replace("Z", "+00:00"))
+        (freezable if ko > cutoff else voided).append(m)
+    return freezable, voided
+
 # ── Date grouping (UTC-8, matching picks.js) ──────────────────────────────────
 _UTC8 = timedelta(hours=8)
 
@@ -451,6 +463,9 @@ def main() -> None:
     parser.add_argument("--date", help="Target date YYYY-MM-DD (UTC-8 calendar day)")
     parser.add_argument("--dry-run", action="store_true",
                         help="Print JSON to stdout, do not write files or commit")
+    parser.add_argument("--remaining", action="store_true",
+                        help="Rescue mode: freeze only matches that haven't "
+                             "kicked off; passed matches are void for everyone")
     args = parser.parse_args()
 
     # ── Pre-flight: required secrets ─────────────────────────────────────────
@@ -488,6 +503,17 @@ def main() -> None:
         log.error(f"All {len(skipped)} fixtures for {target_date} are "
                   f"placeholders — nothing to freeze")
         sys.exit(1)
+
+    # ── Rescue mode: drop matches that already kicked off ────────────────────
+    if args.remaining:
+        today_matches, voided = split_remaining(today_matches, freeze_utc)
+        for m in voided:
+            log.warning(f"VOID (already kicked off): {m['match_id']} "
+                        f"{m['home']} vs {m['away']} — unscored for everyone")
+        if not today_matches:
+            log.error("Rescue mode: every match has already kicked off — "
+                      "nothing left to freeze")
+            sys.exit(1)
 
     log.info(f"Freezing {len(today_matches)} matches for {target_date}")
     for m in today_matches:

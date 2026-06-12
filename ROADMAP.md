@@ -13,10 +13,9 @@ dashboard is green, then pick up the highest unchecked item.
 
 ## 0. Verify the first unattended cycle (do this before building anything)
 
-- [ ] Evening 2026-06-12: ntfy push ✅ at ~19:00 BST; ops.html shows freeze
+- [ ] Evening 2026-06-12: ntfy push ✅ at ~18:46 UK time; ops.html shows freeze
       green with all 5 models ok and humans > 0
-- [ ] Morning 2026-06-13: leaderboard populated on its own (score cron 06:00
-      UTC) — first real rankings, zero manual steps
+- [ ] Morning 2026-06-13: leaderboard populated on its own (score cron 06:00 UTC) — first real rankings, zero manual steps
 - [ ] If anything is red: incident playbook in CLAUDE.md §14.3; manual freeze
       via Actions → "Daily freeze" → Run workflow (supports date + dry_run)
 

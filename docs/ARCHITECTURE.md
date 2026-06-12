@@ -24,7 +24,7 @@ flowchart LR
 
     subgraph GH["🐙 GitHub (compute + storage + hosting)"]
         subgraph ACT["Actions (cron, runs on GitHub's servers)"]
-            FW["freeze.yml\n18:00 UTC daily"]
+            FW["freeze.yml\n17:45 UTC daily\n(+retries, see RELIABILITY.md)"]
             SW["score.yml\n06:00 UTC daily"]
             TW["test.yml\non every push"]
         end
@@ -75,23 +75,23 @@ never required — both crons run on GitHub's machines.
 sequenceDiagram
     participant H as Humans (phones)
     participant S as Google Sheet
-    participant A as freeze.yml (18:00 UTC)
+    participant A as freeze.yml (17:45 UTC)
     participant L as 5 LLM APIs + Odds API
     participant R as repo /data
     participant P as GitHub Pages
     participant FB as football-data.org
     participant C as score.yml (06:00 UTC)
 
-    Note over H,S: All day until 18:00 UTC
+    Note over H,S: All day until 17:45 UTC
     H->>S: picks via picks.html → Apps Script
-    Note over A: 18:00 UTC — THE FREEZE
+    Note over A: 17:45 UTC — THE FREEZE (retries 18:20/18:40 + external trigger)
     A->>A: gates: secrets? before kickoff? not already frozen?
     A->>L: identical prompt ×5 models, temp 0 + odds snapshot
     A->>S: fetch CSV, keep latest pre-freeze row per person
     A->>A: validate triples, compute crowd, lineup gate
     A->>R: commit predictions/YYYY-MM-DD.json  🔒 immutable
     A-->>H: ntfy push: ✅ Freeze OK
-    Note over H: 19:00 UTC+ — matches play, site shows "locked"
+    Note over H: kickoff — matches play, site shows "locked"
     Note over C: 06:00 UTC next morning
     C->>FB: fetch final scores
     C->>R: append results.json
@@ -115,7 +115,7 @@ flowchart TD
     PH --> G2{"Gate 2: now <\nearliest kickoff?"}
     G2 -- no --> X2[/"exit 2 — late freeze is VOID"/]
     G2 -- yes --> G3{"Gate 3: file already\nexists? (double-freeze)"}
-    G3 -- yes --> X3[/"exit 3"/]
+    G3 -- yes --> X3[/"exit 0 — clean no-op,\nnever overwrites\n(retry-cron safe)"/]
     G3 -- no --> ODDS2["fetch_odds() → de-vig:\n1/odds, normalise to sum 1\nmatch_odds() alias-aware fuzzy match"]
     ODDS2 --> CTX["context_builder.get_context_block()\nElo + last-10 form + H2H + venue\n→ injected into every prompt"]
     CTX --> LOOP["per match × AI_LINEUP\n(single source of truth)"]
@@ -149,7 +149,7 @@ flowchart TD
 
 | File | What it does | Reads | Writes | Triggered by |
 |---|---|---|---|---|
-| `scripts/freeze.py` | Daily prediction freeze: odds + 5 LLMs + human picks → validated, immutable snapshot | fixtures.json, Sheet CSV, 6 APIs, reference/ | predictions/DATE.json | freeze.yml cron 18:00 UTC (or manual) |
+| `scripts/freeze.py` | Daily prediction freeze: odds + 5 LLMs + human picks → validated, immutable snapshot | fixtures.json, Sheet CSV, 6 APIs, reference/ | predictions/DATE.json | freeze.yml crons 17:45/18:20/18:40 UTC (or manual/external) |
 | `scripts/score.py` | Brier scores, qualification, calibration, rankings | predictions/, results.json, fixtures.json | scores/*.json | score.yml cron 06:00 UTC |
 | `scripts/fetch_results.py` | Pulls final scores; manual results entry stays first-class fallback | football-data.org | results.json | score.yml (continue-on-error) |
 | `scripts/validate_data.py` | Audits the whole /data tree: schemas, sums, referential integrity, lineup membership, freeze-before-kickoff | everything in /data | exit code only | all 3 workflows + every push |
@@ -180,7 +180,7 @@ flowchart TD
 1. **Git is the referee.** A prediction only counts if its commit predates
    kickoff. That's why freeze aborts rather than ever writing late.
 2. **One clock for everyone.** Models, market snapshot and humans share the
-   18:00 UTC cutoff — nobody gets later information.
+   17:45 UTC cutoff — nobody gets later information.
 3. **Recompute, never edit.** score.py rebuilds everything from raw data on
    each run; corrections go into results.json + CHANGELOG.md, never into
    leaderboard.json by hand.

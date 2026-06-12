@@ -83,4 +83,5 @@ each prediction file's commit predates the kickoffs inside it.
 - `tests/` — pytest suite + golden-file integration test ([TESTING.md](TESTING.md))
 - [CLAUDE.md](CLAUDE.md) — full project spec; [TESTING.md](TESTING.md) — validation standard
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — full system diagrams: every API, script, and data flow
+- [docs/RELIABILITY.md](docs/RELIABILITY.md) — the six-layer freeze failover design
 - [ROADMAP.md](ROADMAP.md) — what's left to build, in priority order

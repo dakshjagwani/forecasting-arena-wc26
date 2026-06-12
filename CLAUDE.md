@@ -56,8 +56,9 @@ is identical in both picks.js and freeze.py — do not change it independently.
 
 - **Python 3.8+**, stdlib + `requests`. No pandas, no frameworks. Scripts must use
   `from __future__ import annotations` for union type hints to work on Python 3.8.
-- **GitHub Actions**: two workflows — `freeze.yml` (cron 18:00 UTC daily) and
-  `score.yml` (cron 06:00 UTC daily + manual dispatch).
+- **GitHub Actions**: three workflows — `freeze.yml` (crons 17:45/18:20/18:40
+  UTC daily + external trigger — see docs/RELIABILITY.md), `score.yml`
+  (cron 06:00 UTC daily + manual dispatch), `test.yml` (every push).
 - **GitHub Pages** serving `/site` (plain HTML/CSS/JS + Chart.js from CDN).
   No build step. No React. Pages read JSON via `fetch()`.
 - **Human picks**: Custom web app (`site/picks.html`) → POST (mode: no-cors) →
@@ -196,7 +197,7 @@ personal cards.
   card.html          ←      <- PENDING Phase 2: personal calibration card, html2canvas PNG export
   methodology.html   ←      <- PENDING Phase 2: pre-registration artifact (publish asap)
 /.github/workflows/
-  freeze.yml         ✅     <- cron 18:00 UTC daily; ntfy.sh on success/failure
+  freeze.yml         ✅     <- crons 17:45/18:20/18:40 UTC; ntfy + healthcheck ping
   score.yml          ✅     <- cron 06:00 UTC daily + manual dispatch
 /tests/
   conftest.py        ✅     <- sys.path setup so scripts/ is importable
