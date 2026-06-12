@@ -5,7 +5,8 @@ const APPS_SCRIPT_URL   = 'https://script.google.com/macros/s/AKfycbygSsO7AtvvOR
 const FIXTURES_URL      = '../data/fixtures/fixtures.json';
 const CONTEXTS_URL      = '../data/reference/match_contexts.json';
 const FREEZE_LEAD_MS    = 60 * 60 * 1000;  // safety margin before first kickoff
-const FREEZE_HOUR_UTC   = 18;              // freeze.yml cron hour — keep in sync
+const FREEZE_UTC_H      = 17;              // primary freeze.yml cron — keep in sync
+const FREEZE_UTC_M      = 45;
 const LS_NAME_KEY       = 'fa_name';
 const LS_PICKS_KEY      = 'fa_picks';
 
@@ -273,7 +274,7 @@ function groupByDate(all) {
 // is silently void, which is worse than showing "locked" early.
 function freezeTimeFor(dateStr, earliestKickoff) {
   const [y, mo, d] = dateStr.split('-').map(Number);
-  const cronMs = Date.UTC(y, mo - 1, d, FREEZE_HOUR_UTC);
+  const cronMs = Date.UTC(y, mo - 1, d, FREEZE_UTC_H, FREEZE_UTC_M);
   return Math.min(cronMs, earliestKickoff - FREEZE_LEAD_MS);
 }
 

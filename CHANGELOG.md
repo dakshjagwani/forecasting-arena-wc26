@@ -4,7 +4,18 @@ Every data correction and every decision that affects the experiment's
 integrity is logged here, newest first. Scores JSONs are never hand-edited;
 they are recomputed from raw data after any correction.
 
-## 2026-06-12 — Test-slug exclusion rule (pre-registered moderation)
+## 2026-06-12 — First freeze: cron skipped, manual freeze ran in time; schedule hardened
+
+- GitHub dropped the 18:00 UTC scheduled run entirely (a known weakness of
+  on-the-hour cron slots). The freeze was dispatched manually at 18:29 UTC
+  and completed at ~18:31 UTC — **before the 19:00 UTC first kickoff**, so
+  the freeze is valid: 2 matches, 5/5 models ok on both, market odds on
+  both, 9 human forecasters. The experiment's first matchday stands.
+- Hardening so this cannot recur: primary cron moved to the off-peak minute
+  **17:45 UTC** with an automatic retry at **18:20 UTC**; an already-frozen
+  day is now a clean no-op (exit 0) instead of an error, so the retry adds
+  no false alarms while immutability is unchanged (the no-op path never
+  writes). The picks-page banner and ops dashboard now show 17:45 UTC.
 
 - Submissions whose slug is `test` or starts with `test-` are never ingested
   at freeze time. Registered before the first freeze so it cannot

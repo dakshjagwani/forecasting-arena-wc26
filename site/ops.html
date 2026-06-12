@@ -86,14 +86,15 @@
     </p>
 
     <p class="refresh-note">Auto-refreshes every 60s. Data served via GitHub Pages may
-    lag pushes by up to ~10 minutes. Freeze runs at <strong>18:00 UTC</strong>; scoring
-    at <strong>06:00 UTC</strong>.</p>
+    lag pushes by up to ~10 minutes. Freeze runs at <strong>17:45 UTC</strong> (retry
+    18:20); scoring at <strong>06:00 UTC</strong>.</p>
   </main>
 
 <script>
 const REPO = 'dakshjagwani/forecasting-arena-wc26';
 const AI_LINEUP = ['gemini-flash', 'llama-70b', 'gemma', 'gpt-oss-120b', 'gpt-4o-mini'];
-const FREEZE_HOUR_UTC = 18;
+const FREEZE_UTC_H = 17, FREEZE_UTC_M = 45;  // primary cron; retry runs 18:20
+const FREEZE_GRACE_MS = 45 * 60_000;         // red only after the retry window
 
 function campaignDay(d = new Date()) {
   return new Date(d.getTime() - 8 * 3600_000).toISOString().slice(0, 10);
@@ -113,7 +114,8 @@ async function fetchJson(url) {
 }
 
 async function freezeCheck(day) {
-  const freezeAt = Date.UTC(...day.split('-').map(Number).map((v, i) => i === 1 ? v - 1 : v), FREEZE_HOUR_UTC);
+  const [fy, fm, fd] = day.split('-').map(Number);
+  const freezeAt = Date.UTC(fy, fm - 1, fd, FREEZE_UTC_H, FREEZE_UTC_M);
   try {
     const p = await fetchJson(`../data/predictions/${day}.json`);
     const n = p.matches.length;
@@ -133,11 +135,15 @@ async function freezeCheck(day) {
     if (Date.now() < freezeAt) {
       const mins = Math.round((freezeAt - Date.now()) / 60000);
       return check('wait', `Freeze for ${day} not yet due`,
-        `Runs at 18:00 UTC — in ${Math.floor(mins / 60)}h ${mins % 60}m. Remind people to submit picks before then.`);
+        `Runs at 17:45 UTC — in ${Math.floor(mins / 60)}h ${mins % 60}m. Remind people to submit picks before then.`);
     }
-    return check('bad', `Freeze for ${day} MISSING past 18:00 UTC`,
-      `Cron may have failed. Check <a href="https://github.com/${REPO}/actions" target="_blank">Actions</a>; ` +
-      `fallback: run <code>python scripts/freeze.py</code> locally before kickoff, commit and push.`);
+    if (Date.now() < freezeAt + FREEZE_GRACE_MS) {
+      return check('wait', `Freeze for ${day} pending (cron/retry window)`,
+        `Primary cron 17:45 UTC, retry 18:20 UTC. Pages data can also lag a few minutes.`);
+    }
+    return check('bad', `Freeze for ${day} MISSING past the retry window`,
+      `Both crons failed. Trigger it now: <a href="https://github.com/${REPO}/actions/workflows/freeze.yml" target="_blank">Actions → Daily freeze → Run workflow</a> ` +
+      `(must complete before first kickoff), or run <code>python scripts/freeze.py</code> locally, commit and push.`);
   }
 }
 

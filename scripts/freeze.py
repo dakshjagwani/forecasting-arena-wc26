@@ -506,10 +506,13 @@ def main() -> None:
         sys.exit(2)
 
     # ── Pre-flight: no double-freeze ──────────────────────────────────────────
+    # Clean no-op (exit 0), not an error: the workflow runs a retry cron, and
+    # a day that is already frozen needs nothing. Immutability holds — this
+    # path never writes.
     out_path = PREDICTIONS_DIR / f"{target_date}.json"
     if out_path.exists() and not args.dry_run:
-        log.error(f"ABORT: predictions already exist at {out_path}")
-        sys.exit(3)
+        log.info(f"Already frozen: {out_path} exists — nothing to do")
+        sys.exit(0)
 
     log.info(f"OK: {freeze_utc.strftime('%H:%M')}Z < {earliest.strftime('%H:%M')}Z ✓")
 

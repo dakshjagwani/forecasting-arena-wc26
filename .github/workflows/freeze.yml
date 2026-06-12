@@ -2,11 +2,15 @@ name: Daily freeze
 
 on:
   schedule:
-    # 18:00 UTC daily — before all group-stage kickoffs (earliest 19:00 UTC).
-    # Adjust to 16:00 UTC for knockout rounds which can start at 17:00 UTC —
-    # and keep FREEZE_HOUR_UTC in site/picks.js in sync with this hour.
-    # EXPERIMENT LIVE from the 2026-06-12 campaign day (CHANGELOG.md).
-    - cron: '0 18 * * *'
+    # Primary 17:45 UTC + retry 18:20 UTC daily, before group-stage kickoffs
+    # (earliest 19:00 UTC). GitHub drops/delays xx:00 crons under load — it
+    # skipped 18:00 entirely on 2026-06-12 (CHANGELOG) — so we run off-peak
+    # minutes and a second attempt. The retry is a clean no-op if the first
+    # succeeded (freeze.py exits 0 on already-frozen). For knockout rounds
+    # with 17:00 UTC kickoffs move BOTH crons ~2h earlier — and keep the
+    # freeze time in site/picks.js (freezeTimeFor) in sync with the PRIMARY.
+    - cron: '45 17 * * *'
+    - cron: '20 18 * * *'
   workflow_dispatch:   # manual trigger — also the incident-playbook path
     inputs:
       date:
