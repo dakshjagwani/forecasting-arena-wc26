@@ -17,7 +17,12 @@ dashboard is green, then pick up the highest unchecked item.
       green with all 5 models ok and humans > 0
 - [ ] Morning 2026-06-13: leaderboard populated on its own (score cron 06:00 UTC) — first real rankings, zero manual steps
 - [ ] If anything is red: incident playbook in CLAUDE.md §14.3; manual freeze
-      via Actions → "Daily freeze" → Run workflow (supports date + dry_run)
+      via Actions → "Daily freeze" → Run workflow (supports date, dry_run,
+      and remaining = rescue mode after a kickoff has passed)
+- [ ] Daksh, ~10 min: set up failover layers 4–5 — cron-job.org external
+      trigger + healthchecks.io dead-man's switch. Exact steps in
+      docs/RELIABILITY.md. Until then the freeze relies on GitHub's
+      scheduler + the dashboard/ntfy + you.
 
 ## 1. card.html — personal calibration card  ← BUILD NEXT
 
