@@ -2,17 +2,15 @@ name: Daily freeze
 
 on:
   schedule:
-    # Defense in depth (docs/RELIABILITY.md): GitHub's cron is best-effort —
-    # it skipped 18:00 entirely on 2026-06-12 (CHANGELOG). Three attempts on
-    # off-peak minutes; an already-frozen day is a clean no-op, so retries
-    # never false-alarm. An EXTERNAL trigger (cron-job.org → this workflow's
-    # dispatch API) plus a healthchecks.io dead-man's switch cover the case
-    # where GitHub's scheduler drops all three. For knockout rounds with
-    # 17:00 UTC kickoffs move ALL crons ~2h earlier — and keep the freeze
-    # time in site/picks.js (freezeTimeFor) in sync with the PRIMARY (17:45).
-    - cron: '45 17 * * *'
-    - cron: '20 18 * * *'
-    - cron: '40 18 * * *'
+    # ADAPTIVE WINDOW (docs/RELIABILITY.md): first kickoffs range 16:00Z to
+    # 22:00Z across the tournament, so attempts fire every 30 minutes all
+    # afternoon and freeze.py self-gates — too early → no-op, already
+    # frozen → no-op, inside [first kickoff − 3h, kickoff) → freeze. GitHub's
+    # cron is best-effort (it dropped a run on 2026-06-12), so ~18 attempts
+    # per day make a missed window vanishingly unlikely; the external
+    # cron-job.org trigger and healthchecks.io dead-man's switch cover a
+    # full scheduler outage.
+    - cron: '0,30 12-20 * * *'
   workflow_dispatch:   # manual trigger — also the incident-playbook path
     inputs:
       date:
@@ -67,16 +65,23 @@ jobs:
         run: python scripts/validate_data.py
 
       - name: Commit predictions
+        id: commit
         run: |
           git config user.name  "Forecasting Arena Bot"
           git config user.email "bot@forecasting-arena.com"
           git add data/predictions/
-          git diff --staged --quiet || \
+          if git diff --staged --quiet; then
+            echo "froze=false" >> "$GITHUB_OUTPUT"
+          else
             git commit -m "freeze: $(date -u +%Y-%m-%d) predictions [skip ci]"
-          git push
+            git push
+            echo "froze=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Notify success
-        if: success() && inputs.dry_run != true
+        # Only when this run actually froze the day — no-op attempts (too
+        # early / already frozen) fire all afternoon and must stay silent.
+        if: success() && inputs.dry_run != true && steps.commit.outputs.froze == 'true'
         run: |
           curl -s -X POST "https://ntfy.sh/forecasting-arena-daksh" \
             -H "Title: ✅ Freeze OK" \
@@ -84,14 +89,15 @@ jobs:
             -d "$(date -u +%Y-%m-%d) freeze complete" || true
 
       - name: Dead-man's switch ping
-        # healthchecks.io expects this ping daily by its deadline; if NOTHING
-        # ran (scheduler silently dead), the absence of the ping raises the
-        # alarm — a failure email can't catch a job that never started.
+        # Pings only while TODAY's predictions file exists — the invariant
+        # being monitored is "the campaign day is frozen", so too-early
+        # no-ops never ping and silence past the deadline raises the alarm.
         if: success() && inputs.dry_run != true
         env:
           HEALTHCHECK_URL: ${{ secrets.HEALTHCHECK_URL }}
         run: |
-          if [ -n "$HEALTHCHECK_URL" ]; then
+          TODAY=$(date -u -d '8 hours ago' +%Y-%m-%d)
+          if [ -n "$HEALTHCHECK_URL" ] && [ -f "data/predictions/$TODAY.json" ]; then
             curl -fsS --retry 3 "$HEALTHCHECK_URL" > /dev/null || true
           fi
 

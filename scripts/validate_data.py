@@ -148,6 +148,16 @@ def check_scores() -> None:
                     err(f"calibration/{f}: bucket {b['lo']}-{b['hi']} bad actual_freq")
                 if b["n"] == 0 and b["actual_freq"] is not None:
                     err(f"calibration/{f}: empty bucket has non-null actual_freq")
+    ms_path = DATA / "scores" / "match_scores.json"
+    if ms_path.exists():
+        ms = json.loads(ms_path.read_text())
+        for day, blocks in ms.get("days", {}).items():
+            for m in blocks:
+                if m.get("outcome") not in ("home", "draw", "away"):
+                    err(f"match_scores/{day}/{m.get('match_id')}: bad outcome")
+                for row in m.get("rows", []):
+                    if not (isinstance(row.get("brier"), (int, float)) and 0 <= row["brier"] <= 2):
+                        err(f"match_scores/{m.get('match_id')}/{row.get('forecaster')}: brier out of range")
 
 def main() -> None:
     fixture_map = check_fixtures()

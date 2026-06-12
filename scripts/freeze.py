@@ -26,6 +26,13 @@ PREDICTIONS_DIR = ROOT / "data" / "predictions"
 AI_LINEUP = ("gemini-flash", "llama-70b", "gemma", "gpt-oss-120b", "gpt-4o-mini")
 NON_AI_FORECASTERS = ("market", "crowd")
 
+# Picks close this long before the day's FIRST kickoff. First kickoffs range
+# from 16:00Z to 22:00Z across the tournament, so no fixed clock time works —
+# scheduled runs fire every 30 min and self-gate: too early → no-op, already
+# frozen → no-op, inside the window → freeze. Keep in sync with
+# FREEZE_LEAD_MS in site/picks.js and ops.html.
+FREEZE_WINDOW = timedelta(hours=3)
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(message)s",
@@ -144,12 +151,14 @@ def _parse_and_normalise(raw: str, forecaster: str) -> dict:
     parsed = parse_llm_response(raw)
     if not parsed:
         log.warning(f"  {forecaster}: could not parse response")
-        return {"status": "failed", "raw": raw[:500]}
+        return {"status": "failed", "raw": raw[:2000]}
     ph, pd, pa, reasoning = parsed
     normed = normalise(ph, pd, pa)
+    # raw kept near-verbatim (4k cap) — it feeds the bias lab and post-hoc
+    # analysis; reasoning models put their substance before the JSON.
     return {
         "p_home": normed[0], "p_draw": normed[1], "p_away": normed[2],
-        "reasoning": reasoning, "raw": raw[:1000], "status": "ok",
+        "reasoning": reasoning, "raw": raw[:4000], "status": "ok",
     }
 
 def query_gemini(match: dict, api_key: str, model: str = "gemini-2.5-flash") -> dict:
@@ -466,6 +475,9 @@ def main() -> None:
     parser.add_argument("--remaining", action="store_true",
                         help="Rescue mode: freeze only matches that haven't "
                              "kicked off; passed matches are void for everyone")
+    parser.add_argument("--force", action="store_true",
+                        help="Freeze even if the 3h pre-kickoff window hasn't "
+                             "opened yet (scheduled runs never pass this)")
     args = parser.parse_args()
 
     # ── Pre-flight: required secrets ─────────────────────────────────────────
@@ -504,6 +516,14 @@ def main() -> None:
                   f"placeholders — nothing to freeze")
         sys.exit(1)
 
+    # ── Already frozen? Clean no-op (exit 0), checked FIRST so post-kickoff
+    # scheduled runs on a successfully frozen day stay green. Immutability
+    # holds — this path never writes.
+    out_path = PREDICTIONS_DIR / f"{target_date}.json"
+    if out_path.exists() and not args.dry_run:
+        log.info(f"Already frozen: {out_path} exists — nothing to do")
+        sys.exit(0)
+
     # ── Rescue mode: drop matches that already kicked off ────────────────────
     if args.remaining:
         today_matches, voided = split_remaining(today_matches, freeze_utc)
@@ -515,30 +535,35 @@ def main() -> None:
                       "nothing left to freeze")
             sys.exit(1)
 
+    earliest = min(
+        datetime.fromisoformat(m["kickoff_utc"].replace("Z", "+00:00"))
+        for m in today_matches
+    )
+
+    # ── Too early? No-op: scheduled attempts fire all afternoon; only the
+    # ones inside [first kickoff − FREEZE_WINDOW, first kickoff) act.
+    # Explicit --date / --force / --remaining means a human decided.
+    if not (args.date or args.force or args.remaining):
+        window_open = earliest - FREEZE_WINDOW
+        if freeze_utc < window_open:
+            log.info(
+                f"Too early: window opens {window_open.strftime('%H:%M')}Z "
+                f"(first kickoff {earliest.strftime('%H:%M')}Z) — nothing to do"
+            )
+            sys.exit(0)
+
     log.info(f"Freezing {len(today_matches)} matches for {target_date}")
     for m in today_matches:
         log.info(f"  {m['kickoff_utc'][:16]}Z  {m['home']} vs {m['away']}")
 
     # ── Pre-flight: must be before earliest kickoff ───────────────────────────
-    earliest = min(
-        datetime.fromisoformat(m["kickoff_utc"].replace("Z", "+00:00"))
-        for m in today_matches
-    )
     if freeze_utc >= earliest:
         log.error(
             f"ABORT: freeze_utc {freeze_utc.isoformat()} >= earliest kickoff "
-            f"{earliest.isoformat()}. A late prediction is a void prediction."
+            f"{earliest.isoformat()}. A late prediction is a void prediction. "
+            f"(Use --remaining to rescue later matches of the day.)"
         )
         sys.exit(2)
-
-    # ── Pre-flight: no double-freeze ──────────────────────────────────────────
-    # Clean no-op (exit 0), not an error: the workflow runs a retry cron, and
-    # a day that is already frozen needs nothing. Immutability holds — this
-    # path never writes.
-    out_path = PREDICTIONS_DIR / f"{target_date}.json"
-    if out_path.exists() and not args.dry_run:
-        log.info(f"Already frozen: {out_path} exists — nothing to do")
-        sys.exit(0)
 
     log.info(f"OK: {freeze_utc.strftime('%H:%M')}Z < {earliest.strftime('%H:%M')}Z ✓")
 

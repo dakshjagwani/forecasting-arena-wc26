@@ -56,9 +56,10 @@ is identical in both picks.js and freeze.py — do not change it independently.
 
 - **Python 3.8+**, stdlib + `requests`. No pandas, no frameworks. Scripts must use
   `from __future__ import annotations` for union type hints to work on Python 3.8.
-- **GitHub Actions**: three workflows — `freeze.yml` (crons 17:45/18:20/18:40
-  UTC daily + external trigger — see docs/RELIABILITY.md), `score.yml`
-  (cron 06:00 UTC daily + manual dispatch), `test.yml` (every push).
+- **GitHub Actions**: three workflows — `freeze.yml` (window-gated: picks close 3h
+  before the day's first kickoff; attempts every 30 min 12:00–20:30 UTC +
+  external trigger — see docs/RELIABILITY.md), `score.yml` (crons 01:15 +
+  09:30 UTC + manual dispatch), `test.yml` (every push).
 - **GitHub Pages** serving `/site` (plain HTML/CSS/JS + Chart.js from CDN).
   No build step. No React. Pages read JSON via `fetch()`.
 - **Human picks**: Custom web app (`site/picks.html`) → POST (mode: no-cors) →
@@ -197,8 +198,8 @@ personal cards.
   card.html          ←      <- PENDING Phase 2: personal calibration card, html2canvas PNG export
   methodology.html   ←      <- PENDING Phase 2: pre-registration artifact (publish asap)
 /.github/workflows/
-  freeze.yml         ✅     <- crons 17:45/18:20/18:40 UTC; ntfy + healthcheck ping
-  score.yml          ✅     <- cron 06:00 UTC daily + manual dispatch
+  freeze.yml         ✅     <- window-gated attempts every 30 min; ntfy + healthcheck
+  score.yml          ✅     <- crons 01:15 + 09:30 UTC + manual dispatch
 /tests/
   conftest.py        ✅     <- sys.path setup so scripts/ is importable
   test_scoring.py    ✅     <- 37 unit tests passing (Brier, normalise, parse, slug, crowd, etc.)
@@ -262,8 +263,8 @@ next morning without Daksh touching anything. ← needs first real freeze to ver
 1. Morning: check score.yml ran; spot-check yesterday's results vs BBC.
 2. If results API failed: hand-edit `data/results/results.json`, re-run score.py.
 3. Post matchday card to WhatsApp groups.
-4. Check freeze.yml scheduled time vs today's earliest kickoff (config file
-   holds per-date freeze times; verify once at setup, not daily).
+4. Freeze timing is self-adapting (3h before first kickoff — RELIABILITY.md);
+   nothing to check daily unless FIFA moves a kickoff before 15:00 UTC.
 5. Sunday: generate weekly chart, write 3-sentence LinkedIn post.
 
 ## 11. Risks & fallbacks

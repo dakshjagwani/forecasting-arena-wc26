@@ -76,8 +76,9 @@
     <h2>3. Freezing — the no-cheating mechanism</h2>
     <ul>
       <li>All forecasts for a matchday are collected and committed to a public
-      git repository <strong>before the day's first kickoff</strong>. The freeze
-      script hard-aborts if it would run after kickoff.</li>
+      git repository <strong>three hours before the day's first kickoff</strong>
+      (models, market snapshot and humans share the same cutoff). The freeze
+      script hard-aborts if it would ever run after kickoff.</li>
       <li>A late prediction is a void prediction. Nothing is ever backfilled,
       for any forecaster, including the market.</li>
       <li>Humans may resubmit until the freeze; only the latest pre-freeze

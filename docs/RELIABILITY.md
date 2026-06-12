@@ -1,29 +1,33 @@
 # RELIABILITY — how the daily freeze survives failures
 
 The freeze is the one unrecoverable daily event: if it doesn't run before
-kickoff, the matchday is lost for everyone. GitHub's cron scheduler is
-explicitly best-effort (it silently dropped our 18:00 run on 2026-06-12), so
-no single trigger is trusted. Six independent layers, ordered by when they
-fire — **a matchday is lost only if all six fail**:
+kickoff, the matchday is lost for everyone. Two facts shape the design:
 
-| # | Layer | Fires at (UTC) | Survives |
-|---|-------|---------------|----------|
-| 1 | GitHub cron (primary) | 17:45 | normal operation |
-| 2 | GitHub cron (retry) | 18:20 | one dropped/delayed cron |
-| 3 | GitHub cron (retry 2) | 18:40 | two dropped crons |
-| 4 | **cron-job.org** → workflow dispatch API | 18:30 | GitHub's scheduler being entirely dead (Actions itself still up) |
-| 5 | **healthchecks.io** dead-man's switch | alerts ~18:50 if no success ping | *everything silent* — phone alarm tells Daksh to press the button |
-| 6 | Human: dashboard one-click dispatch, or local `python scripts/freeze.py` + push; after first kickoff use **rescue mode** (`--remaining`) | any time | full GitHub Actions outage |
+1. **GitHub's cron scheduler is best-effort** — it silently dropped our
+   18:00 run on 2026-06-12.
+2. **No fixed clock time works**: first kickoffs range from 16:00 UTC to
+   22:00 UTC across the tournament, so any fixed freeze time is either after
+   some kickoffs or absurdly early for others.
 
-Layers 1–3 are no-risk retries: freeze.py treats an already-frozen day as a
-clean no-op (exit 0) and **never overwrites** — immutability is enforced by
-the script, not the scheduler.
+So the freeze is **window-gated and self-deciding**: picks close
+**3 hours before the day's first kickoff** (`FREEZE_WINDOW` in freeze.py),
+and *many* triggers fire all afternoon — each run decides for itself:
+too early → no-op · already frozen → no-op · inside the window → freeze.
+Immutability is enforced by the script (an existing file is never
+overwritten), not by the scheduler, so unlimited retries are free.
 
-**Rescue mode** (layer 6): `--remaining` (also a checkbox on the manual Run
+| # | Layer | Fires (UTC) | Survives |
+|---|-------|-------------|----------|
+| 1 | GitHub crons, every 30 min | 12:00–20:30 (≈18/day; ~6 land inside any day's window) | several dropped crons in a row |
+| 2 | **cron-job.org** → workflow dispatch API, hourly | 12:15–19:15 | GitHub's scheduler entirely dead (Actions itself still up) |
+| 3 | **healthchecks.io** dead-man's switch | alarms ~21:00 if no real freeze pinged | *everything silent* — phone alarm tells Daksh to press the button |
+| 4 | Human: dashboard one-click dispatch, or local `python scripts/freeze.py` + push; after first kickoff use **rescue mode** (`--remaining`) | any time | full GitHub Actions outage |
+
+**Rescue mode** (layer 4): `--remaining` (also a checkbox on the manual Run
 workflow form) freezes only the matches that haven't kicked off yet; passed
 matches are void *for every forecaster equally* (the pre-registered incident
-rule). So even a disaster discovered at 21:00 UTC still salvages the
-late-evening matches legitimately.
+rule). So even a disaster discovered late in the evening still salvages the
+remaining matches legitimately.
 
 ---
 
@@ -69,10 +73,11 @@ replaying this exact request on a schedule.
 **Step C — schedule it (cron-job.org):**
 1. Sign up free → **Create cronjob** (button top-right of the Cronjobs page).
 2. **Title**: `arena-freeze-backup` · **URL**: the same API URL from Step B.
-3. **Execution schedule**: pick *custom* / *every day at…* and set
-   **18:30**. ⚠ Check the timezone selector next to the time — set it to
-   **UTC** (the account default is often Europe/Berlin; 18:30 Berlin would
-   be 16:30/17:30 UTC and fire before picks close).
+3. **Execution schedule**: hourly through the afternoon — pick *custom* and
+   set minute **15**, hours **12–19** (or cron expression `15 12-19 * * *`).
+   Each dispatch is safe: freeze.py no-ops unless it's inside the 3h
+   pre-kickoff window. ⚠ Check the timezone selector — set it to **UTC**
+   (the account default is often Europe/Berlin).
 4. Open the **Advanced** tab:
    - **Request method**: POST
    - **Headers** — add two:
@@ -90,10 +95,11 @@ replaying this exact request on a schedule.
    default check, or click **Add Check**.
 2. Click the check's name to open it → **Change Schedule**:
    - Choose the **Cron** tab (not "Simple"/"Period").
-   - Expression: `45 17 * * *` · **Time zone**: UTC · **Grace time**: 65
-     minutes. Meaning: it *expects* one ping daily at 17:45 UTC and raises
-     the alarm at ~18:50 UTC if none arrived — which is precisely "no freeze
-     attempt succeeded today".
+   - Expression: `0 12 * * *` · **Time zone**: UTC · **Grace time**: 9
+     hours. Meaning: it expects one ping per day arriving between 12:00 and
+     21:00 UTC — the freeze pings whenever it actually fires (12:00–20:30
+     depending on that day's first kickoff), and silence by ~21:00 UTC
+     raises the alarm: "no day was frozen today".
 3. On the check page copy the **ping URL** — looks like
    `https://hc-ping.com/xxxxxxxx-xxxx-…`.
 4. Store it as a repo secret (from the project folder):
@@ -112,17 +118,20 @@ replaying this exact request on a schedule.
 
 ---
 
-## Knockout-round caveat
+## Knockout rounds: nothing to move
 
-Some knockout kickoffs are 17:00 UTC. That week, shift **all** trigger times
-~2h earlier: the three crons in freeze.yml, the cron-job.org schedule, the
-healthchecks.io schedule, and `FREEZE_UTC_H/M` in site/picks.js (the banner
-must always show the PRIMARY trigger time). The Sunday audit covers this.
+The window adapts by construction — early kickoffs simply open the window
+earlier (a 16:00 UTC first kickoff freezes from 13:00 UTC; the 12:00-onwards
+cron attempts cover everything down to a 15:00 UTC kickoff). Only if FIFA
+ever schedules a first kickoff before 15:00 UTC would the cron range in
+freeze.yml + cron-job.org need extending earlier. The Sunday audit checks
+kickoff times anyway.
 
 ## The user-facing contract
 
-Picks lock at **17:45 UTC (18:45 UK)** daily — the primary trigger. Layers
-2–4 are late safety nets: human picks submitted after 17:45 are still
-*technically* ingested by a later-firing retry (the freeze reads the sheet at
-run time), but nobody should be told that — the advertised deadline is 17:45
-UTC, and the banner, docs and marketing all say so.
+Picks lock **3 hours before the day's first kickoff** — one rule, every day.
+The picks-page banner computes and shows the exact countdown, so users never
+need to do timezone math. A later attempt could technically ingest a pick
+submitted after the window opened but before the freeze actually fired —
+nobody should be told that; the advertised deadline is the 3-hour rule, and
+the banner, docs and marketing all say so.

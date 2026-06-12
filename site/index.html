@@ -149,6 +149,31 @@
 
     .updated { font-size: .72rem; color: var(--text-sub); text-align: center; padding: .5rem; }
 
+    /* Matchday boards */
+    .md-day { margin: 1.25rem 0 0; }
+    .md-day > summary {
+      cursor: pointer;
+      font-size: .95rem;
+      font-weight: 800;
+      padding: .65rem .25rem;
+      color: var(--text);
+      list-style: none;
+    }
+    .md-day > summary::before { content: '▸ '; color: var(--text-sub); }
+    .md-day[open] > summary::before { content: '▾ '; }
+    .md-match {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: .8rem .9rem 1rem;
+      margin: .6rem 0;
+    }
+    .md-match-head { font-size: .9rem; font-weight: 800; margin-bottom: .1rem; }
+    .md-match-sub  { font-size: .72rem; color: var(--text-sub); margin-bottom: .55rem; }
+    .md-match table { min-width: 0; font-size: .8rem; }
+    .md-match td, .md-match th { padding: .4rem .5rem; }
+    .md-pred { font-variant-numeric: tabular-nums; color: var(--text-sub); white-space: nowrap; }
+
     @media (max-width: 480px) {
       .lb-hero h1 { font-size: 1.4rem; }
       .lb-stat .val { font-size: 1.1rem; }
@@ -207,6 +232,9 @@
     </div>
   </div>
 
+  <!-- Per-match boards (display-only; the cumulative table above is the official ranking) -->
+  <div class="lb-table-wrap" id="matchday-boards"></div>
+
   <div class="updated" id="updated-time"></div>
 
 </div>
@@ -246,9 +274,8 @@ function displayName(row) {
     'gemini-flash': 'Gemini 2.5 Flash',
     'llama-70b':    'Llama 3.3 70B',
     'gemma':        'Gemma 4 31B',
-    'deepseek-r1':  'DeepSeek R1',
+    'gpt-oss-120b': 'GPT-OSS 120B',
     'gpt-4o-mini':  'GPT-4o Mini',
-    'qwen-laptop':  'Qwen (laptop)',
   };
   return names[row.forecaster] || row.forecaster;
 }
@@ -344,7 +371,61 @@ function render(data) {
     </p>`;
 }
 
+// ── Matchday boards: one mini-leaderboard per scored match ──────────────────
+async function loadMatchBoards() {
+  let data;
+  try {
+    const res = await fetch('../data/scores/match_scores.json');
+    if (!res.ok) return;
+    data = await res.json();
+  } catch { return; }
+
+  const days = Object.keys(data.days || {}).sort().reverse();
+  if (!days.length) return;
+
+  const OUTCOME_SIDE = { home: 0, draw: 1, away: 2 };
+
+  const html = days.map((day, di) => {
+    const matches = data.days[day].map(m => {
+      const rows = m.rows.map((r, i) => {
+        const [badgeLabel, badgeClass] = TYPE_BADGE[r.type] || ['?', 'badge-baseline'];
+        const triple = [r.p_home, r.p_draw, r.p_away]
+          .map((p, side) => {
+            const pct = Math.round(p * 100) + '%';
+            return side === OUTCOME_SIDE[m.outcome] ? `<strong>${pct}</strong>` : pct;
+          }).join(' / ');
+        return `<tr>
+          <td class="rank ${i===0?'top1':i===1?'top2':i===2?'top3':''}">${i + 1}</td>
+          <td><span class="badge ${badgeClass}">${badgeLabel}</span></td>
+          <td class="${r.type === 'human' ? 'forecaster-name human-name' : 'forecaster-name'}">${displayName(r)}</td>
+          <td class="md-pred">${triple}</td>
+          <td class="brier ${i === 0 ? 'brier-best' : ''}">${fmt(r.brier)}</td>
+        </tr>`;
+      }).join('');
+      return `<div class="md-match">
+        <div class="md-match-head">${m.home} ${m.score.replace('-', '–')} ${m.away}</div>
+        <div class="md-match-sub">${m.stage} · result: ${m.outcome === 'draw' ? 'draw' : m.outcome + ' win'}</div>
+        <table>
+          <thead><tr><th>#</th><th></th><th>Forecaster</th><th>Home/Draw/Away</th><th>Brier ↓</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+    }).join('');
+    return `<details class="md-day" ${di === 0 ? 'open' : ''}>
+      <summary>Matchday ${day}</summary>${matches}</details>`;
+  }).join('');
+
+  document.getElementById('matchday-boards').innerHTML = `
+    <h2 style="font-size:1rem;font-weight:800;margin:1.5rem .25rem .25rem">Match-by-match boards</h2>
+    <p style="font-size:.72rem;color:#94a3b8;margin:0 .25rem">
+      Who nailed each individual match. Bold = the probability given to what
+      actually happened. The cumulative table above remains the official ranking.
+    </p>
+    ${html}`;
+}
+
 loadLeaderboard();
+loadMatchBoards();
 
 // Dark mode toggle
 (function() {

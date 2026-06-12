@@ -367,6 +367,10 @@ def test_golden_score_pipeline(tmp_path):
     exp_cal = json.loads((GOLDEN_DIR / "expected_calibration.json").read_text())
     assert got_cal == exp_cal
 
+    got_ms = json.loads((tmp_path / "data/scores/match_scores.json").read_text())
+    exp_ms = json.loads((GOLDEN_DIR / "expected_match_scores.json").read_text())
+    assert _strip_volatile(got_ms) == _strip_volatile(exp_ms)
+
     # The golden tree must also satisfy the repo-wide validator
     v = subprocess.run(
         [_sys.executable, str(ROOT / "scripts" / "validate_data.py")],

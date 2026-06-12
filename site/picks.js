@@ -4,9 +4,10 @@
 const APPS_SCRIPT_URL   = 'https://script.google.com/macros/s/AKfycbygSsO7AtvvORFXO6ItV7TgWxFOGvl59RtGuq8g-jrjjgyHYUJhjumS2DpDLtIFcqtH/exec';
 const FIXTURES_URL      = '../data/fixtures/fixtures.json';
 const CONTEXTS_URL      = '../data/reference/match_contexts.json';
-const FREEZE_LEAD_MS    = 60 * 60 * 1000;  // safety margin before first kickoff
-const FREEZE_UTC_H      = 17;              // primary freeze.yml cron — keep in sync
-const FREEZE_UTC_M      = 45;
+// Picks close 3h before the day's FIRST kickoff (= FREEZE_WINDOW in
+// freeze.py — keep in sync). The freeze workflow attempts every 30 min and
+// acts as soon as the window opens, so this is the honest deadline.
+const FREEZE_LEAD_MS    = 3 * 60 * 60 * 1000;
 const LS_NAME_KEY       = 'fa_name';
 const LS_PICKS_KEY      = 'fa_picks';
 
@@ -268,21 +269,11 @@ function groupByDate(all) {
     .map(([date, matches]) => ({ date, matches }));
 }
 
-// The REAL freeze is the freeze.yml cron (18:00 UTC on the campaign day), or
-// earlier if a kickoff is unusually early. The banner must never promise a
-// later freeze than the one that actually runs — a pick after the real freeze
-// is silently void, which is worse than showing "locked" early.
-function freezeTimeFor(dateStr, earliestKickoff) {
-  const [y, mo, d] = dateStr.split('-').map(Number);
-  const cronMs = Date.UTC(y, mo - 1, d, FREEZE_UTC_H, FREEZE_UTC_M);
-  return Math.min(cronMs, earliestKickoff - FREEZE_LEAD_MS);
-}
-
 function getActiveMatchday(all) {
   const now = Date.now();
   for (const day of groupByDate(all)) {
     const earliest = Math.min(...day.matches.map(m => +new Date(m.kickoff_utc)));
-    const freezeAt = freezeTimeFor(day.date, earliest);
+    const freezeAt = earliest - FREEZE_LEAD_MS;
     if (now < freezeAt)  return { ...day, status: 'open',   freezeAt, earliest };
     if (now < earliest)  return { ...day, status: 'locked', freezeAt, earliest };
   }

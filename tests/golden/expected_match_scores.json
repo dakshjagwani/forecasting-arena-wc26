@@ -1,0 +1,208 @@
+{
+  "updated_utc": "2026-06-12T23:01:55Z",
+  "days": {
+    "2026-06-11": [
+      {
+        "match_id": "g1-AAA-BBB",
+        "home": "Alphaland",
+        "away": "Betaland",
+        "stage": "Group X",
+        "kickoff_utc": "2026-06-11T18:00:00Z",
+        "score": "2-1",
+        "outcome": "home",
+        "rows": [
+          {
+            "forecaster": "crowd",
+            "type": "crowd",
+            "p_home": 0.7,
+            "p_draw": 0.2,
+            "p_away": 0.1,
+            "brier": 0.14
+          },
+          {
+            "forecaster": "human:alice",
+            "type": "human",
+            "p_home": 0.7,
+            "p_draw": 0.2,
+            "p_away": 0.1,
+            "brier": 0.14
+          },
+          {
+            "forecaster": "market",
+            "type": "market",
+            "p_home": 0.6,
+            "p_draw": 0.25,
+            "p_away": 0.15,
+            "brier": 0.245
+          },
+          {
+            "forecaster": "gpt-oss-120b",
+            "type": "ai",
+            "p_home": 0.55,
+            "p_draw": 0.25,
+            "p_away": 0.2,
+            "brier": 0.305
+          },
+          {
+            "forecaster": "gemini-flash",
+            "type": "ai",
+            "p_home": 0.5,
+            "p_draw": 0.3,
+            "p_away": 0.2,
+            "brier": 0.38
+          },
+          {
+            "forecaster": "gpt-4o-mini",
+            "type": "ai",
+            "p_home": 0.45,
+            "p_draw": 0.3,
+            "p_away": 0.25,
+            "brier": 0.455
+          }
+        ]
+      },
+      {
+        "match_id": "g2-CCC-DDD",
+        "home": "Gammaland",
+        "away": "Deltaland",
+        "stage": "Group X",
+        "kickoff_utc": "2026-06-11T21:00:00Z",
+        "score": "1-1",
+        "outcome": "draw",
+        "rows": [
+          {
+            "forecaster": "human:alice",
+            "type": "human",
+            "p_home": 0.2,
+            "p_draw": 0.5,
+            "p_away": 0.3,
+            "brier": 0.38
+          },
+          {
+            "forecaster": "crowd",
+            "type": "crowd",
+            "p_home": 0.25,
+            "p_draw": 0.45,
+            "p_away": 0.3,
+            "brier": 0.455
+          },
+          {
+            "forecaster": "human:bob",
+            "type": "human",
+            "p_home": 0.3,
+            "p_draw": 0.4,
+            "p_away": 0.3,
+            "brier": 0.54
+          },
+          {
+            "forecaster": "gemma",
+            "type": "ai",
+            "p_home": 0.35,
+            "p_draw": 0.35,
+            "p_away": 0.3,
+            "brier": 0.635
+          },
+          {
+            "forecaster": "gpt-oss-120b",
+            "type": "ai",
+            "p_home": 0.4,
+            "p_draw": 0.35,
+            "p_away": 0.25,
+            "brier": 0.645
+          },
+          {
+            "forecaster": "gpt-4o-mini",
+            "type": "ai",
+            "p_home": 0.34,
+            "p_draw": 0.33,
+            "p_away": 0.33,
+            "brier": 0.6734
+          },
+          {
+            "forecaster": "market",
+            "type": "market",
+            "p_home": 0.4,
+            "p_draw": 0.3,
+            "p_away": 0.3,
+            "brier": 0.74
+          }
+        ]
+      },
+      {
+        "match_id": "g3-EEE-FFF",
+        "home": "Epsilonia",
+        "away": "Zetaland",
+        "stage": "Group Y",
+        "kickoff_utc": "2026-06-12T02:00:00Z",
+        "score": "0-1",
+        "outcome": "away",
+        "rows": [
+          {
+            "forecaster": "crowd",
+            "type": "crowd",
+            "p_home": 0.1,
+            "p_draw": 0.2,
+            "p_away": 0.7,
+            "brier": 0.14
+          },
+          {
+            "forecaster": "human:alice",
+            "type": "human",
+            "p_home": 0.1,
+            "p_draw": 0.2,
+            "p_away": 0.7,
+            "brier": 0.14
+          },
+          {
+            "forecaster": "llama-70b",
+            "type": "ai",
+            "p_home": 0.2,
+            "p_draw": 0.3,
+            "p_away": 0.5,
+            "brier": 0.38
+          },
+          {
+            "forecaster": "gemini-flash",
+            "type": "ai",
+            "p_home": 0.25,
+            "p_draw": 0.3,
+            "p_away": 0.45,
+            "brier": 0.455
+          },
+          {
+            "forecaster": "market",
+            "type": "market",
+            "p_home": 0.3,
+            "p_draw": 0.3,
+            "p_away": 0.4,
+            "brier": 0.54
+          },
+          {
+            "forecaster": "gpt-oss-120b",
+            "type": "ai",
+            "p_home": 0.25,
+            "p_draw": 0.35,
+            "p_away": 0.4,
+            "brier": 0.545
+          },
+          {
+            "forecaster": "gemma",
+            "type": "ai",
+            "p_home": 0.3,
+            "p_draw": 0.35,
+            "p_away": 0.35,
+            "brier": 0.635
+          },
+          {
+            "forecaster": "gpt-4o-mini",
+            "type": "ai",
+            "p_home": 0.33,
+            "p_draw": 0.33,
+            "p_away": 0.34,
+            "brier": 0.6534
+          }
+        ]
+      }
+    ]
+  }
+}

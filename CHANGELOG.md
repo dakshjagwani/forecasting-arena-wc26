@@ -4,6 +4,26 @@ Every data correction and every decision that affects the experiment's
 integrity is logged here, newest first. Scores JSONs are never hand-edited;
 they are recomputed from raw data after any correction.
 
+## 2026-06-13 — Adaptive freeze window; scoring schedule fixed; per-match boards
+
+- **Freeze is now window-gated, not clock-fixed**: picks close **3 hours
+  before the day's first kickoff**. Fixture analysis showed first kickoffs
+  range 16:00–22:00 UTC (e.g. 18:00 UTC on 2026-06-14, 16:00 UTC on
+  2026-06-15) — any fixed freeze time would have been after kickoff or had
+  no retry margin on those days. Scheduled attempts run every 30 min
+  (12:00–20:30 UTC) and self-gate: too early → no-op, already frozen →
+  no-op, inside the window → freeze. Same information cutoff for models,
+  market and humans, as pre-registered. Applied BEFORE any affected matchday.
+- **Scoring crons moved to 01:15 + 09:30 UTC** (was 06:00): last kickoffs
+  run as late as 07:00 UTC, whose results the old time missed by ~22h.
+  Evening games now score the same night.
+- **Per-match boards added** (`data/scores/match_scores.json` + a section on
+  the leaderboard page): a mini-leaderboard for every scored match, grouped
+  by matchday. Display-only — the cumulative table remains the official
+  pre-registered ranking (golden test confirms it is byte-identical).
+- Raw LLM responses now stored up to 4000 chars (was 1000) for the bias lab
+  and post-hoc analysis. Additive only; no scored field changes.
+
 ## 2026-06-12 (later) — Six-layer freeze failover (docs/RELIABILITY.md)
 
 - Third GitHub cron (18:40 UTC); external independent trigger via

@@ -2,8 +2,12 @@ name: Daily score
 
 on:
   schedule:
-    # 06:00 UTC daily — after all late-night matches have finished
-    - cron: '0 6 * * *'
+    # 01:15 UTC: scores the evening matches the same night.
+    # 09:30 UTC: sweeps the late-night US games — last kickoffs run as late
+    # as 07:00 UTC (FT ~08:55), which the old 06:00 cron missed by a day.
+    # Scoring is idempotent, so running twice is free.
+    - cron: '15 1 * * *'
+    - cron: '30 9 * * *'
   workflow_dispatch:
 
 permissions:

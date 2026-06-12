@@ -24,8 +24,8 @@ flowchart LR
 
     subgraph GH["🐙 GitHub (compute + storage + hosting)"]
         subgraph ACT["Actions (cron, runs on GitHub's servers)"]
-            FW["freeze.yml\n17:45 UTC daily\n(+retries, see RELIABILITY.md)"]
-            SW["score.yml\n06:00 UTC daily"]
+            FW["freeze.yml\nwindow-gated attempts\nevery 30 min (RELIABILITY.md)"]
+            SW["score.yml\n01:15 + 09:30 UTC"]
             TW["test.yml\non every push"]
         end
         subgraph DATA["repo /data (the database, append-only)"]
@@ -75,16 +75,16 @@ never required — both crons run on GitHub's machines.
 sequenceDiagram
     participant H as Humans (phones)
     participant S as Google Sheet
-    participant A as freeze.yml (17:45 UTC)
+    participant A as freeze.yml (3h before first KO)
     participant L as 5 LLM APIs + Odds API
     participant R as repo /data
     participant P as GitHub Pages
     participant FB as football-data.org
-    participant C as score.yml (06:00 UTC)
+    participant C as score.yml (01:15 + 09:30 UTC)
 
-    Note over H,S: All day until 17:45 UTC
+    Note over H,S: All day until 3h before first kickoff
     H->>S: picks via picks.html → Apps Script
-    Note over A: 17:45 UTC — THE FREEZE (retries 18:20/18:40 + external trigger)
+    Note over A: window opens (first KO − 3h) — THE FREEZE (attempts every 30 min + external trigger)
     A->>A: gates: secrets? before kickoff? not already frozen?
     A->>L: identical prompt ×5 models, temp 0 + odds snapshot
     A->>S: fetch CSV, keep latest pre-freeze row per person
@@ -92,7 +92,7 @@ sequenceDiagram
     A->>R: commit predictions/YYYY-MM-DD.json  🔒 immutable
     A-->>H: ntfy push: ✅ Freeze OK
     Note over H: kickoff — matches play, site shows "locked"
-    Note over C: 06:00 UTC next morning
+    Note over C: 01:15 UTC (evening games) + 09:30 UTC (late-night games)
     C->>FB: fetch final scores
     C->>R: append results.json
     C->>C: Brier per forecaster, qualification, calibration
@@ -112,11 +112,13 @@ flowchart TD
     G1 -- no --> X1[/"exit 1 — nothing queried"/]
     G1 -- yes --> DAY["group_by_utc8(fixtures)\ncampaign day = (kickoff − 8h).date"]
     DAY --> PH["placeholder gate:\nskip is_placeholder fixtures"]
-    PH --> G2{"Gate 2: now <\nearliest kickoff?"}
-    G2 -- no --> X2[/"exit 2 — late freeze is VOID"/]
-    G2 -- yes --> G3{"Gate 3: file already\nexists? (double-freeze)"}
-    G3 -- yes --> X3[/"exit 0 — clean no-op,\nnever overwrites\n(retry-cron safe)"/]
-    G3 -- no --> ODDS2["fetch_odds() → de-vig:\n1/odds, normalise to sum 1\nmatch_odds() alias-aware fuzzy match"]
+    PH --> G2{"Gate 2: already frozen?\n(file exists)"}
+    G2 -- yes --> X2[/"exit 0 — clean no-op,\nnever overwrites\n(retry-cron safe)"/]
+    G2 -- no --> G2b{"Gate 3: window open?\nnow ≥ first KO − 3h"}
+    G2b -- "no (scheduled run)" --> X2b[/"exit 0 — too early,\nno-op"/]
+    G2b -- yes --> G3{"Gate 4: now <\nearliest kickoff?"}
+    G3 -- no --> X3[/"exit 2 — late freeze is VOID\n(--remaining rescues the rest)"/]
+    G3 -- yes --> ODDS2["fetch_odds() → de-vig:\n1/odds, normalise to sum 1\nmatch_odds() alias-aware fuzzy match"]
     ODDS2 --> CTX["context_builder.get_context_block()\nElo + last-10 form + H2H + venue\n→ injected into every prompt"]
     CTX --> LOOP["per match × AI_LINEUP\n(single source of truth)"]
     LOOP --> Q["query_gemini / query_groq /\nquery_openrouter / query_github_models\ntemp 0 · 3 attempts · backoff"]
@@ -124,7 +126,7 @@ flowchart TD
     PARSE --> NORM["normalise(): clamp [0.01,0.98],\nrenormalise to sum 1.0"]
     NORM --> HUM["ingest_human_picks()\nlatest pre-freeze row wins ·\ntest-* slugs excluded"]
     HUM --> CROWD["compute_crowd()\nmean of human triples"]
-    CROWD --> G4{"Gate 4: every triple sums\nto 1? forecaster ∈ lineup?"}
+    CROWD --> G4{"Gate 5: every triple sums\nto 1? forecaster ∈ lineup?"}
     G4 -- no --> X4[/"exit 4 — drift detected"/]
     G4 -- yes --> WRITE["write predictions/DATE.json\n(CI commits + pushes)"]
 ```
@@ -149,8 +151,8 @@ flowchart TD
 
 | File | What it does | Reads | Writes | Triggered by |
 |---|---|---|---|---|
-| `scripts/freeze.py` | Daily prediction freeze: odds + 5 LLMs + human picks → validated, immutable snapshot | fixtures.json, Sheet CSV, 6 APIs, reference/ | predictions/DATE.json | freeze.yml crons 17:45/18:20/18:40 UTC (or manual/external) |
-| `scripts/score.py` | Brier scores, qualification, calibration, rankings | predictions/, results.json, fixtures.json | scores/*.json | score.yml cron 06:00 UTC |
+| `scripts/freeze.py` | Daily prediction freeze: odds + 5 LLMs + human picks → validated, immutable snapshot | fixtures.json, Sheet CSV, 6 APIs, reference/ | predictions/DATE.json | freeze.yml window-gated crons every 30 min (or manual/external) |
+| `scripts/score.py` | Brier scores, qualification, calibration, rankings, per-match boards | predictions/, results.json, fixtures.json | scores/*.json incl. match_scores.json | score.yml crons 01:15 + 09:30 UTC |
 | `scripts/fetch_results.py` | Pulls final scores; manual results entry stays first-class fallback | football-data.org | results.json | score.yml (continue-on-error) |
 | `scripts/validate_data.py` | Audits the whole /data tree: schemas, sums, referential integrity, lineup membership, freeze-before-kickoff | everything in /data | exit code only | all 3 workflows + every push |
 | `scripts/context_builder.py` | Builds Elo/form/H2H/venue context for prompts and the picks-UI intel panels | reference/*.csv,json | reference/match_contexts.json | imported by freeze.py |
@@ -180,7 +182,7 @@ flowchart TD
 1. **Git is the referee.** A prediction only counts if its commit predates
    kickoff. That's why freeze aborts rather than ever writing late.
 2. **One clock for everyone.** Models, market snapshot and humans share the
-   17:45 UTC cutoff — nobody gets later information.
+   same pre-kickoff cutoff (first KO − 3h) — nobody gets later information.
 3. **Recompute, never edit.** score.py rebuilds everything from raw data on
    each run; corrections go into results.json + CHANGELOG.md, never into
    leaderboard.json by hand.
