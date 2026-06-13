@@ -313,22 +313,11 @@ input[type="text"]:focus {
   border-radius: 999px;
   padding: .25rem .75rem;
   font-weight: 700;
-  max-width: 110px;
+  max-width: 140px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
-.hdr-right { display: flex; align-items: center; gap: .5rem; min-width: 0; }
-.hdr-link {
-  font-size: 1.15rem;
-  line-height: 1;
-  text-decoration: none;
-  flex-shrink: 0;
-  opacity: .85;
-  transition: opacity var(--dur-fast), transform var(--dur-fast);
-}
-.hdr-link:hover { opacity: 1; transform: scale(1.12); }
 
 /* ── Matchday banner ────────────────────────────────────────────────────── */
 .matchday-banner {
@@ -342,6 +331,10 @@ input[type="text"]:focus {
   flex-shrink: 0;
   z-index: 2;
 }
+
+/* Cards screen reserves space for the persistent bottom tab bar so the
+   cards and progress rail are never hidden behind it. */
+#screen-cards { padding-bottom: calc(54px + env(safe-area-inset-bottom)); }
 
 /* ── Cards track wrapper + nav ──────────────────────────────────────────── */
 .cards-track-wrapper {
