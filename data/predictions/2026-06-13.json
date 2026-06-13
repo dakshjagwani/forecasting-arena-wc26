@@ -1,0 +1,412 @@
+{
+  "date": "2026-06-13",
+  "freeze_utc": "2026-06-13T19:04:55Z",
+  "matches": [
+    {
+      "match_id": "md005-QAT-SUI",
+      "forecasts": {
+        "market": {
+          "p_home": 0.069994,
+          "p_draw": 0.145588,
+          "p_away": 0.784418,
+          "raw_odds": [
+            13.0,
+            6.25,
+            1.16
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.1,
+          "p_draw": 0.18,
+          "p_away": 0.72,
+          "reasoning": "Switzerland's significantly higher Elo (1904 vs 1580) makes them strong favorites. Qatar's poor recent form and the single H2H win being a friendly further support a Swiss victory, despite Qatar being",
+          "raw": "{\"p_home\": 0.10, \"p_draw\": 0.18, \"p_away\": 0.72, \"reasoning\": \"Switzerland's significantly higher Elo (1904 vs 1580) makes them strong favorites. Qatar's poor recent form and the single H2H win being a friendly further support a Swiss victory, despite Qatar being 'home'.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.2,
+          "p_draw": 0.3,
+          "p_away": 0.5,
+          "reasoning": "Elo difference favors Switzerland",
+          "raw": "{\"p_home\": 0.20, \"p_draw\": 0.30, \"p_away\": 0.50, \"reasoning\": \"Elo difference favors Switzerland\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.12,
+          "p_draw": 0.23,
+          "p_away": 0.65,
+          "reasoning": "Switzerland holds a massive Elo advantage (+324) and superior recent form. While Qatar has a historical friendly win, the current gap in quality and Switzerland's consistency make them heavy favorites",
+          "raw": "```json\n{\"p_home\": 0.12, \"p_draw\": 0.23, \"p_away\": 0.65, \"reasoning\": \"Switzerland holds a massive Elo advantage (+324) and superior recent form. While Qatar has a historical friendly win, the current gap in quality and Switzerland's consistency make them heavy favorites despite the neutral venue.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.16,
+          "p_draw": 0.2,
+          "p_away": 0.64,
+          "reasoning": "Switzerland\u2019s 324\u2011point Elo edge gives them ~65% win chance; Qatar\u2019s modest home boost raises their win odds to ~15%. Draws drop to ~20% given the disparity and neutral venue.",
+          "raw": "{\"p_home\":0.16,\"p_draw\":0.20,\"p_away\":0.64,\"reasoning\":\"Switzerland\u2019s 324\u2011point Elo edge gives them ~65% win chance; Qatar\u2019s modest home boost raises their win odds to ~15%. Draws drop to ~20% given the disparity and neutral venue.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.25,
+          "p_draw": 0.3,
+          "p_away": 0.45,
+          "reasoning": "Switzerland's higher Elo rating and recent form suggest they are favored. Qatar's historical win adds some uncertainty, but overall, Switzerland is more likely to win.",
+          "raw": "{\"p_home\": 0.25, \"p_draw\": 0.30, \"p_away\": 0.45, \"reasoning\": \"Switzerland's higher Elo rating and recent form suggest they are favored. Qatar's historical win adds some uncertainty, but overall, Switzerland is more likely to win.\"}",
+          "status": "ok"
+        },
+        "human:daksh": {
+          "p_home": 0.2,
+          "p_draw": 0.15,
+          "p_away": 0.65,
+          "name": "Daksh"
+        },
+        "human:vijay": {
+          "p_home": 0.57,
+          "p_draw": 0.26,
+          "p_away": 0.17,
+          "name": "Vijay"
+        },
+        "human:logan": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Logan"
+        },
+        "human:joyce": {
+          "p_home": 0.01,
+          "p_draw": 0.55,
+          "p_away": 0.44,
+          "name": "Joyce"
+        },
+        "human:sakshi": {
+          "p_home": 0.25,
+          "p_draw": 0.25,
+          "p_away": 0.5,
+          "name": "Sakshi"
+        },
+        "human:kanchan": {
+          "p_home": 0.52,
+          "p_draw": 0.18,
+          "p_away": 0.3,
+          "name": "Kanchan"
+        },
+        "human:dilip-s-jagwani": {
+          "p_home": 0.693069,
+          "p_draw": 0.009901,
+          "p_away": 0.29703,
+          "name": "Dilip S Jagwani"
+        },
+        "crowd": {
+          "p_home": 0.321867,
+          "p_draw": 0.201414,
+          "p_away": 0.476719,
+          "n": 7
+        }
+      }
+    },
+    {
+      "match_id": "md006-BRA-MAR",
+      "forecasts": {
+        "market": {
+          "p_home": 0.572961,
+          "p_draw": 0.247129,
+          "p_away": 0.17991,
+          "raw_odds": [
+            1.57,
+            3.64,
+            5.0
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.58,
+          "p_draw": 0.25,
+          "p_away": 0.17,
+          "reasoning": "Brazil's higher Elo and home advantage make them favorites. Morocco's recent win and good form suggest they can challenge, but Brazil's historical dominance and tournament experience are key factors.",
+          "raw": "```json\n{\n  \"p_home\": 0.58,\n  \"p_draw\": 0.25,\n  \"p_away\": 0.17,\n  \"reasoning\": \"Brazil's higher Elo and home advantage make them favorites. Morocco's recent win and good form suggest they can challenge, but Brazil's historical dominance and tournament experience are key factors.\"\n}\n```",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.55,
+          "p_draw": 0.28,
+          "p_away": 0.17,
+          "reasoning": "Elo difference and home advantage favor Brazil",
+          "raw": "{\"p_home\": 0.55, \"p_draw\": 0.28, \"p_away\": 0.17, \"reasoning\": \"Elo difference and home advantage favor Brazil\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.52,
+          "p_draw": 0.26,
+          "p_away": 0.22,
+          "reasoning": "Brazil holds a significant Elo advantage and historical superiority, though Morocco's recent form and 2023 victory show they are competitive. Brazil's quality makes them favorites, but Morocco's defen",
+          "raw": "```json\n{\"p_home\": 0.52, \"p_draw\": 0.26, \"p_away\": 0.22, \"reasoning\": \"Brazil holds a significant Elo advantage and historical superiority, though Morocco's recent form and 2023 victory show they are competitive. Brazil's quality makes them favorites, but Morocco's defensive resilience increases the likelihood of a draw or narrow upset.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.48,
+          "p_draw": 0.22,
+          "p_away": 0.3,
+          "reasoning": "Brazil\u2019s 87\u2011point Elo edge gives ~62% win odds; adjusting for typical 20\u201122% draw rate in balanced groups yields ~48% Brazil win, ~30% Morocco win, ~22% draw.",
+          "raw": "{\"p_home\": 0.48, \"p_draw\": 0.22, \"p_away\": 0.30, \"reasoning\": \"Brazil\u2019s 87\u2011point Elo edge gives ~62% win odds; adjusting for typical 20\u201122% draw rate in balanced groups yields ~48% Brazil win, ~30% Morocco win, ~22% draw.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.55,
+          "p_draw": 0.25,
+          "p_away": 0.2,
+          "reasoning": "Brazil's higher Elo rating and historical performance suggest a strong advantage, despite Morocco's recent win. The warm conditions favor Brazil, but Morocco's form indicates they can compete, leading",
+          "raw": "{\"p_home\": 0.55, \"p_draw\": 0.25, \"p_away\": 0.20, \"reasoning\": \"Brazil's higher Elo rating and historical performance suggest a strong advantage, despite Morocco's recent win. The warm conditions favor Brazil, but Morocco's form indicates they can compete, leading to a balanced probability distribution.\"}",
+          "status": "ok"
+        },
+        "human:daksh": {
+          "p_home": 0.6,
+          "p_draw": 0.2,
+          "p_away": 0.2,
+          "name": "Daksh"
+        },
+        "human:vijay": {
+          "p_home": 0.67,
+          "p_draw": 0.18,
+          "p_away": 0.15,
+          "name": "Vijay"
+        },
+        "human:logan": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Logan"
+        },
+        "human:joyce": {
+          "p_home": 0.51,
+          "p_draw": 0.27,
+          "p_away": 0.22,
+          "name": "Joyce"
+        },
+        "human:sakshi": {
+          "p_home": 0.7,
+          "p_draw": 0.16,
+          "p_away": 0.14,
+          "name": "Sakshi"
+        },
+        "human:kanchan": {
+          "p_home": 0.4,
+          "p_draw": 0.59,
+          "p_away": 0.01,
+          "name": "Kanchan"
+        },
+        "human:dilip-s-jagwani": {
+          "p_home": 0.693069,
+          "p_draw": 0.009901,
+          "p_away": 0.29703,
+          "name": "Dilip S Jagwani"
+        },
+        "crowd": {
+          "p_home": 0.650438,
+          "p_draw": 0.202843,
+          "p_away": 0.146719,
+          "n": 7
+        }
+      }
+    },
+    {
+      "match_id": "md007-HAI-SCO",
+      "forecasts": {
+        "market": {
+          "p_home": 0.159011,
+          "p_draw": 0.222615,
+          "p_away": 0.618375,
+          "raw_odds": [
+            5.6,
+            4.0,
+            1.44
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.22,
+          "p_draw": 0.27,
+          "p_away": 0.51,
+          "reasoning": "Scotland has a significant Elo advantage (142 points) over Haiti, making them clear favorites. While Haiti's home advantage and recent form are decent, Scotland's higher quality should prevail. A draw",
+          "raw": "{\"p_home\": 0.22, \"p_draw\": 0.27, \"p_away\": 0.51, \"reasoning\": \"Scotland has a significant Elo advantage (142 points) over Haiti, making them clear favorites. While Haiti's home advantage and recent form are decent, Scotland's higher quality should prevail. A draw is plausible given group stage stakes.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.26,
+          "p_draw": 0.28,
+          "p_away": 0.46,
+          "reasoning": "Elo difference favors Scotland",
+          "raw": "{\"p_home\": 0.26, \"p_draw\": 0.28, \"p_away\": 0.46, \"reasoning\": \"Elo difference favors Scotland\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.18,
+          "p_draw": 0.24,
+          "p_away": 0.58,
+          "reasoning": "Scotland holds a significant Elo advantage (+142), indicating a higher technical ceiling. While Haiti is playing as the designated home team in Boston, Scotland's superior consistency and ranking make",
+          "raw": "```json\n{\"p_home\": 0.18, \"p_draw\": 0.24, \"p_away\": 0.58, \"reasoning\": \"Scotland holds a significant Elo advantage (+142), indicating a higher technical ceiling. While Haiti is playing as the designated home team in Boston, Scotland's superior consistency and ranking make them strong favorites, though a draw remains a plausible outcome given the group stage stakes.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.237,
+          "p_draw": 0.14,
+          "p_away": 0.623,
+          "reasoning": "Scotland 142 Elo points higher; logistic win expectancy 0.69. Adjust for typical draw rate, reduced by rating gap, yielding ~14% draw. Home win \u224823%, away win \u224862%.",
+          "raw": "{\"p_home\": 0.237, \"p_draw\": 0.14, \"p_away\": 0.623, \"reasoning\": \"Scotland 142 Elo points higher; logistic win expectancy 0.69. Adjust for typical draw rate, reduced by rating gap, yielding ~14% draw. Home win \u224823%, away win \u224862%.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.25,
+          "p_draw": 0.3,
+          "p_away": 0.45,
+          "reasoning": "Scotland's higher Elo rating and recent form suggest they are favored. Haiti's home advantage and Scotland's inconsistency provide a chance for a draw or upset.",
+          "raw": "{\"p_home\": 0.25, \"p_draw\": 0.30, \"p_away\": 0.45, \"reasoning\": \"Scotland's higher Elo rating and recent form suggest they are favored. Haiti's home advantage and Scotland's inconsistency provide a chance for a draw or upset.\"}",
+          "status": "ok"
+        },
+        "human:daksh": {
+          "p_home": 0.15,
+          "p_draw": 0.15,
+          "p_away": 0.7,
+          "name": "Daksh"
+        },
+        "human:vijay": {
+          "p_home": 0.22,
+          "p_draw": 0.28,
+          "p_away": 0.5,
+          "name": "Vijay"
+        },
+        "human:logan": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Logan"
+        },
+        "human:joyce": {
+          "p_home": 0.01,
+          "p_draw": 0.48,
+          "p_away": 0.51,
+          "name": "Joyce"
+        },
+        "human:sakshi": {
+          "p_home": 0.16,
+          "p_draw": 0.6,
+          "p_away": 0.24,
+          "name": "Sakshi"
+        },
+        "human:kanchan": {
+          "p_home": 0.39604,
+          "p_draw": 0.009901,
+          "p_away": 0.594059,
+          "name": "Kanchan"
+        },
+        "human:dilip-s-jagwani": {
+          "p_home": 0.39604,
+          "p_draw": 0.009901,
+          "p_away": 0.594059,
+          "name": "Dilip S Jagwani"
+        },
+        "crowd": {
+          "p_home": 0.191726,
+          "p_draw": 0.219972,
+          "p_away": 0.588303,
+          "n": 7
+        }
+      }
+    },
+    {
+      "match_id": "md008-AUS-UEPC",
+      "forecasts": {
+        "market": {
+          "p_home": 0.189375,
+          "p_draw": 0.259715,
+          "p_away": 0.55091,
+          "raw_odds": [
+            4.8,
+            3.5,
+            1.65
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.25,
+          "p_draw": 0.28,
+          "p_away": 0.47,
+          "reasoning": "T\u00fcrkiye has a higher Elo, better recent form, and a dominant head-to-head record. Australia's home advantage is somewhat offset by T\u00fcrkiye's overall strength. The group stage context means both teams ",
+          "raw": "{\"p_home\": 0.25, \"p_draw\": 0.28, \"p_away\": 0.47, \"reasoning\": \"T\u00fcrkiye has a higher Elo, better recent form, and a dominant head-to-head record. Australia's home advantage is somewhat offset by T\u00fcrkiye's overall strength. The group stage context means both teams will aim for a result.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.25,
+          "p_draw": 0.28,
+          "p_away": 0.47,
+          "reasoning": "T\u00fcrkiye's higher Elo and recent wins give them an edge.",
+          "raw": "{\"p_home\": 0.25, \"p_draw\": 0.28, \"p_away\": 0.47, \"reasoning\": \"T\u00fcrkiye's higher Elo and recent wins give them an edge.\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.22,
+          "p_draw": 0.26,
+          "p_away": 0.52,
+          "reasoning": "T\u00fcrkiye enters as the clear favorite based on a significantly higher Elo rating and superior recent form (unbeaten in 5). Australia's inconsistent form and poor historical head-to-head record against ",
+          "raw": "```json\n{\"p_home\": 0.22, \"p_draw\": 0.26, \"p_away\": 0.52, \"reasoning\": \"T\u00fcrkiye enters as the clear favorite based on a significantly higher Elo rating and superior recent form (unbeaten in 5). Australia's inconsistent form and poor historical head-to-head record against T\u00fcrkiye further tilt the probabilities toward an away win.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.3,
+          "p_draw": 0.15,
+          "p_away": 0.55,
+          "reasoning": "Turkey's higher Elo (+78), superior recent form (4W1D) and 2\u20110 head\u2011to\u2011head give them an edge; allocate a modest draw chance for a balanced estimate.",
+          "raw": "{\"p_home\": 0.30, \"p_draw\": 0.15, \"p_away\": 0.55, \"reasoning\": \"Turkey's higher Elo (+78), superior recent form (4W1D) and 2\u20110 head\u2011to\u2011head give them an edge; allocate a modest draw chance for a balanced estimate.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.25,
+          "p_draw": 0.3,
+          "p_away": 0.45,
+          "reasoning": "T\u00fcrkiye's higher Elo rating and recent form suggest they are favored. Australia's home advantage and the stakes of the match may lead to a competitive draw, but T\u00fcrkiye is likely to win.",
+          "raw": "{\"p_home\": 0.25, \"p_draw\": 0.30, \"p_away\": 0.45, \"reasoning\": \"T\u00fcrkiye's higher Elo rating and recent form suggest they are favored. Australia's home advantage and the stakes of the match may lead to a competitive draw, but T\u00fcrkiye is likely to win.\"}",
+          "status": "ok"
+        },
+        "human:daksh": {
+          "p_home": 0.2,
+          "p_draw": 0.2,
+          "p_away": 0.6,
+          "name": "Daksh"
+        },
+        "human:vijay": {
+          "p_home": 0.49505,
+          "p_draw": 0.009901,
+          "p_away": 0.49505,
+          "name": "Vijay"
+        },
+        "human:logan": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Logan"
+        },
+        "human:sakshi": {
+          "p_home": 0.53,
+          "p_draw": 0.33,
+          "p_away": 0.14,
+          "name": "Sakshi"
+        },
+        "human:kanchan": {
+          "p_home": 0.39604,
+          "p_draw": 0.009901,
+          "p_away": 0.594059,
+          "name": "Kanchan"
+        },
+        "human:dilip-s-jagwani": {
+          "p_home": 0.693069,
+          "p_draw": 0.009901,
+          "p_away": 0.29703,
+          "name": "Dilip S Jagwani"
+        },
+        "crowd": {
+          "p_home": 0.38736,
+          "p_draw": 0.09495,
+          "p_away": 0.51769,
+          "n": 6
+        }
+      }
+    }
+  ]
+}
