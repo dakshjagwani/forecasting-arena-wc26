@@ -1,0 +1,269 @@
+{
+  "updated_utc": "2026-06-13T05:45:21Z",
+  "days": {
+    "2026-06-12": [
+      {
+        "match_id": "md003-CAN-UEPA",
+        "home": "Canada",
+        "away": "Bosnia and Herzegovina",
+        "stage": "Group B",
+        "kickoff_utc": "2026-06-12T19:00:00Z",
+        "score": "1-1",
+        "outcome": "draw",
+        "rows": [
+          {
+            "forecaster": "human:sakshi",
+            "type": "human",
+            "p_home": 0.47,
+            "p_draw": 0.33,
+            "p_away": 0.2,
+            "brier": 0.7098
+          },
+          {
+            "forecaster": "human:rounak-kulkarni",
+            "type": "human",
+            "p_home": 0.45,
+            "p_draw": 0.3,
+            "p_away": 0.25,
+            "brier": 0.755
+          },
+          {
+            "forecaster": "human:ned",
+            "type": "human",
+            "p_home": 0.5,
+            "p_draw": 0.3,
+            "p_away": 0.2,
+            "brier": 0.78
+          },
+          {
+            "forecaster": "market",
+            "type": "market",
+            "p_home": 0.511628,
+            "p_draw": 0.27907,
+            "p_away": 0.209302,
+            "brier": 0.8253
+          },
+          {
+            "forecaster": "gpt-4o-mini",
+            "type": "ai",
+            "p_home": 0.55,
+            "p_draw": 0.25,
+            "p_away": 0.2,
+            "brier": 0.905
+          },
+          {
+            "forecaster": "human:football",
+            "type": "human",
+            "p_home": 0.45,
+            "p_draw": 0.2,
+            "p_away": 0.35,
+            "brier": 0.965
+          },
+          {
+            "forecaster": "human:vijay",
+            "type": "human",
+            "p_home": 0.5,
+            "p_draw": 0.2,
+            "p_away": 0.3,
+            "brier": 0.98
+          },
+          {
+            "forecaster": "llama-70b",
+            "type": "ai",
+            "p_home": 0.65,
+            "p_draw": 0.25,
+            "p_away": 0.1,
+            "brier": 0.995
+          },
+          {
+            "forecaster": "gemma",
+            "type": "ai",
+            "p_home": 0.62,
+            "p_draw": 0.23,
+            "p_away": 0.15,
+            "brier": 0.9998
+          },
+          {
+            "forecaster": "crowd",
+            "type": "crowd",
+            "p_home": 0.54846,
+            "p_draw": 0.167756,
+            "p_away": 0.283784,
+            "brier": 1.074
+          },
+          {
+            "forecaster": "gemini-flash",
+            "type": "ai",
+            "p_home": 0.72,
+            "p_draw": 0.19,
+            "p_away": 0.09,
+            "brier": 1.1826
+          },
+          {
+            "forecaster": "human:daksh",
+            "type": "human",
+            "p_home": 0.2,
+            "p_draw": 0.15,
+            "p_away": 0.65,
+            "brier": 1.185
+          },
+          {
+            "forecaster": "gpt-oss-120b",
+            "type": "ai",
+            "p_home": 0.73,
+            "p_draw": 0.12,
+            "p_away": 0.15,
+            "brier": 1.3298
+          },
+          {
+            "forecaster": "human:dilip-s-jagwani",
+            "type": "human",
+            "p_home": 0.693069,
+            "p_draw": 0.009901,
+            "p_away": 0.29703,
+            "brier": 1.5489
+          },
+          {
+            "forecaster": "human:vanita",
+            "type": "human",
+            "p_home": 0.693069,
+            "p_draw": 0.009901,
+            "p_away": 0.29703,
+            "brier": 1.5489
+          },
+          {
+            "forecaster": "human:logan",
+            "type": "human",
+            "p_home": 0.98,
+            "p_draw": 0.01,
+            "p_away": 0.01,
+            "brier": 1.9406
+          }
+        ]
+      },
+      {
+        "match_id": "md004-USA-PAR",
+        "home": "USA",
+        "away": "Paraguay",
+        "stage": "Group D",
+        "kickoff_utc": "2026-06-13T04:00:00Z",
+        "score": "4-1",
+        "outcome": "home",
+        "rows": [
+          {
+            "forecaster": "human:logan",
+            "type": "human",
+            "p_home": 0.98,
+            "p_draw": 0.01,
+            "p_away": 0.01,
+            "brier": 0.0006
+          },
+          {
+            "forecaster": "human:vanita",
+            "type": "human",
+            "p_home": 0.693069,
+            "p_draw": 0.009901,
+            "p_away": 0.29703,
+            "brier": 0.1825
+          },
+          {
+            "forecaster": "gpt-oss-120b",
+            "type": "ai",
+            "p_home": 0.53,
+            "p_draw": 0.22,
+            "p_away": 0.25,
+            "brier": 0.3318
+          },
+          {
+            "forecaster": "human:vijay",
+            "type": "human",
+            "p_home": 0.52,
+            "p_draw": 0.18,
+            "p_away": 0.3,
+            "brier": 0.3528
+          },
+          {
+            "forecaster": "crowd",
+            "type": "crowd",
+            "p_home": 0.476153,
+            "p_draw": 0.138557,
+            "p_away": 0.38529,
+            "brier": 0.4421
+          },
+          {
+            "forecaster": "market",
+            "type": "market",
+            "p_home": 0.452822,
+            "p_draw": 0.288422,
+            "p_away": 0.258756,
+            "brier": 0.4495
+          },
+          {
+            "forecaster": "human:rounak-kulkarni",
+            "type": "human",
+            "p_home": 0.45,
+            "p_draw": 0.17,
+            "p_away": 0.38,
+            "brier": 0.4758
+          },
+          {
+            "forecaster": "gemini-flash",
+            "type": "ai",
+            "p_home": 0.38,
+            "p_draw": 0.29,
+            "p_away": 0.33,
+            "brier": 0.5774
+          },
+          {
+            "forecaster": "llama-70b",
+            "type": "ai",
+            "p_home": 0.38,
+            "p_draw": 0.29,
+            "p_away": 0.33,
+            "brier": 0.5774
+          },
+          {
+            "forecaster": "gemma",
+            "type": "ai",
+            "p_home": 0.38,
+            "p_draw": 0.27,
+            "p_away": 0.35,
+            "brier": 0.5798
+          },
+          {
+            "forecaster": "gpt-4o-mini",
+            "type": "ai",
+            "p_home": 0.35,
+            "p_draw": 0.25,
+            "p_away": 0.4,
+            "brier": 0.645
+          },
+          {
+            "forecaster": "human:sakshi",
+            "type": "human",
+            "p_home": 0.31,
+            "p_draw": 0.29,
+            "p_away": 0.4,
+            "brier": 0.7202
+          },
+          {
+            "forecaster": "human:football",
+            "type": "human",
+            "p_home": 0.21,
+            "p_draw": 0.18,
+            "p_away": 0.61,
+            "brier": 1.0286
+          },
+          {
+            "forecaster": "human:daksh",
+            "type": "human",
+            "p_home": 0.17,
+            "p_draw": 0.13,
+            "p_away": 0.7,
+            "brier": 1.1958
+          }
+        ]
+      }
+    ]
+  }
+}
