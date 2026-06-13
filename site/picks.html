@@ -72,6 +72,12 @@
       </div>
 
     </div>
+
+    <nav class="tabbar" aria-label="Site navigation">
+      <a href="picks.html" aria-current="page"><span class="ico">⚽</span>Picks</a>
+      <a href="index.html"><span class="ico">🏆</span>Leaderboard</a>
+      <a href="methodology.html"><span class="ico">📖</span>How it works</a>
+    </nav>
   </section>
 
   <!-- SCREEN: Cards -->
@@ -79,7 +85,10 @@
     <header class="cards-header">
       <button id="btn-back" class="btn-ghost small">← Back</button>
       <span id="progress-text" class="progress-text">1 / 8</span>
-      <span id="user-chip" class="user-chip"></span>
+      <div class="hdr-right">
+        <a href="index.html" class="hdr-link" title="Leaderboard" aria-label="Leaderboard">🏆</a>
+        <span id="user-chip" class="user-chip"></span>
+      </div>
     </header>
 
     <div id="matchday-banner" class="matchday-banner" hidden></div>
@@ -106,8 +115,13 @@
       <p class="confirm-tag">Locked in. Now we wait for the AI… and reality.</p>
       <button id="btn-share" class="btn-primary">Share my picks ⚽</button>
       <button id="btn-edit" class="btn-ghost">Edit picks</button>
-      <a href="index.html" style="font-size:.8rem;color:var(--text-sub);text-decoration:none;margin-top:.25rem">View leaderboard →</a>
     </div>
+
+    <nav class="tabbar" aria-label="Site navigation">
+      <a href="picks.html" aria-current="page"><span class="ico">⚽</span>Picks</a>
+      <a href="index.html"><span class="ico">🏆</span>Leaderboard</a>
+      <a href="methodology.html"><span class="ico">📖</span>How it works</a>
+    </nav>
   </section>
 
   <script src="https://cdn.jsdelivr.net/npm/nouislider@15.8.1/dist/nouislider.min.js"></script>

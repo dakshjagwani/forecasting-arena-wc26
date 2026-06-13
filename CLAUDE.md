@@ -288,6 +288,21 @@ No login, no cookies, no analytics beyond a simple page-view counter if free.
 The two surfaces that must be excellent: the pick form and the personal card.
 Everything else can be ugly-but-clear.
 
+**Navigation**: a shared bottom tab bar (`.tabbar` in style.css) links the
+three public surfaces — ⚽ Picks / 🏆 Leaderboard / 📖 How it works — on
+index.html, methodology.html, and the picks landing + confirmation screens.
+The immersive cards screen omits the bar (it would fight the slider/scroll-snap)
+and instead carries a 🏆 leaderboard link in its header. ops.html is private —
+never in the public nav.
+
+**Leaderboard presentation** (index.html): the pre-registered Brier score is
+kept as the canonical number but presented for non-experts — colour bands vs
+the 0.667 coin-flip line (green beats random, red worse), a persistent
+plain-English explainer, "beats market"/"behind" word cues, and the Uniform
+row tagged as the coin-flip line. Two views via tabs: **Overall** (cumulative —
+the official ranking) and **By match** (per-match boards from match_scores.json,
+display-only). Presentation only — the scoring spec (§7) is unchanged.
+
 ---
 
 ## 13. Testing strategy (risk-weighted — do not gold-plate)

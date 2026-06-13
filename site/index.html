@@ -13,13 +13,18 @@
     })();
   </script>
   <style>
+    /* This page scrolls — override the picks-app shell's overflow:hidden
+       (style.css sets html,body{overflow:hidden} for the swipe UI). Without
+       this the leaderboard is clipped at the fold and can't scroll. */
+    html, body { overflow: auto; height: auto; }
+
     /* Leaderboard-specific styles */
     .lb-page {
       min-height: 100vh;
       background: var(--bg);
-      overflow-y: auto;
       display: flex;
       flex-direction: column;
+      padding-bottom: calc(64px + env(safe-area-inset-bottom));  /* clear the tab bar */
     }
 
     .lb-hero {
@@ -127,6 +132,59 @@
 
     .brier { font-variant-numeric: tabular-nums; font-weight: 700; }
     .brier-best { color: var(--green); }
+    /* Score colour bands relative to the coin-flip line (0.667) */
+    .brier-good { color: #15803d; }
+    .brier-mid  { color: #b45309; }
+    .brier-bad  { color: #b91c1c; }
+    [data-theme="dark"] .brier-good { color: #4ade80; }
+    [data-theme="dark"] .brier-mid  { color: #fbbf24; }
+    [data-theme="dark"] .brier-bad  { color: #f87171; }
+    .coinflip-tag { font-size: .62rem; color: var(--text-sub); font-style: italic; margin-left: .35rem; white-space: nowrap; }
+    .vs-word { font-size: .62rem; font-weight: 700; margin-left: .3rem; }
+
+    /* Plain-English explainer banner */
+    .lb-explainer {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: .7rem 1rem;
+      font-size: .8rem;
+      line-height: 1.5;
+      color: var(--text-sub);
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .lb-explainer b { color: var(--text); }
+    .lb-explainer .dot { display:inline-block; width:.6rem; height:.6rem; border-radius:50%; vertical-align:middle; margin:0 .15rem; }
+
+    /* Overall / By-match tabs */
+    .lb-tabs {
+      display: flex;
+      gap: .4rem;
+      max-width: 760px;
+      margin: 1.1rem auto .25rem;
+      padding: 0 1rem;
+    }
+    .lb-tab {
+      flex: 1;
+      padding: .6rem 1rem;
+      font-size: .9rem;
+      font-weight: 700;
+      text-align: center;
+      border: 1.5px solid var(--border);
+      border-radius: 999px;
+      background: var(--card-bg);
+      color: var(--text-sub);
+      cursor: pointer;
+      transition: all var(--dur-fast);
+    }
+    .lb-tab[aria-selected="true"] {
+      background: var(--home);
+      border-color: var(--home);
+      color: #fff;
+    }
+    .lb-panel[hidden] { display: none; }
+    /* .tabbar is defined in style.css (shared across pages) */
 
     .vs-market { font-size: .8rem; }
     .vs-better { color: var(--green); }
@@ -221,23 +279,53 @@
     </a>
   </div>
 
-  <!-- Leaderboard table -->
-  <div class="lb-table-wrap">
-    <div id="leaderboard-container">
-      <div class="empty-state">
-        <div class="big">⏳</div>
-        <p><strong>Loading leaderboard…</strong></p>
-        <p>No matches scored yet — check back after the first matchday.</p>
+  <!-- Plain-English explainer -->
+  <div style="padding:0 1rem">
+    <div class="lb-explainer">
+      <b>How to read this:</b> everyone predicts the same matches as
+      probabilities; we score how accurate they were. <b>Lower score = better.</b>
+      <span class="dot" style="background:#15803d"></span><b>0.667 is a coin-flip</b> —
+      green beats random guessing, red is worse. <b>vs Market</b> below zero
+      means you're beating the bookies. <a href="methodology.html">Full methodology →</a>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="lb-tabs" role="tablist">
+    <button class="lb-tab" id="tab-overall" role="tab" aria-selected="true"  aria-controls="panel-overall">🏆 Overall</button>
+    <button class="lb-tab" id="tab-bymatch" role="tab" aria-selected="false" aria-controls="panel-bymatch">⚽ By match</button>
+  </div>
+
+  <!-- Panel: Overall (cumulative — the official ranking) -->
+  <div class="lb-panel" id="panel-overall" role="tabpanel" aria-labelledby="tab-overall">
+    <div class="lb-table-wrap">
+      <div id="leaderboard-container">
+        <div class="empty-state">
+          <div class="big">⏳</div>
+          <p><strong>Loading leaderboard…</strong></p>
+          <p>No matches scored yet — check back after the first matchday.</p>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Per-match boards (display-only; the cumulative table above is the official ranking) -->
-  <div class="lb-table-wrap" id="matchday-boards"></div>
+  <!-- Panel: By match (display-only; Overall above is the official ranking) -->
+  <div class="lb-panel" id="panel-bymatch" role="tabpanel" aria-labelledby="tab-bymatch" hidden>
+    <div class="lb-table-wrap" id="matchday-boards">
+      <div class="empty-state"><p>No matches scored yet.</p></div>
+    </div>
+  </div>
 
   <div class="updated" id="updated-time"></div>
 
 </div>
+
+<!-- Bottom navigation (shared across public pages) -->
+<nav class="tabbar" aria-label="Site navigation">
+  <a href="picks.html"><span class="ico">⚽</span>Picks</a>
+  <a href="index.html" aria-current="page"><span class="ico">🏆</span>Leaderboard</a>
+  <a href="methodology.html"><span class="ico">📖</span>How it works</a>
+</nav>
 
 <script>
 const LEADERBOARD_URL = '../data/scores/leaderboard.json';
@@ -250,16 +338,27 @@ const TYPE_BADGE = {
   baseline:['BASE','badge-baseline'],
 };
 
+const COIN_FLIP = 2 / 3;  // uniform (1/3,1/3,1/3) Brier — the "knows nothing" line
+
 function fmt(n) {
   return n === null || n === undefined ? '–' : n.toFixed(3);
 }
 
-function vsMarketCell(vs) {
-  if (vs === null || vs === undefined) return '<span class="vs-same">–</span>';
+// Colour a score by where it sits relative to the coin-flip line.
+function brierBand(b) {
+  if (b === null || b === undefined) return '';
+  if (b < COIN_FLIP - 0.04) return 'brier-good';   // clearly beats random
+  if (b <= COIN_FLIP + 0.001) return 'brier-mid';   // around the line
+  return 'brier-bad';                               // worse than guessing
+}
+
+function vsMarketCell(vs, withWord) {
+  if (vs === null || vs === undefined) return '<span class="vs-same">— <span class="vs-word">benchmark</span></span>';
   if (Math.abs(vs) < 0.0005) return '<span class="vs-same">±0.000</span>';
   const sign = vs < 0 ? '–' : '+';
   const cls  = vs < 0 ? 'vs-better' : 'vs-worse';
-  return `<span class="${cls}">${sign}${Math.abs(vs).toFixed(3)}</span>`;
+  const word = withWord ? `<span class="vs-word">${vs < 0 ? 'beats market' : 'behind'}</span>` : '';
+  return `<span class="${cls}">${sign}${Math.abs(vs).toFixed(3)} ${word}</span>`;
 }
 
 function displayName(row) {
@@ -329,17 +428,21 @@ function render(data) {
     const rankStr = showRank
       ? `<td class="rank ${rank===1?'top1':rank===2?'top2':rank===3?'top3':''}">${rank}</td>`
       : `<td class="rank">–</td>`;
-    const brierClass = row.mean_brier === bestBrier && row.qualified ? 'brier brier-best' : 'brier';
+    const brierClass = `brier ${brierBand(row.mean_brier)}`;
     const nameClass  = row.type === 'human' ? 'forecaster-name human-name' : 'forecaster-name';
+    const coinTag    = row.forecaster === 'uniform'
+      ? ' <span class="coinflip-tag">← the coin-flip line</span>' : '';
+    // word cue only on the top few qualified rows, to keep it uncluttered
+    const withWord   = showRank && rank <= 5;
 
     return `<tr class="${row.qualified ? '' : 'unqualified'}">
       ${rankStr}
       <td><span class="badge ${badgeClass}">${badgeLabel}</span></td>
-      <td class="${nameClass}">${displayName(row)}${!row.qualified ? ' <span class="unqualified-tag">(needs more picks)</span>':''}
+      <td class="${nameClass}">${displayName(row)}${coinTag}${!row.qualified ? ' <span class="unqualified-tag">(needs more picks)</span>':''}
       </td>
       <td style="text-align:center">${row.n_predicted}</td>
       <td class="${brierClass}">${fmt(row.mean_brier)}</td>
-      <td>${vsMarketCell(row.vs_market)}</td>
+      <td>${vsMarketCell(row.vs_market, withWord)}</td>
     </tr>`;
   }
 
@@ -358,15 +461,16 @@ function render(data) {
           <th>Type</th>
           <th>Forecaster</th>
           <th style="text-align:center">Predictions</th>
-          <th>Brier ↓</th>
+          <th title="Multiclass Brier score — lower is better. 0.667 = a coin-flip.">Score (lower = better) ⓘ</th>
           <th>vs Market</th>
         </tr>
       </thead>
       <tbody>${tableRows.join('')}</tbody>
     </table>
     <p style="font-size:.72rem;color:#94a3b8;margin:.75rem 0 0 .25rem">
-      Lower Brier score = better. Market is the benchmark.
-      Greyed rows haven't predicted ≥60% of available matches yet.
+      <span class="brier-good" style="font-weight:700">green</span> beats a coin-flip ·
+      <span class="brier-bad" style="font-weight:700">red</span> is worse than guessing ·
+      greyed rows haven't predicted ≥60% of matches since they joined.
       · <a href="methodology.html" style="color:inherit">How scoring works</a>
     </p>`;
 }
@@ -406,7 +510,7 @@ async function loadMatchBoards() {
         <div class="md-match-head">${m.home} ${m.score.replace('-', '–')} ${m.away}</div>
         <div class="md-match-sub">${m.stage} · result: ${m.outcome === 'draw' ? 'draw' : m.outcome + ' win'}</div>
         <table>
-          <thead><tr><th>#</th><th></th><th>Forecaster</th><th>Home/Draw/Away</th><th>Brier ↓</th></tr></thead>
+          <thead><tr><th>#</th><th></th><th>Forecaster</th><th>Home/Draw/Away</th><th>Score ↓</th></tr></thead>
           <tbody>${rows}</tbody>
         </table>
       </div>`;
@@ -426,6 +530,25 @@ async function loadMatchBoards() {
 
 loadLeaderboard();
 loadMatchBoards();
+
+// ── Overall / By-match tabs ─────────────────────────────────────────────────
+(function () {
+  const tabs = {
+    overall: { btn: document.getElementById('tab-overall'), panel: document.getElementById('panel-overall') },
+    bymatch: { btn: document.getElementById('tab-bymatch'), panel: document.getElementById('panel-bymatch') },
+  };
+  function select(key) {
+    for (const [k, t] of Object.entries(tabs)) {
+      const on = k === key;
+      t.btn.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.panel.hidden = !on;
+    }
+    localStorage.setItem('fa_lb_tab', key);
+  }
+  tabs.overall.btn.addEventListener('click', () => select('overall'));
+  tabs.bymatch.btn.addEventListener('click', () => select('bymatch'));
+  select(localStorage.getItem('fa_lb_tab') === 'bymatch' ? 'bymatch' : 'overall');
+})();
 
 // Dark mode toggle
 (function() {

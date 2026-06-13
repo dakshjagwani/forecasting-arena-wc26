@@ -17,7 +17,7 @@
     .doc {
       max-width: 680px;
       margin: 0 auto;
-      padding: 2rem 1.25rem 4rem;
+      padding: 2rem 1.25rem calc(72px + env(safe-area-inset-bottom));
       line-height: 1.65;
       font-size: .95rem;
     }
@@ -141,5 +141,11 @@
     surprising and worth a closer look (and a check for leakage). Negative
     results are publishable results.</p>
   </main>
+
+  <nav class="tabbar" aria-label="Site navigation">
+    <a href="picks.html"><span class="ico">⚽</span>Picks</a>
+    <a href="index.html"><span class="ico">🏆</span>Leaderboard</a>
+    <a href="methodology.html" aria-current="page"><span class="ico">📖</span>How it works</a>
+  </nav>
 </body>
 </html>

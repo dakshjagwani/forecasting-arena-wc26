@@ -44,9 +44,12 @@ copy-paste. Reads fixtures.json + leaderboard.json, no backend.
 
 ## 3. Playwright smoke suite (TESTING.md §3.5 — last open testing gap)
 
-~8 behavioural checks at 375px/1440px, light+dark: no-overlap invariant,
+~11 behavioural checks at 375px/1440px, light+dark: no-overlap invariant,
 no-truncation, no-phantom-picks, pick round-trip, freeze-banner truth,
-submission payload, placeholder rendering, leaderboard empty/error states.
+submission payload, placeholder rendering, leaderboard empty/error states,
+**leaderboard scrolls to its last row + into the per-match boards**,
+**Overall↔By-match tab switch works**, **bottom tab-bar links resolve on every
+public page and the active page is highlighted**.
 Runner: `npx playwright test` against `python3 -m http.server` of /site.
 Do this BEFORE the next significant UI change. Also closes TESTING.md §6 #10
 (JS-side UTC-8 parity runner reading tests/fixtures/utc8_cases.json).

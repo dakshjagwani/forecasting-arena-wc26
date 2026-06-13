@@ -4,6 +4,24 @@ Every data correction and every decision that affects the experiment's
 integrity is logged here, newest first. Scores JSONs are never hand-edited;
 they are recomputed from raw data after any correction.
 
+## 2026-06-13 (later) — Leaderboard UX overhaul + site navigation
+
+- **Fixed a scroll bug** on the leaderboard: it inherited the picks-app's
+  `html,body{overflow:hidden}` and so couldn't scroll past the fold — which
+  also hid the per-match boards entirely. Added the one-line override
+  index.html was missing.
+- **Brier made legible** (presentation only — scoring unchanged): colour bands
+  vs the 0.667 coin-flip line, a persistent plain-English explainer, "beats
+  market"/"behind" cues, column relabelled "Score (lower = better) ⓘ", Uniform
+  row tagged as the coin-flip line.
+- **Overall / By-match tabs**: the cumulative ranking (official) and the
+  per-match boards are now two tabs instead of stacked, so both are obvious
+  and reachable.
+- **Site navigation**: shared bottom tab bar (Picks / Leaderboard / How it
+  works) on index, methodology, and the picks landing + confirmation screens;
+  a 🏆 link in the cards-screen header. Fixes "the only way to the leaderboard
+  was to submit picks first".
+
 ## 2026-06-13 — Adaptive freeze window; scoring schedule fixed; per-match boards
 
 - **Freeze is now window-gated, not clock-fixed**: picks close **3 hours
