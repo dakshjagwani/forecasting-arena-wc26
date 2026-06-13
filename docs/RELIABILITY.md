@@ -60,12 +60,12 @@ remaining matches legitimately.
 5. **Generate token** and copy the `github_pat_…` string somewhere safe.
 
 **Step B — prove the token works (your terminal, before touching cron-job.org):**
-```bash
-curl -i -X POST \
-  -H "Authorization: Bearer github_pat_PASTE_HERE" \
-  -H "Accept: application/vnd.github+json" \
-  https://api.github.com/repos/dakshjagwani/forecasting-arena-wc26/actions/workflows/freeze.yml/dispatches \
-  -d '{"ref":"main"}'
+Paste this as ONE line (don't copy the word `bash` from any code fence — that
+just opens a new shell and prints a macOS banner; the request never runs).
+Replace the token with your real `github_pat_…`:
+
+```
+curl -i -X POST -H "Authorization: Bearer github_pat_PASTE_HERE" -H "Accept: application/vnd.github+json" https://api.github.com/repos/dakshjagwani/forecasting-arena-wc26/actions/workflows/freeze.yml/dispatches -d '{"ref":"main"}'
 ```
 Success = response `HTTP/2 204` (no body) **and** a new "Daily freeze" run
 appearing at github.com → Actions within seconds (it will no-op green if
