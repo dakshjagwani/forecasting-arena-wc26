@@ -51,8 +51,12 @@ remaining matches legitimately.
    - **Expiration**: Custom → any date after 2026-07-19
    - **Resource owner**: your account
    - **Repository access**: *Only select repositories* → `forecasting-arena-wc26`
-   - **Permissions → Repository permissions** → find **Actions** → set to
-     **Read and write**. (Leave everything else at No access.)
+   - **Permissions**: the list starts EMPTY showing "No repository permissions
+     added yet" — that's expected. Click **+ Add permissions** (top-right of
+     the box), type **`Actions`**, select it, and set its access to
+     **Read and write**. **Metadata: Read-only** is then added automatically
+     (GitHub requires it — leave it). The box should read "Repositories 2".
+     Nothing under the **Account** tab is needed.
 5. **Generate token** and copy the `github_pat_…` string somewhere safe.
 
 **Step B — prove the token works (your terminal, before touching cron-job.org):**
