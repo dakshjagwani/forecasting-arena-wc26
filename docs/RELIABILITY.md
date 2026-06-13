@@ -77,11 +77,15 @@ replaying this exact request on a schedule.
 **Step C — schedule it (cron-job.org):**
 1. Sign up free → **Create cronjob** (button top-right of the Cronjobs page).
 2. **Title**: `arena-freeze-backup` · **URL**: the same API URL from Step B.
-3. **Execution schedule**: hourly through the afternoon — pick *custom* and
-   set minute **15**, hours **12–19** (or cron expression `15 12-19 * * *`).
-   Each dispatch is safe: freeze.py no-ops unless it's inside the 3h
-   pre-kickoff window. ⚠ Check the timezone selector — set it to **UTC**
-   (the account default is often Europe/Berlin).
+3. **Execution schedule**: pick **Custom** and set the crontab expression to
+   `15 12-19 * * *` (fires at :15 past each hour, noon–7pm). Each dispatch is
+   safe: freeze.py no-ops unless it's inside the 3h pre-kickoff window.
+   ⚠ **Timezone**: the "Next executions" panel shows the job's timezone
+   (defaults to your locale, e.g. Europe/London). Set it to **UTC** and keep
+   `15 12-19`. If you can't switch it off a UK/Berlin locale, the whole
+   tournament is on summer time (UTC+1), so use `15 13-20 * * *` instead —
+   same 12:15–19:15 UTC. Getting this wrong fires the backup outside the
+   window on late-kickoff days.
 4. Open the **Advanced** tab:
    - **Request method**: POST
    - **Headers** — add two:
