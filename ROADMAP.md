@@ -19,10 +19,11 @@ dashboard is green, then pick up the highest unchecked item.
 - [ ] If anything is red: incident playbook in CLAUDE.md §14.3; manual freeze
       via Actions → "Daily freeze" → Run workflow (supports date, dry_run,
       and remaining = rescue mode after a kickoff has passed)
-- [ ] Daksh, ~10 min: set up failover layers 4–5 — cron-job.org external
-      trigger + healthchecks.io dead-man's switch. Exact steps in
-      docs/RELIABILITY.md. Until then the freeze relies on GitHub's
-      scheduler + the dashboard/ntfy + you.
+- [x] Failover layers 2–3 set up & verified 2026-06-13/14 (cron-job.org
+      external trigger + healthchecks.io dead-man's switch). All five
+      reliability layers now live — see docs/RELIABILITY.md. One future task:
+      reissue the cron-job.org PAT before it expires 2026-10-08 (only matters
+      if the project outlives the tournament).
 
 ## 1. card.html — personal calibration card  ← BUILD NEXT
 

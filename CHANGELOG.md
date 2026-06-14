@@ -4,6 +4,16 @@ Every data correction and every decision that affects the experiment's
 integrity is logged here, newest first. Scores JSONs are never hand-edited;
 they are recomputed from raw data after any correction.
 
+## 2026-06-14 — Full reliability stack operational
+
+- Failover layers 2 and 3 (docs/RELIABILITY.md) are now configured and
+  verified end-to-end: **cron-job.org** independent hourly trigger
+  (`arena-freeze-backup`, 12:15–19:15 UTC, PAT expires 2026-10-08) and the
+  **healthchecks.io** dead-man's switch (`daily-freeze`, `0 12 * * *` UTC /
+  9 h grace, ping URL in repo secret `HEALTHCHECK_URL`, email alerts). A test
+  freeze confirmed the workflow pings the check. All five layers — GitHub
+  crons, external trigger, dead-man's switch, and manual/rescue — are live.
+
 ## 2026-06-13 (later) — Leaderboard UX overhaul + site navigation
 
 - **Fixed a scroll bug** on the leaderboard: it inherited the picks-app's

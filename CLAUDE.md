@@ -365,11 +365,16 @@ suite follows in Phase 1.
 
 ## 14. Maintenance, monitoring & incident playbook
 
-### 14.1 Monitoring (all free)
+### 14.1 Monitoring (all free) — see docs/RELIABILITY.md for the full stack
 - GitHub Actions failure emails are ON by default — do not silence them.
-- Optional but recommended: a `curl` to ntfy.sh (free push notifications) as
-  the final step of freeze.yml — one topic for SUCCESS, one for FAILURE — so a
-  silent cron death is noticed before kickoff, not after.
+- ntfy.sh push (topic `forecasting-arena-daksh`) fires from freeze.yml only
+  when a freeze actually happens — SUCCESS confirmation before kickoff.
+- **Dead-man's switch (live since 2026-06-14)**: freeze.yml pings a
+  healthchecks.io check (`daily-freeze`, secret `HEALTHCHECK_URL`) on every
+  successful freeze; if no day gets frozen by ~21:00 UTC it alarms by email —
+  the one failure no error-email can catch (nothing ran to fail).
+- **cron-job.org** independently triggers the freeze hourly (12:15–19:15 UTC)
+  in case GitHub's own scheduler dies. PAT expires 2026-10-08.
 - `validate_data.py` runs as the last step of score.yml across the whole
   /data tree (section 13.4 checks repo-wide). A red run = data problem.
 

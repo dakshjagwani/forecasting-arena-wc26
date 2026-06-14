@@ -16,12 +16,24 @@ too early → no-op · already frozen → no-op · inside the window → freeze.
 Immutability is enforced by the script (an existing file is never
 overwritten), not by the scheduler, so unlimited retries are free.
 
-| # | Layer | Fires (UTC) | Survives |
-|---|-------|-------------|----------|
-| 1 | GitHub crons, every 30 min | 12:00–20:30 (≈18/day; ~6 land inside any day's window) | several dropped crons in a row |
-| 2 | **cron-job.org** → workflow dispatch API, hourly | 12:15–19:15 | GitHub's scheduler entirely dead (Actions itself still up) |
-| 3 | **healthchecks.io** dead-man's switch | alarms ~21:00 if no real freeze pinged | *everything silent* — phone alarm tells Daksh to press the button |
-| 4 | Human: dashboard one-click dispatch, or local `python scripts/freeze.py` + push; after first kickoff use **rescue mode** (`--remaining`) | any time | full GitHub Actions outage |
+| # | Layer | Fires (UTC) | Survives | Status |
+|---|-------|-------------|----------|--------|
+| 1 | GitHub crons, every 30 min | 12:00–20:30 (≈18/day; ~6 land inside any day's window) | several dropped crons in a row | ✅ live |
+| 2 | **cron-job.org** → workflow dispatch API, hourly | 12:15–19:15 | GitHub's scheduler entirely dead (Actions itself still up) | ✅ live |
+| 3 | **healthchecks.io** dead-man's switch | alarms ~21:00 if no real freeze pinged | *everything silent* — phone alarm tells Daksh to press the button | ✅ live |
+| 4 | Human: dashboard one-click dispatch, or local `python scripts/freeze.py` + push; after first kickoff use **rescue mode** (`--remaining`) | any time | full GitHub Actions outage | always available |
+
+### Live configuration (set up 2026-06-13/14)
+
+- **Layer 2 — cron-job.org** job `arena-freeze-backup`: POST to the
+  freeze.yml dispatch API, schedule `15 12-19 * * *` UTC, body `{"ref":"main"}`,
+  fine-grained PAT with **Actions: write**. ⚠ **Token expires 2026-10-08** —
+  after the 2026-07-19 final, so no in-tournament gap, but reissue + repaste
+  into the job's Authorization header before then if the project outlives it.
+- **Layer 3 — healthchecks.io** check `daily-freeze`: cron `0 12 * * *` UTC,
+  grace 9 h; its ping URL is stored as the repo secret `HEALTHCHECK_URL`;
+  freeze.yml pings it on every successful freeze; Email integration →
+  daksh.jagwani7@gmail.com (confirmed). Verified pinging end-to-end.
 
 **Rescue mode** (layer 4): `--remaining` (also a checkbox on the manual Run
 workflow form) freezes only the matches that haven't kicked off yet; passed
@@ -31,14 +43,15 @@ remaining matches legitimately.
 
 ---
 
-## One-time setup (Daksh) — layers 4 and 5, step by step
+## One-time setup (Daksh) — layers 2 and 3 · DONE 2026-06-13/14
 
-> Web UIs change their labels; if an exact label below doesn't exist, look
-> for the nearest synonym — each step says what the setting must *achieve*,
-> which is the part that matters. Steps 1–3 of layer 4 are testable from
-> your terminal before any external website is involved.
+> ✅ Both layers are already configured and verified (see "Live configuration"
+> above). The steps below are kept as the reference for re-doing them — e.g.
+> reissuing the cron-job.org token after 2026-10-08, or recreating the
+> healthchecks.io check. Web UIs change their labels; each step says what the
+> setting must *achieve*, which is the part that matters.
 
-### Layer 4 — cron-job.org (independent trigger) · ~10 min
+### Layer 2 — cron-job.org (independent trigger) · ~10 min
 
 **Step A — create the token (on github.com):**
 1. Click your avatar (top-right) → **Settings**.
@@ -97,7 +110,7 @@ replaying this exact request on a schedule.
 6. In cron-job.org settings, make sure **failure notifications** (email on
    non-2xx) are on — that's how you learn the PAT expired.
 
-### Layer 5 — healthchecks.io (dead-man's switch) · ~5 min
+### Layer 3 — healthchecks.io (dead-man's switch) · ~5 min
 
 1. Sign up free at <https://healthchecks.io> → you land on a project with a
    default check, or click **Add Check**.
