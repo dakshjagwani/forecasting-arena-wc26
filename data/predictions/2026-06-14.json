@@ -1,0 +1,298 @@
+{
+  "date": "2026-06-14",
+  "freeze_utc": "2026-06-14T15:05:19Z",
+  "matches": [
+    {
+      "match_id": "md009-GER-CUR",
+      "forecasts": {
+        "market": {
+          "p_home": 0.906477,
+          "p_draw": 0.06164,
+          "p_away": 0.031883,
+          "raw_odds": [
+            1.02,
+            15.0,
+            29.0
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.88,
+          "p_draw": 0.1,
+          "p_away": 0.02,
+          "reasoning": "Germany's significantly higher Elo (1982 vs 1612) and perfect recent form make them strong favorites. Cura\u00e7ao's unknown form and the heat (though mitigated) are minor factors. A draw is unlikely, an a",
+          "raw": "{\"p_home\": 0.88, \"p_draw\": 0.1, \"p_away\": 0.02, \"reasoning\": \"Germany's significantly higher Elo (1982 vs 1612) and perfect recent form make them strong favorites. Cura\u00e7ao's unknown form and the heat (though mitigated) are minor factors. A draw is unlikely, an away win highly improbable.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.8,
+          "p_draw": 0.15,
+          "p_away": 0.05,
+          "reasoning": "Elo difference and Germany's form favor a home win.",
+          "raw": "{\"p_home\": 0.8, \"p_draw\": 0.15, \"p_away\": 0.05, \"reasoning\": \"Elo difference and Germany's form favor a home win.\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.88,
+          "p_draw": 0.09,
+          "p_away": 0.03,
+          "reasoning": "Massive Elo gap (370 points) indicates a high probability of a Germany win. Germany's perfect recent form contrasts with Cura\u00e7ao's lower tier status. While Houston's humidity is a factor, Germany's de",
+          "raw": "```json\n{\"p_home\": 0.88, \"p_draw\": 0.09, \"p_away\": 0.03, \"reasoning\": \"Massive Elo gap (370 points) indicates a high probability of a Germany win. Germany's perfect recent form contrasts with Cura\u00e7ao's lower tier status. While Houston's humidity is a factor, Germany's depth and quality should comfortably overcome the underdog.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.75,
+          "p_draw": 0.15,
+          "p_away": 0.1,
+          "reasoning": "Germany\u2019s 370\u2011Elo edge suggests ~90% win odds, but hot, humid conditions and Cura\u00e7ao\u2019s climate familiarity lower it to ~75% win, with ~15% draw and ~10% upset chance.",
+          "raw": "{\"p_home\":0.75, \"p_draw\":0.15, \"p_away\":0.10, \"reasoning\":\"Germany\u2019s 370\u2011Elo edge suggests ~90% win odds, but hot, humid conditions and Cura\u00e7ao\u2019s climate familiarity lower it to ~75% win, with ~15% draw and ~10% upset chance.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.75,
+          "p_draw": 0.15,
+          "p_away": 0.1,
+          "reasoning": "Germany's high Elo rating and recent form suggest a strong advantage, while Cura\u00e7ao's lower Elo and lack of recent competitive matches indicate a significant challenge. The heat may slightly affect pe",
+          "raw": "{\"p_home\": 0.75, \"p_draw\": 0.15, \"p_away\": 0.10, \"reasoning\": \"Germany's high Elo rating and recent form suggest a strong advantage, while Cura\u00e7ao's lower Elo and lack of recent competitive matches indicate a significant challenge. The heat may slightly affect performance but favors the stronger team.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Ned"
+        },
+        "human:daksh": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Daksh"
+        },
+        "crowd": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "n": 2
+        }
+      }
+    },
+    {
+      "match_id": "md010-NED-JPN",
+      "forecasts": {
+        "market": {
+          "p_home": 0.464266,
+          "p_draw": 0.275746,
+          "p_away": 0.259989,
+          "raw_odds": [
+            1.96,
+            3.3,
+            3.5
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.42,
+          "p_draw": 0.3,
+          "p_away": 0.28,
+          "reasoning": "Netherlands has a slight Elo advantage and a strong H2H record. Japan's recent form is excellent, but the heat could impact the Dutch less than expected given their historical performance in varied co",
+          "raw": "```json\n{\n  \"p_home\": 0.42,\n  \"p_draw\": 0.30,\n  \"p_away\": 0.28,\n  \"reasoning\": \"Netherlands has a slight Elo advantage and a strong H2H record. Japan's recent form is excellent, but the heat could impact the Dutch less than expected given their historical performance in varied conditions. A draw is plausible given the group stage stakes.\"\n}\n```",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.45,
+          "p_draw": 0.28,
+          "p_away": 0.27,
+          "reasoning": "Netherlands' home advantage countered by Japan's form and heat conditions.",
+          "raw": "{\"p_home\": 0.45, \"p_draw\": 0.28, \"p_away\": 0.27, \"reasoning\": \"Netherlands' home advantage countered by Japan's form and heat conditions.\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.38,
+          "p_draw": 0.27,
+          "p_away": 0.35,
+          "reasoning": "Elo ratings are nearly identical, but Japan's perfect recent form and the extreme Texas heat/humidity favor their physiological adaptability over the Dutch. Netherlands holds a historical edge, but th",
+          "raw": "```json\n{\"p_home\": 0.38, \"p_draw\": 0.27, \"p_away\": 0.35, \"reasoning\": \"Elo ratings are nearly identical, but Japan's perfect recent form and the extreme Texas heat/humidity favor their physiological adaptability over the Dutch. Netherlands holds a historical edge, but the environmental conditions neutralize their slight quality advantage, making this a high-variance toss-up.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.33,
+          "p_draw": 0.3,
+          "p_away": 0.37,
+          "reasoning": "Netherlands slight Elo edge but Japan's perfect recent form and climate advantage balance it; head\u2011to\u2011head favors Netherlands, so a modest home win chance, higher draw likelihood, and Japan marginally",
+          "raw": "{\"p_home\": 0.33, \"p_draw\": 0.30, \"p_away\": 0.37, \"reasoning\": \"Netherlands slight Elo edge but Japan's perfect recent form and climate advantage balance it; head\u2011to\u2011head favors Netherlands, so a modest home win chance, higher draw likelihood, and Japan marginally favored.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.45,
+          "p_draw": 0.25,
+          "p_away": 0.3,
+          "reasoning": "The Netherlands has historical advantage and home support, but Japan's recent form and the challenging conditions may level the playing field, leading to a competitive match.",
+          "raw": "{\"p_home\": 0.45, \"p_draw\": 0.25, \"p_away\": 0.30, \"reasoning\": \"The Netherlands has historical advantage and home support, but Japan's recent form and the challenging conditions may level the playing field, leading to a competitive match.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.19,
+          "p_draw": 0.56,
+          "p_away": 0.25,
+          "name": "Ned"
+        },
+        "human:daksh": {
+          "p_home": 0.3,
+          "p_draw": 0.4,
+          "p_away": 0.3,
+          "name": "Daksh"
+        },
+        "crowd": {
+          "p_home": 0.245,
+          "p_draw": 0.48,
+          "p_away": 0.275,
+          "n": 2
+        }
+      }
+    },
+    {
+      "match_id": "md011-CIV-ECU",
+      "forecasts": {
+        "market": {
+          "p_home": 0.29932,
+          "p_draw": 0.326531,
+          "p_away": 0.37415,
+          "raw_odds": [
+            3.0,
+            2.75,
+            2.4
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.22,
+          "p_draw": 0.28,
+          "p_away": 0.5,
+          "reasoning": "Ecuador has a significantly higher Elo rating (2016 vs 1805) and slightly better recent form. While C\u00f4te d'Ivoire is 'home', the Elo difference is substantial, making Ecuador the clear favorite.",
+          "raw": "{\"p_home\": 0.22, \"p_draw\": 0.28, \"p_away\": 0.50, \"reasoning\": \"Ecuador has a significantly higher Elo rating (2016 vs 1805) and slightly better recent form. While C\u00f4te d'Ivoire is 'home', the Elo difference is substantial, making Ecuador the clear favorite.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.25,
+          "p_draw": 0.28,
+          "p_away": 0.47,
+          "reasoning": "Ecuador's higher Elo rating and recent form give them an edge.",
+          "raw": "{\"p_home\": 0.25, \"p_draw\": 0.28, \"p_away\": 0.47, \"reasoning\": \"Ecuador's higher Elo rating and recent form give them an edge.\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.28,
+          "p_draw": 0.27,
+          "p_away": 0.45,
+          "reasoning": "Ecuador holds a significant Elo advantage (+211), indicating a higher baseline quality. While C\u00f4te d'Ivoire is in strong form, Ecuador's stability and superior ranking make them favorites, though the ",
+          "raw": "```json\n{\"p_home\": 0.28, \"p_draw\": 0.27, \"p_away\": 0.45, \"reasoning\": \"Ecuador holds a significant Elo advantage (+211), indicating a higher baseline quality. While C\u00f4te d'Ivoire is in strong form, Ecuador's stability and superior ranking make them favorites, though the group stage context often increases the likelihood of a draw.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.12,
+          "p_draw": 0.22,
+          "p_away": 0.66,
+          "reasoning": "Elo diff (211) gives Ivory expected score 0.229. Assuming a moderate draw rate (\u224822%) yields home win \u224812% and away win \u224866%.",
+          "raw": "{\"p_home\": 0.12, \"p_draw\": 0.22, \"p_away\": 0.66, \"reasoning\": \"Elo diff (211) gives Ivory expected score 0.229. Assuming a moderate draw rate (\u224822%) yields home win \u224812% and away win \u224866%.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.35,
+          "p_draw": 0.25,
+          "p_away": 0.4,
+          "reasoning": "Ecuador's higher Elo rating and recent form suggest they are favored, but C\u00f4te d'Ivoire's home advantage and competitive stakes make them a strong contender, leading to a balanced probability distribu",
+          "raw": "{\"p_home\": 0.35, \"p_draw\": 0.25, \"p_away\": 0.40, \"reasoning\": \"Ecuador's higher Elo rating and recent form suggest they are favored, but C\u00f4te d'Ivoire's home advantage and competitive stakes make them a strong contender, leading to a balanced probability distribution.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.22,
+          "p_draw": 0.36,
+          "p_away": 0.42,
+          "name": "Ned"
+        },
+        "human:daksh": {
+          "p_home": 0.3,
+          "p_draw": 0.25,
+          "p_away": 0.45,
+          "name": "Daksh"
+        },
+        "crowd": {
+          "p_home": 0.26,
+          "p_draw": 0.305,
+          "p_away": 0.435,
+          "n": 2
+        }
+      }
+    },
+    {
+      "match_id": "md012-UEPB-TUN",
+      "forecasts": {
+        "market": {
+          "p_home": 0.488644,
+          "p_draw": 0.282497,
+          "p_away": 0.228859,
+          "raw_odds": [
+            1.85,
+            3.2,
+            3.95
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.42,
+          "p_draw": 0.3,
+          "p_away": 0.28,
+          "reasoning": "Sweden has a slight Elo advantage and better recent form. However, the extreme heat and humidity heavily favor Tunisia, significantly reducing Sweden's win probability and increasing the chance of a d",
+          "raw": "```json\n{\n  \"p_home\": 0.42,\n  \"p_draw\": 0.30,\n  \"p_away\": 0.28,\n  \"reasoning\": \"Sweden has a slight Elo advantage and better recent form. However, the extreme heat and humidity heavily favor Tunisia, significantly reducing Sweden's win probability and increasing the chance of a draw or Tunisian upset.\"\n}\n```",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.55,
+          "p_draw": 0.28,
+          "p_away": 0.17,
+          "reasoning": "Elo advantage and historical edge favor Sweden",
+          "raw": "{\"p_home\": 0.55, \"p_draw\": 0.28, \"p_away\": 0.17, \"reasoning\": \"Elo advantage and historical edge favor Sweden\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.42,
+          "p_draw": 0.31,
+          "p_away": 0.27,
+          "reasoning": "Sweden holds a slight Elo advantage and better recent form. However, the extreme heat and humidity in Monterrey significantly neutralize Sweden's physical edge, increasing the likelihood of a draw or ",
+          "raw": "```json\n{\"p_home\": 0.42, \"p_draw\": 0.31, \"p_away\": 0.27, \"reasoning\": \"Sweden holds a slight Elo advantage and better recent form. However, the extreme heat and humidity in Monterrey significantly neutralize Sweden's physical edge, increasing the likelihood of a draw or a Tunisia upset due to the North African side's better climate adaptation.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.35,
+          "p_draw": 0.3,
+          "p_away": 0.35,
+          "reasoning": "Sweden\u2019s modest Elo and form edge is offset by extreme heat favouring Tunisia; fatigue raises draw likelihood. Result probabilities thus balance near 35\u201130\u201135.",
+          "raw": "{\"p_home\":0.35, \"p_draw\":0.30, \"p_away\":0.35, \"reasoning\":\"Sweden\u2019s modest Elo and form edge is offset by extreme heat favouring Tunisia; fatigue raises draw likelihood. Result probabilities thus balance near 35\u201130\u201135.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.45,
+          "p_draw": 0.25,
+          "p_away": 0.3,
+          "reasoning": "Sweden has a slight edge in Elo ratings and head-to-head history, but the extreme heat may impact performance, making a draw plausible. Tunisia's recent form suggests they could be competitive.",
+          "raw": "{\"p_home\": 0.45, \"p_draw\": 0.25, \"p_away\": 0.30, \"reasoning\": \"Sweden has a slight edge in Elo ratings and head-to-head history, but the extreme heat may impact performance, making a draw plausible. Tunisia's recent form suggests they could be competitive.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.35,
+          "p_draw": 0.45,
+          "p_away": 0.2,
+          "name": "Ned"
+        },
+        "human:daksh": {
+          "p_home": 0.25,
+          "p_draw": 0.5,
+          "p_away": 0.25,
+          "name": "Daksh"
+        },
+        "crowd": {
+          "p_home": 0.3,
+          "p_draw": 0.475,
+          "p_away": 0.225,
+          "n": 2
+        }
+      }
+    }
+  ]
+}
