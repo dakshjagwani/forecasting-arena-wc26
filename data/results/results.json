@@ -26,5 +26,33 @@
     "score_away": 1,
     "outcome": "home",
     "status": "FT"
+  },
+  {
+    "match_id": "md005-QAT-SUI",
+    "score_home": 1,
+    "score_away": 1,
+    "outcome": "draw",
+    "status": "FT"
+  },
+  {
+    "match_id": "md006-BRA-MAR",
+    "score_home": 1,
+    "score_away": 1,
+    "outcome": "draw",
+    "status": "FT"
+  },
+  {
+    "match_id": "md007-HAI-SCO",
+    "score_home": 0,
+    "score_away": 1,
+    "outcome": "away",
+    "status": "FT"
+  },
+  {
+    "match_id": "md008-AUS-UEPC",
+    "score_home": 2,
+    "score_away": 0,
+    "outcome": "home",
+    "status": "FT"
   }
 ]
