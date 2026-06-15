@@ -1,35 +1,49 @@
 # RELIABILITY — how the daily freeze survives failures
 
 The freeze is the one unrecoverable daily event: if it doesn't run before
-kickoff, the matchday is lost for everyone. Two facts shape the design:
+kickoff, the matchday is lost for everyone. Three facts shape the design:
 
-1. **GitHub's cron scheduler is best-effort** — it silently dropped our
-   18:00 run on 2026-06-12.
+1. **GitHub's cron scheduler is unreliable.** Not just "dropped one run" — it's
+   systematic. `freeze.yml` is configured for ~18 runs/day (every 30 min); on
+   both 2026-06-13 and -14 GitHub actually fired only **6, ~90 min apart**.
+   This matches GitHub's documented behaviour (scheduled workflows are delayed
+   30–60 min and dropped under load — community discussions #156282, #147369).
+   **GitHub cron is therefore demoted to a backup; it is never the thing we
+   rely on.**
 2. **No fixed clock time works**: first kickoffs range from 16:00 UTC to
    22:00 UTC across the tournament, so any fixed freeze time is either after
    some kickoffs or absurdly early for others.
+3. **The freeze is cheap to attempt.** A no-op run (too early / already frozen)
+   exits *before* any API call in <1s, and public-repo Actions minutes are
+   unlimited — so polling every few minutes costs nothing.
 
-So the freeze is **window-gated and self-deciding**: picks close
-**3 hours before the day's first kickoff** (`FREEZE_WINDOW` in freeze.py),
-and *many* triggers fire all afternoon — each run decides for itself:
-too early → no-op · already frozen → no-op · inside the window → freeze.
-Immutability is enforced by the script (an existing file is never
-overwritten), not by the scheduler, so unlimited retries are free.
+So the freeze is **window-gated and self-deciding**: picks close **3 hours
+before the day's first kickoff** (`FREEZE_WINDOW` in freeze.py), the **primary
+trigger (cron-job.org) polls every 3 minutes** all afternoon, and each run
+decides for itself: too early → no-op · already frozen → no-op · inside the
+window → freeze. Immutability is enforced by the script (an existing file is
+never overwritten), not by the scheduler, so unlimited retries are free.
+
+**SLA: the freeze lands within ~3 minutes of the deadline.** The pick UI locks
+at the deadline (KO−3h) regardless, so the few-minute gap before the commit
+captures no new picks — it's invisible to players. The ops dashboard shows
+"window open — freeze fires automatically, do not intervene" during that gap.
 
 | # | Layer | Fires (UTC) | Survives | Status |
 |---|-------|-------------|----------|--------|
-| 1 | GitHub crons, every 30 min | 12:00–20:30 (≈18/day; ~6 land inside any day's window) | several dropped crons in a row | ✅ live |
-| 2 | **cron-job.org** → workflow dispatch API, hourly | 12:15–19:15 | GitHub's scheduler entirely dead (Actions itself still up) | ✅ live |
+| 1 | **cron-job.org** → workflow dispatch API, **every 3 min** | 12:00–20:57 | this is the PRIMARY trigger; reliable, ~3-min latency | ✅ live |
+| 2 | GitHub crons, every 30 min (best-effort backup) | 12:00–20:30 | cron-job.org being down too | ✅ live |
 | 3 | **healthchecks.io** dead-man's switch | alarms ~21:00 if no real freeze pinged | *everything silent* — phone alarm tells Daksh to press the button | ✅ live |
 | 4 | Human: dashboard one-click dispatch, or local `python scripts/freeze.py` + push; after first kickoff use **rescue mode** (`--remaining`) | any time | full GitHub Actions outage | always available |
 
 ### Live configuration (set up 2026-06-13/14)
 
-- **Layer 2 — cron-job.org** job `arena-freeze-backup`: POST to the
-  freeze.yml dispatch API, schedule `15 12-19 * * *` UTC, body `{"ref":"main"}`,
-  fine-grained PAT with **Actions: write**. ⚠ **Token expires 2026-10-08** —
-  after the 2026-07-19 final, so no in-tournament gap, but reissue + repaste
-  into the job's Authorization header before then if the project outlives it.
+- **Layer 1 (PRIMARY) — cron-job.org** job `arena-freeze-backup`: POST to the
+  freeze.yml dispatch API, schedule **`*/3 12-20 * * *` UTC** (every 3 min),
+  body `{"ref":"main"}`, fine-grained PAT with **Actions: write**. ⚠ **Token
+  expires 2026-10-08** — after the 2026-07-19 final, so no in-tournament gap,
+  but reissue + repaste into the job's Authorization header before then if the
+  project outlives it.
 - **Layer 3 — healthchecks.io** check `daily-freeze`: cron `0 12 * * *` UTC,
   grace 9 h; its ping URL is stored as the repo secret `HEALTHCHECK_URL`;
   freeze.yml pings it on every successful freeze; Email integration →
@@ -43,7 +57,7 @@ remaining matches legitimately.
 
 ---
 
-## One-time setup (Daksh) — layers 2 and 3 · DONE 2026-06-13/14
+## One-time setup (Daksh) — the cron-job.org trigger + healthchecks.io · DONE 2026-06-13/14
 
 > ✅ Both layers are already configured and verified (see "Live configuration"
 > above). The steps below are kept as the reference for re-doing them — e.g.
@@ -51,7 +65,7 @@ remaining matches legitimately.
 > healthchecks.io check. Web UIs change their labels; each step says what the
 > setting must *achieve*, which is the part that matters.
 
-### Layer 2 — cron-job.org (independent trigger) · ~10 min
+### Layer 1 (PRIMARY) — cron-job.org (the trigger we rely on) · ~10 min
 
 **Step A — create the token (on github.com):**
 1. Click your avatar (top-right) → **Settings**.
@@ -91,14 +105,16 @@ replaying this exact request on a schedule.
 1. Sign up free → **Create cronjob** (button top-right of the Cronjobs page).
 2. **Title**: `arena-freeze-backup` · **URL**: the same API URL from Step B.
 3. **Execution schedule**: pick **Custom** and set the crontab expression to
-   `15 12-19 * * *` (fires at :15 past each hour, noon–7pm). Each dispatch is
-   safe: freeze.py no-ops unless it's inside the 3h pre-kickoff window.
+   `*/3 12-20 * * *` (every 3 minutes, noon–9pm). This is the PRIMARY trigger,
+   so the freeze fires within ~3 min of the window opening. Each dispatch is
+   safe: freeze.py no-ops (exits in <1s, no API call) unless it's inside the 3h
+   pre-kickoff window.
    ⚠ **Timezone**: the "Next executions" panel shows the job's timezone
    (defaults to your locale, e.g. Europe/London). Set it to **UTC** and keep
-   `15 12-19`. If you can't switch it off a UK/Berlin locale, the whole
-   tournament is on summer time (UTC+1), so use `15 13-20 * * *` instead —
-   same 12:15–19:15 UTC. Getting this wrong fires the backup outside the
-   window on late-kickoff days.
+   `*/3 12-20`. If you can't switch it off a UK/Berlin locale, the whole
+   tournament is on summer time (UTC+1), so use `*/3 13-21 * * *` instead —
+   same 12:00–20:57 UTC coverage. Getting this wrong shifts the polling window
+   off the kickoff windows on late-kickoff days.
 4. Open the **Advanced** tab:
    - **Request method**: POST
    - **Headers** — add two:

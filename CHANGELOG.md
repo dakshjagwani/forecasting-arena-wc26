@@ -4,6 +4,25 @@ Every data correction and every decision that affects the experiment's
 integrity is logged here, newest first. Scores JSONs are never hand-edited;
 they are recomputed from raw data after any correction.
 
+## 2026-06-15 — Freeze trigger re-architected: cron-job.org primary @ 3 min
+
+- **Problem:** the first three matchdays (06-12/13/14) were all frozen
+  manually. Root cause was latency, not failure. GitHub's scheduled cron is
+  unreliable — configured for ~18 runs/day it fired only 6, ~90 min apart, on
+  both 06-13 and -14 (matches GitHub's documented "delayed/dropped under load"
+  behaviour). The cron-job.org backup only polled hourly, so worst-case
+  deadline→freeze latency was ~60 min; seeing the deadline pass with no freeze,
+  Daksh kept triggering it by hand (e.g. 06-14: window opened 15:00, manual
+  freeze 15:05, the automatic 15:15 trigger would have done it 10 min later).
+- **Fix:** cron-job.org is now the PRIMARY trigger, polling the freeze.yml
+  dispatch API **every 3 minutes** (`*/3 12-20 * * *` UTC). The freeze now
+  lands within ~3 min of the deadline. GitHub's 30-min cron is demoted to
+  best-effort backup. No-op attempts exit before any API call, so frequent
+  polling is free. The ops dashboard now shows "window open — freeze fires
+  automatically, do not intervene" during the gap, removing the manual reflex.
+- **Unchanged:** the 3h-before-kickoff deadline, immutability (never
+  overwrites), late-freeze abort, scoring, lineup. Pure trigger-reliability fix.
+
 ## 2026-06-14 — Full reliability stack operational
 
 - Failover layers 2 and 3 (docs/RELIABILITY.md) are now configured and

@@ -24,7 +24,7 @@ flowchart LR
 
     subgraph GH["🐙 GitHub (compute + storage + hosting)"]
         subgraph ACT["Actions (cron, runs on GitHub's servers)"]
-            FW["freeze.yml\nwindow-gated attempts\nevery 30 min (RELIABILITY.md)"]
+            FW["freeze.yml\nwindow-gated; cron-job.org\npolls every 3 min (RELIABILITY.md)"]
             SW["score.yml\n01:15 + 09:30 UTC"]
             TW["test.yml\non every push"]
         end
@@ -84,7 +84,7 @@ sequenceDiagram
 
     Note over H,S: All day until 3h before first kickoff
     H->>S: picks via picks.html → Apps Script
-    Note over A: window opens (first KO − 3h) — THE FREEZE (attempts every 30 min + external trigger)
+    Note over A: window opens (first KO − 3h) — THE FREEZE (cron-job.org polls every 3 min → fires within ~3 min)
     A->>A: gates: secrets? before kickoff? not already frozen?
     A->>L: identical prompt ×5 models, temp 0 + odds snapshot
     A->>S: fetch CSV, keep latest pre-freeze row per person
@@ -151,7 +151,7 @@ flowchart TD
 
 | File | What it does | Reads | Writes | Triggered by |
 |---|---|---|---|---|
-| `scripts/freeze.py` | Daily prediction freeze: odds + 5 LLMs + human picks → validated, immutable snapshot | fixtures.json, Sheet CSV, 6 APIs, reference/ | predictions/DATE.json | freeze.yml window-gated crons every 30 min (or manual/external) |
+| `scripts/freeze.py` | Daily prediction freeze: odds + 5 LLMs + human picks → validated, immutable snapshot | fixtures.json, Sheet CSV, 6 APIs, reference/ | predictions/DATE.json | cron-job.org polls freeze.yml dispatch every 3 min (primary); GitHub 30-min cron backup; or manual |
 | `scripts/score.py` | Brier scores, qualification, calibration, rankings, per-match boards | predictions/, results.json, fixtures.json | scores/*.json incl. match_scores.json | score.yml crons 01:15 + 09:30 UTC |
 | `scripts/fetch_results.py` | Pulls final scores; manual results entry stays first-class fallback | football-data.org | results.json | score.yml (continue-on-error) |
 | `scripts/validate_data.py` | Audits the whole /data tree: schemas, sums, referential integrity, lineup membership, freeze-before-kickoff | everything in /data | exit code only | all 3 workflows + every push |

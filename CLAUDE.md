@@ -57,9 +57,10 @@ is identical in both picks.js and freeze.py — do not change it independently.
 - **Python 3.8+**, stdlib + `requests`. No pandas, no frameworks. Scripts must use
   `from __future__ import annotations` for union type hints to work on Python 3.8.
 - **GitHub Actions**: three workflows — `freeze.yml` (window-gated: picks close 3h
-  before the day's first kickoff; attempts every 30 min 12:00–20:30 UTC +
-  external trigger — see docs/RELIABILITY.md), `score.yml` (crons 01:15 +
-  09:30 UTC + manual dispatch), `test.yml` (every push).
+  before the day's first kickoff; PRIMARY trigger is cron-job.org polling the
+  dispatch API every 3 min, GitHub's own 30-min cron is unreliable backup —
+  see docs/RELIABILITY.md), `score.yml` (crons 01:15 + 09:30 UTC + manual
+  dispatch), `test.yml` (every push).
 - **GitHub Pages** serving `/site` (plain HTML/CSS/JS + Chart.js from CDN).
   No build step. No React. Pages read JSON via `fetch()`.
 - **Human picks**: Custom web app (`site/picks.html`) → POST (mode: no-cors) →
@@ -198,7 +199,7 @@ personal cards.
   card.html          ←      <- PENDING Phase 2: personal calibration card, html2canvas PNG export
   methodology.html   ←      <- PENDING Phase 2: pre-registration artifact (publish asap)
 /.github/workflows/
-  freeze.yml         ✅     <- window-gated attempts every 30 min; ntfy + healthcheck
+  freeze.yml         ✅     <- window-gated; cron-job.org polls dispatch every 3 min (primary), GitHub 30-min cron is backup; ntfy + healthcheck
   score.yml          ✅     <- crons 01:15 + 09:30 UTC + manual dispatch
 /tests/
   conftest.py        ✅     <- sys.path setup so scripts/ is importable
@@ -373,8 +374,10 @@ suite follows in Phase 1.
   healthchecks.io check (`daily-freeze`, secret `HEALTHCHECK_URL`) on every
   successful freeze; if no day gets frozen by ~21:00 UTC it alarms by email —
   the one failure no error-email can catch (nothing ran to fail).
-- **cron-job.org** independently triggers the freeze hourly (12:15–19:15 UTC)
-  in case GitHub's own scheduler dies. PAT expires 2026-10-08.
+- **cron-job.org is the PRIMARY freeze trigger** — it polls the dispatch API
+  every 3 min (12:00–20:57 UTC), so the freeze lands within ~3 min of the
+  deadline. GitHub's own cron is unreliable (fired 6/18 runs, ~90 min apart, on
+  2026-06-13/14) and is now only backup. PAT expires 2026-10-08.
 - `validate_data.py` runs as the last step of score.yml across the whole
   /data tree (section 13.4 checks repo-wide). A red run = data problem.
 

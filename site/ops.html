@@ -91,7 +91,8 @@
 
     <p class="refresh-note">Auto-refreshes every 60s. Data served via GitHub Pages may
     lag pushes by up to ~10 minutes. Freeze: <strong>3h before the day's first
-    kickoff</strong> (attempts every 30 min, 12:00–20:30 UTC); scoring at
+    kickoff</strong> (cron-job.org polls every 3 min, 12:00–20:57 UTC, so it
+    fires within ~3 min of the deadline); scoring at
     <strong>01:15 and 09:30 UTC</strong>.</p>
   </main>
 
@@ -99,7 +100,7 @@
 const REPO = 'dakshjagwani/forecasting-arena-wc26';
 const AI_LINEUP = ['gemini-flash', 'llama-70b', 'gemma', 'gpt-oss-120b', 'gpt-4o-mini'];
 const FREEZE_LEAD_MS  = 3 * 3600_000;   // window opens 3h before first kickoff
-const FREEZE_GRACE_MS = 90 * 60_000;    // red after 3 missed 30-min attempts
+const FREEZE_GRACE_MS = 20 * 60_000;    // red 20min after window opens (auto-freeze fires every ~3min)
 
 function campaignDay(d = new Date()) {
   return new Date(d.getTime() - 8 * 3600_000).toISOString().slice(0, 10);
@@ -157,12 +158,13 @@ async function freezeCheck(day) {
         `Window opens 3h before the day's first kickoff — in ${Math.floor(mins / 60)}h ${mins % 60}m. Remind people to submit picks before then.`);
     }
     if (Date.now() < freezeAt + FREEZE_GRACE_MS) {
-      return check('wait', `Freeze for ${day} pending (attempts run every 30 min)`,
-        `Window opened ${new Date(freezeAt).toLocaleTimeString('en-GB')} — Pages data can also lag a few minutes.`);
+      return check('wait', `Window open for ${day} — freeze fires automatically within ~3 min`,
+        `Window opened ${new Date(freezeAt).toLocaleTimeString('en-GB')}. <strong>No action needed — do NOT trigger manually.</strong> ` +
+        `cron-job.org polls every 3 min; Pages data can also lag a few minutes, so give it a moment to appear here.`);
     }
-    return check('bad', `Freeze for ${day} MISSING — 3 cron attempts have passed`,
-      `Trigger it now: <a href="https://github.com/${REPO}/actions/workflows/freeze.yml" target="_blank">Actions → Daily freeze → Run workflow</a> ` +
-      `(must complete before first kickoff), or run <code>python scripts/freeze.py</code> locally, commit and push.`);
+    return check('bad', `Freeze for ${day} MISSING — 20+ min past window open`,
+      `The 3-min auto-trigger should have fired by now. Check <a href="https://github.com/${REPO}/actions/workflows/freeze.yml" target="_blank">Actions</a>; ` +
+      `if nothing ran, trigger it (Run workflow, before first kickoff) or run <code>python scripts/freeze.py</code> locally, commit and push.`);
   }
 }
 

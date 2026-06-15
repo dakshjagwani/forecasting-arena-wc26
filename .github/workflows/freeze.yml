@@ -2,14 +2,13 @@ name: Daily freeze
 
 on:
   schedule:
-    # ADAPTIVE WINDOW (docs/RELIABILITY.md): first kickoffs range 16:00Z to
-    # 22:00Z across the tournament, so attempts fire every 30 minutes all
-    # afternoon and freeze.py self-gates — too early → no-op, already
-    # frozen → no-op, inside [first kickoff − 3h, kickoff) → freeze. GitHub's
-    # cron is best-effort (it dropped a run on 2026-06-12), so ~18 attempts
-    # per day make a missed window vanishingly unlikely; the external
-    # cron-job.org trigger and healthchecks.io dead-man's switch cover a
-    # full scheduler outage.
+    # GitHub cron is now a BACKUP only. It proved unreliable in practice —
+    # configured for ~18 runs/day it fired only 6, ~90 min apart, on both
+    # 2026-06-13 and -14 (GitHub delays/drops scheduled runs under load).
+    # The PRIMARY trigger is cron-job.org hitting this workflow's dispatch
+    # API every 3 minutes (docs/RELIABILITY.md), so the freeze lands within
+    # ~3 min of the window opening. freeze.py self-gates either way:
+    # too early → no-op, already frozen → no-op, inside the 3h window → freeze.
     - cron: '0,30 12-20 * * *'
   workflow_dispatch:   # manual trigger — also the incident-playbook path
     inputs:
