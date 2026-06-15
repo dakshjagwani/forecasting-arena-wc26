@@ -146,10 +146,16 @@ async function freezeCheck(day) {
         if (f.startsWith('human:')) humans.add(f);
       }
     }
-    const fState = failed.length === 0 ? 'ok' : 'bad';
-    return check(fState, `Freeze done for ${day} (${p.freeze_utc})`,
-      `${n} matches · AI forecasts ${ok}/${n * AI_LINEUP.length} ok` +
-      (failed.length ? ` · FAILED: ${failed.join(', ')}` : '') +
+    // The freeze itself SUCCEEDED — it's committed and immutable. Individual
+    // model failures are expected and allowed (that model is recorded 'failed'
+    // for that match, never substituted), so they're informational, not red.
+    // Only an all-models-failed match or zero humans is worth alarming on.
+    const total = n * AI_LINEUP.length;
+    const allModelsFailed = failed.length >= total;   // pathological
+    const fState = (allModelsFailed || humans.size === 0) ? 'bad' : 'ok';
+    return check(fState, `✅ Freeze done for ${day} (${p.freeze_utc})`,
+      `${n} matches · AI forecasts ${ok}/${total} ok` +
+      (failed.length ? ` · ${failed.length} model-match(es) failed (logged, allowed): ${failed.join(', ')}` : '') +
       ` · ${humans.size} humans` + (humans.size === 0 ? ' — ⚠ nobody submitted picks!' : ''));
   } catch {
     if (Date.now() < freezeAt) {
@@ -169,27 +175,32 @@ async function freezeCheck(day) {
 }
 
 async function workflowChecks() {
-  try {
-    const data = await fetchJson(`https://api.github.com/repos/${REPO}/actions/runs?per_page=30`);
-    const latest = {};
-    for (const r of data.workflow_runs) {
-      if (!latest[r.name]) latest[r.name] = r;
-    }
-    let html = '';
-    for (const name of ['Daily freeze', 'Daily score', 'Tests']) {
-      const r = latest[name];
+  // Query each workflow file separately. The global /runs list is useless now:
+  // cron-job.org polls freeze.yml every 3 min (~180 runs/day), so the most
+  // recent 30 are ALL "Daily freeze" and score/test fall off the list.
+  const WORKFLOWS = [
+    ['Daily freeze', 'freeze.yml'],
+    ['Daily score',  'score.yml'],
+    ['Tests',        'test.yml'],
+  ];
+  let html = '';
+  for (const [name, file] of WORKFLOWS) {
+    try {
+      const data = await fetchJson(
+        `https://api.github.com/repos/${REPO}/actions/workflows/${file}/runs?per_page=1`);
+      const r = (data.workflow_runs || [])[0];
       if (!r) { html += check('wait', `${name}: no runs yet`, ''); continue; }
       const when = new Date(r.created_at).toLocaleString('en-GB');
       const good = r.conclusion === 'success';
       html += check(good ? 'ok' : (r.status === 'in_progress' ? 'wait' : 'bad'),
         `${name}: ${r.conclusion || r.status}`,
         `${when} · <a href="${r.html_url}" target="_blank">view run</a>`);
+    } catch (e) {
+      html += check('wait', `${name}: status unavailable`,
+        'GitHub API rate-limited or offline — check the Actions tab directly.');
     }
-    return html;
-  } catch (e) {
-    return check('wait', 'GitHub Actions status unavailable',
-      'API rate-limited or offline — check the Actions tab directly.');
   }
+  return html;
 }
 
 async function scoringCheck() {
