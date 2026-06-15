@@ -54,5 +54,33 @@
     "score_away": 0,
     "outcome": "home",
     "status": "FT"
+  },
+  {
+    "match_id": "md009-GER-CUR",
+    "score_home": 7,
+    "score_away": 1,
+    "outcome": "home",
+    "status": "FT"
+  },
+  {
+    "match_id": "md010-NED-JPN",
+    "score_home": 2,
+    "score_away": 2,
+    "outcome": "draw",
+    "status": "FT"
+  },
+  {
+    "match_id": "md011-CIV-ECU",
+    "score_home": 1,
+    "score_away": 0,
+    "outcome": "home",
+    "status": "FT"
+  },
+  {
+    "match_id": "md012-UEPB-TUN",
+    "score_home": 5,
+    "score_away": 1,
+    "outcome": "home",
+    "status": "FT"
   }
 ]

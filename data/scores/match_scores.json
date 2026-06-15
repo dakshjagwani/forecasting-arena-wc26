@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-06-14T11:39:13Z",
+  "updated_utc": "2026-06-15T06:37:43Z",
   "days": {
     "2026-06-12": [
       {
@@ -747,6 +747,340 @@
             "p_draw": 0.01,
             "p_away": 0.98,
             "brier": 1.9406
+          }
+        ]
+      }
+    ],
+    "2026-06-14": [
+      {
+        "match_id": "md009-GER-CUR",
+        "home": "Germany",
+        "away": "Cura\u00e7ao",
+        "stage": "Group E",
+        "kickoff_utc": "2026-06-14T18:00:00Z",
+        "score": "7-1",
+        "outcome": "home",
+        "rows": [
+          {
+            "forecaster": "crowd",
+            "type": "crowd",
+            "p_home": 0.98,
+            "p_draw": 0.01,
+            "p_away": 0.01,
+            "brier": 0.0006
+          },
+          {
+            "forecaster": "human:daksh",
+            "type": "human",
+            "p_home": 0.98,
+            "p_draw": 0.01,
+            "p_away": 0.01,
+            "brier": 0.0006
+          },
+          {
+            "forecaster": "human:ned",
+            "type": "human",
+            "p_home": 0.98,
+            "p_draw": 0.01,
+            "p_away": 0.01,
+            "brier": 0.0006
+          },
+          {
+            "forecaster": "market",
+            "type": "market",
+            "p_home": 0.906477,
+            "p_draw": 0.06164,
+            "p_away": 0.031883,
+            "brier": 0.0136
+          },
+          {
+            "forecaster": "gemma",
+            "type": "ai",
+            "p_home": 0.88,
+            "p_draw": 0.09,
+            "p_away": 0.03,
+            "brier": 0.0234
+          },
+          {
+            "forecaster": "gemini-flash",
+            "type": "ai",
+            "p_home": 0.88,
+            "p_draw": 0.1,
+            "p_away": 0.02,
+            "brier": 0.0248
+          },
+          {
+            "forecaster": "llama-70b",
+            "type": "ai",
+            "p_home": 0.8,
+            "p_draw": 0.15,
+            "p_away": 0.05,
+            "brier": 0.065
+          },
+          {
+            "forecaster": "gpt-4o-mini",
+            "type": "ai",
+            "p_home": 0.75,
+            "p_draw": 0.15,
+            "p_away": 0.1,
+            "brier": 0.095
+          },
+          {
+            "forecaster": "gpt-oss-120b",
+            "type": "ai",
+            "p_home": 0.75,
+            "p_draw": 0.15,
+            "p_away": 0.1,
+            "brier": 0.095
+          }
+        ]
+      },
+      {
+        "match_id": "md010-NED-JPN",
+        "home": "Netherlands",
+        "away": "Japan",
+        "stage": "Group F",
+        "kickoff_utc": "2026-06-14T21:00:00Z",
+        "score": "2-2",
+        "outcome": "draw",
+        "rows": [
+          {
+            "forecaster": "human:ned",
+            "type": "human",
+            "p_home": 0.19,
+            "p_draw": 0.56,
+            "p_away": 0.25,
+            "brier": 0.2922
+          },
+          {
+            "forecaster": "crowd",
+            "type": "crowd",
+            "p_home": 0.245,
+            "p_draw": 0.48,
+            "p_away": 0.275,
+            "brier": 0.4061
+          },
+          {
+            "forecaster": "human:daksh",
+            "type": "human",
+            "p_home": 0.3,
+            "p_draw": 0.4,
+            "p_away": 0.3,
+            "brier": 0.54
+          },
+          {
+            "forecaster": "gpt-oss-120b",
+            "type": "ai",
+            "p_home": 0.33,
+            "p_draw": 0.3,
+            "p_away": 0.37,
+            "brier": 0.7358
+          },
+          {
+            "forecaster": "gemini-flash",
+            "type": "ai",
+            "p_home": 0.42,
+            "p_draw": 0.3,
+            "p_away": 0.28,
+            "brier": 0.7448
+          },
+          {
+            "forecaster": "llama-70b",
+            "type": "ai",
+            "p_home": 0.45,
+            "p_draw": 0.28,
+            "p_away": 0.27,
+            "brier": 0.7938
+          },
+          {
+            "forecaster": "gemma",
+            "type": "ai",
+            "p_home": 0.38,
+            "p_draw": 0.27,
+            "p_away": 0.35,
+            "brier": 0.7998
+          },
+          {
+            "forecaster": "market",
+            "type": "market",
+            "p_home": 0.464266,
+            "p_draw": 0.275746,
+            "p_away": 0.259989,
+            "brier": 0.8077
+          },
+          {
+            "forecaster": "gpt-4o-mini",
+            "type": "ai",
+            "p_home": 0.45,
+            "p_draw": 0.25,
+            "p_away": 0.3,
+            "brier": 0.855
+          }
+        ]
+      },
+      {
+        "match_id": "md011-CIV-ECU",
+        "home": "C\u00f4te d'Ivoire",
+        "away": "Ecuador",
+        "stage": "Group E",
+        "kickoff_utc": "2026-06-14T23:00:00Z",
+        "score": "1-0",
+        "outcome": "home",
+        "rows": [
+          {
+            "forecaster": "gpt-4o-mini",
+            "type": "ai",
+            "p_home": 0.35,
+            "p_draw": 0.25,
+            "p_away": 0.4,
+            "brier": 0.645
+          },
+          {
+            "forecaster": "market",
+            "type": "market",
+            "p_home": 0.29932,
+            "p_draw": 0.326531,
+            "p_away": 0.37415,
+            "brier": 0.7376
+          },
+          {
+            "forecaster": "human:daksh",
+            "type": "human",
+            "p_home": 0.3,
+            "p_draw": 0.25,
+            "p_away": 0.45,
+            "brier": 0.755
+          },
+          {
+            "forecaster": "gemma",
+            "type": "ai",
+            "p_home": 0.28,
+            "p_draw": 0.27,
+            "p_away": 0.45,
+            "brier": 0.7938
+          },
+          {
+            "forecaster": "crowd",
+            "type": "crowd",
+            "p_home": 0.26,
+            "p_draw": 0.305,
+            "p_away": 0.435,
+            "brier": 0.8298
+          },
+          {
+            "forecaster": "llama-70b",
+            "type": "ai",
+            "p_home": 0.25,
+            "p_draw": 0.28,
+            "p_away": 0.47,
+            "brier": 0.8618
+          },
+          {
+            "forecaster": "human:ned",
+            "type": "human",
+            "p_home": 0.22,
+            "p_draw": 0.36,
+            "p_away": 0.42,
+            "brier": 0.9144
+          },
+          {
+            "forecaster": "gemini-flash",
+            "type": "ai",
+            "p_home": 0.22,
+            "p_draw": 0.28,
+            "p_away": 0.5,
+            "brier": 0.9368
+          },
+          {
+            "forecaster": "gpt-oss-120b",
+            "type": "ai",
+            "p_home": 0.12,
+            "p_draw": 0.22,
+            "p_away": 0.66,
+            "brier": 1.2584
+          }
+        ]
+      },
+      {
+        "match_id": "md012-UEPB-TUN",
+        "home": "Sweden",
+        "away": "Tunisia",
+        "stage": "Group F",
+        "kickoff_utc": "2026-06-15T04:00:00Z",
+        "score": "5-1",
+        "outcome": "home",
+        "rows": [
+          {
+            "forecaster": "llama-70b",
+            "type": "ai",
+            "p_home": 0.55,
+            "p_draw": 0.28,
+            "p_away": 0.17,
+            "brier": 0.3098
+          },
+          {
+            "forecaster": "market",
+            "type": "market",
+            "p_home": 0.488644,
+            "p_draw": 0.282497,
+            "p_away": 0.228859,
+            "brier": 0.3937
+          },
+          {
+            "forecaster": "gpt-4o-mini",
+            "type": "ai",
+            "p_home": 0.45,
+            "p_draw": 0.25,
+            "p_away": 0.3,
+            "brier": 0.455
+          },
+          {
+            "forecaster": "gemini-flash",
+            "type": "ai",
+            "p_home": 0.42,
+            "p_draw": 0.3,
+            "p_away": 0.28,
+            "brier": 0.5048
+          },
+          {
+            "forecaster": "gemma",
+            "type": "ai",
+            "p_home": 0.42,
+            "p_draw": 0.31,
+            "p_away": 0.27,
+            "brier": 0.5054
+          },
+          {
+            "forecaster": "gpt-oss-120b",
+            "type": "ai",
+            "p_home": 0.35,
+            "p_draw": 0.3,
+            "p_away": 0.35,
+            "brier": 0.635
+          },
+          {
+            "forecaster": "human:ned",
+            "type": "human",
+            "p_home": 0.35,
+            "p_draw": 0.45,
+            "p_away": 0.2,
+            "brier": 0.665
+          },
+          {
+            "forecaster": "crowd",
+            "type": "crowd",
+            "p_home": 0.3,
+            "p_draw": 0.475,
+            "p_away": 0.225,
+            "brier": 0.7662
+          },
+          {
+            "forecaster": "human:daksh",
+            "type": "human",
+            "p_home": 0.25,
+            "p_draw": 0.5,
+            "p_away": 0.25,
+            "brier": 0.875
           }
         ]
       }
