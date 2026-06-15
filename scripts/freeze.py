@@ -10,7 +10,7 @@ Run manually: python scripts/freeze.py
               python scripts/freeze.py --dry-run
 """
 from __future__ import annotations
-import csv, json, logging, os, re, sys, time, unicodedata, urllib.error, urllib.request
+import csv, json, logging, os, random, re, sys, time, unicodedata, urllib.error, urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -111,6 +111,56 @@ def http_post(url: str, headers: dict, body: dict, timeout: int = 30) -> dict:
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return json.loads(r.read())
 
+# ── Shared retry wrapper for all LLM providers ────────────────────────────────
+# Transient free-tier failures (HTTP 503 overload, 429 rate-limit, gateway
+# errors, timeouts) are common and clear in seconds. We retry those with
+# exponential backoff + jitter, honouring Retry-After when present. Other 4xx
+# (400 bad request, 401/403 bad key) are permanent — fail fast, don't hammer.
+# temperature=0 makes each model deterministic, so retrying only affects
+# WHETHER we receive the model's one fixed answer, never what it is.
+_RETRYABLE_STATUS = {429, 500, 502, 503, 504}
+# Backoff is bounded on purpose: a genuinely-dead endpoint must not balloon the
+# freeze (a local dry-run with an unreachable provider burned ~30 min before we
+# capped this). 4 attempts with an 8s cap → ≤ ~14s of waits per call, so even
+# every model failing every match + the sweep stays a few minutes, inside 3h.
+_BACKOFF_CAP = 8.0
+
+def _sleep_for(attempt: int, retry_after: float | None) -> float:
+    """Backoff for a given 0-based attempt: honour Retry-After, else
+    exponential (2,4,8…) capped, with jitter. Pure → unit-testable."""
+    if retry_after is not None and retry_after > 0:
+        return min(retry_after, 30.0)
+    base = min(2.0 * (2 ** attempt), _BACKOFF_CAP)
+    return base + random.uniform(0, base * 0.25)
+
+def _post_with_retries(url: str, headers: dict, body: dict, label: str,
+                       max_attempts: int = 4) -> dict:
+    """POST with retries on transient errors. Returns parsed JSON, or raises
+    the last error after exhausting attempts. Fails fast on non-retryable 4xx."""
+    last_err: Exception = RuntimeError("no attempt made")
+    for attempt in range(max_attempts):
+        try:
+            return http_post(url, headers, body)
+        except urllib.error.HTTPError as e:
+            last_err = e
+            if e.code not in _RETRYABLE_STATUS:
+                log.warning(f"  {label}: HTTP {e.code} (non-retryable) — giving up")
+                raise
+            retry_after = None
+            try:
+                ra = e.headers.get("Retry-After") if e.headers else None
+                retry_after = float(ra) if ra and ra.isdigit() else None
+            except Exception:
+                retry_after = None
+            log.warning(f"  {label} attempt {attempt + 1}/{max_attempts}: HTTP {e.code}")
+        except (urllib.error.URLError, TimeoutError, OSError) as e:
+            last_err = e
+            log.warning(f"  {label} attempt {attempt + 1}/{max_attempts}: {e}")
+            retry_after = None
+        if attempt < max_attempts - 1:
+            time.sleep(_sleep_for(attempt, retry_after))
+    raise last_err
+
 # ── LLM prompt ───────────────────────────────────────────────────────────────
 _PROMPT_ENRICHED = (
     "You are forecasting a FIFA World Cup 2026 match.\n"
@@ -174,16 +224,12 @@ def query_gemini(match: dict, api_key: str, model: str = "gemini-2.5-flash") -> 
             "thinkingConfig": {"thinkingBudget": 0},
         },
     }
-    for attempt in range(3):
-        try:
-            resp = http_post(url, {}, body)
-            raw = resp["candidates"][0]["content"]["parts"][0]["text"]
-            return _parse_and_normalise(raw, "gemini-flash")
-        except Exception as e:
-            log.warning(f"  gemini-flash attempt {attempt + 1}: {e}")
-            if attempt < 2:
-                time.sleep(2 ** attempt)
-    return {"status": "failed"}
+    try:
+        resp = _post_with_retries(url, {}, body, "gemini-flash")
+        raw = resp["candidates"][0]["content"]["parts"][0]["text"]
+        return _parse_and_normalise(raw, "gemini-flash")
+    except Exception as e:
+        return {"status": "failed", "error": str(e)[:200]}
 
 def query_groq(match: dict, api_key: str, model: str = "llama-3.3-70b-versatile",
                forecaster_id: str = "llama-70b", max_tokens: int = 300) -> dict:
@@ -193,20 +239,15 @@ def query_groq(match: dict, api_key: str, model: str = "llama-3.3-70b-versatile"
         "temperature": 0.0,
         "max_tokens": max_tokens,
     }
-    for attempt in range(3):
-        try:
-            resp = http_post(
-                "https://api.groq.com/openai/v1/chat/completions",
-                {"Authorization": f"Bearer {api_key}"},
-                body,
-            )
-            raw = resp["choices"][0]["message"]["content"]
-            return _parse_and_normalise(raw, forecaster_id)
-        except Exception as e:
-            log.warning(f"  {forecaster_id} attempt {attempt + 1}: {e}")
-            if attempt < 2:
-                time.sleep(2 ** attempt)
-    return {"status": "failed"}
+    try:
+        resp = _post_with_retries(
+            "https://api.groq.com/openai/v1/chat/completions",
+            {"Authorization": f"Bearer {api_key}"}, body, forecaster_id,
+        )
+        raw = resp["choices"][0]["message"]["content"]
+        return _parse_and_normalise(raw, forecaster_id)
+    except Exception as e:
+        return {"status": "failed", "error": str(e)[:200]}
 
 def query_openrouter(match: dict, api_key: str,
                      model: str = "google/gemma-4-31b-it:free",
@@ -218,24 +259,20 @@ def query_openrouter(match: dict, api_key: str,
         "temperature": 0.0,
         "max_tokens": max_tokens,
     }
-    for attempt in range(3):
-        try:
-            resp = http_post(
-                "https://openrouter.ai/api/v1/chat/completions",
-                {
-                    "Authorization": f"Bearer {api_key}",
-                    "HTTP-Referer": "https://github.com/dakshjagwani/forecasting-arena-wc26",
-                    "X-Title": "Forecasting Arena WC 2026",
-                },
-                body,
-            )
-            raw = resp["choices"][0]["message"]["content"]
-            return _parse_and_normalise(raw, forecaster_id)
-        except Exception as e:
-            log.warning(f"  {forecaster_id} attempt {attempt + 1}: {e}")
-            if attempt < 2:
-                time.sleep(2 ** attempt)
-    return {"status": "failed"}
+    try:
+        resp = _post_with_retries(
+            "https://openrouter.ai/api/v1/chat/completions",
+            {
+                "Authorization": f"Bearer {api_key}",
+                "HTTP-Referer": "https://github.com/dakshjagwani/forecasting-arena-wc26",
+                "X-Title": "Forecasting Arena WC 2026",
+            },
+            body, forecaster_id,
+        )
+        raw = resp["choices"][0]["message"]["content"]
+        return _parse_and_normalise(raw, forecaster_id)
+    except Exception as e:
+        return {"status": "failed", "error": str(e)[:200]}
 
 def query_github_models(match: dict, token: str,
                         model: str = "openai/gpt-4o-mini",
@@ -248,20 +285,15 @@ def query_github_models(match: dict, token: str,
         "temperature": 0.0,
         "max_tokens": 300,
     }
-    for attempt in range(3):
-        try:
-            resp = http_post(
-                "https://models.github.ai/inference/chat/completions",
-                {"Authorization": f"Bearer {token}"},
-                body,
-            )
-            raw = resp["choices"][0]["message"]["content"]
-            return _parse_and_normalise(raw, forecaster_id)
-        except Exception as e:
-            log.warning(f"  {forecaster_id} attempt {attempt + 1}: {e}")
-            if attempt < 2:
-                time.sleep(2 ** attempt)
-    return {"status": "failed"}
+    try:
+        resp = _post_with_retries(
+            "https://models.github.ai/inference/chat/completions",
+            {"Authorization": f"Bearer {token}"}, body, forecaster_id,
+        )
+        raw = resp["choices"][0]["message"]["content"]
+        return _parse_and_normalise(raw, forecaster_id)
+    except Exception as e:
+        return {"status": "failed", "error": str(e)[:200]}
 
 # ── Odds API ──────────────────────────────────────────────────────────────────
 ODDS_SPORT = "soccer_fifa_world_cup"
@@ -588,6 +620,25 @@ def main() -> None:
     log.info(f"  Got picks from {len(human_picks)} humans")
 
     # ── Query LLMs and build output ───────────────────────────────────────────
+    # AI lineup — dispatch table keyed by the frozen registry, built once and
+    # reused by the per-match loop AND the retry sweep below. gpt-oss-120b is a
+    # reasoning model: its thinking can spill into the completion, so it gets a
+    # larger token budget than the instruct models.
+    ai_queries = {
+        "gemini-flash": lambda m: query_gemini(m, os.environ["GEMINI_API_KEY"]),
+        "llama-70b":    lambda m: query_groq(m, os.environ["GROQ_API_KEY"]),
+        "gemma":        lambda m: query_openrouter(
+            m, os.environ["OPENROUTER_API_KEY"],
+            model="google/gemma-4-31b-it:free", forecaster_id="gemma"),
+        "gpt-oss-120b": lambda m: query_groq(
+            m, os.environ["GROQ_API_KEY"],
+            model="openai/gpt-oss-120b", forecaster_id="gpt-oss-120b",
+            max_tokens=2048),
+        "gpt-4o-mini":  lambda m: query_github_models(
+            m, os.environ["GITHUB_TOKEN"]),
+    }
+    assert set(ai_queries) == set(AI_LINEUP), "dispatch/lineup drift"
+
     match_results = []
 
     for match in today_matches:
@@ -605,24 +656,6 @@ def main() -> None:
             )
         else:
             log.warning(f"  market: no odds found")
-
-        # AI lineup — dispatch table keyed by the frozen registry.
-        # gpt-oss-120b is a reasoning model: its thinking can spill into the
-        # completion, so it gets a larger token budget than the instruct models.
-        ai_queries = {
-            "gemini-flash": lambda m: query_gemini(m, os.environ["GEMINI_API_KEY"]),
-            "llama-70b":    lambda m: query_groq(m, os.environ["GROQ_API_KEY"]),
-            "gemma":        lambda m: query_openrouter(
-                m, os.environ["OPENROUTER_API_KEY"],
-                model="google/gemma-4-31b-it:free", forecaster_id="gemma"),
-            "gpt-oss-120b": lambda m: query_groq(
-                m, os.environ["GROQ_API_KEY"],
-                model="openai/gpt-oss-120b", forecaster_id="gpt-oss-120b",
-                max_tokens=2048),
-            "gpt-4o-mini":  lambda m: query_github_models(
-                m, os.environ["GITHUB_TOKEN"]),
-        }
-        assert set(ai_queries) == set(AI_LINEUP), "dispatch/lineup drift"
 
         for forecaster_id in AI_LINEUP:
             log.info(f"  Querying {forecaster_id}...")
@@ -650,6 +683,34 @@ def main() -> None:
         match_results.append({"match_id": match["match_id"], "forecasts": forecasts})
 
     log.info(f"\n{'═'*50}")
+
+    # ── Retry sweep: re-query any model that still failed ─────────────────────
+    # Transient free-tier blips (503/429) often clear within a minute. We have
+    # the whole 3h window, so wait once and retry only the failed (match, model)
+    # slots before committing — recovering them WITHIN the same freeze (one
+    # cutoff for everyone), rather than backfilling later. Same prompt, temp 0.
+    by_id = {m["match_id"]: m for m in today_matches}
+    stragglers = [
+        (mr["match_id"], fid)
+        for mr in match_results
+        for fid in AI_LINEUP
+        if mr["forecasts"].get(fid, {}).get("status") == "failed"
+    ]
+    if stragglers:
+        log.info(f"Retry sweep: {len(stragglers)} failed forecast(s) — "
+                 f"waiting 40s for transient errors to clear...")
+        time.sleep(40)
+        recovered = 0
+        for match_id, fid in stragglers:
+            log.info(f"  Retrying {fid} for {match_id}...")
+            res = ai_queries[fid](by_id[match_id])
+            fc_map = next(mr["forecasts"] for mr in match_results
+                          if mr["match_id"] == match_id)
+            fc_map[fid] = res
+            if res.get("status") == "ok":
+                recovered += 1
+            time.sleep(1)
+        log.info(f"Retry sweep: recovered {recovered}/{len(stragglers)}")
 
     # ── Validate all triples ──────────────────────────────────────────────────
     validate_output(match_results)

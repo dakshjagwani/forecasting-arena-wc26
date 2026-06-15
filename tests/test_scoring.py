@@ -11,7 +11,9 @@ import freeze
 from score import brier, outcome_from_score, is_qualified
 from freeze import (normalise, parse_llm_response, to_slug, compute_crowd,
                     group_by_utc8, ingest_human_picks, match_odds,
-                    split_remaining)
+                    split_remaining, _post_with_retries, _sleep_for,
+                    query_gemini)
+import urllib.error
 
 ROOT = Path(__file__).parent.parent
 
@@ -292,6 +294,65 @@ def test_ingest_test_slugs_excluded(monkeypatch):
     )
     picks = _ingest(csv_text, monkeypatch)
     assert set(picks) == {"tessa"}
+
+# ── Retry / backoff for transient provider errors ────────────────────────────
+
+def _http_error(code):
+    return urllib.error.HTTPError("http://x", code, "err", hdrs=None, fp=None)
+
+def test_retries_then_succeeds_on_503(monkeypatch):
+    # 503 twice, then a good response → returns it
+    calls = {"n": 0}
+    def fake_post(url, headers, body, timeout=30):
+        calls["n"] += 1
+        if calls["n"] < 3:
+            raise _http_error(503)
+        return {"ok": True}
+    monkeypatch.setattr(freeze, "http_post", fake_post)
+    monkeypatch.setattr(freeze.time, "sleep", lambda s: None)  # no real waiting
+    assert _post_with_retries("u", {}, {}, "lbl", max_attempts=5) == {"ok": True}
+    assert calls["n"] == 3
+
+def test_raises_after_exhausting_attempts(monkeypatch):
+    monkeypatch.setattr(freeze, "http_post", lambda *a, **k: (_ for _ in ()).throw(_http_error(503)))
+    monkeypatch.setattr(freeze.time, "sleep", lambda s: None)
+    with pytest.raises(urllib.error.HTTPError):
+        _post_with_retries("u", {}, {}, "lbl", max_attempts=3)
+
+def test_fails_fast_on_non_retryable_4xx(monkeypatch):
+    calls = {"n": 0}
+    def fake_post(url, headers, body, timeout=30):
+        calls["n"] += 1
+        raise _http_error(400)  # bad request — never retry
+    monkeypatch.setattr(freeze, "http_post", fake_post)
+    monkeypatch.setattr(freeze.time, "sleep", lambda s: None)
+    with pytest.raises(urllib.error.HTTPError):
+        _post_with_retries("u", {}, {}, "lbl", max_attempts=5)
+    assert calls["n"] == 1  # one attempt only, no retries
+
+def test_sleep_honors_retry_after():
+    # Retry-After dominates the exponential schedule (capped at 30s)
+    assert _sleep_for(0, retry_after=17) == 17
+    # without it, backoff grows and stays within cap+jitter
+    s0 = _sleep_for(0, None)
+    assert 2.0 <= s0 <= 2.5
+    assert _sleep_for(10, None) <= freeze._BACKOFF_CAP * 1.25
+
+def test_backoff_is_bounded():
+    # A dead endpoint must not balloon the run: total wait across all retries
+    # of one call stays small (cap 8s, 4 attempts → 3 waits ≤ ~10s each).
+    total = sum(_sleep_for(a, None) for a in range(3))  # waits before attempts 2,3,4
+    assert total <= 3 * freeze._BACKOFF_CAP * 1.25  # ≤ 30s, not minutes
+    assert freeze._BACKOFF_CAP <= 8.0
+
+def test_provider_failure_carries_error_reason(monkeypatch):
+    monkeypatch.setattr(freeze, "http_post", lambda *a, **k: (_ for _ in ()).throw(_http_error(503)))
+    monkeypatch.setattr(freeze.time, "sleep", lambda s: None)
+    match = {"home": "A", "away": "B", "stage": "G", "venue": "V",
+             "kickoff_utc": "2026-06-20T18:00:00Z"}
+    res = query_gemini(match, "fake-key")
+    assert res["status"] == "failed"
+    assert "503" in res.get("error", "")   # reason stored, not a bare status
 
 # ── Rescue mode (--remaining) ─────────────────────────────────────────────────
 

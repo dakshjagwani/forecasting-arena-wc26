@@ -270,8 +270,11 @@ next morning without Daksh touching anything. ← needs first real freeze to ver
 
 ## 11. Risks & fallbacks
 
-- **Free tier outage / rate limit** -> retry with backoff; if a model misses a
-  day, log not-predicted (the 60% rule absorbs it). Never backfill.
+- **Free tier outage / rate limit** -> freeze.py's `_post_with_retries` rides
+  out transient 5xx/429 (bounded backoff + jitter, honours Retry-After), and an
+  end-of-pass retry sweep re-queries stragglers after ~40s — all within the
+  same freeze (one cutoff). Failures store a reason. If a model still misses,
+  log not-predicted (the 60% rule absorbs it). Never backfill across cutoffs.
 - **Odds API quota** -> 104 matches x 1 snapshot fits in 500/mo; if exhausted,
   manually log closing odds from a bookmaker site (5 min).
 - **Results API flaky** -> manual entry path must stay first-class.

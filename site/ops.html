@@ -142,7 +142,11 @@ async function freezeCheck(day) {
     let ok = 0, failed = [], humans = new Set();
     for (const m of p.matches) {
       for (const [f, fc] of Object.entries(m.forecasts)) {
-        if (AI_LINEUP.includes(f)) (fc.status === 'ok' ? ok++ : failed.push(`${f}@${m.match_id}`));
+        if (AI_LINEUP.includes(f)) {
+          if (fc.status === 'ok') ok++;
+          else failed.push(`${f}@${m.match_id.split('-').slice(1).join('-')}` +
+                           (fc.error ? ` (${fc.error})` : ''));
+        }
         if (f.startsWith('human:')) humans.add(f);
       }
     }

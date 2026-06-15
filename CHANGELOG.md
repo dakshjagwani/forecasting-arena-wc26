@@ -4,6 +4,23 @@ Every data correction and every decision that affects the experiment's
 integrity is logged here, newest first. Scores JSONs are never hand-edited;
 they are recomputed from raw data after any correction.
 
+## 2026-06-15 (later) — Model query resilience (transient-error retries)
+
+- On the 2026-06-15 freeze, gemini-flash failed one match (KSA–URU) with
+  `HTTP 503` then `429` — Google's free endpoint transiently overloaded/rate-
+  limited, not a bug. Our retry was too weak (3 tries over ~3s).
+- Fix (transport-only, **no protocol change** — temp 0 means each model's
+  answer is deterministic, so retrying only affects whether we *receive* it):
+  a shared `_post_with_retries` with bounded exponential backoff + jitter,
+  honouring `Retry-After`, failing fast on non-retryable 4xx; all 5 providers
+  use it; failures now store the reason (`{"status":"failed","error":...}`);
+  and an **end-of-pass retry sweep** re-queries any still-failed model after a
+  ~40s cooldown — recovering transient blips *within the same freeze* (one
+  cutoff), never backfilling later. Retry budget is bounded (4 attempts, 8s
+  cap) so a genuinely-dead endpoint can't balloon the run.
+- The 2026-06-15 gemini KSA–URU miss is left as an honest, logged miss (not
+  backfilled); the 60% qualification rule absorbs it.
+
 ## 2026-06-15 — Freeze trigger re-architected: cron-job.org primary @ 3 min
 
 - **Problem:** the first three matchdays (06-12/13/14) were all frozen
