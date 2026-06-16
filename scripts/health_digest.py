@@ -40,7 +40,7 @@ _VERDICT = {
 def compose(summary: dict, triage: dict) -> tuple:
     """Return (title, body) for the digest. Pure → unit-testable."""
     day = summary.get("day") or "—"
-    icon, label, _ = _VERDICT[triage["overall"]]
+    icon, label = _VERDICT[triage["overall"]][:2]
     title = f"{icon} {day}: {label}"
     lines = [f"Campaign day {day} — {label}.", ""]
     if triage["action_items"]:
