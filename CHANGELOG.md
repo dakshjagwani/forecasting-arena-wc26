@@ -4,6 +4,21 @@ Every data correction and every decision that affects the experiment's
 integrity is logged here, newest first. Scores JSONs are never hand-edited;
 they are recomputed from raw data after any correction.
 
+## 2026-06-16 — Self-running ops: auto-triage health digest + evidence packs
+
+- New daily **health digest** (digest.yml, 10:00 UTC) collapses the manual
+  "watch dashboard → screenshot → diagnose" loop. verify_cycle.py now emits
+  structured findings (`--json`, each tagged with a `code`); scripts/
+  ops_playbook.py maps each code to a verdict (healthy / auto-handled, no
+  action / action-needed-with-how / unknown→human); scripts/health_digest.py
+  composes one plain-English verdict, pushes it to ntfy, and on
+  action-needed/unknown opens a GitHub issue with an evidence pack (findings +
+  that day's stored model error reasons + run links). Healthy days: ntfy ✅
+  only. £0 (Actions + ntfy + issues, no LLM). Read-only — never edits data or
+  code (auto-fix deliberately out of scope to preserve audit integrity).
+- 66 tests (7 new: playbook triage table, classify precedence, digest
+  composition, verify_cycle --json shape).
+
 ## 2026-06-15 (later) — Model query resilience (transient-error retries)
 
 - On the 2026-06-15 freeze, gemini-flash failed one match (KSA–URU) with

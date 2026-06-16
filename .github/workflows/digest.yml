@@ -1,0 +1,38 @@
+name: Health digest
+
+# Daily self-triaging ops report (docs/RELIABILITY.md, Tiers 2-3). Runs after
+# the 09:30 UTC scoring sweep so results + leaderboard are fresh, classifies the
+# cycle via ops_playbook, pushes a verdict to ntfy, and opens a GitHub issue
+# with an evidence pack only when action is needed. Read-only: never edits data.
+on:
+  schedule:
+    - cron: '0 10 * * *'   # 10:00 UTC — after Daily score's 09:30 run
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'Campaign day YYYY-MM-DD (empty = most recent finished)'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+  issues: write   # open the evidence-pack issue on action-needed/unknown
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run health digest (triage + ntfy + evidence issue)
+        run: |
+          ARGS=""
+          if [ -n "${{ inputs.date }}" ]; then ARGS="--date ${{ inputs.date }}"; fi
+          python scripts/health_digest.py $ARGS
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}

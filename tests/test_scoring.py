@@ -390,6 +390,74 @@ def test_match_odds_aliases():
     # And a wrong pairing must still not match
     assert match_odds({"home": "USA", "away": "South Korea"}, odds_map) is None
 
+# ── Ops triage playbook + health digest (TESTING.md T2) ──────────────────────
+
+import importlib
+
+def _playbook():
+    return importlib.import_module("ops_playbook")
+
+def test_playbook_single_model_fail_is_no_action():
+    verdict, _, _ = _playbook().triage_finding("model_failed")
+    assert verdict == "auto"   # absorbed by the 60% rule, never an alarm
+
+def test_playbook_freeze_missing_is_action():
+    verdict, why, action = _playbook().triage_finding("freeze_missing")
+    assert verdict == "action" and action  # has a concrete instruction
+
+def test_playbook_unknown_code_needs_human():
+    verdict, _, action = _playbook().triage_finding("some_brand_new_code")
+    assert verdict == "unknown" and "human" in action.lower()
+
+def test_playbook_classify_overall_precedence():
+    pb = _playbook()
+    summary = {"findings": [
+        {"level": "✅", "code": "freeze_ok", "message": "ok"},
+        {"level": "⚠️", "code": "model_failed", "message": "x failed"},
+        {"level": "❌", "code": "results_missing_late", "message": "no result"},
+    ]}
+    t = pb.classify(summary)
+    assert t["overall"] == "action"        # action dominates
+    assert len(t["action_items"]) == 1
+    assert t["healthy_count"] == 1
+    assert len(t["auto_items"]) == 1
+
+def test_playbook_all_healthy():
+    pb = _playbook()
+    summary = {"findings": [{"level": "✅", "code": "freeze_ok", "message": "ok"},
+                            {"level": "✅", "code": "scored_ok", "message": "ok"}]}
+    assert pb.classify(summary)["overall"] == "healthy"
+
+def test_digest_compose_action_title_and_body():
+    hd = importlib.import_module("health_digest")
+    summary = {"day": "2026-06-20", "findings": [
+        {"level": "❌", "code": "freeze_missing", "message": "never frozen"}]}
+    triage = _playbook().classify(summary)
+    title, body = hd.compose(summary, triage)
+    assert title.startswith("🚨") and "2026-06-20" in title
+    assert "ACTION NEEDED" in body and "Trigger the freeze" in body
+
+def test_verify_cycle_json_shape():
+    # run_checks against the golden tree → structured summary with codes
+    import os, subprocess, sys as _sys, shutil
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp = Path(tmp)
+        for sub in ("fixtures", "predictions", "results", "scores"):
+            (tmp / "data" / sub).mkdir(parents=True)
+        g = ROOT / "tests" / "golden"
+        shutil.copy(g / "fixtures.json", tmp / "data/fixtures/fixtures.json")
+        shutil.copy(g / "predictions.json", tmp / "data/predictions/2026-06-11.json")
+        shutil.copy(g / "results.json", tmp / "data/results/results.json")
+        out = subprocess.run(
+            [_sys.executable, str(ROOT / "scripts/verify_cycle.py"), "--json", "--date", "2026-06-11"],
+            env={**os.environ, "FORECASTING_ROOT": str(tmp)},
+            capture_output=True, text=True)
+        data = json.loads(out.stdout)
+        assert data["day"] == "2026-06-11"
+        assert all({"level", "code", "message"} <= set(f) for f in data["findings"])
+        assert isinstance(data["action_needed"], bool)
+
 # ── Golden-file integration test (TESTING.md §3.3) ───────────────────────────
 
 GOLDEN_DIR = ROOT / "tests" / "golden"

@@ -383,6 +383,13 @@ suite follows in Phase 1.
   2026-06-13/14) and is now only backup. PAT expires 2026-10-08.
 - `validate_data.py` runs as the last step of score.yml across the whole
   /data tree (section 13.4 checks repo-wide). A red run = data problem.
+- **Daily health digest (digest.yml, 10:00 UTC)**: runs verify_cycle's checks,
+  triages each via scripts/ops_playbook.py (known issue → "auto-handled, no
+  action" / "action needed: <how>" / unknown → needs a human), pushes one
+  plain-English verdict to ntfy, and on action-needed/unknown opens a GitHub
+  issue with an evidence pack (findings + stored model error reasons + run
+  links). This replaces dashboard-watching: act only when the digest says so.
+  Read-only — it never edits data or code (no auto-fix, by design).
 
 ### 14.2 Scheduled maintenance
 - Daily (~10 min): the ops runbook in section 10.
