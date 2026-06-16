@@ -428,6 +428,14 @@ def test_playbook_all_healthy():
                             {"level": "✅", "code": "scored_ok", "message": "ok"}]}
     assert pb.classify(summary)["overall"] == "healthy"
 
+def test_ntfy_title_is_header_safe():
+    # HTTP headers are latin-1; an emoji title would raise a codec error
+    # (regression from the first CI digest run). _ascii must strip it.
+    hd = importlib.import_module("health_digest")
+    safe = hd._ascii("🚨 2026-06-20: Action needed")
+    safe.encode("latin-1")  # must not raise
+    assert "2026-06-20" in safe and "Action needed" in safe
+
 def test_digest_compose_action_title_and_body():
     hd = importlib.import_module("health_digest")
     summary = {"day": "2026-06-20", "findings": [

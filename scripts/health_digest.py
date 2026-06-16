@@ -27,11 +27,14 @@ ROOT = Path(os.environ.get("FORECASTING_ROOT") or Path(__file__).parent.parent)
 REPO = os.environ.get("GITHUB_REPOSITORY", "dakshjagwani/forecasting-arena-wc26")
 NTFY_TOPIC = os.environ.get("NTFY_TOPIC", "forecasting-arena-daksh")
 
+# icon (for printed/issue text), label, ntfy priority, ntfy Tags shortcode.
+# Emoji live in the UTF-8 body / ntfy Tags header — NEVER in the Title header,
+# which urllib must encode as latin-1 (a raw emoji there raises a codec error).
 _VERDICT = {
-    "healthy": ("✅", "All healthy", "min"),
-    "auto":    ("ℹ️", "Healthy — minor issues auto-handled, no action", "min"),
-    "unknown": ("❓", "Unknown condition — needs a look", "high"),
-    "action":  ("🚨", "Action needed", "urgent"),
+    "healthy": ("✅", "All healthy", "min", "white_check_mark"),
+    "auto":    ("ℹ️", "Healthy — minor issues auto-handled, no action", "min", "information_source"),
+    "unknown": ("❓", "Unknown condition — needs a look", "high", "question"),
+    "action":  ("🚨", "Action needed", "urgent", "rotating_light"),
 }
 
 def compose(summary: dict, triage: dict) -> tuple:
@@ -85,10 +88,17 @@ def evidence_pack(summary: dict) -> str:
     return "\n".join(out)
 
 # ── Outbound (ntfy + GitHub issue) ────────────────────────────────────────────
-def push_ntfy(title: str, body: str, priority: str) -> None:
+def _ascii(s: str) -> str:
+    """HTTP headers must be latin-1; strip anything that isn't (e.g. emoji)."""
+    return s.encode("ascii", "ignore").decode().strip()
+
+def push_ntfy(title: str, body: str, priority: str, tag: str = "") -> None:
+    headers = {"Title": _ascii(title) or "Arena health digest", "Priority": priority}
+    if tag:
+        headers["Tags"] = tag  # ntfy renders this shortcode as an emoji icon
     req = urllib.request.Request(
-        f"https://ntfy.sh/{NTFY_TOPIC}", data=body.encode(),
-        headers={"Title": title, "Priority": priority}, method="POST")
+        f"https://ntfy.sh/{NTFY_TOPIC}", data=body.encode("utf-8"),
+        headers=headers, method="POST")
     urllib.request.urlopen(req, timeout=15)
 
 def open_issue(title: str, body: str, token: str) -> int | None:
@@ -132,8 +142,9 @@ def main() -> None:
                 print(f"issue creation failed: {e}", file=sys.stderr)
 
     ntfy_body = body + (f"\n\nEvidence: issue #{issue_no}" if issue_no else "")
+    _, _, priority, tag = _VERDICT[triage["overall"]]
     try:
-        push_ntfy(title, ntfy_body, _VERDICT[triage["overall"]][2])
+        push_ntfy(title, ntfy_body, priority, tag)
     except Exception as e:
         print(f"ntfy push failed: {e}", file=sys.stderr)
 
