@@ -82,5 +82,33 @@
     "score_away": 1,
     "outcome": "home",
     "status": "FT"
+  },
+  {
+    "match_id": "md013-ESP-CPV",
+    "score_home": 0,
+    "score_away": 0,
+    "outcome": "draw",
+    "status": "FT"
+  },
+  {
+    "match_id": "md014-BEL-EGY",
+    "score_home": 1,
+    "score_away": 1,
+    "outcome": "draw",
+    "status": "FT"
+  },
+  {
+    "match_id": "md015-KSA-URU",
+    "score_home": 1,
+    "score_away": 1,
+    "outcome": "draw",
+    "status": "FT"
+  },
+  {
+    "match_id": "md016-IRN-NZL",
+    "score_home": 2,
+    "score_away": 2,
+    "outcome": "draw",
+    "status": "FT"
   }
 ]
