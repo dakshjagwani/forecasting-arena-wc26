@@ -1,0 +1,394 @@
+{
+  "date": "2026-06-16",
+  "freeze_utc": "2026-06-16T16:01:19Z",
+  "matches": [
+    {
+      "match_id": "md017-FRA-SEN",
+      "forecasts": {
+        "market": {
+          "p_home": 0.635541,
+          "p_draw": 0.225617,
+          "p_away": 0.138841,
+          "raw_odds": [
+            1.42,
+            4.0,
+            6.5
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.65,
+          "p_draw": 0.23,
+          "p_away": 0.12,
+          "reasoning": "France has a significantly higher Elo and strong recent form. While head-to-head favors Senegal, it's outdated. The venue and stakes are neutral. France is a clear favorite.",
+          "raw": "{\"p_home\": 0.65, \"p_draw\": 0.23, \"p_away\": 0.12, \"reasoning\": \"France has a significantly higher Elo and strong recent form. While head-to-head favors Senegal, it's outdated. The venue and stakes are neutral. France is a clear favorite.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.55,
+          "p_draw": 0.25,
+          "p_away": 0.2,
+          "reasoning": "Elo difference favors France, despite historical head-to-head losses.",
+          "raw": "{\"p_home\": 0.55, \"p_draw\": 0.25, \"p_away\": 0.20, \"reasoning\": \"Elo difference favors France, despite historical head-to-head losses.\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.62,
+          "p_draw": 0.23,
+          "p_away": 0.15,
+          "reasoning": "France holds a significant Elo advantage (+220) and superior recent form. While Senegal has a historical psychological edge in H2H, France's squad depth and current quality make them strong favorites,",
+          "raw": "```json\n{\"p_home\": 0.62, \"p_draw\": 0.23, \"p_away\": 0.15, \"reasoning\": \"France holds a significant Elo advantage (+220) and superior recent form. While Senegal has a historical psychological edge in H2H, France's squad depth and current quality make them strong favorites, though Senegal's defensive resilience suggests a moderate draw probability.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.7,
+          "p_draw": 0.18,
+          "p_away": 0.12,
+          "reasoning": "France\u2019s 220\u2011point Elo edge gives ~0.78 expected points; with modest draw chance (\u224818%) this yields ~70% win, 12% loss. Recent form and head\u2011to\u2011head favor France further.",
+          "raw": "{\"p_home\":0.70,\"p_draw\":0.18,\"p_away\":0.12,\"reasoning\":\"France\u2019s 220\u2011point Elo edge gives ~0.78 expected points; with modest draw chance (\u224818%) this yields ~70% win, 12% loss. Recent form and head\u2011to\u2011head favor France further.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.55,
+          "p_draw": 0.25,
+          "p_away": 0.2,
+          "reasoning": "France's higher Elo rating and recent form suggest a strong advantage, despite historical losses to Senegal. The warm conditions favor France, but Senegal's competitive spirit and recent performances ",
+          "raw": "{\"p_home\": 0.55, \"p_draw\": 0.25, \"p_away\": 0.20, \"reasoning\": \"France's higher Elo rating and recent form suggest a strong advantage, despite historical losses to Senegal. The warm conditions favor France, but Senegal's competitive spirit and recent performances keep the match closer.\"}",
+          "status": "ok"
+        },
+        "human:daksh": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Daksh"
+        },
+        "human:ned": {
+          "p_home": 0.46,
+          "p_draw": 0.43,
+          "p_away": 0.11,
+          "name": "Ned"
+        },
+        "human:sakshi": {
+          "p_home": 0.9,
+          "p_draw": 0.09,
+          "p_away": 0.01,
+          "name": "Sakshi"
+        },
+        "human:sd": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "SD"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:vijay": {
+          "p_home": 0.69,
+          "p_draw": 0.22,
+          "p_away": 0.09,
+          "name": "Vijay"
+        },
+        "crowd": {
+          "p_home": 0.831667,
+          "p_draw": 0.128333,
+          "p_away": 0.04,
+          "n": 6
+        }
+      }
+    },
+    {
+      "match_id": "md018-FP02-NOR",
+      "forecasts": {
+        "market": {
+          "p_home": 0.075933,
+          "p_draw": 0.151866,
+          "p_away": 0.772201,
+          "raw_odds": [
+            12.0,
+            6.0,
+            1.18
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.15,
+          "p_draw": 0.23,
+          "p_away": 0.62,
+          "reasoning": "Norway has a significantly higher Elo rating (1966 vs 1741) and slightly better recent form. The single head-to-head offers no insight. Norway is the clear favorite despite Iraq being at home.",
+          "raw": "{\"p_home\": 0.15, \"p_draw\": 0.23, \"p_away\": 0.62, \"reasoning\": \"Norway has a significantly higher Elo rating (1966 vs 1741) and slightly better recent form. The single head-to-head offers no insight. Norway is the clear favorite despite Iraq being at home.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.21,
+          "p_draw": 0.26,
+          "p_away": 0.53,
+          "reasoning": "Elo difference favors Norway",
+          "raw": "{\"p_home\": 0.21, \"p_draw\": 0.26, \"p_away\": 0.53, \"reasoning\": \"Elo difference favors Norway\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.22,
+          "p_draw": 0.26,
+          "p_away": 0.52,
+          "reasoning": "Norway holds a significant Elo advantage (+225), indicating a higher quality ceiling. Iraq is competitive but inconsistent. Norway's superior squad depth and rating make them clear favorites, though I",
+          "raw": "```json\n{\"p_home\": 0.22, \"p_draw\": 0.26, \"p_away\": 0.52, \"reasoning\": \"Norway holds a significant Elo advantage (+225), indicating a higher quality ceiling. Iraq is competitive but inconsistent. Norway's superior squad depth and rating make them clear favorites, though Iraq's resilience at a neutral venue suggests a moderate chance for a draw or upset.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.14,
+          "p_draw": 0.18,
+          "p_away": 0.68,
+          "reasoning": "Norway's 225\u2011point Elo edge gives ~78% win expectancy; adjust for home factor and typical draw rates, yielding ~68% win, 14% Iraq win, 18% draw.",
+          "raw": "{\"p_home\": 0.14, \"p_draw\": 0.18, \"p_away\": 0.68, \"reasoning\": \"Norway's 225\u2011point Elo edge gives ~78% win expectancy; adjust for home factor and typical draw rates, yielding ~68% win, 14% Iraq win, 18% draw.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.25,
+          "p_draw": 0.3,
+          "p_away": 0.45,
+          "reasoning": "Norway's higher Elo rating and recent form suggest they are favored. Iraq's home advantage and the mild conditions may help, but Norway's overall strength likely leads to a higher probability of an aw",
+          "raw": "{\"p_home\": 0.25, \"p_draw\": 0.30, \"p_away\": 0.45, \"reasoning\": \"Norway's higher Elo rating and recent form suggest they are favored. Iraq's home advantage and the mild conditions may help, but Norway's overall strength likely leads to a higher probability of an away win.\"}",
+          "status": "ok"
+        },
+        "human:daksh": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Daksh"
+        },
+        "human:ned": {
+          "p_home": 0.01,
+          "p_draw": 0.26,
+          "p_away": 0.73,
+          "name": "Ned"
+        },
+        "human:sakshi": {
+          "p_home": 0.15,
+          "p_draw": 0.13,
+          "p_away": 0.72,
+          "name": "Sakshi"
+        },
+        "human:sd": {
+          "p_home": 0.01,
+          "p_draw": 0.3,
+          "p_away": 0.69,
+          "name": "SD"
+        },
+        "human:football": {
+          "p_home": 0.01,
+          "p_draw": 0.05,
+          "p_away": 0.94,
+          "name": "Football"
+        },
+        "human:vijay": {
+          "p_home": 0.46,
+          "p_draw": 0.12,
+          "p_away": 0.42,
+          "name": "Vijay"
+        },
+        "crowd": {
+          "p_home": 0.108333,
+          "p_draw": 0.145,
+          "p_away": 0.746667,
+          "n": 6
+        }
+      }
+    },
+    {
+      "match_id": "md019-ARG-ALG",
+      "forecasts": {
+        "market": {
+          "p_home": 0.650759,
+          "p_draw": 0.227766,
+          "p_away": 0.121475,
+          "raw_odds": [
+            1.4,
+            4.0,
+            7.5
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.72,
+          "p_draw": 0.19,
+          "p_away": 0.09,
+          "reasoning": "Argentina has a significantly higher Elo and perfect recent form. Algeria's Elo is much lower, and their recent form is mixed. The head-to-head also favors Argentina, despite being an older friendly. ",
+          "raw": "{\"p_home\": 0.72, \"p_draw\": 0.19, \"p_away\": 0.09, \"reasoning\": \"Argentina has a significantly higher Elo and perfect recent form. Algeria's Elo is much lower, and their recent form is mixed. The head-to-head also favors Argentina, despite being an older friendly. The venue conditions are unlikely to significantly impact either team.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.65,
+          "p_draw": 0.23,
+          "p_away": 0.12,
+          "reasoning": "Elo difference and recent form favor Argentina",
+          "raw": "{\"p_home\": 0.65, \"p_draw\": 0.23, \"p_away\": 0.12, \"reasoning\": \"Elo difference and recent form favor Argentina\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.68,
+          "p_draw": 0.2,
+          "p_away": 0.12,
+          "reasoning": "Argentina holds a massive Elo advantage (+300) and perfect recent form. While Algeria is competitive, the gap in squad quality and Argentina's dominance in high-stakes matches makes them heavy favorit",
+          "raw": "```json\n{\"p_home\": 0.68, \"p_draw\": 0.20, \"p_away\": 0.12, \"reasoning\": \"Argentina holds a massive Elo advantage (+300) and perfect recent form. While Algeria is competitive, the gap in squad quality and Argentina's dominance in high-stakes matches makes them heavy favorites, though a draw remains a possibility given the group stage caution.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.764,
+          "p_draw": 0.1,
+          "p_away": 0.136,
+          "reasoning": "Argentina\u2019s 300\u2011point Elo edge gives ~85% win odds; adjusting for typical 10% draw rate in mismatched groups yields ~76% win, 14% loss, 10% draw.",
+          "raw": "{\"p_home\":0.764,\"p_draw\":0.10,\"p_away\":0.136,\"reasoning\":\"Argentina\u2019s 300\u2011point Elo edge gives ~85% win odds; adjusting for typical 10% draw rate in mismatched groups yields ~76% win, 14% loss, 10% draw.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.65,
+          "p_draw": 0.2,
+          "p_away": 0.15,
+          "reasoning": "Argentina's higher Elo rating and recent form suggest a strong advantage. Algeria's decent performance also indicates potential, but historical head-to-head results favor Argentina significantly.",
+          "raw": "{\"p_home\": 0.65, \"p_draw\": 0.20, \"p_away\": 0.15, \"reasoning\": \"Argentina's higher Elo rating and recent form suggest a strong advantage. Algeria's decent performance also indicates potential, but historical head-to-head results favor Argentina significantly.\"}",
+          "status": "ok"
+        },
+        "human:daksh": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Daksh"
+        },
+        "human:ned": {
+          "p_home": 0.55,
+          "p_draw": 0.35,
+          "p_away": 0.1,
+          "name": "Ned"
+        },
+        "human:sakshi": {
+          "p_home": 0.9,
+          "p_draw": 0.09,
+          "p_away": 0.01,
+          "name": "Sakshi"
+        },
+        "human:sd": {
+          "p_home": 0.6,
+          "p_draw": 0.39,
+          "p_away": 0.01,
+          "name": "SD"
+        },
+        "human:football": {
+          "p_home": 0.9,
+          "p_draw": 0.09,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:vijay": {
+          "p_home": 0.76,
+          "p_draw": 0.15,
+          "p_away": 0.09,
+          "name": "Vijay"
+        },
+        "crowd": {
+          "p_home": 0.781667,
+          "p_draw": 0.18,
+          "p_away": 0.038333,
+          "n": 6
+        }
+      }
+    },
+    {
+      "match_id": "md020-AUT-JOR",
+      "forecasts": {
+        "market": {
+          "p_home": 0.692841,
+          "p_draw": 0.191975,
+          "p_away": 0.115185,
+          "raw_odds": [
+            1.33,
+            4.8,
+            8.0
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.62,
+          "p_draw": 0.24,
+          "p_away": 0.14,
+          "reasoning": "Austria has a significant Elo advantage (115 points) and strong recent form (4 wins, 1 draw). Jordan's recent form is poor (3 losses, 2 draws). The venue conditions are neutral. Austria is the clear f",
+          "raw": "{\"p_home\": 0.62, \"p_draw\": 0.24, \"p_away\": 0.14, \"reasoning\": \"Austria has a significant Elo advantage (115 points) and strong recent form (4 wins, 1 draw). Jordan's recent form is poor (3 losses, 2 draws). The venue conditions are neutral. Austria is the clear favorite.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.58,
+          "p_draw": 0.26,
+          "p_away": 0.16,
+          "reasoning": "Austria's higher Elo and recent wins favor them.",
+          "raw": "{\"p_home\": 0.58, \"p_draw\": 0.26, \"p_away\": 0.16, \"reasoning\": \"Austria's higher Elo and recent wins favor them.\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.62,
+          "p_draw": 0.23,
+          "p_away": 0.15,
+          "reasoning": "Austria enters as clear favorites based on a significant Elo advantage (+115) and superior current form (unbeaten in 5). Jordan's poor recent run (no wins in 5) suggests they will struggle against a d",
+          "raw": "```json\n{\"p_home\": 0.62, \"p_draw\": 0.23, \"p_away\": 0.15, \"reasoning\": \"Austria enters as clear favorites based on a significant Elo advantage (+115) and superior current form (unbeaten in 5). Jordan's poor recent run (no wins in 5) suggests they will struggle against a disciplined European side, though a draw remains a plausible outcome.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.53,
+          "p_draw": 0.27,
+          "p_away": 0.2,
+          "reasoning": "Austria\u2019s 115\u2011point Elo edge yields ~66% expected points; strong recent form vs Jordan\u2019s weak run; modest home advantage leads to ~53% win, 27% draw, 20% loss.",
+          "raw": "{\"p_home\": 0.53, \"p_draw\": 0.27, \"p_away\": 0.20, \"reasoning\": \"Austria\u2019s 115\u2011point Elo edge yields ~66% expected points; strong recent form vs Jordan\u2019s weak run; modest home advantage leads to ~53% win, 27% draw, 20% loss.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.65,
+          "p_draw": 0.2,
+          "p_away": 0.15,
+          "reasoning": "Austria's higher Elo rating and recent form suggest a strong advantage, while Jordan's poor performance in recent matches indicates a lower likelihood of success.",
+          "raw": "{\"p_home\": 0.65, \"p_draw\": 0.20, \"p_away\": 0.15, \"reasoning\": \"Austria's higher Elo rating and recent form suggest a strong advantage, while Jordan's poor performance in recent matches indicates a lower likelihood of success.\"}",
+          "status": "ok"
+        },
+        "human:daksh": {
+          "p_home": 0.6,
+          "p_draw": 0.2,
+          "p_away": 0.2,
+          "name": "Daksh"
+        },
+        "human:ned": {
+          "p_home": 0.36,
+          "p_draw": 0.46,
+          "p_away": 0.18,
+          "name": "Ned"
+        },
+        "human:sakshi": {
+          "p_home": 0.7,
+          "p_draw": 0.13,
+          "p_away": 0.17,
+          "name": "Sakshi"
+        },
+        "human:sd": {
+          "p_home": 0.44,
+          "p_draw": 0.35,
+          "p_away": 0.21,
+          "name": "SD"
+        },
+        "human:football": {
+          "p_home": 0.86,
+          "p_draw": 0.13,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:vijay": {
+          "p_home": 0.58,
+          "p_draw": 0.07,
+          "p_away": 0.35,
+          "name": "Vijay"
+        },
+        "crowd": {
+          "p_home": 0.59,
+          "p_draw": 0.223333,
+          "p_away": 0.186667,
+          "n": 6
+        }
+      }
+    }
+  ]
+}
