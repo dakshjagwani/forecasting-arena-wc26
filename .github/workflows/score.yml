@@ -13,6 +13,12 @@ on:
 permissions:
   contents: write
 
+# Serialise runs (two daily crons + manual dispatch) so they can't race each
+# other on `git push`. Scoring is idempotent, so a queued run just recomputes.
+concurrency:
+  group: daily-score
+  cancel-in-progress: false
+
 jobs:
   score:
     runs-on: ubuntu-latest
@@ -48,4 +54,4 @@ jobs:
           git add data/results/ data/scores/
           git diff --staged --quiet || \
             git commit -m "score: $(date -u +%Y-%m-%d) [skip ci]"
-          git push
+          git push || (git pull --rebase --autostash && git push)

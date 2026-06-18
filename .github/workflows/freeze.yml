@@ -29,6 +29,15 @@ permissions:
   contents: write
   models: read   # gpt-4o-mini via the free GitHub Models tier
 
+# Serialise runs: cron-job.org polls every 3 min but a freeze can take >3 min
+# (retry sweep), so without this two runs overlap and race on `git push` — the
+# loser is rejected non-fast-forward and false-alarms a "Freeze FAILED" right
+# after the real success (seen 2026-06-18). One run at a time; overlapping
+# polls queue then no-op ("already frozen"). NEVER cancel an in-flight freeze.
+concurrency:
+  group: daily-freeze
+  cancel-in-progress: false
+
 jobs:
   freeze:
     runs-on: ubuntu-latest
@@ -73,7 +82,9 @@ jobs:
             echo "froze=false" >> "$GITHUB_OUTPUT"
           else
             git commit -m "freeze: $(date -u +%Y-%m-%d) predictions [skip ci]"
-            git push
+            # Self-healing push: if origin advanced via a benign concurrent
+            # commit (different files), rebase and retry rather than false-fail.
+            git push || (git pull --rebase --autostash && git push)
             echo "froze=true" >> "$GITHUB_OUTPUT"
           fi
 
