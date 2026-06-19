@@ -166,5 +166,33 @@
     "score_away": 3,
     "outcome": "away",
     "status": "FT"
+  },
+  {
+    "match_id": "md025-UEPD-RSA",
+    "score_home": 1,
+    "score_away": 1,
+    "outcome": "draw",
+    "status": "FT"
+  },
+  {
+    "match_id": "md026-SUI-UEPA",
+    "score_home": 4,
+    "score_away": 1,
+    "outcome": "home",
+    "status": "FT"
+  },
+  {
+    "match_id": "md027-CAN-QAT",
+    "score_home": 6,
+    "score_away": 0,
+    "outcome": "home",
+    "status": "FT"
+  },
+  {
+    "match_id": "md028-MEX-KOR",
+    "score_home": 1,
+    "score_away": 0,
+    "outcome": "home",
+    "status": "FT"
   }
 ]
