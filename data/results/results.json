@@ -194,5 +194,33 @@
     "score_away": 0,
     "outcome": "home",
     "status": "FT"
+  },
+  {
+    "match_id": "md029-USA-AUS",
+    "score_home": 2,
+    "score_away": 0,
+    "outcome": "home",
+    "status": "FT"
+  },
+  {
+    "match_id": "md030-SCO-MAR",
+    "score_home": 0,
+    "score_away": 1,
+    "outcome": "away",
+    "status": "FT"
+  },
+  {
+    "match_id": "md031-BRA-HAI",
+    "score_home": 3,
+    "score_away": 0,
+    "outcome": "home",
+    "status": "FT"
+  },
+  {
+    "match_id": "md032-UEPC-PAR",
+    "score_home": 0,
+    "score_away": 1,
+    "outcome": "away",
+    "status": "FT"
   }
 ]
