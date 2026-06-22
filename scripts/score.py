@@ -240,6 +240,7 @@ def main() -> None:
             "forecaster": forecaster,
             "type": ftype,
             "n_predicted": n,
+            "n_available": n_available,  # matches scored since this forecaster's first prediction
             "mean_brier": mean_b,
             "vs_market": None,
             "qualified": qualified,

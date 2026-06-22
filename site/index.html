@@ -191,6 +191,14 @@
     .vs-worse  { color: var(--red); }
     .vs-same   { color: var(--text-sub); }
 
+    .pred-sub {
+      font-size: .58rem;
+      color: var(--text-sub);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      margin-top: .1rem;
+    }
     .unqualified-tag {
       font-size: .65rem;
       color: var(--text-sub);
@@ -435,12 +443,30 @@ function render(data) {
     // word cue only on the top few qualified rows, to keep it uncluttered
     const withWord   = showRank && rank <= 5;
 
+    // Qualification is "predicted ≥60% of matches scored SINCE YOU JOINED",
+    // so the denominator (n_available) differs per person. Show the fraction
+    // — that's what makes "8 picks qualifies, 22 doesn't" make sense. Reference
+    // rows and fully-covered rows just show the count. Old JSON without
+    // n_available falls back to the plain number.
+    const isRef    = ['market', 'crowd', 'baseline'].includes(row.type);
+    const navail   = row.n_available;
+    const showFrac = !isRef && typeof navail === 'number' && navail > row.n_predicted;
+    const predCell = showFrac
+      ? `${row.n_predicted} / ${navail}<div class="pred-sub">since joining</div>`
+      : `${row.n_predicted}`;
+    const pct      = showFrac ? Math.round(100 * row.n_predicted / navail) : null;
+    const lowTag   = !row.qualified
+      ? (showFrac
+          ? ` <span class="unqualified-tag">(${pct}% since joining · need 60%)</span>`
+          : ' <span class="unqualified-tag">(needs more picks)</span>')
+      : '';
+
     return `<tr class="${row.qualified ? '' : 'unqualified'}">
       ${rankStr}
       <td><span class="badge ${badgeClass}">${badgeLabel}</span></td>
-      <td class="${nameClass}">${displayName(row)}${coinTag}${!row.qualified ? ' <span class="unqualified-tag">(needs more picks)</span>':''}
+      <td class="${nameClass}">${displayName(row)}${coinTag}${lowTag}
       </td>
-      <td style="text-align:center">${row.n_predicted}</td>
+      <td style="text-align:center">${predCell}</td>
       <td class="${brierClass}">${fmt(row.mean_brier)}</td>
       <td>${vsMarketCell(row.vs_market, withWord)}</td>
     </tr>`;
@@ -460,7 +486,7 @@ function render(data) {
           <th>#</th>
           <th>Type</th>
           <th>Forecaster</th>
-          <th style="text-align:center">Predictions</th>
+          <th style="text-align:center" title="Picks made / matches scored since this forecaster joined. Qualifying needs ≥60%.">Picks ⓘ</th>
           <th title="Multiclass Brier score — lower is better. 0.667 = a coin-flip.">Score (lower = better) ⓘ</th>
           <th>vs Market</th>
         </tr>
@@ -470,7 +496,9 @@ function render(data) {
     <p style="font-size:.72rem;color:#94a3b8;margin:.75rem 0 0 .25rem">
       <span class="brier-good" style="font-weight:700">green</span> beats a coin-flip ·
       <span class="brier-bad" style="font-weight:700">red</span> is worse than guessing ·
-      greyed rows haven't predicted ≥60% of matches since they joined.
+      greyed rows have predicted under 60% of the matches scored
+      <em>since they joined</em> — so a late joiner can qualify with fewer picks
+      than an earlier one who skipped matches.
       · <a href="methodology.html" style="color:inherit">How scoring works</a>
     </p>`;
 }
