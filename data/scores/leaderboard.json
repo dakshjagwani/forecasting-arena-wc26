@@ -1,93 +1,109 @@
 {
-  "updated_utc": "2026-06-21T11:58:59Z",
-  "matches_scored": 34,
+  "updated_utc": "2026-06-22T06:40:25Z",
+  "matches_scored": 38,
   "rows": [
     {
       "forecaster": "human:sd",
       "type": "human",
       "n_predicted": 16,
       "mean_brier": 0.4465,
-      "vs_market": -0.1217,
+      "vs_market": -0.1128,
       "qualified": true
     },
     {
       "forecaster": "market",
       "type": "market",
-      "n_predicted": 34,
-      "mean_brier": 0.5682,
+      "n_predicted": 38,
+      "mean_brier": 0.5593,
       "vs_market": null,
       "qualified": true
     },
     {
       "forecaster": "llama-70b",
       "type": "ai",
-      "n_predicted": 34,
-      "mean_brier": 0.5951,
-      "vs_market": 0.0269,
+      "n_predicted": 38,
+      "mean_brier": 0.5981,
+      "vs_market": 0.0388,
       "qualified": true
     },
     {
       "forecaster": "crowd",
       "type": "crowd",
-      "n_predicted": 34,
-      "mean_brier": 0.5969,
-      "vs_market": 0.0287,
-      "qualified": true
-    },
-    {
-      "forecaster": "gpt-4o-mini",
-      "type": "ai",
-      "n_predicted": 34,
-      "mean_brier": 0.6009,
-      "vs_market": 0.0327,
+      "n_predicted": 38,
+      "mean_brier": 0.5985,
+      "vs_market": 0.0392,
       "qualified": true
     },
     {
       "forecaster": "gemma",
       "type": "ai",
-      "n_predicted": 34,
-      "mean_brier": 0.6028,
-      "vs_market": 0.0346,
+      "n_predicted": 38,
+      "mean_brier": 0.605,
+      "vs_market": 0.0457,
+      "qualified": true
+    },
+    {
+      "forecaster": "gpt-4o-mini",
+      "type": "ai",
+      "n_predicted": 38,
+      "mean_brier": 0.6068,
+      "vs_market": 0.0475,
       "qualified": true
     },
     {
       "forecaster": "gemini-flash",
       "type": "ai",
-      "n_predicted": 33,
-      "mean_brier": 0.6055,
-      "vs_market": 0.0373,
-      "qualified": true
-    },
-    {
-      "forecaster": "human:daksh",
-      "type": "human",
-      "n_predicted": 34,
-      "mean_brier": 0.6198,
-      "vs_market": 0.0516,
+      "n_predicted": 37,
+      "mean_brier": 0.6099,
+      "vs_market": 0.0506,
       "qualified": true
     },
     {
       "forecaster": "human:ned",
       "type": "human",
-      "n_predicted": 29,
-      "mean_brier": 0.6375,
-      "vs_market": 0.0693,
+      "n_predicted": 33,
+      "mean_brier": 0.625,
+      "vs_market": 0.0657,
+      "qualified": true
+    },
+    {
+      "forecaster": "human:daksh",
+      "type": "human",
+      "n_predicted": 38,
+      "mean_brier": 0.6367,
+      "vs_market": 0.0774,
       "qualified": true
     },
     {
       "forecaster": "gpt-oss-120b",
       "type": "ai",
+      "n_predicted": 38,
+      "mean_brier": 0.645,
+      "vs_market": 0.0857,
+      "qualified": true
+    },
+    {
+      "forecaster": "human:sakshi",
+      "type": "human",
       "n_predicted": 34,
-      "mean_brier": 0.6462,
-      "vs_market": 0.078,
+      "mean_brier": 0.6519,
+      "vs_market": 0.0926,
+      "qualified": true
+    },
+    {
+      "forecaster": "human:praneet",
+      "type": "human",
+      "n_predicted": 8,
+      "mean_brier": 0.6579,
+      "vs_market": 0.0986,
       "qualified": true
     },
     {
       "forecaster": "uniform",
       "type": "baseline",
-      "n_predicted": 34,
+      "n_predicted": 38,
       "mean_brier": 0.6667,
-      "vs_market": 0.0985,
+      "vs_market": 0.1074,
       "qualified": true
     },
     {
@@ -95,39 +111,15 @@
       "type": "human",
       "n_predicted": 26,
       "mean_brier": 0.6732,
-      "vs_market": 0.105,
+      "vs_market": 0.1139,
       "qualified": true
-    },
-    {
-      "forecaster": "human:sakshi",
-      "type": "human",
-      "n_predicted": 30,
-      "mean_brier": 0.6921,
-      "vs_market": 0.1239,
-      "qualified": true
-    },
-    {
-      "forecaster": "human:footballlover62",
-      "type": "human",
-      "n_predicted": 8,
-      "mean_brier": 0.732,
-      "vs_market": 0.1638,
-      "qualified": true
-    },
-    {
-      "forecaster": "human:praneet",
-      "type": "human",
-      "n_predicted": 4,
-      "mean_brier": 0.4154,
-      "vs_market": -0.1528,
-      "qualified": false
     },
     {
       "forecaster": "human:kanchan",
       "type": "human",
       "n_predicted": 4,
       "mean_brier": 0.6001,
-      "vs_market": 0.0319,
+      "vs_market": 0.0408,
       "qualified": false
     },
     {
@@ -135,15 +127,23 @@
       "type": "human",
       "n_predicted": 2,
       "mean_brier": 0.6154,
-      "vs_market": 0.0472,
+      "vs_market": 0.0561,
+      "qualified": false
+    },
+    {
+      "forecaster": "human:footballlover62",
+      "type": "human",
+      "n_predicted": 8,
+      "mean_brier": 0.732,
+      "vs_market": 0.1727,
       "qualified": false
     },
     {
       "forecaster": "human:football",
       "type": "human",
-      "n_predicted": 18,
-      "mean_brier": 0.7246,
-      "vs_market": 0.1564,
+      "n_predicted": 22,
+      "mean_brier": 0.7693,
+      "vs_market": 0.21,
       "qualified": false
     },
     {
@@ -151,7 +151,7 @@
       "type": "human",
       "n_predicted": 11,
       "mean_brier": 0.8021,
-      "vs_market": 0.2339,
+      "vs_market": 0.2428,
       "qualified": false
     },
     {
@@ -159,7 +159,7 @@
       "type": "human",
       "n_predicted": 2,
       "mean_brier": 0.8657,
-      "vs_market": 0.2975,
+      "vs_market": 0.3064,
       "qualified": false
     },
     {
@@ -167,7 +167,7 @@
       "type": "human",
       "n_predicted": 5,
       "mean_brier": 1.0302,
-      "vs_market": 0.462,
+      "vs_market": 0.4709,
       "qualified": false
     },
     {
@@ -175,7 +175,7 @@
       "type": "human",
       "n_predicted": 10,
       "mean_brier": 1.3586,
-      "vs_market": 0.7904,
+      "vs_market": 0.7993,
       "qualified": false
     }
   ]
