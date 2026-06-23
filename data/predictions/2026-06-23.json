@@ -1,0 +1,394 @@
+{
+  "date": "2026-06-23",
+  "freeze_utc": "2026-06-23T15:01:06Z",
+  "matches": [
+    {
+      "match_id": "md045-POR-UZB",
+      "forecasts": {
+        "market": {
+          "p_home": 0.82012,
+          "p_draw": 0.122471,
+          "p_away": 0.057408,
+          "raw_odds": [
+            1.12,
+            7.5,
+            16.0
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.75,
+          "p_draw": 0.18,
+          "p_away": 0.07,
+          "reasoning": "Portugal's significantly higher Elo (2053 vs 1805) and strong recent form make them clear favorites. Uzbekistan's recent struggles and the lack of head-to-head history against Portugal further support",
+          "raw": "```json\n{\n  \"p_home\": 0.75,\n  \"p_draw\": 0.18,\n  \"p_away\": 0.07,\n  \"reasoning\": \"Portugal's significantly higher Elo (2053 vs 1805) and strong recent form make them clear favorites. Uzbekistan's recent struggles and the lack of head-to-head history against Portugal further support this. The venue conditions are mitigated by the indoor stadium.\"\n}\n```",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.65,
+          "p_draw": 0.25,
+          "p_away": 0.1,
+          "reasoning": "Elo difference and recent form favor Portugal",
+          "raw": "{\"p_home\": 0.65, \"p_draw\": 0.25, \"p_away\": 0.10, \"reasoning\": \"Elo difference and recent form favor Portugal\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.78,
+          "p_draw": 0.15,
+          "p_away": 0.07,
+          "reasoning": "Portugal holds a significant Elo advantage (+248) and superior recent form. While Uzbekistan is an emerging side, the talent gap is vast. The AC stadium mitigates heat risks, favoring the higher-techn",
+          "raw": "```json\n{\"p_home\": 0.78, \"p_draw\": 0.15, \"p_away\": 0.07, \"reasoning\": \"Portugal holds a significant Elo advantage (+248) and superior recent form. While Uzbekistan is an emerging side, the talent gap is vast. The AC stadium mitigates heat risks, favoring the higher-technical quality of the Portuguese squad.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.72,
+          "p_draw": 0.18,
+          "p_away": 0.1,
+          "reasoning": "Portugal's 248\u2011point Elo advantage predicts ~0.81 expected points. Adjusting for neutral venue, heat, and typical draw rates yields ~72% win, 18% draw, 10% loss.",
+          "raw": "{\"p_home\": 0.72, \"p_draw\": 0.18, \"p_away\": 0.10, \"reasoning\": \"Portugal's 248\u2011point Elo advantage predicts ~0.81 expected points. Adjusting for neutral venue, heat, and typical draw rates yields ~72% win, 18% draw, 10% loss.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.65,
+          "p_draw": 0.2,
+          "p_away": 0.15,
+          "reasoning": "Portugal's higher Elo rating and recent form suggest a strong advantage. Uzbekistan's struggles in recent matches and the historical head-to-head favor Portugal, despite the humid conditions.",
+          "raw": "{\"p_home\": 0.65, \"p_draw\": 0.20, \"p_away\": 0.15, \"reasoning\": \"Portugal's higher Elo rating and recent form suggest a strong advantage. Uzbekistan's struggles in recent matches and the historical head-to-head favor Portugal, despite the humid conditions.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.69,
+          "p_draw": 0.3,
+          "p_away": 0.01,
+          "name": "Ned"
+        },
+        "human:sakshi": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Sakshi"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:daksh": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.693069,
+          "p_draw": 0.009901,
+          "p_away": 0.29703,
+          "name": "Praneet"
+        },
+        "human:sd": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "SD"
+        },
+        "crowd": {
+          "p_home": 0.883845,
+          "p_draw": 0.058317,
+          "p_away": 0.057838,
+          "n": 6
+        }
+      }
+    },
+    {
+      "match_id": "md046-ENG-GHA",
+      "forecasts": {
+        "market": {
+          "p_home": 0.795663,
+          "p_draw": 0.139547,
+          "p_away": 0.06479,
+          "raw_odds": [
+            1.14,
+            6.5,
+            14.0
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.8,
+          "p_draw": 0.15,
+          "p_away": 0.05,
+          "reasoning": "England's significantly higher Elo (2072 vs 1600) and recent form (4W 1D 1L vs 1D 4L) make them strong favorites. Ghana's poor form and the Elo difference heavily favor an England win, despite the his",
+          "raw": "```json\n{\n  \"p_home\": 0.80,\n  \"p_draw\": 0.15,\n  \"p_away\": 0.05,\n  \"reasoning\": \"England's significantly higher Elo (2072 vs 1600) and recent form (4W 1D 1L vs 1D 4L) make them strong favorites. Ghana's poor form and the Elo difference heavily favor an England win, despite the historical draw.\"\n}\n```",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.7,
+          "p_draw": 0.2,
+          "p_away": 0.1,
+          "reasoning": "Elo difference and recent form favor England",
+          "raw": "{\"p_home\": 0.7, \"p_draw\": 0.2, \"p_away\": 0.1, \"reasoning\": \"Elo difference and recent form favor England\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.78,
+          "p_draw": 0.15,
+          "p_away": 0.07,
+          "reasoning": "England holds a massive Elo advantage (+472) and superior recent form. Ghana is in a slump with five winless games. While H2H is limited, the talent gap and England's consistency make them heavy favor",
+          "raw": "```json\n{\"p_home\": 0.78, \"p_draw\": 0.15, \"p_away\": 0.07, \"reasoning\": \"England holds a massive Elo advantage (+472) and superior recent form. Ghana is in a slump with five winless games. While H2H is limited, the talent gap and England's consistency make them heavy favorites despite the neutral venue.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.92,
+          "p_draw": 0.07,
+          "p_away": 0.01,
+          "reasoning": "England\u2019s 472\u2011point Elo advantage predicts ~94% win chance; adjusting for low\u2011scoring draws in mismatched games reduces home win to ~92%, leaves ~7% draw and ~1% upset.",
+          "raw": "{\"p_home\":0.92,\"p_draw\":0.07,\"p_away\":0.01,\"reasoning\":\"England\u2019s 472\u2011point Elo advantage predicts ~94% win chance; adjusting for low\u2011scoring draws in mismatched games reduces home win to ~92%, leaves ~7% draw and ~1% upset.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.65,
+          "p_draw": 0.25,
+          "p_away": 0.1,
+          "reasoning": "England's higher Elo rating and recent form suggest a strong advantage. Ghana's poor recent performance and historical head-to-head results further support a higher probability for an England win.",
+          "raw": "{\"p_home\": 0.65, \"p_draw\": 0.25, \"p_away\": 0.10, \"reasoning\": \"England's higher Elo rating and recent form suggest a strong advantage. Ghana's poor recent performance and historical head-to-head results further support a higher probability for an England win.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.79,
+          "p_draw": 0.2,
+          "p_away": 0.01,
+          "name": "Ned"
+        },
+        "human:sakshi": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Sakshi"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:daksh": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.01,
+          "p_draw": 0.98,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "human:sd": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "SD"
+        },
+        "crowd": {
+          "p_home": 0.786667,
+          "p_draw": 0.203333,
+          "p_away": 0.01,
+          "n": 6
+        }
+      }
+    },
+    {
+      "match_id": "md047-PAN-CRO",
+      "forecasts": {
+        "market": {
+          "p_home": 0.149347,
+          "p_draw": 0.224021,
+          "p_away": 0.626632,
+          "raw_odds": [
+            6.0,
+            4.0,
+            1.43
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.18,
+          "p_draw": 0.25,
+          "p_away": 0.57,
+          "reasoning": "Croatia has a significant Elo advantage (120 points) and better recent form. Panama's home advantage is somewhat offset by the neutral World Cup venue. The single head-to-head is not statistically sig",
+          "raw": "{\"p_home\": 0.18, \"p_draw\": 0.25, \"p_away\": 0.57, \"reasoning\": \"Croatia has a significant Elo advantage (120 points) and better recent form. Panama's home advantage is somewhat offset by the neutral World Cup venue. The single head-to-head is not statistically significant.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.25,
+          "p_draw": 0.28,
+          "p_away": 0.47,
+          "reasoning": "Elo ratings and recent form favor Croatia",
+          "raw": "{\"p_home\": 0.25, \"p_draw\": 0.28, \"p_away\": 0.47, \"reasoning\": \"Elo ratings and recent form favor Croatia\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.18,
+          "p_draw": 0.24,
+          "p_away": 0.58,
+          "reasoning": "Croatia holds a significant Elo advantage (+120) and superior historical pedigree in major tournaments. While Panama is competitive and playing in North America, Croatia's technical quality makes them",
+          "raw": "```json\n{\"p_home\": 0.18, \"p_draw\": 0.24, \"p_away\": 0.58, \"reasoning\": \"Croatia holds a significant Elo advantage (+120) and superior historical pedigree in major tournaments. While Panama is competitive and playing in North America, Croatia's technical quality makes them strong favorites, though Panama's resilience suggests a moderate chance of a draw.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.334,
+          "p_draw": 0.25,
+          "p_away": 0.416,
+          "reasoning": "Croatia's 120\u2011point Elo edge gives ~33% win chance for Panama; typical soccer draw rate ~25%; remaining probability allocated to Croatia's win.",
+          "raw": "{\"p_home\": 0.334, \"p_draw\": 0.250, \"p_away\": 0.416, \"reasoning\": \"Croatia's 120\u2011point Elo edge gives ~33% win chance for Panama; typical soccer draw rate ~25%; remaining probability allocated to Croatia's win.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.25,
+          "p_draw": 0.3,
+          "p_away": 0.45,
+          "reasoning": "Croatia's higher Elo rating and recent form suggest they are favored, but Panama's home advantage and the stakes of the match could lead to a competitive draw.",
+          "raw": "{\"p_home\": 0.25, \"p_draw\": 0.30, \"p_away\": 0.45, \"reasoning\": \"Croatia's higher Elo rating and recent form suggest they are favored, but Panama's home advantage and the stakes of the match could lead to a competitive draw.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.03,
+          "p_draw": 0.22,
+          "p_away": 0.75,
+          "name": "Ned"
+        },
+        "human:sakshi": {
+          "p_home": 0.2,
+          "p_draw": 0.13,
+          "p_away": 0.67,
+          "name": "Sakshi"
+        },
+        "human:football": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Football"
+        },
+        "human:daksh": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.39604,
+          "p_draw": 0.009901,
+          "p_away": 0.594059,
+          "name": "Praneet"
+        },
+        "human:sd": {
+          "p_home": 0.1,
+          "p_draw": 0.3,
+          "p_away": 0.6,
+          "name": "SD"
+        },
+        "crowd": {
+          "p_home": 0.12434,
+          "p_draw": 0.113317,
+          "p_away": 0.762343,
+          "n": 6
+        }
+      }
+    },
+    {
+      "match_id": "md048-COL-FP01",
+      "forecasts": {
+        "market": {
+          "p_home": 0.606061,
+          "p_draw": 0.242424,
+          "p_away": 0.151515,
+          "raw_odds": [
+            1.5,
+            3.75,
+            6.0
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.72,
+          "p_draw": 0.19,
+          "p_away": 0.09,
+          "reasoning": "Colombia has a significant Elo advantage and home-field advantage. DR Congo's recent form is mixed, and the altitude will be a disadvantage. Colombia is a strong favorite.",
+          "raw": "{\"p_home\": 0.72, \"p_draw\": 0.19, \"p_away\": 0.09, \"reasoning\": \"Colombia has a significant Elo advantage and home-field advantage. DR Congo's recent form is mixed, and the altitude will be a disadvantage. Colombia is a strong favorite.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.65,
+          "p_draw": 0.25,
+          "p_away": 0.1,
+          "reasoning": "Colombia's home advantage and higher Elo rating give them an edge.",
+          "raw": "{\"p_home\": 0.65, \"p_draw\": 0.25, \"p_away\": 0.10, \"reasoning\": \"Colombia's home advantage and higher Elo rating give them an edge.\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.62,
+          "p_draw": 0.23,
+          "p_away": 0.15,
+          "reasoning": "Colombia holds a significant Elo advantage (+292). While DR Congo is resilient, Colombia's superior technical quality and experience in high-altitude environments (similar to their home conditions) ma",
+          "raw": "```json\n{\"p_home\": 0.62, \"p_draw\": 0.23, \"p_away\": 0.15, \"reasoning\": \"Colombia holds a significant Elo advantage (+292). While DR Congo is resilient, Colombia's superior technical quality and experience in high-altitude environments (similar to their home conditions) make them strong favorites, though the altitude may slightly increase the likelihood of a draw due to fatigue.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.66,
+          "p_draw": 0.18,
+          "p_away": 0.16,
+          "reasoning": "Colombia's higher Elo (+292), home altitude advantage, and better recent form give them a strong edge. DR Congo's lower rating and travel fatigue reduce their chances, but draws remain plausible.",
+          "raw": "{\"p_home\": 0.66, \"p_draw\": 0.18, \"p_away\": 0.16, \"reasoning\": \"Colombia's higher Elo (+292), home altitude advantage, and better recent form give them a strong edge. DR Congo's lower rating and travel fatigue reduce their chances, but draws remain plausible.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.55,
+          "p_draw": 0.25,
+          "p_away": 0.2,
+          "reasoning": "Colombia's higher Elo rating and home advantage at altitude favor them, while DR Congo's lower Elo and recent form suggest a struggle. A draw is plausible but less likely given the stakes.",
+          "raw": "{\"p_home\": 0.55, \"p_draw\": 0.25, \"p_away\": 0.20, \"reasoning\": \"Colombia's higher Elo rating and home advantage at altitude favor them, while DR Congo's lower Elo and recent form suggest a struggle. A draw is plausible but less likely given the stakes.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.71,
+          "p_draw": 0.2,
+          "p_away": 0.09,
+          "name": "Ned"
+        },
+        "human:sakshi": {
+          "p_home": 0.7,
+          "p_draw": 0.14,
+          "p_away": 0.16,
+          "name": "Sakshi"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:daksh": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.693069,
+          "p_draw": 0.009901,
+          "p_away": 0.29703,
+          "name": "Praneet"
+        },
+        "human:sd": {
+          "p_home": 0.65,
+          "p_draw": 0.3,
+          "p_away": 0.05,
+          "name": "SD"
+        },
+        "crowd": {
+          "p_home": 0.785512,
+          "p_draw": 0.11165,
+          "p_away": 0.102838,
+          "n": 6
+        }
+      }
+    }
+  ]
+}
