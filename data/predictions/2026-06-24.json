@@ -1,0 +1,588 @@
+{
+  "date": "2026-06-24",
+  "freeze_utc": "2026-06-24T19:00:57Z",
+  "matches": [
+    {
+      "match_id": "md049-SUI-CAN",
+      "forecasts": {
+        "market": {
+          "p_home": 0.374253,
+          "p_draw": 0.322966,
+          "p_away": 0.302781,
+          "raw_odds": [
+            2.33,
+            2.7,
+            2.88
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.42,
+          "p_draw": 0.31,
+          "p_away": 0.27,
+          "reasoning": "Switzerland's slightly higher Elo and home advantage give them an edge. Canada's recent form is good, but the historical H2H is limited. A draw is quite plausible given the close Elo ratings.",
+          "raw": "{\"p_home\": 0.42, \"p_draw\": 0.31, \"p_away\": 0.27, \"reasoning\": \"Switzerland's slightly higher Elo and home advantage give them an edge. Canada's recent form is good, but the historical H2H is limited. A draw is quite plausible given the close Elo ratings.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.42,
+          "p_draw": 0.31,
+          "p_away": 0.27,
+          "reasoning": "Elo ratings and recent form slightly favor Switzerland.",
+          "raw": "{\"p_home\": 0.42, \"p_draw\": 0.31, \"p_away\": 0.27, \"reasoning\": \"Elo ratings and recent form slightly favor Switzerland.\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.38,
+          "p_draw": 0.31,
+          "p_away": 0.31,
+          "reasoning": "Elo ratings are nearly identical, suggesting a highly competitive match. Switzerland has a slight edge in historical tournament consistency, but Canada's recent form is superior. The venue advantage f",
+          "raw": "```json\n{\"p_home\": 0.38, \"p_draw\": 0.31, \"p_away\": 0.31, \"reasoning\": \"Elo ratings are nearly identical, suggesting a highly competitive match. Switzerland has a slight edge in historical tournament consistency, but Canada's recent form is superior. The venue advantage for Canada is offset by Switzerland's marginal Elo lead.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.35,
+          "p_draw": 0.3,
+          "p_away": 0.35,
+          "reasoning": "Elo ratings are nearly equal; Canada\u2019s recent form and home venue offset Switzerland\u2019s slight rating edge. Historical head\u2011to\u2011head offers no clear pattern, leading to a balanced split with a moderate ",
+          "raw": "{\"p_home\":0.35,\"p_draw\":0.30,\"p_away\":0.35,\"reasoning\":\"Elo ratings are nearly equal; Canada\u2019s recent form and home venue offset Switzerland\u2019s slight rating edge. Historical head\u2011to\u2011head offers no clear pattern, leading to a balanced split with a moderate draw likelihood.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.35,
+          "p_draw": 0.3,
+          "p_away": 0.35,
+          "reasoning": "Both teams have similar Elo ratings and recent form. Switzerland's historical disadvantage against Canada adds uncertainty, while the stakes of the group stage may lead to a cautious approach, increas",
+          "raw": "{\"p_home\": 0.35, \"p_draw\": 0.30, \"p_away\": 0.35, \"reasoning\": \"Both teams have similar Elo ratings and recent form. Switzerland's historical disadvantage against Canada adds uncertainty, while the stakes of the group stage may lead to a cautious approach, increasing the likelihood of a draw.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.3,
+          "p_draw": 0.4,
+          "p_away": 0.3,
+          "name": "Ned"
+        },
+        "human:daksh": {
+          "p_home": 0.4,
+          "p_draw": 0.2,
+          "p_away": 0.4,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "human:sd": {
+          "p_home": 0.44,
+          "p_draw": 0.31,
+          "p_away": 0.25,
+          "name": "SD"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:vijay": {
+          "p_home": 0.5,
+          "p_draw": 0.2,
+          "p_away": 0.3,
+          "name": "Vijay"
+        },
+        "crowd": {
+          "p_home": 0.6,
+          "p_draw": 0.188333,
+          "p_away": 0.211667,
+          "n": 6
+        }
+      }
+    },
+    {
+      "match_id": "md050-UEPA-QAT",
+      "forecasts": {
+        "market": {
+          "p_home": 0.65407,
+          "p_draw": 0.197674,
+          "p_away": 0.148256,
+          "raw_odds": [
+            1.36,
+            4.5,
+            6.0
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.48,
+          "p_draw": 0.29,
+          "p_away": 0.23,
+          "reasoning": "Bosnia has a higher Elo and home advantage. Qatar's recent form is poor. Head-to-head is limited and old. Bosnia is favored despite recent draws, as Qatar's losses suggest vulnerability.",
+          "raw": "{\"p_home\": 0.48, \"p_draw\": 0.29, \"p_away\": 0.23, \"reasoning\": \"Bosnia has a higher Elo and home advantage. Qatar's recent form is poor. Head-to-head is limited and old. Bosnia is favored despite recent draws, as Qatar's losses suggest vulnerability.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.55,
+          "p_draw": 0.3,
+          "p_away": 0.15,
+          "reasoning": "Elo difference and home advantage favor Bosnia",
+          "raw": "{\"p_home\": 0.55, \"p_draw\": 0.30, \"p_away\": 0.15, \"reasoning\": \"Elo difference and home advantage favor Bosnia\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.42,
+          "p_draw": 0.31,
+          "p_away": 0.27,
+          "reasoning": "Bosnia holds a slight Elo advantage and superior recent form (unbeaten in 5), whereas Qatar has struggled with losses. However, Bosnia's high draw rate and Qatar's historical edge in H2H suggest a com",
+          "raw": "```json\n{\"p_home\": 0.42, \"p_draw\": 0.31, \"p_away\": 0.27, \"reasoning\": \"Bosnia holds a slight Elo advantage and superior recent form (unbeaten in 5), whereas Qatar has struggled with losses. However, Bosnia's high draw rate and Qatar's historical edge in H2H suggest a competitive match with a slight lean toward the home side.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.45,
+          "p_draw": 0.35,
+          "p_away": 0.2,
+          "reasoning": "Bosnia's slight Elo edge, neutral recent form, and better head\u2011to\u2011head suggest a modest win chance; both teams' low\u2011scoring trends raise draw likelihood, while Qatar's poorer form limits its win proba",
+          "raw": "{\"p_home\": 0.45, \"p_draw\": 0.35, \"p_away\": 0.20, \"reasoning\": \"Bosnia's slight Elo edge, neutral recent form, and better head\u2011to\u2011head suggest a modest win chance; both teams' low\u2011scoring trends raise draw likelihood, while Qatar's poorer form limits its win probability.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.45,
+          "p_draw": 0.3,
+          "p_away": 0.25,
+          "reasoning": "Bosnia has a higher Elo rating and home advantage, but both teams have struggled recently. Historical matches suggest competitiveness, leading to a higher draw probability.",
+          "raw": "{\"p_home\": 0.45, \"p_draw\": 0.30, \"p_away\": 0.25, \"reasoning\": \"Bosnia has a higher Elo rating and home advantage, but both teams have struggled recently. Historical matches suggest competitiveness, leading to a higher draw probability.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.8,
+          "p_draw": 0.19,
+          "p_away": 0.01,
+          "name": "Ned"
+        },
+        "human:daksh": {
+          "p_home": 0.5,
+          "p_draw": 0.2,
+          "p_away": 0.3,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "human:sd": {
+          "p_home": 0.22,
+          "p_draw": 0.57,
+          "p_away": 0.21,
+          "name": "SD"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:vijay": {
+          "p_home": 0.4,
+          "p_draw": 0.15,
+          "p_away": 0.45,
+          "name": "Vijay"
+        },
+        "crowd": {
+          "p_home": 0.646667,
+          "p_draw": 0.188333,
+          "p_away": 0.165,
+          "n": 6
+        }
+      }
+    },
+    {
+      "match_id": "md051-SCO-BRA",
+      "forecasts": {
+        "market": {
+          "p_home": 0.104856,
+          "p_draw": 0.18245,
+          "p_away": 0.712694,
+          "raw_odds": [
+            8.7,
+            5.0,
+            1.28
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.08,
+          "p_draw": 0.17,
+          "p_away": 0.75,
+          "reasoning": "Brazil's significantly higher Elo, dominant head-to-head record, and strong recent form make them clear favorites. While the heat is a factor, Brazil's experience in similar climates mitigates its imp",
+          "raw": "```json\n{\n  \"p_home\": 0.08,\n  \"p_draw\": 0.17,\n  \"p_away\": 0.75,\n  \"reasoning\": \"Brazil's significantly higher Elo, dominant head-to-head record, and strong recent form make them clear favorites. While the heat is a factor, Brazil's experience in similar climates mitigates its impact. Scotland faces a tough challenge.\"\n}\n```",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.15,
+          "p_draw": 0.2,
+          "p_away": 0.65,
+          "reasoning": "Brazil's higher Elo and dominant head-to-head history",
+          "raw": "{\"p_home\": 0.15, \"p_draw\": 0.20, \"p_away\": 0.65, \"reasoning\": \"Brazil's higher Elo and dominant head-to-head history\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.12,
+          "p_draw": 0.23,
+          "p_away": 0.65,
+          "reasoning": "Brazil holds a significant Elo advantage (+208) and a dominant historical head-to-head record. While Miami's extreme heat and humidity act as a leveler by slowing the pace, Brazil's superior individua",
+          "raw": "```json\n{\"p_home\": 0.12, \"p_draw\": 0.23, \"p_away\": 0.65, \"reasoning\": \"Brazil holds a significant Elo advantage (+208) and a dominant historical head-to-head record. While Miami's extreme heat and humidity act as a leveler by slowing the pace, Brazil's superior individual quality makes them heavy favorites despite Scotland's resilience.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.17,
+          "p_draw": 0.15,
+          "p_away": 0.68,
+          "reasoning": "Brazil's 208 Elo advantage predicts ~77% expected points; adjusting for lower draw likelihood and Scotland's heat disadvantage yields ~68% win, 17% win for Scotland, 15% draw.",
+          "raw": "{\"p_home\": 0.17, \"p_draw\": 0.15, \"p_away\": 0.68, \"reasoning\": \"Brazil's 208 Elo advantage predicts ~77% expected points; adjusting for lower draw likelihood and Scotland's heat disadvantage yields ~68% win, 17% win for Scotland, 15% draw.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.15,
+          "p_draw": 0.25,
+          "p_away": 0.6,
+          "reasoning": "Brazil's higher Elo rating and historical dominance suggest a strong advantage. Scotland's home advantage and humid conditions may slightly level the playing field, but Brazil remains favored.",
+          "raw": "{\"p_home\": 0.15, \"p_draw\": 0.25, \"p_away\": 0.60, \"reasoning\": \"Brazil's higher Elo rating and historical dominance suggest a strong advantage. Scotland's home advantage and humid conditions may slightly level the playing field, but Brazil remains favored.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Ned"
+        },
+        "human:daksh": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.049505,
+          "p_draw": 0.009901,
+          "p_away": 0.940594,
+          "name": "Praneet"
+        },
+        "human:sd": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "SD"
+        },
+        "human:football": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Football"
+        },
+        "human:vijay": {
+          "p_home": 0.13,
+          "p_draw": 0.17,
+          "p_away": 0.7,
+          "name": "Vijay"
+        },
+        "crowd": {
+          "p_home": 0.036584,
+          "p_draw": 0.03665,
+          "p_away": 0.926766,
+          "n": 6
+        }
+      }
+    },
+    {
+      "match_id": "md052-MAR-HAI",
+      "forecasts": {
+        "market": {
+          "p_home": 0.79603,
+          "p_draw": 0.140836,
+          "p_away": 0.063133,
+          "raw_odds": [
+            1.15,
+            6.5,
+            14.5
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.7,
+          "p_draw": 0.2,
+          "p_away": 0.1,
+          "reasoning": "Morocco has a significantly higher Elo rating and better recent form. While the heat could be a factor, Morocco is generally a stronger team. Haiti's recent form is mixed.",
+          "raw": "{\"p_home\": 0.70, \"p_draw\": 0.20, \"p_away\": 0.10, \"reasoning\": \"Morocco has a significantly higher Elo rating and better recent form. While the heat could be a factor, Morocco is generally a stronger team. Haiti's recent form is mixed.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.65,
+          "p_draw": 0.23,
+          "p_away": 0.12,
+          "reasoning": "Elo difference and recent form favor Morocco",
+          "raw": "{\"p_home\": 0.65, \"p_draw\": 0.23, \"p_away\": 0.12, \"reasoning\": \"Elo difference and recent form favor Morocco\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.68,
+          "p_draw": 0.22,
+          "p_away": 0.1,
+          "reasoning": "Morocco holds a significant Elo advantage (+263) and superior recent form. While Haiti is capable of upsets, Morocco's tactical discipline and squad depth make them heavy favorites, though the heat an",
+          "raw": "```json\n{\"p_home\": 0.68, \"p_draw\": 0.22, \"p_away\": 0.10, \"reasoning\": \"Morocco holds a significant Elo advantage (+263) and superior recent form. While Haiti is capable of upsets, Morocco's tactical discipline and squad depth make them heavy favorites, though the heat and humidity may slightly increase the likelihood of a low-scoring draw.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.7,
+          "p_draw": 0.22,
+          "p_away": 0.08,
+          "reasoning": "Morocco\u2019s 263\u2011point Elo edge predicts ~82% expected score; assuming a 25% draw baseline yields ~70% win. Home advantage, climate familiarity and better recent form slightly boost Morocco, reducing Hai",
+          "raw": "{\"p_home\":0.70,\"p_draw\":0.22,\"p_away\":0.08,\"reasoning\":\"Morocco\u2019s 263\u2011point Elo edge predicts ~82% expected score; assuming a 25% draw baseline yields ~70% win. Home advantage, climate familiarity and better recent form slightly boost Morocco, reducing Haiti\u2019s win chance to ~8%.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.55,
+          "p_draw": 0.25,
+          "p_away": 0.2,
+          "reasoning": "Morocco's higher Elo rating and recent form suggest a strong advantage, while Haiti's lower Elo and mixed results indicate vulnerability. The humid conditions may slightly favor the more acclimatized ",
+          "raw": "{\"p_home\": 0.55, \"p_draw\": 0.25, \"p_away\": 0.20, \"reasoning\": \"Morocco's higher Elo rating and recent form suggest a strong advantage, while Haiti's lower Elo and mixed results indicate vulnerability. The humid conditions may slightly favor the more acclimatized Moroccan team.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Ned"
+        },
+        "human:daksh": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "human:sd": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "SD"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:vijay": {
+          "p_home": 0.59,
+          "p_draw": 0.11,
+          "p_away": 0.3,
+          "name": "Vijay"
+        },
+        "crowd": {
+          "p_home": 0.915,
+          "p_draw": 0.026667,
+          "p_away": 0.058333,
+          "n": 6
+        }
+      }
+    },
+    {
+      "match_id": "md053-UEPD-MEX",
+      "forecasts": {
+        "market": {
+          "p_home": 0.262169,
+          "p_draw": 0.254887,
+          "p_away": 0.482944,
+          "raw_odds": [
+            3.5,
+            3.6,
+            1.9
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.28,
+          "p_draw": 0.27,
+          "p_away": 0.45,
+          "reasoning": "Mexico's higher Elo and recent form make them favorites. Czechia's home advantage at high altitude slightly mitigates the Elo difference, but Mexico is still favored.",
+          "raw": "```json\n{\n  \"p_home\": 0.28,\n  \"p_draw\": 0.27,\n  \"p_away\": 0.45,\n  \"reasoning\": \"Mexico's higher Elo and recent form make them favorites. Czechia's home advantage at high altitude slightly mitigates the Elo difference, but Mexico is still favored.\"\n}\n```",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.25,
+          "p_draw": 0.3,
+          "p_away": 0.45,
+          "reasoning": "Mexico's higher Elo, but Czechia's home advantage at high altitude",
+          "raw": "{\"p_home\": 0.25, \"p_draw\": 0.30, \"p_away\": 0.45, \"reasoning\": \"Mexico's higher Elo, but Czechia's home advantage at high altitude\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.22,
+          "p_draw": 0.28,
+          "p_away": 0.5,
+          "reasoning": "Mexico holds a significant Elo advantage (+174) and the massive home-field advantage of Estadio Azteca's altitude, which severely impacts visiting aerobic capacity. While Czechia is in good form, Mexi",
+          "raw": "```json\n{\"p_home\": 0.22, \"p_draw\": 0.28, \"p_away\": 0.50, \"reasoning\": \"Mexico holds a significant Elo advantage (+174) and the massive home-field advantage of Estadio Azteca's altitude, which severely impacts visiting aerobic capacity. While Czechia is in good form, Mexico's quality and environmental edge make them clear favorites.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.18,
+          "p_draw": 0.24,
+          "p_away": 0.58,
+          "reasoning": "Mexico higher Elo, recent form and altitude home advantage favor them; Czechia's head\u2011to\u2011head win gives a modest boost, yielding ~58% Mexico win, 24% draw, 18% Czechia win.",
+          "raw": "{\"p_home\": 0.18, \"p_draw\": 0.24, \"p_away\": 0.58, \"reasoning\": \"Mexico higher Elo, recent form and altitude home advantage favor them; Czechia's head\u2011to\u2011head win gives a modest boost, yielding ~58% Mexico win, 24% draw, 18% Czechia win.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.35,
+          "p_draw": 0.25,
+          "p_away": 0.4,
+          "reasoning": "Czechia benefits from historical head-to-head success and home advantage, but Mexico's higher Elo rating and adaptation to altitude give them an edge. A draw is plausible given the stakes.",
+          "raw": "{\"p_home\": 0.35, \"p_draw\": 0.25, \"p_away\": 0.40, \"reasoning\": \"Czechia benefits from historical head-to-head success and home advantage, but Mexico's higher Elo rating and adaptation to altitude give them an edge. A draw is plausible given the stakes.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.1,
+          "p_draw": 0.3,
+          "p_away": 0.6,
+          "name": "Ned"
+        },
+        "human:daksh": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.2,
+          "p_draw": 0.6,
+          "p_away": 0.2,
+          "name": "Praneet"
+        },
+        "human:sd": {
+          "p_home": 0.18,
+          "p_draw": 0.3,
+          "p_away": 0.52,
+          "name": "SD"
+        },
+        "human:football": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Football"
+        },
+        "human:vijay": {
+          "p_home": 0.4,
+          "p_draw": 0.1,
+          "p_away": 0.5,
+          "name": "Vijay"
+        },
+        "crowd": {
+          "p_home": 0.15,
+          "p_draw": 0.22,
+          "p_away": 0.63,
+          "n": 6
+        }
+      }
+    },
+    {
+      "match_id": "md054-RSA-KOR",
+      "forecasts": {
+        "market": {
+          "p_home": 0.168154,
+          "p_draw": 0.244384,
+          "p_away": 0.587462,
+          "raw_odds": [
+            5.45,
+            3.75,
+            1.56
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.25,
+          "p_draw": 0.28,
+          "p_away": 0.47,
+          "reasoning": "South Korea has a significantly higher Elo (210 points) and better recent form. South Africa has home advantage and potential heat acclimatization, but the Elo difference is substantial. Head-to-head ",
+          "raw": "{\"p_home\": 0.25, \"p_draw\": 0.28, \"p_away\": 0.47, \"reasoning\": \"South Korea has a significantly higher Elo (210 points) and better recent form. South Africa has home advantage and potential heat acclimatization, but the Elo difference is substantial. Head-to-head is negligible.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.25,
+          "p_draw": 0.3,
+          "p_away": 0.45,
+          "reasoning": "Elo difference and recent form favor South Korea",
+          "raw": "{\"p_home\": 0.25, \"p_draw\": 0.30, \"p_away\": 0.45, \"reasoning\": \"Elo difference and recent form favor South Korea\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.22,
+          "p_draw": 0.28,
+          "p_away": 0.5,
+          "reasoning": "South Korea holds a significant Elo advantage (+210), indicating a higher technical ceiling. While the extreme heat in Monterrey may act as a leveler and favor South Africa's physical resilience, Kore",
+          "raw": "```json\n{\"p_home\": 0.22, \"p_draw\": 0.28, \"p_away\": 0.50, \"reasoning\": \"South Korea holds a significant Elo advantage (+210), indicating a higher technical ceiling. While the extreme heat in Monterrey may act as a leveler and favor South Africa's physical resilience, Korea's superior form and ranking make them clear favorites.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.105,
+          "p_draw": 0.25,
+          "p_away": 0.645,
+          "reasoning": "Korea's 210\u2011point Elo edge gives ~77% expected points. Adjusting for heat and limited draw history, set draw ~25%, yielding ~10% SA win, 65% Korea win.",
+          "raw": "{\"p_home\": 0.105, \"p_draw\": 0.250, \"p_away\": 0.645, \"reasoning\": \"Korea's 210\u2011point Elo edge gives ~77% expected points. Adjusting for heat and limited draw history, set draw ~25%, yielding ~10% SA win, 65% Korea win.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.25,
+          "p_draw": 0.3,
+          "p_away": 0.45,
+          "reasoning": "South Korea's higher Elo rating and recent form suggest they are favored. However, South Africa's home advantage and extreme heat may level the playing field, leading to a competitive match.",
+          "raw": "{\"p_home\": 0.25, \"p_draw\": 0.30, \"p_away\": 0.45, \"reasoning\": \"South Korea's higher Elo rating and recent form suggest they are favored. However, South Africa's home advantage and extreme heat may level the playing field, leading to a competitive match.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.01,
+          "p_draw": 0.1,
+          "p_away": 0.89,
+          "name": "Ned"
+        },
+        "human:daksh": {
+          "p_home": 0.1,
+          "p_draw": 0.1,
+          "p_away": 0.8,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Praneet"
+        },
+        "human:sd": {
+          "p_home": 0.1,
+          "p_draw": 0.19,
+          "p_away": 0.71,
+          "name": "SD"
+        },
+        "human:football": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Football"
+        },
+        "human:vijay": {
+          "p_home": 0.5,
+          "p_draw": 0.1,
+          "p_away": 0.4,
+          "name": "Vijay"
+        },
+        "crowd": {
+          "p_home": 0.121667,
+          "p_draw": 0.085,
+          "p_away": 0.793333,
+          "n": 6
+        }
+      }
+    }
+  ]
+}
