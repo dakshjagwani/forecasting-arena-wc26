@@ -306,5 +306,33 @@
     "score_away": 2,
     "outcome": "away",
     "status": "FT"
+  },
+  {
+    "match_id": "md045-POR-UZB",
+    "score_home": 5,
+    "score_away": 0,
+    "outcome": "home",
+    "status": "FT"
+  },
+  {
+    "match_id": "md046-ENG-GHA",
+    "score_home": 0,
+    "score_away": 0,
+    "outcome": "draw",
+    "status": "FT"
+  },
+  {
+    "match_id": "md047-PAN-CRO",
+    "score_home": 0,
+    "score_away": 1,
+    "outcome": "away",
+    "status": "FT"
+  },
+  {
+    "match_id": "md048-COL-FP01",
+    "score_home": 1,
+    "score_away": 0,
+    "outcome": "home",
+    "status": "FT"
   }
 ]
