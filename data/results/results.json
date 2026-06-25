@@ -334,5 +334,47 @@
     "score_away": 0,
     "outcome": "home",
     "status": "FT"
+  },
+  {
+    "match_id": "md049-SUI-CAN",
+    "score_home": 2,
+    "score_away": 1,
+    "outcome": "home",
+    "status": "FT"
+  },
+  {
+    "match_id": "md050-UEPA-QAT",
+    "score_home": 3,
+    "score_away": 1,
+    "outcome": "home",
+    "status": "FT"
+  },
+  {
+    "match_id": "md051-SCO-BRA",
+    "score_home": 0,
+    "score_away": 3,
+    "outcome": "away",
+    "status": "FT"
+  },
+  {
+    "match_id": "md052-MAR-HAI",
+    "score_home": 4,
+    "score_away": 2,
+    "outcome": "home",
+    "status": "FT"
+  },
+  {
+    "match_id": "md053-UEPD-MEX",
+    "score_home": 0,
+    "score_away": 3,
+    "outcome": "away",
+    "status": "FT"
+  },
+  {
+    "match_id": "md054-RSA-KOR",
+    "score_home": 1,
+    "score_away": 0,
+    "outcome": "home",
+    "status": "FT"
   }
 ]
