@@ -336,6 +336,48 @@ input[type="text"]:focus {
    cards and progress rail are never hidden behind it. */
 #screen-cards { padding-bottom: calc(54px + env(safe-area-inset-bottom)); }
 
+/* ── Reminder strip (cards screen, dismissible) ─────────────────────────── */
+.reminder-strip {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .4rem .85rem;
+  font-size: .78rem;
+  background: var(--away-light);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  z-index: 2;
+  transition: opacity var(--dur-fast) ease, transform var(--dur-fast) ease;
+}
+.reminder-strip-out { opacity: 0; transform: translateY(-6px); }
+.reminder-strip-link {
+  font-weight: 700;
+  color: var(--away);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.reminder-strip-link:hover { text-decoration: underline; }
+.reminder-strip-sub {
+  font-size: .72rem;
+  color: var(--text-sub);
+  text-decoration: underline;
+  margin-right: auto;          /* push the ✕ to the far right */
+}
+.reminder-strip-sub:hover { color: var(--away); }
+.reminder-strip-x {
+  background: none;
+  border: none;
+  color: var(--text-sub);
+  font-size: .85rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: .25rem .35rem;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.reminder-strip-x:hover { color: var(--text); background: rgba(0,0,0,.06); }
+[data-theme="dark"] .reminder-strip-x:hover { background: rgba(255,255,255,.08); }
+
 /* ── Cards track wrapper + nav ──────────────────────────────────────────── */
 .cards-track-wrapper {
   flex: 1;

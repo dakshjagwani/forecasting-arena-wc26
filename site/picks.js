@@ -520,7 +520,7 @@ function buildSubmitCard(matches, idx) {
       <p class="submit-count" id="submit-count">${n} / ${pickable.length} matches filled</p>
       <p class="submit-as">Submitting as <strong id="submit-name"></strong></p>
       <button class="btn-primary" id="btn-submit">Submit picks →</button>
-      <p class="submit-note">You can re-submit any time before the freeze — only your latest counts.</p>
+      <p class="submit-note">You can re-submit any time before picks close — only your latest counts.</p>
       ${!APPS_SCRIPT_URL ? '<p class="submit-warn">⚠ Submission not configured yet.</p>' : ''}
     </div>
   `;
@@ -636,6 +636,9 @@ function renderCards() {
     banner.hidden = false;
   }
 
+  // Persistent reminder strip (once, until added or dismissed)
+  setupReminderStrip();
+
   // Build match cards
   matches.forEach((match, idx) => {
     track.appendChild(buildMatchCard(match, idx));
@@ -685,6 +688,31 @@ function renderCards() {
 // ─────────────────────────────────────────────────────────────────────────────
 // Swipe hint (touch devices) — shown until the user swipes once, ever
 // ─────────────────────────────────────────────────────────────────────────────
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Persistent calendar-reminder strip (cards screen) — shown once until the
+// user adds the reminders or dismisses it.
+// ─────────────────────────────────────────────────────────────────────────────
+
+function setupReminderStrip() {
+  const strip = document.getElementById('reminder-strip');
+  if (!strip) return;
+  if (localStorage.getItem('fa_reminder_dismissed')) { strip.hidden = true; return; }
+
+  strip.hidden = false;
+
+  function dismiss() {
+    localStorage.setItem('fa_reminder_dismissed', '1');
+    strip.classList.add('reminder-strip-out');
+    setTimeout(() => { strip.hidden = true; }, 250);
+  }
+
+  // Tapping "add" counts as done; defer hide so the .ics download still fires.
+  document.getElementById('reminder-strip-link')
+    ?.addEventListener('click', () => setTimeout(dismiss, 400), { once: true });
+  document.getElementById('reminder-strip-x')
+    ?.addEventListener('click', dismiss, { once: true });
+}
 
 function setupSwipeHint() {
   if (!window.matchMedia('(pointer: coarse)').matches) return;
