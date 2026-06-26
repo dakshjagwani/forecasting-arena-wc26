@@ -9,7 +9,7 @@ X-PUBLISHED-TTL:PT12H
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 BEGIN:VEVENT
 UID:md-2026-06-26@forecasting-arena
-DTSTAMP:20260626T085231Z
+DTSTAMP:20260626T090716Z
 DTSTART:20260626T160000Z
 DTEND:20260626T161500Z
 SUMMARY:⚽ Your move vs the AI — predict now
@@ -27,9 +27,315 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:md-2026-06-27@forecasting-arena
-DTSTAMP:20260626T085231Z
+DTSTAMP:20260626T090716Z
 DTSTART:20260627T180000Z
 DTEND:20260627T181500Z
+SUMMARY:⚽ Your move vs the AI — predict now
+DESCRIPTION:5 AI models and the bookies have locked in today's forecasts. M
+ ake yours before kickoff and see who's actually calibrated — https://dak
+ shjagwani.github.io/forecasting-arena-wc26/site/picks.html
+URL:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.html
+LOCATION:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.h
+ tml
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:⚽ Your move vs the AI — predict now
+TRIGGER:-PT3H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:md-2026-06-28@forecasting-arena
+DTSTAMP:20260626T090716Z
+DTSTART:20260628T190000Z
+DTEND:20260628T191500Z
+SUMMARY:⚽ Your move vs the AI — predict now
+DESCRIPTION:5 AI models and the bookies have locked in today's forecasts. M
+ ake yours before kickoff and see who's actually calibrated — https://dak
+ shjagwani.github.io/forecasting-arena-wc26/site/picks.html
+URL:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.html
+LOCATION:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.h
+ tml
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:⚽ Your move vs the AI — predict now
+TRIGGER:-PT3H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:md-2026-06-29@forecasting-arena
+DTSTAMP:20260626T090716Z
+DTSTART:20260629T150000Z
+DTEND:20260629T151500Z
+SUMMARY:⚽ Your move vs the AI — predict now
+DESCRIPTION:5 AI models and the bookies have locked in today's forecasts. M
+ ake yours before kickoff and see who's actually calibrated — https://dak
+ shjagwani.github.io/forecasting-arena-wc26/site/picks.html
+URL:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.html
+LOCATION:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.h
+ tml
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:⚽ Your move vs the AI — predict now
+TRIGGER:-PT3H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:md-2026-06-30@forecasting-arena
+DTSTAMP:20260626T090716Z
+DTSTART:20260630T150000Z
+DTEND:20260630T151500Z
+SUMMARY:⚽ Your move vs the AI — predict now
+DESCRIPTION:5 AI models and the bookies have locked in today's forecasts. M
+ ake yours before kickoff and see who's actually calibrated — https://dak
+ shjagwani.github.io/forecasting-arena-wc26/site/picks.html
+URL:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.html
+LOCATION:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.h
+ tml
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:⚽ Your move vs the AI — predict now
+TRIGGER:-PT3H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:md-2026-07-01@forecasting-arena
+DTSTAMP:20260626T090716Z
+DTSTART:20260701T130000Z
+DTEND:20260701T131500Z
+SUMMARY:⚽ Your move vs the AI — predict now
+DESCRIPTION:5 AI models and the bookies have locked in today's forecasts. M
+ ake yours before kickoff and see who's actually calibrated — https://dak
+ shjagwani.github.io/forecasting-arena-wc26/site/picks.html
+URL:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.html
+LOCATION:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.h
+ tml
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:⚽ Your move vs the AI — predict now
+TRIGGER:-PT3H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:md-2026-07-02@forecasting-arena
+DTSTAMP:20260626T090716Z
+DTSTART:20260702T190000Z
+DTEND:20260702T191500Z
+SUMMARY:⚽ Your move vs the AI — predict now
+DESCRIPTION:5 AI models and the bookies have locked in today's forecasts. M
+ ake yours before kickoff and see who's actually calibrated — https://dak
+ shjagwani.github.io/forecasting-arena-wc26/site/picks.html
+URL:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.html
+LOCATION:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.h
+ tml
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:⚽ Your move vs the AI — predict now
+TRIGGER:-PT3H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:md-2026-07-03@forecasting-arena
+DTSTAMP:20260626T090716Z
+DTSTART:20260703T160000Z
+DTEND:20260703T161500Z
+SUMMARY:⚽ Your move vs the AI — predict now
+DESCRIPTION:5 AI models and the bookies have locked in today's forecasts. M
+ ake yours before kickoff and see who's actually calibrated — https://dak
+ shjagwani.github.io/forecasting-arena-wc26/site/picks.html
+URL:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.html
+LOCATION:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.h
+ tml
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:⚽ Your move vs the AI — predict now
+TRIGGER:-PT3H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:md-2026-07-04@forecasting-arena
+DTSTAMP:20260626T090716Z
+DTSTART:20260704T150000Z
+DTEND:20260704T151500Z
+SUMMARY:⚽ Your move vs the AI — predict now
+DESCRIPTION:5 AI models and the bookies have locked in today's forecasts. M
+ ake yours before kickoff and see who's actually calibrated — https://dak
+ shjagwani.github.io/forecasting-arena-wc26/site/picks.html
+URL:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.html
+LOCATION:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.h
+ tml
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:⚽ Your move vs the AI — predict now
+TRIGGER:-PT3H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:md-2026-07-05@forecasting-arena
+DTSTAMP:20260626T090716Z
+DTSTART:20260705T170000Z
+DTEND:20260705T171500Z
+SUMMARY:⚽ Your move vs the AI — predict now
+DESCRIPTION:5 AI models and the bookies have locked in today's forecasts. M
+ ake yours before kickoff and see who's actually calibrated — https://dak
+ shjagwani.github.io/forecasting-arena-wc26/site/picks.html
+URL:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.html
+LOCATION:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.h
+ tml
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:⚽ Your move vs the AI — predict now
+TRIGGER:-PT3H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:md-2026-07-06@forecasting-arena
+DTSTAMP:20260626T090716Z
+DTSTART:20260706T170000Z
+DTEND:20260706T171500Z
+SUMMARY:⚽ Your move vs the AI — predict now
+DESCRIPTION:5 AI models and the bookies have locked in today's forecasts. M
+ ake yours before kickoff and see who's actually calibrated — https://dak
+ shjagwani.github.io/forecasting-arena-wc26/site/picks.html
+URL:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.html
+LOCATION:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.h
+ tml
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:⚽ Your move vs the AI — predict now
+TRIGGER:-PT3H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:md-2026-07-07@forecasting-arena
+DTSTAMP:20260626T090716Z
+DTSTART:20260707T130000Z
+DTEND:20260707T131500Z
+SUMMARY:⚽ Your move vs the AI — predict now
+DESCRIPTION:5 AI models and the bookies have locked in today's forecasts. M
+ ake yours before kickoff and see who's actually calibrated — https://dak
+ shjagwani.github.io/forecasting-arena-wc26/site/picks.html
+URL:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.html
+LOCATION:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.h
+ tml
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:⚽ Your move vs the AI — predict now
+TRIGGER:-PT3H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:md-2026-07-09@forecasting-arena
+DTSTAMP:20260626T090716Z
+DTSTART:20260709T170000Z
+DTEND:20260709T171500Z
+SUMMARY:⚽ Your move vs the AI — predict now
+DESCRIPTION:5 AI models and the bookies have locked in today's forecasts. M
+ ake yours before kickoff and see who's actually calibrated — https://dak
+ shjagwani.github.io/forecasting-arena-wc26/site/picks.html
+URL:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.html
+LOCATION:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.h
+ tml
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:⚽ Your move vs the AI — predict now
+TRIGGER:-PT3H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:md-2026-07-10@forecasting-arena
+DTSTAMP:20260626T090716Z
+DTSTART:20260710T190000Z
+DTEND:20260710T191500Z
+SUMMARY:⚽ Your move vs the AI — predict now
+DESCRIPTION:5 AI models and the bookies have locked in today's forecasts. M
+ ake yours before kickoff and see who's actually calibrated — https://dak
+ shjagwani.github.io/forecasting-arena-wc26/site/picks.html
+URL:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.html
+LOCATION:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.h
+ tml
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:⚽ Your move vs the AI — predict now
+TRIGGER:-PT3H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:md-2026-07-11@forecasting-arena
+DTSTAMP:20260626T090716Z
+DTSTART:20260711T180000Z
+DTEND:20260711T181500Z
+SUMMARY:⚽ Your move vs the AI — predict now
+DESCRIPTION:5 AI models and the bookies have locked in today's forecasts. M
+ ake yours before kickoff and see who's actually calibrated — https://dak
+ shjagwani.github.io/forecasting-arena-wc26/site/picks.html
+URL:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.html
+LOCATION:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.h
+ tml
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:⚽ Your move vs the AI — predict now
+TRIGGER:-PT3H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:md-2026-07-14@forecasting-arena
+DTSTAMP:20260626T090716Z
+DTSTART:20260714T170000Z
+DTEND:20260714T171500Z
+SUMMARY:⚽ Your move vs the AI — predict now
+DESCRIPTION:5 AI models and the bookies have locked in today's forecasts. M
+ ake yours before kickoff and see who's actually calibrated — https://dak
+ shjagwani.github.io/forecasting-arena-wc26/site/picks.html
+URL:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.html
+LOCATION:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.h
+ tml
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:⚽ Your move vs the AI — predict now
+TRIGGER:-PT3H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:md-2026-07-15@forecasting-arena
+DTSTAMP:20260626T090716Z
+DTSTART:20260715T160000Z
+DTEND:20260715T161500Z
+SUMMARY:⚽ Your move vs the AI — predict now
+DESCRIPTION:5 AI models and the bookies have locked in today's forecasts. M
+ ake yours before kickoff and see who's actually calibrated — https://dak
+ shjagwani.github.io/forecasting-arena-wc26/site/picks.html
+URL:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.html
+LOCATION:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.h
+ tml
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:⚽ Your move vs the AI — predict now
+TRIGGER:-PT3H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:md-2026-07-18@forecasting-arena
+DTSTAMP:20260626T090716Z
+DTSTART:20260718T180000Z
+DTEND:20260718T181500Z
+SUMMARY:⚽ Your move vs the AI — predict now
+DESCRIPTION:5 AI models and the bookies have locked in today's forecasts. M
+ ake yours before kickoff and see who's actually calibrated — https://dak
+ shjagwani.github.io/forecasting-arena-wc26/site/picks.html
+URL:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.html
+LOCATION:https://dakshjagwani.github.io/forecasting-arena-wc26/site/picks.h
+ tml
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:⚽ Your move vs the AI — predict now
+TRIGGER:-PT3H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:md-2026-07-19@forecasting-arena
+DTSTAMP:20260626T090716Z
+DTSTART:20260719T160000Z
+DTEND:20260719T161500Z
 SUMMARY:⚽ Your move vs the AI — predict now
 DESCRIPTION:5 AI models and the bookies have locked in today's forecasts. M
  ake yours before kickoff and see who's actually calibrated — https://dak

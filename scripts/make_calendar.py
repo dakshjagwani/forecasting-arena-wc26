@@ -92,9 +92,16 @@ def build_ics(fixtures: list, now: datetime | None = None) -> str:
 
     day_map = group_by_utc8(fixtures)
     for day in sorted(day_map):
-        matches = [m for m in day_map[day] if not m.get("is_placeholder")]
+        matches = day_map[day]
         if not matches:
             continue
+        # Deadline = first kickoff SLOT of the day − 3h. We include ALL matches,
+        # even knockout fixtures whose teams are still TBD (is_placeholder),
+        # because their kickoff times are already scheduled — so reminders
+        # cover the whole tournament through the final. The deadline is tied to
+        # the kickoff slot, not to which teams advance; by the time a knockout
+        # reminder fires, that round's teams are resolved. (This matches the
+        # picks-page banner, which also keys off the day's first kickoff.)
         first_ko = min(
             datetime.fromisoformat(m["kickoff_utc"].replace("Z", "+00:00"))
             for m in matches

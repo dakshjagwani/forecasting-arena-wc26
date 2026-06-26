@@ -65,6 +65,9 @@ they are recomputed from raw data after any correction.
   calendar fires the alarm. Deadlines are written in **UTC**, so each device
   localises them correctly worldwide (DST-safe). Regenerated daily by
   score.yml. Reminder copy: "⚽ Your move vs the AI — predict now".
+  Covers **every remaining matchday through the Final**, including knockout
+  days whose teams are still TBD — their kickoff slots are already scheduled,
+  so the deadline (kickoff − 3h) is known regardless of which teams advance.
 - Player-facing banner wording de-jargoned: "Freeze in X" → "closes in X",
   "Picks locked" → "Picks closed for today". ("Freeze" stays in
   internal/ops/methodology contexts where it's the accurate term.)
