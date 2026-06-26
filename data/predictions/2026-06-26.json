@@ -1,0 +1,516 @@
+{
+  "date": "2026-06-26",
+  "freeze_utc": "2026-06-26T16:00:57Z",
+  "matches": [
+    {
+      "match_id": "md061-NOR-FRA",
+      "forecasts": {
+        "market": {
+          "p_home": 0.201774,
+          "p_draw": 0.216186,
+          "p_away": 0.58204,
+          "raw_odds": [
+            4.5,
+            4.2,
+            1.56
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.15,
+          "p_draw": 0.23,
+          "p_away": 0.62,
+          "reasoning": "France has a significantly higher Elo rating and better recent form. While Norway has a decent head-to-head record, it's largely outdated. France is a strong favorite despite Norway being 'home'.",
+          "raw": "{\"p_home\": 0.15, \"p_draw\": 0.23, \"p_away\": 0.62, \"reasoning\": \"France has a significantly higher Elo rating and better recent form. While Norway has a decent head-to-head record, it's largely outdated. France is a strong favorite despite Norway being 'home'.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.21,
+          "p_draw": 0.26,
+          "p_away": 0.53,
+          "reasoning": "Elo ratings and recent form favor France",
+          "raw": "{\"p_home\": 0.21, \"p_draw\": 0.26, \"p_away\": 0.53, \"reasoning\": \"Elo ratings and recent form favor France\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.22,
+          "p_draw": 0.25,
+          "p_away": 0.53,
+          "reasoning": "France holds a significant Elo advantage (+162) and superior recent form. While Norway is competitive and playing as the designated home team, France's depth and historical dominance in high-stakes ma",
+          "raw": "```json\n{\"p_home\": 0.22, \"p_draw\": 0.25, \"p_away\": 0.53, \"reasoning\": \"France holds a significant Elo advantage (+162) and superior recent form. While Norway is competitive and playing as the designated home team, France's depth and historical dominance in high-stakes matches make them clear favorites.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.27,
+          "p_draw": 0.15,
+          "p_away": 0.58,
+          "reasoning": "France\u2019s higher Elo (+162) and superior recent form give them ~58% win chance; Norway\u2019s home boost raises its win chance to ~27%; moderate rating gap yields ~15% draw probability.",
+          "raw": "{\"p_home\": 0.27, \"p_draw\": 0.15, \"p_away\": 0.58, \"reasoning\": \"France\u2019s higher Elo (+162) and superior recent form give them ~58% win chance; Norway\u2019s home boost raises its win chance to ~27%; moderate rating gap yields ~15% draw probability.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.25,
+          "p_draw": 0.3,
+          "p_away": 0.45,
+          "reasoning": "France's higher Elo rating and recent form suggest they are favorites. Norway's home advantage and historical competitiveness provide some chance for a draw or win, but France's strength likely prevai",
+          "raw": "{\"p_home\": 0.25, \"p_draw\": 0.30, \"p_away\": 0.45, \"reasoning\": \"France's higher Elo rating and recent form suggest they are favorites. Norway's home advantage and historical competitiveness provide some chance for a draw or win, but France's strength likely prevails.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.15,
+          "p_draw": 0.4,
+          "p_away": 0.45,
+          "name": "Ned"
+        },
+        "human:football": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Football"
+        },
+        "human:daksh": {
+          "p_home": 0.2,
+          "p_draw": 0.1,
+          "p_away": 0.7,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "crowd": {
+          "p_home": 0.335,
+          "p_draw": 0.13,
+          "p_away": 0.535,
+          "n": 4
+        }
+      }
+    },
+    {
+      "match_id": "md062-SEN-FP02",
+      "forecasts": {
+        "market": {
+          "p_home": 0.765395,
+          "p_draw": 0.151803,
+          "p_away": 0.082802,
+          "raw_odds": [
+            1.19,
+            6.0,
+            11.0
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.62,
+          "p_draw": 0.24,
+          "p_away": 0.14,
+          "reasoning": "Senegal has a significantly higher Elo rating (1908 vs 1741) and home advantage. While recent form is mixed for both, the Elo difference is the primary driver for Senegal's higher win probability.",
+          "raw": "{\"p_home\": 0.62, \"p_draw\": 0.24, \"p_away\": 0.14, \"reasoning\": \"Senegal has a significantly higher Elo rating (1908 vs 1741) and home advantage. While recent form is mixed for both, the Elo difference is the primary driver for Senegal's higher win probability.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.58,
+          "p_draw": 0.26,
+          "p_away": 0.16,
+          "reasoning": "Elo difference and home advantage favor Senegal",
+          "raw": "{\"p_home\": 0.58, \"p_draw\": 0.26, \"p_away\": 0.16, \"reasoning\": \"Elo difference and home advantage favor Senegal\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.58,
+          "p_draw": 0.25,
+          "p_away": 0.17,
+          "reasoning": "Senegal holds a significant Elo advantage (+167), indicating a higher quality ceiling. While Iraq is competitive in Asia, Senegal's historical strength in World Cup settings and superior individual ta",
+          "raw": "```json\n{\"p_home\": 0.58, \"p_draw\": 0.25, \"p_away\": 0.17, \"reasoning\": \"Senegal holds a significant Elo advantage (+167), indicating a higher quality ceiling. While Iraq is competitive in Asia, Senegal's historical strength in World Cup settings and superior individual talent make them clear favorites, though Iraq's resilience suggests a moderate draw probability.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.68,
+          "p_draw": 0.16,
+          "p_away": 0.16,
+          "reasoning": "Senegal\u2019s 167\u2011Elo edge (plus home advantage) translates to ~75% expected points; after accounting for typical draw frequency, this yields roughly a 68% win chance, 16% draw, and 16% loss despite compa",
+          "raw": "{\"p_home\":0.68, \"p_draw\":0.16, \"p_away\":0.16, \"reasoning\":\"Senegal\u2019s 167\u2011Elo edge (plus home advantage) translates to ~75% expected points; after accounting for typical draw frequency, this yields roughly a 68% win chance, 16% draw, and 16% loss despite comparable recent form.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.55,
+          "p_draw": 0.25,
+          "p_away": 0.2,
+          "reasoning": "Senegal has a higher Elo rating and home advantage, while Iraq's recent form is slightly better. The warm conditions favor Senegal, but Iraq's potential for a draw is notable.",
+          "raw": "{\"p_home\": 0.55, \"p_draw\": 0.25, \"p_away\": 0.20, \"reasoning\": \"Senegal has a higher Elo rating and home advantage, while Iraq's recent form is slightly better. The warm conditions favor Senegal, but Iraq's potential for a draw is notable.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.74,
+          "p_draw": 0.25,
+          "p_away": 0.01,
+          "name": "Ned"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:daksh": {
+          "p_home": 0.7,
+          "p_draw": 0.09,
+          "p_away": 0.21,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "crowd": {
+          "p_home": 0.85,
+          "p_draw": 0.09,
+          "p_away": 0.06,
+          "n": 4
+        }
+      }
+    },
+    {
+      "match_id": "md063-CPV-KSA",
+      "forecasts": {
+        "market": {
+          "p_home": 0.355818,
+          "p_draw": 0.293837,
+          "p_away": 0.350344,
+          "raw_odds": [
+            2.56,
+            3.1,
+            2.6
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.32,
+          "p_draw": 0.29,
+          "p_away": 0.39,
+          "reasoning": "Saudi Arabia has a higher Elo and a slight edge in recent form. The neutral venue and high humidity (mitigated by AC) don't strongly favor either. Cabo Verde's 'home' status is nominal.",
+          "raw": "{\"p_home\": 0.32, \"p_draw\": 0.29, \"p_away\": 0.39, \"reasoning\": \"Saudi Arabia has a higher Elo and a slight edge in recent form. The neutral venue and high humidity (mitigated by AC) don't strongly favor either. Cabo Verde's 'home' status is nominal.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.38,
+          "p_draw": 0.29,
+          "p_away": 0.33,
+          "reasoning": "Elo ratings and recent form slightly favor Saudi Arabia",
+          "raw": "{\"p_home\": 0.38, \"p_draw\": 0.29, \"p_away\": 0.33, \"reasoning\": \"Elo ratings and recent form slightly favor Saudi Arabia\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.31,
+          "p_draw": 0.28,
+          "p_away": 0.41,
+          "reasoning": "Saudi Arabia holds a slight Elo advantage and more historical experience in major tournaments. However, Cabo Verde's resilience and the neutral venue mitigate the gap. Both teams have struggled for co",
+          "raw": "```json\n{\"p_home\": 0.31, \"p_draw\": 0.28, \"p_away\": 0.41, \"reasoning\": \"Saudi Arabia holds a slight Elo advantage and more historical experience in major tournaments. However, Cabo Verde's resilience and the neutral venue mitigate the gap. Both teams have struggled for consistency recently, increasing the likelihood of a low-scoring draw or a narrow Saudi victory.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.34,
+          "p_draw": 0.22,
+          "p_away": 0.44,
+          "reasoning": "Saudi\u2019s slight Elo edge (\u224855 pts) offset by Cabo Verde home advantage reduces the gap to ~25 pts, giving Saudi ~46% win chance. Allocate ~34% for Cabo Verde win, ~22% draw, ~44% Saudi win.",
+          "raw": "{\"p_home\":0.34,\"p_draw\":0.22,\"p_away\":0.44,\"reasoning\":\"Saudi\u2019s slight Elo edge (\u224855 pts) offset by Cabo Verde home advantage reduces the gap to ~25 pts, giving Saudi ~46% win chance. Allocate ~34% for Cabo Verde win, ~22% draw, ~44% Saudi win.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.3,
+          "p_draw": 0.25,
+          "p_away": 0.45,
+          "reasoning": "Saudi Arabia has a higher Elo rating and recent form, but Cabo Verde's home advantage and the heat may level the playing field, leading to a competitive match.",
+          "raw": "{\"p_home\": 0.30, \"p_draw\": 0.25, \"p_away\": 0.45, \"reasoning\": \"Saudi Arabia has a higher Elo rating and recent form, but Cabo Verde's home advantage and the heat may level the playing field, leading to a competitive match.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.27,
+          "p_draw": 0.47,
+          "p_away": 0.26,
+          "name": "Ned"
+        },
+        "human:football": {
+          "p_home": 0.01,
+          "p_draw": 0.98,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:daksh": {
+          "p_home": 0.6,
+          "p_draw": 0.2,
+          "p_away": 0.2,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Praneet"
+        },
+        "crowd": {
+          "p_home": 0.2225,
+          "p_draw": 0.415,
+          "p_away": 0.3625,
+          "n": 4
+        }
+      }
+    },
+    {
+      "match_id": "md064-URU-ESP",
+      "forecasts": {
+        "market": {
+          "p_home": 0.178521,
+          "p_draw": 0.270487,
+          "p_away": 0.550992,
+          "raw_odds": [
+            5.0,
+            3.3,
+            1.62
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.18,
+          "p_draw": 0.26,
+          "p_away": 0.56,
+          "reasoning": "Spain's significantly higher Elo and strong head-to-head record make them clear favorites. Uruguay's home advantage and Spain's potential altitude disadvantage are minor factors against Spain's overal",
+          "raw": "{\"p_home\": 0.18, \"p_draw\": 0.26, \"p_away\": 0.56, \"reasoning\": \"Spain's significantly higher Elo and strong head-to-head record make them clear favorites. Uruguay's home advantage and Spain's potential altitude disadvantage are minor factors against Spain's overall strength.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.25,
+          "p_draw": 0.3,
+          "p_away": 0.45,
+          "reasoning": "Spain's higher Elo, despite Uruguay's home advantage mitigated by Spain's recent form",
+          "raw": "{\"p_home\": 0.25, \"p_draw\": 0.30, \"p_away\": 0.45, \"reasoning\": \"Spain's higher Elo, despite Uruguay's home advantage mitigated by Spain's recent form\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.22,
+          "p_draw": 0.28,
+          "p_away": 0.5,
+          "reasoning": "Spain holds a significant Elo advantage (+203) and a dominant historical head-to-head record. While Guadalajara's altitude and Uruguay's resilience provide a slight edge to the home side, Spain's supe",
+          "raw": "```json\n{\"p_home\": 0.22, \"p_draw\": 0.28, \"p_away\": 0.50, \"reasoning\": \"Spain holds a significant Elo advantage (+203) and a dominant historical head-to-head record. While Guadalajara's altitude and Uruguay's resilience provide a slight edge to the home side, Spain's superior technical quality and recent form make them clear favorites.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.2,
+          "p_draw": 0.3,
+          "p_away": 0.5,
+          "reasoning": "Spain's 203\u2011point Elo edge predicts ~55% win; altitude adds ~30\u202fElo to Uruguay, lowering Spain's win chance to ~50%. Uruguay's recent form and historic draws suggest a 20% win, 30% draw.",
+          "raw": "{\"p_home\": 0.20, \"p_draw\": 0.30, \"p_away\": 0.50, \"reasoning\": \"Spain's 203\u2011point Elo edge predicts ~55% win; altitude adds ~30\u202fElo to Uruguay, lowering Spain's win chance to ~50%. Uruguay's recent form and historic draws suggest a 20% win, 30% draw.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.25,
+          "p_draw": 0.3,
+          "p_away": 0.45,
+          "reasoning": "Spain's higher Elo rating and historical dominance suggest they are favorites. However, Uruguay's home advantage at high altitude and recent form could lead to a competitive match, increasing the draw",
+          "raw": "{\"p_home\": 0.25, \"p_draw\": 0.30, \"p_away\": 0.45, \"reasoning\": \"Spain's higher Elo rating and historical dominance suggest they are favorites. However, Uruguay's home advantage at high altitude and recent form could lead to a competitive match, increasing the draw probability.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.1,
+          "p_draw": 0.35,
+          "p_away": 0.55,
+          "name": "Ned"
+        },
+        "human:football": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Football"
+        },
+        "human:daksh": {
+          "p_home": 0.25,
+          "p_draw": 0.1,
+          "p_away": 0.65,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.02,
+          "p_draw": 0.97,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "crowd": {
+          "p_home": 0.095,
+          "p_draw": 0.3575,
+          "p_away": 0.5475,
+          "n": 4
+        }
+      }
+    },
+    {
+      "match_id": "md065-EGY-IRN",
+      "forecasts": {
+        "market": {
+          "p_home": 0.374162,
+          "p_draw": 0.350685,
+          "p_away": 0.275153,
+          "raw_odds": [
+            2.39,
+            2.55,
+            3.25
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.3,
+          "p_draw": 0.31,
+          "p_away": 0.39,
+          "reasoning": "Iran has a higher Elo and better recent form. Egypt has home advantage, but the Elo difference and Iran's momentum make them slight favorites. A draw is plausible given the group stage context and rel",
+          "raw": "{\"p_home\": 0.30, \"p_draw\": 0.31, \"p_away\": 0.39, \"reasoning\": \"Iran has a higher Elo and better recent form. Egypt has home advantage, but the Elo difference and Iran's momentum make them slight favorites. A draw is plausible given the group stage context and relatively close Elo ratings.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.28,
+          "p_draw": 0.29,
+          "p_away": 0.43,
+          "reasoning": "Iran's higher Elo and recent wins favor them",
+          "raw": "{\"p_home\": 0.28, \"p_draw\": 0.29, \"p_away\": 0.43, \"reasoning\": \"Iran's higher Elo and recent wins favor them\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.28,
+          "p_draw": 0.31,
+          "p_away": 0.41,
+          "reasoning": "Iran holds a significant Elo advantage (+74) and better recent form. Egypt is competitive but struggles for consistency. Given the stakes and typical low-scoring nature of these matchups, a draw is a ",
+          "raw": "```json\n{\"p_home\": 0.28, \"p_draw\": 0.31, \"p_away\": 0.41, \"reasoning\": \"Iran holds a significant Elo advantage (+74) and better recent form. Egypt is competitive but struggles for consistency. Given the stakes and typical low-scoring nature of these matchups, a draw is a strong possibility, but Iran is the statistical favorite.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.25,
+          "p_draw": 0.3,
+          "p_away": 0.45,
+          "reasoning": "Iran\u2019s higher Elo (\u221274) gives ~0.40 expected points for Egypt; allocating draws (~30%) yields win\u2011loss split ~25%/45% matching the expected score and recent form.",
+          "raw": "{\"p_home\":0.25,\"p_draw\":0.30,\"p_away\":0.45,\"reasoning\":\"Iran\u2019s higher Elo (\u221274) gives ~0.40 expected points for Egypt; allocating draws (~30%) yields win\u2011loss split ~25%/45% matching the expected score and recent form.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.3,
+          "p_draw": 0.25,
+          "p_away": 0.45,
+          "reasoning": "IR Iran has a higher Elo rating and recent form, suggesting they are favored. Egypt's home advantage and historical draw add uncertainty, but Iran's stronger performance leads to a higher probability ",
+          "raw": "{\"p_home\": 0.30, \"p_draw\": 0.25, \"p_away\": 0.45, \"reasoning\": \"IR Iran has a higher Elo rating and recent form, suggesting they are favored. Egypt's home advantage and historical draw add uncertainty, but Iran's stronger performance leads to a higher probability of their win.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.57,
+          "p_draw": 0.28,
+          "p_away": 0.15,
+          "name": "Ned"
+        },
+        "human:football": {
+          "p_home": 0.01,
+          "p_draw": 0.98,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:daksh": {
+          "p_home": 0.4,
+          "p_draw": 0.15,
+          "p_away": 0.45,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "crowd": {
+          "p_home": 0.49,
+          "p_draw": 0.355,
+          "p_away": 0.155,
+          "n": 4
+        }
+      }
+    },
+    {
+      "match_id": "md066-NZL-BEL",
+      "forecasts": {
+        "market": {
+          "p_home": 0.074781,
+          "p_draw": 0.138056,
+          "p_away": 0.787163,
+          "raw_odds": [
+            12.0,
+            6.5,
+            1.14
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.05,
+          "p_draw": 0.12,
+          "p_away": 0.83,
+          "reasoning": "Belgium has a significantly higher Elo rating (1948 vs 1710) and much stronger recent form (4W 1D vs 1W 4L). Despite New Zealand being at home, Belgium is a clear favorite in this group stage match.",
+          "raw": "```json\n{\n  \"p_home\": 0.05,\n  \"p_draw\": 0.12,\n  \"p_away\": 0.83,\n  \"reasoning\": \"Belgium has a significantly higher Elo rating (1948 vs 1710) and much stronger recent form (4W 1D vs 1W 4L). Despite New Zealand being at home, Belgium is a clear favorite in this group stage match.\"\n}\n```",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.15,
+          "p_draw": 0.2,
+          "p_away": 0.65,
+          "reasoning": "Elo difference and recent form favor Belgium",
+          "raw": "{\"p_home\": 0.15, \"p_draw\": 0.20, \"p_away\": 0.65, \"reasoning\": \"Elo difference and recent form favor Belgium\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.08,
+          "p_draw": 0.17,
+          "p_away": 0.75,
+          "reasoning": "Belgium holds a significant Elo advantage (+238) and superior recent form. New Zealand's poor run of form and lower technical ceiling make them heavy underdogs, though the group stage context allows f",
+          "raw": "```json\n{\"p_home\": 0.08, \"p_draw\": 0.17, \"p_away\": 0.75, \"reasoning\": \"Belgium holds a significant Elo advantage (+238) and superior recent form. New Zealand's poor run of form and lower technical ceiling make them heavy underdogs, though the group stage context allows for a low-probability draw.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.12,
+          "p_draw": 0.17,
+          "p_away": 0.71,
+          "reasoning": "Belgium\u2019s Elo 238 points higher gives NZ expected 0.20 points. Adjusted for typical draw rate, draw \u22480.17. Solving gives NZ win \u22480.12, Belgium win \u22480.71.",
+          "raw": "{\"p_home\": 0.12, \"p_draw\": 0.17, \"p_away\": 0.71, \"reasoning\": \"Belgium\u2019s Elo 238 points higher gives NZ expected 0.20 points. Adjusted for typical draw rate, draw \u22480.17. Solving gives NZ win \u22480.12, Belgium win \u22480.71.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.15,
+          "p_draw": 0.25,
+          "p_away": 0.6,
+          "reasoning": "Belgium's higher Elo rating and recent form suggest a strong advantage, while New Zealand's poor performance in recent matches lowers their chances. A draw is plausible but less likely given the conte",
+          "raw": "{\"p_home\": 0.15, \"p_draw\": 0.25, \"p_away\": 0.60, \"reasoning\": \"Belgium's higher Elo rating and recent form suggest a strong advantage, while New Zealand's poor performance in recent matches lowers their chances. A draw is plausible but less likely given the context.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.01,
+          "p_draw": 0.25,
+          "p_away": 0.74,
+          "name": "Ned"
+        },
+        "human:football": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Football"
+        },
+        "human:daksh": {
+          "p_home": 0.2,
+          "p_draw": 0.2,
+          "p_away": 0.6,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Praneet"
+        },
+        "crowd": {
+          "p_home": 0.0575,
+          "p_draw": 0.1175,
+          "p_away": 0.825,
+          "n": 4
+        }
+      }
+    }
+  ]
+}
