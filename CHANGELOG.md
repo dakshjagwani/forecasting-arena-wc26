@@ -55,6 +55,20 @@ they are recomputed from raw data after any correction.
 - **Unchanged:** the 3h-before-kickoff deadline, immutability (never
   overwrites), late-freeze abort, scoring, lineup. Pure trigger-reliability fix.
 
+## 2026-06-26 — Calendar pick-reminders (retention) + clearer wording
+
+- New `scripts/make_calendar.py` generates `site/picks.ics`: one native
+  calendar reminder per remaining matchday, firing ~3h before the deadline
+  (first kickoff − 3h). Players tap "📅 add reminders" on the picks site
+  (confirmation + landing) to download it, or use the `webcal://` subscribe
+  link for auto-updates. No login, no contact info, £0 — the phone's own
+  calendar fires the alarm. Deadlines are written in **UTC**, so each device
+  localises them correctly worldwide (DST-safe). Regenerated daily by
+  score.yml. Reminder copy: "⚽ Your move vs the AI — predict now".
+- Player-facing banner wording de-jargoned: "Freeze in X" → "closes in X",
+  "Picks locked" → "Picks closed for today". ("Freeze" stays in
+  internal/ops/methodology contexts where it's the accurate term.)
+
 ## 2026-06-14 — Full reliability stack operational
 
 - Failover layers 2 and 3 (docs/RELIABILITY.md) are now configured and

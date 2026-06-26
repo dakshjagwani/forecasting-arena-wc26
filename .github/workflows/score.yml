@@ -44,6 +44,9 @@ jobs:
       - name: Compute Brier scores
         run: python scripts/score.py
 
+      - name: Refresh pick-reminder calendar (site/picks.ics)
+        run: python scripts/make_calendar.py
+
       - name: Validate data tree before committing
         run: python scripts/validate_data.py
 
@@ -51,7 +54,7 @@ jobs:
         run: |
           git config user.name  "Forecasting Arena Bot"
           git config user.email "bot@forecasting-arena.com"
-          git add data/results/ data/scores/
+          git add data/results/ data/scores/ site/picks.ics
           git diff --staged --quiet || \
             git commit -m "score: $(date -u +%Y-%m-%d) [skip ci]"
           git push || (git pull --rebase --autostash && git push)

@@ -77,7 +77,8 @@ each prediction file's commit predates the kickoffs inside it.
 ## Repository guide
 
 - `scripts/` — freeze.py (daily prediction freeze), score.py (Brier + calibration),
-  fetch_results.py, validate_data.py (data audit), context_builder.py (Elo/form/H2H)
+  fetch_results.py, validate_data.py (data audit), context_builder.py (Elo/form/H2H),
+  make_calendar.py (pick-reminder .ics)
 - `data/` — fixtures, frozen predictions, results, scores. Append-only audit log.
 - `site/` — the picks app and leaderboard (plain HTML/CSS/JS, no build step)
 - `tests/` — pytest suite + golden-file integration test ([TESTING.md](TESTING.md))

@@ -628,11 +628,11 @@ function renderCards() {
   // Matchday banner
   const banner = document.getElementById('matchday-banner');
   if (frozen) {
-    banner.textContent = `🔒 Picks locked — first kickoff ${fmtKickoff(new Date(earliest).toISOString())}`;
+    banner.textContent = `🔒 Picks closed for today — first kickoff ${fmtKickoff(new Date(earliest).toISOString())}`;
     banner.hidden = false;
   } else {
     const remaining = fmtCountdown(freezeAt - Date.now());
-    banner.textContent = `🟢 Picks open · Freeze in ${remaining}`;
+    banner.textContent = `🟢 Picks open · closes in ${remaining}`;
     banner.hidden = false;
   }
 
@@ -808,7 +808,7 @@ function startDayWatcher() {
       const banner = document.getElementById('matchday-banner');
       if (banner && !banner.hidden) {
         banner.textContent =
-          `🟢 Picks open · Freeze in ${fmtCountdown(fresh.freezeAt - Date.now())}`;
+          `🟢 Picks open · closes in ${fmtCountdown(fresh.freezeAt - Date.now())}`;
       }
     }
   }, 30_000);

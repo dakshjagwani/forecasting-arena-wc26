@@ -739,6 +739,52 @@ input[type="text"]:focus {
 
 .confirm-tag { font-size: .875rem; color: var(--text-sub); font-style: italic; }
 
+/* ── Calendar reminder CTA ──────────────────────────────────────────────── */
+.reminder-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .4rem;
+  width: 100%;
+}
+.reminder-btn {
+  display: block;
+  width: 100%;
+  padding: .8rem 1.25rem;
+  background: var(--away);
+  color: #fff;
+  border-radius: var(--radius);
+  font-size: .95rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-align: center;
+  min-height: 48px;
+  line-height: 1.5;
+  transition: opacity var(--dur-fast), transform var(--dur-fast), box-shadow var(--dur-fast);
+}
+.reminder-btn:hover {
+  opacity: .93;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(8,145,178,.35);
+}
+.reminder-btn:active { transform: translateY(0); box-shadow: none; }
+.reminder-sub {
+  font-size: .76rem;
+  color: var(--text-sub);
+  text-decoration: none;
+}
+.reminder-sub:hover { color: var(--away); text-decoration: underline; }
+
+/* Lower-key version on the landing screen */
+.reminder-landing { text-align: center; }
+.reminder-landing a {
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--away);
+  text-decoration: none;
+}
+.reminder-landing a:hover { text-decoration: underline; }
+
 .confetti-piece {
   position: absolute;
   width: 9px;

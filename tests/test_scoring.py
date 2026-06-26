@@ -295,6 +295,53 @@ def test_ingest_test_slugs_excluded(monkeypatch):
     picks = _ingest(csv_text, monkeypatch)
     assert set(picks) == {"tessa"}
 
+# ── Calendar reminder generation (make_calendar.py) ──────────────────────────
+
+from make_calendar import build_ics
+
+_CAL_FIXTURES = [
+    # campaign day 2026-07-01: first kickoff 18:00Z → deadline 15:00Z
+    {"match_id": "m1", "kickoff_utc": "2026-07-01T18:00:00Z", "is_placeholder": False},
+    {"match_id": "m2", "kickoff_utc": "2026-07-01T21:00:00Z", "is_placeholder": False},
+    # campaign day 2026-07-02: a placeholder-only-companion + one real match 20:00Z
+    {"match_id": "m3", "kickoff_utc": "2026-07-02T20:00:00Z", "is_placeholder": False},
+    {"match_id": "m4", "kickoff_utc": "2026-07-02T17:00:00Z", "is_placeholder": True},
+    # a past day relative to NOW below — must be omitted
+    {"match_id": "m0", "kickoff_utc": "2026-06-01T18:00:00Z", "is_placeholder": False},
+]
+_NOW = datetime(2026, 6, 30, 12, 0, tzinfo=timezone.utc)
+
+def test_calendar_valid_envelope():
+    ics = build_ics(_CAL_FIXTURES, now=_NOW)
+    assert ics.startswith("BEGIN:VCALENDAR")
+    assert ics.rstrip().endswith("END:VCALENDAR")
+    assert "\r\n" in ics  # CRLF line endings
+
+def test_calendar_future_only_and_placeholders_excluded():
+    ics = build_ics(_CAL_FIXTURES, now=_NOW)
+    # 2026-07-01 and 2026-07-02 are future → 2 events; the June day is omitted
+    assert ics.count("BEGIN:VEVENT") == 2
+    assert "md-2026-06-01" not in ics  # past day dropped
+    assert "md-2026-07-01@forecasting-arena" in ics
+    assert "md-2026-07-02@forecasting-arena" in ics
+
+def test_calendar_deadline_is_first_kickoff_minus_3h_in_utc():
+    ics = build_ics(_CAL_FIXTURES, now=_NOW)
+    # 2026-07-01 first kickoff 18:00Z → deadline 15:00Z, must be UTC (Z suffix)
+    assert "DTSTART:20260701T150000Z" in ics
+    # 2026-07-02 first (non-placeholder) kickoff 20:00Z → deadline 17:00Z
+    assert "DTSTART:20260702T170000Z" in ics
+    # every DTSTART/DTEND is UTC
+    for line in ics.split("\r\n"):
+        if line.startswith(("DTSTART:", "DTEND:", "DTSTAMP:")):
+            assert line.rstrip().endswith("Z"), line
+
+def test_calendar_has_alarm_and_no_overlong_lines():
+    ics = build_ics(_CAL_FIXTURES, now=_NOW)
+    assert "BEGIN:VALARM" in ics and "TRIGGER:-PT3H" in ics
+    for line in ics.split("\r\n"):
+        assert len(line.encode("utf-8")) <= 75, f"line too long: {line!r}"
+
 # ── Retry / backoff for transient provider errors ────────────────────────────
 
 def _http_error(code):

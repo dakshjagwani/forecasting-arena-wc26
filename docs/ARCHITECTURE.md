@@ -158,6 +158,7 @@ flowchart TD
 | `scripts/context_builder.py` | Builds Elo/form/H2H/venue context for prompts and the picks-UI intel panels | reference/*.csv,json | reference/match_contexts.json | imported by freeze.py |
 | `scripts/apps_script.gs` | Source of the deployed Google Apps Script: appends POSTed picks to the Sheet (append-only by design) | POST body | Google Sheet rows | player submissions |
 | `scripts/make_fixtures.py` | One-off: generated the 104-match fixtures.json | hand-curated data | fixtures.json | already done |
+| `scripts/make_calendar.py` | Generates the pick-reminder calendar: one UTC VEVENT+alarm per upcoming matchday deadline (first kickoff − 3h) | fixtures.json | site/picks.ics | score.yml daily (or manual) |
 | `site/picks.html/.js` | Swipe-card picks app: campaign-day detection, 3-way slider, 3D carousel, localStorage, no-cors POST | fixtures.json, match_contexts.json | Sheet (via Apps Script) | players' browsers |
 | `site/index.html` | Public leaderboard | scores/*.json | — | audience browsers |
 | `site/ops.html` | Daksh's dashboard: freeze/run/results status + daily checklist | data/*, GitHub API | — | your browser |
