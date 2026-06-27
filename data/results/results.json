@@ -418,5 +418,40 @@
     "score_away": 0,
     "outcome": "draw",
     "status": "FT"
+  },
+  {
+    "match_id": "md061-NOR-FRA",
+    "score_home": 1,
+    "score_away": 4,
+    "outcome": "away",
+    "status": "FT"
+  },
+  {
+    "match_id": "md062-SEN-FP02",
+    "score_home": 5,
+    "score_away": 0,
+    "outcome": "home",
+    "status": "FT"
+  },
+  {
+    "match_id": "md063-CPV-KSA",
+    "score_home": 0,
+    "score_away": 0,
+    "outcome": "draw",
+    "status": "FT"
+  },
+  {
+    "match_id": "md064-URU-ESP",
+    "score_home": 0,
+    "score_away": 1,
+    "outcome": "away",
+    "status": "FT"
+  },
+  {
+    "match_id": "md066-NZL-BEL",
+    "score_home": 1,
+    "score_away": 5,
+    "outcome": "away",
+    "status": "FT"
   }
 ]
