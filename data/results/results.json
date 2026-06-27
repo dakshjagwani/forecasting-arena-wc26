@@ -448,6 +448,13 @@
     "status": "FT"
   },
   {
+    "match_id": "md065-EGY-IRN",
+    "score_home": 1,
+    "score_away": 1,
+    "outcome": "draw",
+    "status": "FT"
+  },
+  {
     "match_id": "md066-NZL-BEL",
     "score_home": 1,
     "score_away": 5,

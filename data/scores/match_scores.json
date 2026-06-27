@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-06-27T05:03:04Z",
+  "updated_utc": "2026-06-27T11:10:07Z",
   "days": {
     "2026-06-12": [
       {
@@ -7117,6 +7117,105 @@
             "p_draw": 0.97,
             "p_away": 0.01,
             "brier": 1.9214
+          }
+        ]
+      },
+      {
+        "match_id": "md065-EGY-IRN",
+        "home": "Egypt",
+        "away": "IR Iran",
+        "stage": "Group G",
+        "kickoff_utc": "2026-06-27T06:00:00Z",
+        "score": "1-1",
+        "outcome": "draw",
+        "rows": [
+          {
+            "forecaster": "human:football",
+            "type": "human",
+            "p_home": 0.01,
+            "p_draw": 0.98,
+            "p_away": 0.01,
+            "brier": 0.0006
+          },
+          {
+            "forecaster": "market",
+            "type": "market",
+            "p_home": 0.374162,
+            "p_draw": 0.350685,
+            "p_away": 0.275153,
+            "brier": 0.6373
+          },
+          {
+            "forecaster": "crowd",
+            "type": "crowd",
+            "p_home": 0.49,
+            "p_draw": 0.355,
+            "p_away": 0.155,
+            "brier": 0.6802
+          },
+          {
+            "forecaster": "gemini-flash",
+            "type": "ai",
+            "p_home": 0.3,
+            "p_draw": 0.31,
+            "p_away": 0.39,
+            "brier": 0.7182
+          },
+          {
+            "forecaster": "gemma",
+            "type": "ai",
+            "p_home": 0.28,
+            "p_draw": 0.31,
+            "p_away": 0.41,
+            "brier": 0.7226
+          },
+          {
+            "forecaster": "gpt-oss-120b",
+            "type": "ai",
+            "p_home": 0.25,
+            "p_draw": 0.3,
+            "p_away": 0.45,
+            "brier": 0.755
+          },
+          {
+            "forecaster": "llama-70b",
+            "type": "ai",
+            "p_home": 0.28,
+            "p_draw": 0.29,
+            "p_away": 0.43,
+            "brier": 0.7674
+          },
+          {
+            "forecaster": "gpt-4o-mini",
+            "type": "ai",
+            "p_home": 0.3,
+            "p_draw": 0.25,
+            "p_away": 0.45,
+            "brier": 0.855
+          },
+          {
+            "forecaster": "human:ned",
+            "type": "human",
+            "p_home": 0.57,
+            "p_draw": 0.28,
+            "p_away": 0.15,
+            "brier": 0.8658
+          },
+          {
+            "forecaster": "human:daksh",
+            "type": "human",
+            "p_home": 0.4,
+            "p_draw": 0.15,
+            "p_away": 0.45,
+            "brier": 1.085
+          },
+          {
+            "forecaster": "human:praneet",
+            "type": "human",
+            "p_home": 0.98,
+            "p_draw": 0.01,
+            "p_away": 0.01,
+            "brier": 1.9406
           }
         ]
       },
