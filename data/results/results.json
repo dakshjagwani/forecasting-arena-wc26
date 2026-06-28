@@ -460,5 +460,47 @@
     "score_away": 5,
     "outcome": "away",
     "status": "FT"
+  },
+  {
+    "match_id": "md067-PAN-ENG",
+    "score_home": 0,
+    "score_away": 2,
+    "outcome": "away",
+    "status": "FT"
+  },
+  {
+    "match_id": "md068-CRO-GHA",
+    "score_home": 2,
+    "score_away": 1,
+    "outcome": "home",
+    "status": "FT"
+  },
+  {
+    "match_id": "md069-COL-POR",
+    "score_home": 0,
+    "score_away": 0,
+    "outcome": "draw",
+    "status": "FT"
+  },
+  {
+    "match_id": "md070-FP01-UZB",
+    "score_home": 3,
+    "score_away": 1,
+    "outcome": "home",
+    "status": "FT"
+  },
+  {
+    "match_id": "md071-ALG-AUT",
+    "score_home": 3,
+    "score_away": 3,
+    "outcome": "draw",
+    "status": "FT"
+  },
+  {
+    "match_id": "md072-JOR-ARG",
+    "score_home": 1,
+    "score_away": 3,
+    "outcome": "away",
+    "status": "FT"
   }
 ]
