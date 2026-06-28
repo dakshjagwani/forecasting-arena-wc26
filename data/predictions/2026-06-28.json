@@ -1,0 +1,97 @@
+{
+  "date": "2026-06-28",
+  "freeze_utc": "2026-06-28T16:00:59Z",
+  "matches": [
+    {
+      "match_id": "md073-2A-2B",
+      "forecasts": {
+        "market": {
+          "p_home": 0.168661,
+          "p_draw": 0.275991,
+          "p_away": 0.555348,
+          "raw_odds": [
+            5.4,
+            3.3,
+            1.64
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.2,
+          "p_draw": 0.27,
+          "p_away": 0.53,
+          "reasoning": "Canada's significantly higher Elo (1891 vs 1664) and better recent form outweigh South Africa's home advantage and historical H2H. Knockout stakes slightly increase draw probability.",
+          "raw": "{\"p_home\": 0.20, \"p_draw\": 0.27, \"p_away\": 0.53, \"reasoning\": \"Canada's significantly higher Elo (1891 vs 1664) and better recent form outweigh South Africa's home advantage and historical H2H. Knockout stakes slightly increase draw probability.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.25,
+          "p_draw": 0.3,
+          "p_away": 0.45,
+          "reasoning": "Canada's higher Elo and recent form favor them.",
+          "raw": "{\"p_home\": 0.25, \"p_draw\": 0.30, \"p_away\": 0.45, \"reasoning\": \"Canada's higher Elo and recent form favor them.\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.18,
+          "p_draw": 0.24,
+          "p_away": 0.58,
+          "reasoning": "Canada holds a significant Elo advantage (+227) and superior recent form. While South Africa has a historical win, it is outdated. Canada's consistency and higher technical ceiling make them strong fa",
+          "raw": "```json\n{\"p_home\": 0.18, \"p_draw\": 0.24, \"p_away\": 0.58, \"reasoning\": \"Canada holds a significant Elo advantage (+227) and superior recent form. While South Africa has a historical win, it is outdated. Canada's consistency and higher technical ceiling make them strong favorites, though knockout tension increases the likelihood of a draw.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.16,
+          "p_draw": 0.25,
+          "p_away": 0.59,
+          "reasoning": "Canada's higher Elo (+227) and better recent form outweigh South Africa's home advantage; draw odds typical for balanced matches. Result: ~16% SA win, 25% draw, 59% Canada win.",
+          "raw": "{\"p_home\": 0.16, \"p_draw\": 0.25, \"p_away\": 0.59, \"reasoning\": \"Canada's higher Elo (+227) and better recent form outweigh South Africa's home advantage; draw odds typical for balanced matches. Result: ~16% SA win, 25% draw, 59% Canada win.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.25,
+          "p_draw": 0.3,
+          "p_away": 0.45,
+          "reasoning": "Canada's higher Elo rating and recent form suggest they are favored, but South Africa's historical head-to-head advantage and home conditions provide them with a competitive edge.",
+          "raw": "{\"p_home\": 0.25, \"p_draw\": 0.30, \"p_away\": 0.45, \"reasoning\": \"Canada's higher Elo rating and recent form suggest they are favored, but South Africa's historical head-to-head advantage and home conditions provide them with a competitive edge.\"}",
+          "status": "ok"
+        },
+        "human:daksh": {
+          "p_home": 0.29703,
+          "p_draw": 0.009901,
+          "p_away": 0.693069,
+          "name": "Daksh"
+        },
+        "human:shreekhand": {
+          "p_home": 0.405941,
+          "p_draw": 0.009901,
+          "p_away": 0.584158,
+          "name": "Shreekhand"
+        },
+        "human:sakshi": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Sakshi"
+        },
+        "human:praneet": {
+          "p_home": 0.960396,
+          "p_draw": 0.009901,
+          "p_away": 0.029703,
+          "name": "Praneet"
+        },
+        "human:ned": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Ned"
+        },
+        "crowd": {
+          "p_home": 0.336653,
+          "p_draw": 0.009999,
+          "p_away": 0.653347,
+          "n": 5
+        }
+      }
+    }
+  ]
+}
