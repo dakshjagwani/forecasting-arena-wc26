@@ -41,6 +41,12 @@ jobs:
           FOOTBALL_DATA_API_KEY: ${{ secrets.FOOTBALL_DATA_API_KEY }}
         continue-on-error: true  # graceful fallback: manual entry via results.json
 
+      - name: Resolve knockout fixtures (a finished match can unlock the next round)
+        run: python scripts/resolve_fixtures.py
+        env:
+          FOOTBALL_DATA_API_KEY: ${{ secrets.FOOTBALL_DATA_API_KEY }}
+        continue-on-error: true  # never block scoring; placeholders just stay unfrozen
+
       - name: Compute Brier scores
         run: python scripts/score.py
 
@@ -54,7 +60,7 @@ jobs:
         run: |
           git config user.name  "Forecasting Arena Bot"
           git config user.email "bot@forecasting-arena.com"
-          git add data/results/ data/scores/ site/picks.ics
+          git add data/results/ data/scores/ data/fixtures/ site/picks.ics
           git diff --staged --quiet || \
             git commit -m "score: $(date -u +%Y-%m-%d) [skip ci]"
           git push || (git pull --rebase --autostash && git push)

@@ -4,6 +4,33 @@ Every data correction and every decision that affects the experiment's
 integrity is logged here, newest first. Scores JSONs are never hand-edited;
 they are recomputed from raw data after any correction.
 
+## 2026-06-28 — Knockout fixtures auto-resolve from football-data.org
+
+- The knockout bracket shipped as placeholders (`home/away` null), so the picks
+  UI showed **TBD vs TBD** and the matches were unvotable. Worse, the hand-built
+  kickoff times had **drifted from the real schedule** (e.g. today's first R32
+  listed 22:00Z but actually 19:00Z; only 13/32 still matched). Since the freeze
+  window is "3h before first kickoff" computed from those times, a stale time
+  would have frozen a match *after* it kicked off and voided it for everyone.
+- Fix: new `scripts/resolve_fixtures.py` reads the whole bracket from the same
+  `football-data.org/v4/competitions/WC/matches` endpoint `fetch_results.py`
+  already uses. It pins each local knockout slot to an API match **1:1 within
+  each stage** (16 R32, 8 R16, 4 QF, 2 SF, 1+1) — equal counts ⇒ a bijection, no
+  match dropped or duplicated — and staples football-data's stable `id` onto each
+  row as `fd_id`; thereafter teams + corrected times flow in by that id. Team
+  names normalised via freeze.py's existing `ODDS_ALIASES` (USA, Côte d'Ivoire,
+  Cabo Verde, DR Congo, Bosnia and Herzegovina). Integrity guards: never edits a
+  match already in a predictions file (one-cutoff rule); never backfills a match
+  whose kickoff has passed; writes only on change.
+- Bootstrap (this commit): pinned all 32, resolved the 16 R32 teams, corrected
+  all knockout times. Verified every knockout day's freeze still lands inside the
+  cron-job.org poll window (12–20 UTC). `site/picks.ics` regenerated.
+- Wired into CI: resolve runs before `freeze.py` (freeze.yml) and after
+  `fetch_results.py` (score.yml), committing fixtures + calendar when changed.
+- 87 tests (16 new in `tests/test_resolve.py`: bijection, count-mismatch abort,
+  idempotence, name/code mapping, frozen-skip, past-kickoff-skip, golden run over
+  a sanitised live API snapshot in `tests/golden/wc_matches_sample.json`).
+
 ## 2026-06-16 — Self-running ops: auto-triage health digest + evidence packs
 
 - New daily **health digest** (digest.yml, 10:00 UTC) collapses the manual

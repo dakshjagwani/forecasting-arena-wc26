@@ -54,6 +54,36 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
+      # Pull resolved knockout teams + corrected kickoff times from
+      # football-data.org BEFORE freezing, so freeze.py reads real teams and the
+      # 3h window is computed off the real first-kickoff. Stale times would
+      # otherwise freeze a knockout match after it kicks off and void it.
+      - name: Resolve knockout fixtures (teams + kickoff times)
+        id: resolve
+        env:
+          FOOTBALL_DATA_API_KEY: ${{ secrets.FOOTBALL_DATA_API_KEY }}
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            python scripts/resolve_fixtures.py --dry-run
+            exit 0
+          fi
+          python scripts/resolve_fixtures.py
+          git config user.name  "Forecasting Arena Bot"
+          git config user.email "bot@forecasting-arena.com"
+          if git diff --quiet data/fixtures/fixtures.json; then
+            echo "resolved=false" >> "$GITHUB_OUTPUT"
+          else
+            python scripts/make_calendar.py        # times/teams changed
+            python scripts/validate_data.py        # never commit a broken tree
+            git add data/fixtures/fixtures.json site/picks.ics
+            git commit -m "fixtures: resolve knockout teams/times $(date -u +%Y-%m-%d) [skip ci]"
+            git push || (git pull --rebase --autostash && git push)
+            echo "resolved=true" >> "$GITHUB_OUTPUT"
+            curl -s -X POST "https://ntfy.sh/forecasting-arena-daksh" \
+              -H "Title: 🗓️ Knockout fixtures resolved" \
+              -d "$(date -u +%Y-%m-%d): knockout teams/times updated from football-data.org" || true
+          fi
+
       - name: Run freeze
         run: |
           ARGS=""

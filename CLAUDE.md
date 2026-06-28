@@ -182,6 +182,10 @@ personal cards.
   freeze.py          ✅     <- fetch odds + query LLMs + ingest picks CSV + write predictions JSON
   score.py           ✅     <- compute Brier + calibration from results, write leaderboard.json
   fetch_results.py   ✅     <- football-data.org free tier; falls back to manual entry
+  resolve_fixtures.py ✅    <- fills knockout teams + corrects kickoff times from
+                              football-data.org (pins each KO slot to an API match
+                              1:1 per stage via stable fd_id); runs in freeze.yml
+                              (pre-freeze) + score.yml. Never edits a frozen match.
   make_fixtures.py   ✅     <- one-off completed: generated fixtures.json for all 104 matches
   apps_script.gs     ✅     <- Google Apps Script source (deployed manually); POST endpoint for picks
   freeze_local.py    ←      <- PENDING Phase 2: Ollama on Mac for qwen-laptop forecaster
