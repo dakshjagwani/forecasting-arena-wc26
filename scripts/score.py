@@ -9,6 +9,7 @@ computes multiclass Brier scores, writes:
 
 Idempotent: safe to re-run after correcting results.json.
 """
+from __future__ import annotations
 import json, math, os, sys
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
@@ -56,26 +57,42 @@ def build_match_scores(scoreable: list, all_preds: dict, fixture_map: dict) -> d
         f = fixture_map[match_id]
         ko = datetime.fromisoformat(f["kickoff_utc"].replace("Z", "+00:00"))
         day = (ko - timedelta(hours=8)).strftime("%Y-%m-%d")
+        # Knockout matches with a known advancer are scored/shown on advancement;
+        # everything else on the 90-min 3-way result.
+        advanced = result.get("advanced") if is_knockout(f.get("stage", "")) else None
         rows = []
         for fc_name, fc in all_preds[match_id].items():
             if fc.get("status") == "failed":
                 continue
-            rows.append({
+            row = {
                 "forecaster": fc_name,
                 "type": forecaster_type(fc_name),
                 "p_home": fc["p_home"], "p_draw": fc["p_draw"], "p_away": fc["p_away"],
-                "brier": round(brier(fc["p_home"], fc["p_draw"], fc["p_away"],
-                                     result["outcome"]), 4),
-            })
+            }
+            if advanced:
+                p_adv = advancement_prob(fc)
+                row["p_advance"] = round(p_adv, 4)              # P(home advances)
+                row["brier"] = round(advancement_brier(p_adv, advanced), 4)
+            else:
+                row["brier"] = round(brier(fc["p_home"], fc["p_draw"], fc["p_away"],
+                                           result["outcome"]), 4)
+            rows.append(row)
         rows.sort(key=lambda r: (r["brier"], r["forecaster"]))
-        days.setdefault(day, []).append({
+        block = {
             "match_id": match_id,
             "home": f.get("home"), "away": f.get("away"), "stage": f.get("stage"),
             "kickoff_utc": f["kickoff_utc"],
             "score": f"{result['score_home']}-{result['score_away']}",
             "outcome": result["outcome"],
             "rows": rows,
-        })
+        }
+        if advanced:
+            block["metric"] = "advancement"
+            block["advanced"] = advanced          # "home" / "away"
+            block["decided_by"] = result.get("decided_by", "regular")
+            if result.get("pens"):
+                block["pens"] = result["pens"]
+        days.setdefault(day, []).append(block)
     for day in days:
         days[day].sort(key=lambda m: m["kickoff_utc"])
     return days
@@ -152,37 +169,26 @@ def build_calibration(all_preds: dict, results: dict) -> dict:
         for f, buckets in cal.items()
     }
 
-# ── Cumulative leaderboard (overall + knockouts share this) ──────────────────
-def build_leaderboard(scoreable: list, all_preds: dict, updated_utc: str) -> dict:
-    """Cumulative multiclass-Brier leaderboard over `scoreable` (match_id, result)
-    pairs already sorted in kickoff order. Called for both the overall board and
-    the knockouts-only subset — qualification's denominator (n_available) is
-    measured *within* whatever subset is passed, so the knockout board genuinely
-    starts fresh (a forecaster's first knockout pick is index 0 there)."""
-    total_scored = len(scoreable)
+# ── Advancement scoring (knockout phase — CLAUDE.md §7) ──────────────────────
+def advancement_prob(fc: dict) -> float:
+    """P(home team advances) derived from a forecast triple: p_home + ½·p_draw.
+    The ½-split is the pre-registered convention (extra time / penalties ≈ a coin
+    toss). Direct picks (humans + md074+ models) carry draw≈0, so this is ≈p_home;
+    md073 models / the market split their real draw mass identically."""
+    return min(1.0, max(0.0, fc["p_home"] + 0.5 * fc["p_draw"]))
 
-    forecaster_stats: dict[str, dict] = defaultdict(
-        lambda: {"n": 0, "sum_brier": 0.0, "first_idx": None}
-    )
+def advancement_brier(p_adv_home: float, advanced: str) -> float:
+    """Two-class Brier on who advanced. Same [0,2] scale as the 3-way Brier:
+    perfect 0 · coin-flip (0.5) → 0.5 · certain-and-wrong → 2."""
+    y = 1.0 if advanced == "home" else 0.0
+    p_adv_away = 1.0 - p_adv_home
+    return (p_adv_home - y) ** 2 + (p_adv_away - (1.0 - y)) ** 2
 
-    for idx, (match_id, result) in enumerate(scoreable):
-        for forecaster, fc in all_preds[match_id].items():
-            if fc.get("status") == "failed":
-                continue
-            b = brier(fc["p_home"], fc["p_draw"], fc["p_away"], result["outcome"])
-            s = forecaster_stats[forecaster]
-            s["n"] += 1
-            s["sum_brier"] += b
-            if s["first_idx"] is None:
-                s["first_idx"] = idx
-
-    # Uniform baseline scored over the same matches as everyone else
-    uni = forecaster_stats["uniform"]
-    uni["first_idx"] = 0
-    for _, result in scoreable:
-        uni["n"] += 1
-        uni["sum_brier"] += brier(1 / 3, 1 / 3, 1 / 3, result["outcome"])
-
+# ── Cumulative leaderboards (group 3-way + knockout advancement share assembly)
+def _assemble_leaderboard(forecaster_stats: dict, total_scored: int,
+                          updated_utc: str, extra: dict | None = None) -> dict:
+    """Turn accumulated {forecaster: {n, sum_brier, first_idx}} into a sorted,
+    qualification-tagged, vs-market leaderboard. Shared by both metrics."""
     rows = []
     market_brier = None
     REFERENCE = {"market", "crowd", "uniform"}
@@ -219,11 +225,65 @@ def build_leaderboard(scoreable: list, all_preds: dict, updated_utc: str) -> dic
 
     rows.sort(key=lambda r: (not r["qualified"], r["mean_brier"]))
 
-    return {
-        "updated_utc": updated_utc,
-        "matches_scored": total_scored,
-        "rows": rows,
-    }
+    out = {"updated_utc": updated_utc, "matches_scored": total_scored, "rows": rows}
+    if extra:
+        out.update(extra)
+    return out
+
+def build_leaderboard(scoreable: list, all_preds: dict, updated_utc: str) -> dict:
+    """Cumulative multiclass-Brier (90-min result) leaderboard over `scoreable`
+    (match_id, result) pairs in kickoff order. Used for the group-stage board."""
+    forecaster_stats: dict[str, dict] = defaultdict(
+        lambda: {"n": 0, "sum_brier": 0.0, "first_idx": None}
+    )
+    for idx, (match_id, result) in enumerate(scoreable):
+        for forecaster, fc in all_preds[match_id].items():
+            if fc.get("status") == "failed":
+                continue
+            b = brier(fc["p_home"], fc["p_draw"], fc["p_away"], result["outcome"])
+            s = forecaster_stats[forecaster]
+            s["n"] += 1
+            s["sum_brier"] += b
+            if s["first_idx"] is None:
+                s["first_idx"] = idx
+
+    uni = forecaster_stats["uniform"]
+    uni["first_idx"] = 0
+    for _, result in scoreable:
+        uni["n"] += 1
+        uni["sum_brier"] += brier(1 / 3, 1 / 3, 1 / 3, result["outcome"])
+
+    return _assemble_leaderboard(forecaster_stats, len(scoreable), updated_utc)
+
+def build_advancement_leaderboard(ko_scoreable: list, all_preds: dict,
+                                  updated_utc: str) -> dict:
+    """Knockout "who advances" board: binary advancement Brier over knockout
+    matches that have an `advanced` result. Coin-flip reference = 0.50."""
+    forecaster_stats: dict[str, dict] = defaultdict(
+        lambda: {"n": 0, "sum_brier": 0.0, "first_idx": None}
+    )
+    for idx, (match_id, result) in enumerate(ko_scoreable):
+        advanced = result["advanced"]
+        for forecaster, fc in all_preds[match_id].items():
+            if fc.get("status") == "failed":
+                continue
+            b = advancement_brier(advancement_prob(fc), advanced)
+            s = forecaster_stats[forecaster]
+            s["n"] += 1
+            s["sum_brier"] += b
+            if s["first_idx"] is None:
+                s["first_idx"] = idx
+
+    uni = forecaster_stats["uniform"]
+    uni["first_idx"] = 0
+    for _, result in ko_scoreable:
+        uni["n"] += 1
+        uni["sum_brier"] += advancement_brier(0.5, result["advanced"])
+
+    return _assemble_leaderboard(
+        forecaster_stats, len(ko_scoreable), updated_utc,
+        extra={"metric": "advancement", "coinflip": 0.5},
+    )
 
 # ── Post-score gate ───────────────────────────────────────────────────────────
 def validate_leaderboard(leaderboard: dict, all_preds: dict) -> None:
@@ -269,17 +329,29 @@ def main() -> None:
         key=lambda t: kickoff_of.get(t[0], ""),
     )
     updated_utc = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    stage_of = {m["match_id"]: m.get("stage", "") for m in fixtures}
 
-    # Overall (cumulative — the official ranking) and a knockouts-only board that
-    # starts fresh at the first knockout match (group results don't count there).
-    leaderboard = build_leaderboard(scoreable, all_preds, updated_utc)
+    # Two experiments (CLAUDE.md §7): the GROUP board is the 3-way 90-min Brier
+    # over group matches only; the KNOCKOUT board is the binary "who advances"
+    # Brier. Knockouts are excluded from the group board so the draw-less
+    # knockout picks are never judged on the 3-way metric.
+    group_scoreable = [t for t in scoreable
+                       if not is_knockout(stage_of.get(t[0], ""))]
+    leaderboard = build_leaderboard(group_scoreable, all_preds, updated_utc)
     validate_leaderboard(leaderboard, all_preds)
 
-    stage_of = {m["match_id"]: m.get("stage", "") for m in fixtures}
-    ko_scoreable = [t for t in scoreable if is_knockout(stage_of.get(t[0], ""))]
-    ko_leaderboard = build_leaderboard(ko_scoreable, all_preds, updated_utc)
+    # Knockout matches need an `advanced` result (who went through after ET/pens).
+    ko_adv_scoreable = sorted(
+        (
+            (mid, r) for mid, r in results.items()
+            if r.get("status") == "FT" and r.get("advanced") in ("home", "away")
+            and mid in all_preds and is_knockout(stage_of.get(mid, ""))
+        ),
+        key=lambda t: kickoff_of.get(t[0], ""),
+    )
+    ko_leaderboard = build_advancement_leaderboard(ko_adv_scoreable, all_preds, updated_utc)
     validate_leaderboard(ko_leaderboard, all_preds)
-    total_scored = leaderboard["matches_scored"]
+    total_scored = len(scoreable)
 
     # Build calibration + per-match boards
     calibration = build_calibration(all_preds, results)
@@ -299,9 +371,9 @@ def main() -> None:
     (scores_dir / "match_scores.json").write_text(json.dumps(match_scores, indent=2))
 
     print(
-        f"Scored {total_scored} matches "
-        f"({ko_leaderboard['matches_scored']} knockout) | "
-        f"{len(leaderboard['rows'])} forecasters | "
+        f"Scored {total_scored} matches | "
+        f"group(3-way): {leaderboard['matches_scored']} | "
+        f"knockout(advancement): {ko_leaderboard['matches_scored']} | "
         f"leaderboard + knockouts + calibration + match boards written"
     )
 

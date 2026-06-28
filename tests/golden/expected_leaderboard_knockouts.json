@@ -1,5 +1,7 @@
 {
   "updated_utc": "GOLDEN",
   "matches_scored": 0,
-  "rows": []
+  "rows": [],
+  "metric": "advancement",
+  "coinflip": 0.5
 }

@@ -57,6 +57,12 @@ def to_slug(name: str) -> str:
     n = "".join(c for c in n if unicodedata.category(c) != "Mn")
     return re.sub(r"[^a-z0-9]+", "-", n).strip("-")
 
+def is_knockout(stage: str) -> bool:
+    """Any stage that isn't a group is a knockout (Round of 32 … Final + Third
+    Place Playoff). From the knockout phase the question is who ADVANCES, not the
+    90-minute result — see the _KO prompts and CLAUDE.md §7 two-phase scoring."""
+    return bool(stage) and not stage.startswith("Group")
+
 # ── Validation / normalisation ────────────────────────────────────────────────
 def normalise(p_home: float, p_draw: float, p_away: float) -> list:
     """Clamp each prob to [0.01, 0.98] then renormalise to sum 1.0."""
@@ -70,9 +76,16 @@ def parse_llm_response(raw: str):
     Extract (p_home, p_draw, p_away, reasoning) from raw LLM output.
     Handles markdown fences, prose before/after the JSON, and reasoning-model
     output where earlier {...} blocks (e.g. inside <think> text) are not the
-    answer: every brace-delimited candidate is tried, first one carrying all
-    three probability keys wins. Returns None on any parse failure — never a
-    silent default.
+    answer: every brace-delimited candidate is tried, first one carrying the
+    probability keys wins. Returns None on any parse failure — never a silent
+    default.
+
+    Two accepted shapes (auto-detected so call sites don't branch):
+      • group:    {"p_home","p_draw","p_away", …}
+      • knockout: {"p_home_advance","p_away_advance", …}  → returned as a triple
+                  with p_draw=0.0 (a knockout forecast is just a draw-less
+                  triple; normalise() then clamps it exactly like a human's
+                  tug-of-war pick, keeping models and humans on identical footing).
     """
     if not raw:
         return None
@@ -82,14 +95,17 @@ def parse_llm_response(raw: str):
             obj = json.loads(m.group())
         except json.JSONDecodeError:
             continue
+        reasoning = str(obj.get("reasoning", ""))[:200]
         try:
-            ph = float(obj["p_home"])
-            pd = float(obj["p_draw"])
-            pa = float(obj["p_away"])
+            return (float(obj["p_home"]), float(obj["p_draw"]),
+                    float(obj["p_away"]), reasoning)
+        except (KeyError, ValueError, TypeError):
+            pass
+        try:  # knockout advancement shape (no draw)
+            return (float(obj["p_home_advance"]), 0.0,
+                    float(obj["p_away_advance"]), reasoning)
         except (KeyError, ValueError, TypeError):
             continue
-        reasoning = str(obj.get("reasoning", ""))[:200]
-        return ph, pd, pa, reasoning
     return None
 
 # ── HTTP helpers ──────────────────────────────────────────────────────────────
@@ -182,15 +198,48 @@ _PROMPT_FALLBACK = (
     "The three probabilities must sum to 1.0."
 )
 
+# Knockout phase: the question is who ADVANCES (extra time + penalties decide a
+# 90-minute tie), so there is no draw. Same enriched context block as the group
+# prompt — only the question changes. Stored as a draw-less triple. See
+# CLAUDE.md §5/§7 and methodology.html (pre-registered 2026-06-28).
+_PROMPT_ENRICHED_KO = (
+    "You are forecasting a FIFA World Cup 2026 KNOCKOUT match.\n"
+    "Use the statistical context below to give a calibrated estimate.\n\n"
+    "{context_block}\n\n"
+    "This is a knockout tie: if level after 90 minutes it is decided by extra "
+    "time and then penalties, so there is NO draw — exactly one team advances.\n"
+    "Estimate the probability that each team ADVANCES to the next round. The two "
+    "team labels are listing order only; the venue is neutral (no home advantage) "
+    "unless a host nation (USA, Mexico, Canada) is playing in its own country.\n"
+    'Respond with ONLY this JSON, no other text:\n'
+    '{{"p_home_advance": <float>, "p_away_advance": <float>, "reasoning": "<max 50 words>"}}\n'
+    "The two probabilities must sum to 1.0 (p_home_advance is the first-listed team)."
+)
+
+_PROMPT_FALLBACK_KO = (
+    "You are forecasting a FIFA World Cup 2026 KNOCKOUT match.\n"
+    "Match: {home} vs {away}, {stage}, {venue}, {date}.\n"
+    "If level after 90 minutes it is decided by extra time then penalties — there "
+    "is no draw, exactly one team advances. The venue is neutral (no home "
+    "advantage) unless a host nation plays at home.\n"
+    "Estimate the probability that {home} advances and that {away} advances.\n"
+    'Respond with ONLY this JSON, no other text:\n'
+    '{{"p_home_advance": <float>, "p_away_advance": <float>, "reasoning": "<max 50 words>"}}\n'
+    "The two probabilities must sum to 1.0 (p_home_advance is {home})."
+)
+
 def make_prompt(match: dict) -> str:
+    ko = is_knockout(match.get("stage", ""))
+    enriched_tmpl = _PROMPT_ENRICHED_KO if ko else _PROMPT_ENRICHED
+    fallback_tmpl = _PROMPT_FALLBACK_KO if ko else _PROMPT_FALLBACK
     try:
         from context_builder import get_context_block
         ctx = get_context_block(match)
         if ctx:
-            return _PROMPT_ENRICHED.format(context_block=ctx)
+            return enriched_tmpl.format(context_block=ctx)
     except Exception:
         pass
-    return _PROMPT_FALLBACK.format(
+    return fallback_tmpl.format(
         home=match["home"], away=match["away"],
         stage=match["stage"], venue=match["venue"],
         date=match["kickoff_utc"][:10],

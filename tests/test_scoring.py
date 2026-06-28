@@ -9,7 +9,8 @@ from pathlib import Path
 # Import from scripts/ via conftest.py sys.path manipulation
 import freeze
 from score import (brier, outcome_from_score, is_qualified, is_knockout,
-                   build_leaderboard)
+                   build_leaderboard, advancement_prob, advancement_brier,
+                   build_advancement_leaderboard)
 from freeze import (normalise, parse_llm_response, to_slug, compute_crowd,
                     group_by_utc8, ingest_human_picks, match_odds,
                     split_remaining, _post_with_retries, _sleep_for,
@@ -546,6 +547,77 @@ def test_build_leaderboard_scopes_to_subset():
     # empty subset (no knockouts scored yet) -> empty board, no crash
     empty = build_leaderboard([], all_preds, "GOLDEN")
     assert empty["matches_scored"] == 0 and empty["rows"] == []
+
+# ── Knockout advancement metric (CLAUDE.md §7 two-phase scoring) ─────────────
+def test_advancement_prob_half_draw_split():
+    # direct pick (draw≈0) → ≈ p_home; model with draw mass → splits it
+    assert advancement_prob({"p_home": 0.70, "p_draw": 0.0, "p_away": 0.30}) == 0.70
+    assert advancement_prob({"p_home": 0.55, "p_draw": 0.27, "p_away": 0.18}) == \
+        pytest.approx(0.685)
+    # clamped into [0,1]
+    assert 0.0 <= advancement_prob({"p_home": 0.99, "p_draw": 0.02, "p_away": 0.0}) <= 1.0
+
+def test_advancement_brier_known_values():
+    assert advancement_brier(1.0, "home") == 0.0          # perfect
+    assert advancement_brier(0.0, "away") == 0.0          # perfect (other side)
+    assert advancement_brier(0.5, "home") == 0.5          # coin-flip line
+    assert advancement_brier(0.5, "away") == 0.5
+    assert advancement_brier(1.0, "away") == 2.0          # certain and wrong
+
+def test_build_advancement_leaderboard():
+    # Home advanced. Direct human (adv .705) beats derived model (adv .685)
+    # beats market (.64); uniform sits exactly on the 0.5 coin-flip line.
+    all_preds = {"m1": {
+        "human:a":      {"p_home": 0.70, "p_draw": 0.01, "p_away": 0.29},
+        "gemini-flash": {"p_home": 0.55, "p_draw": 0.27, "p_away": 0.18},
+        "market":       {"p_home": 0.50, "p_draw": 0.28, "p_away": 0.22},
+    }}
+    lb = build_advancement_leaderboard([("m1", {"advanced": "home"})],
+                                       all_preds, "GOLDEN")
+    assert lb["metric"] == "advancement" and lb["coinflip"] == 0.5
+    assert lb["matches_scored"] == 1
+    order = [r["forecaster"] for r in lb["rows"]]
+    assert order[0] == "human:a"                       # best
+    assert order.index("human:a") < order.index("gemini-flash") < order.index("market")
+    uni = next(r for r in lb["rows"] if r["forecaster"] == "uniform")
+    assert uni["mean_brier"] == 0.5                    # coin-flip baseline
+    # market is the benchmark (vs_market None); others get a delta
+    mkt = next(r for r in lb["rows"] if r["forecaster"] == "market")
+    assert mkt["vs_market"] is None
+
+def test_advancement_failed_forecast_skipped():
+    all_preds = {"m1": {
+        "gemini-flash": {"status": "failed"},
+        "human:a": {"p_home": 0.6, "p_draw": 0.0, "p_away": 0.4},
+    }}
+    lb = build_advancement_leaderboard([("m1", {"advanced": "home"})],
+                                       all_preds, "GOLDEN")
+    names = {r["forecaster"] for r in lb["rows"]}
+    assert "gemini-flash" not in names and "human:a" in names
+
+# ── Knockout advancement PROMPT (freeze.py) ──────────────────────────────────
+def test_make_prompt_knockout_asks_advancement():
+    ko = {"home": "Brazil", "away": "Japan", "stage": "Round of 32",
+          "venue": "SoFi Stadium", "kickoff_utc": "2026-06-29T17:00:00Z"}
+    grp = {"home": "Mexico", "away": "South Africa", "stage": "Group A",
+           "venue": "Azteca", "kickoff_utc": "2026-06-11T21:00:00Z"}
+    pk = freeze.make_prompt(ko)
+    assert "p_home_advance" in pk and "ADVANCES" in pk and "neutral" in pk
+    assert "no draw" in pk.lower()
+    pg = freeze.make_prompt(grp)
+    assert "90-minute result" in pg and "p_home_advance" not in pg
+
+def test_parse_advancement_json_to_drawless_triple():
+    # advancement shape → (p_home, 0.0, p_away, reasoning)
+    assert parse_llm_response('{"p_home_advance":0.68,"p_away_advance":0.32,"reasoning":"x"}') \
+        == (0.68, 0.0, 0.32, "x")
+    # markdown-fenced
+    assert parse_llm_response('```json\n{"p_home_advance":0.6,"p_away_advance":0.4}\n```') \
+        == (0.6, 0.0, 0.4, "")
+    # group shape still works
+    assert parse_llm_response('{"p_home":0.5,"p_draw":0.3,"p_away":0.2}') == (0.5, 0.3, 0.2, "")
+    # neither shape → None (no silent default)
+    assert parse_llm_response('{"foo":1}') is None
 
 # ── Golden-file integration test (TESTING.md §3.3) ───────────────────────────
 

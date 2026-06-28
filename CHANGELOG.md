@@ -4,6 +4,46 @@ Every data correction and every decision that affects the experiment's
 integrity is logged here, newest first. Scores JSONs are never hand-edited;
 they are recomputed from raw data after any correction.
 
+## 2026-06-29 — KNOCKOUT PHASE: scoring switches to "who advances" (pre-registered)
+
+**Experiment-defining change. Pre-registered before the md074 freeze (≈14:00 UTC
+2026-06-29), i.e. before any knockout result it scores except md073 (below).**
+
+The knockout phase is now a **second, separate experiment** scored on
+**advancement** ("did you back the team that went through?"), not the 90-minute
+result. Why: knockouts have no draw in the way users experience them — every
+human R32 pick for md073 came in at `p_draw ≈ 0` — so a 90-min "draw" felt
+disconnected from the game. The group stage (72 matches) stays **exactly as it
+was**, scored on the pre-registered 3-way 90-min Brier; nothing there is altered.
+
+Design:
+- **From md074 onward, every forecaster answers "who advances" directly.** Humans
+  use a new 2-way "tug-of-war" slider (no draw); models get a **new frozen
+  knockout prompt** (`_PROMPT_*_KO` in freeze.py — same enriched context block:
+  Elo, form, H2H, venue; only the question changes). Both are stored as a
+  draw-less triple `(x, 0, 1−x)`, so the predictions schema and pipeline are
+  unchanged. The prompt states the venue is neutral (no home advantage bar host
+  nations) and that home/away is listing order only.
+- **md073** (the one R32 match already played, frozen as 3-way) is the single
+  transitional match: scored via a one-off ½-split derivation
+  (`p_home + ½·p_draw`). Disclosed here.
+- **Metric:** binary advancement Brier `(p_adv_home−y)² + (p_adv_away−(1−y))²`
+  (same [0,2] scale; coin-flip line **0.50**, not 0.667). `advanced` comes from
+  football-data `score.winner` (after ET/penalties); the 90-min `outcome` is
+  still recorded for the result line. The **market** stays derived from its 1X2
+  (it's an odds feed, not promptable); the ½-split is justified — penalty
+  shootouts are ≈ a coin toss.
+- **Two boards:** `leaderboard.json` is now group-stage-only (knockouts excluded,
+  so draw-less knockout picks are never judged on the 3-way metric);
+  `leaderboard_knockouts.json` carries the advancement board (`metric`/`coinflip`
+  keys). Site: leaderboard "Group" + "Knockouts" tabs; per-match board shows
+  "1–1 after 90' · {team} advanced on penalties".
+- This **deviates from the original single-metric pre-registration**; it's
+  legitimate because the group phase is complete & unaltered and the knockout
+  method is pre-registered before its results (md073 excepted, frozen pre-kickoff).
+- 104 tests (6 new: advancement prob/Brier, advancement leaderboard, the new
+  knockout prompt + advancement JSON parse).
+
 ## 2026-06-28 — Knockouts-only leaderboard tab + calendar re-download fix
 
 - **New "Knockouts" leaderboard tab** (index.html), alongside Overall and By

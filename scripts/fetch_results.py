@@ -41,7 +41,12 @@ def outcome_from_score(score_home: int, score_away: int) -> str:
 # names ("Korea Republic", "Czech Republic", "United States") that plain
 # substring matching misses against our fixture names.
 sys.path.insert(0, str(Path(__file__).parent))
-from freeze import _names_match
+from freeze import _names_match, is_knockout
+
+# football-data score.winner → our positional side; score.duration → label.
+_WINNER_SIDE = {"HOME_TEAM": "home", "AWAY_TEAM": "away"}
+_DECIDED_BY = {"REGULAR": "regular", "EXTRA_TIME": "extra_time",
+               "PENALTY_SHOOTOUT": "penalties"}
 
 def find_fixture(home_api: str, away_api: str, fixture_by_teams: dict) -> dict | None:
     for (h, a), f in fixture_by_teams.items():
@@ -122,13 +127,29 @@ def main() -> None:
                 if mid in existing and existing[mid].get("status") == "FT":
                     continue  # never overwrite confirmed FT result
 
-                existing[mid] = {
+                result = {
                     "match_id": mid,
                     "score_home": int(sh),
                     "score_away": int(sa),
                     "outcome": outcome_from_score(int(sh), int(sa)),
                     "status": "FT",
                 }
+
+                # Knockouts: also record who ADVANCED (after extra time /
+                # penalties) — display-only for the result line, and the scored
+                # outcome for the advancement leaderboard. The 90-min `outcome`
+                # above is unchanged (kept for the record + group-style display).
+                if is_knockout(fixture.get("stage", "")):
+                    side = _WINNER_SIDE.get(score_obj.get("winner"))
+                    if side:
+                        result["advanced"] = side
+                    result["decided_by"] = _DECIDED_BY.get(
+                        score_obj.get("duration", "REGULAR"), "regular")
+                    pens = score_obj.get("penalties") or {}
+                    if pens.get("home") is not None and pens.get("away") is not None:
+                        result["pens"] = f"{int(pens['home'])}-{int(pens['away'])}"
+
+                existing[mid] = result
                 new_count += 1
 
             print(f"Fetched {new_count} new results from football-data.org")

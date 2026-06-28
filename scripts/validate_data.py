@@ -124,6 +124,9 @@ def check_results(fixture_map: dict) -> None:
         expected = "home" if sh > sa else "away" if sa > sh else "draw"
         if outcome != expected:
             err(f"results/{mid}: outcome {outcome!r} inconsistent with score {sh}-{sa}")
+        adv = r.get("advanced")
+        if adv is not None and adv not in ("home", "away"):
+            err(f"results/{mid}: invalid advanced {adv!r} (expect home/away)")
 
 # ── scores ────────────────────────────────────────────────────────────────────
 def check_scores() -> None:

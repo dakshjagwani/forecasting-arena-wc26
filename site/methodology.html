@@ -68,10 +68,16 @@
     or the human crowd average?</p>
 
     <h2>2. The forecast format</h2>
-    <p>One unit of play per match for every forecaster: a probability triple
+    <p><strong>Group stage:</strong> one probability triple
     <code>(p_home, p_draw, p_away)</code> for the <strong>90-minute result</strong>,
-    summing to 1.0. A draw is a valid outcome in knockout rounds too (this matches
-    betting-market convention). No exact-score predictions are scored.</p>
+    summing to 1.0. No exact-score predictions are scored.</p>
+    <p><strong>Knockouts (from the Round of 32, 29 Jun):</strong> a knockout tie
+    has no draw — it's settled by extra time or penalties — so the question
+    becomes <strong>which team advances</strong>. Every forecaster gives
+    <code>P(team A advances)</code> vs <code>P(team B advances)</code>: humans via
+    a 2-way slider, the AI models via the same prompt re-asked for advancement,
+    the market derived from its odds. It's scored as a separate experiment
+    (see §5). The group stage stays exactly as it was.</p>
 
     <h2>3. Freezing — the no-cheating mechanism</h2>
     <ul>
@@ -113,6 +119,27 @@
       <li>Reference rows always shown: <code>market</code>, <code>crowd</code>
       (mean of human triples, computed at freeze), and <code>uniform</code>.</li>
       <li>Abandoned/postponed matches are excluded entirely.</li>
+    </ul>
+
+    <h2>5b. Knockout scoring — "who advances" (pre-registered 29 Jun 2026)</h2>
+    <p>The knockout phase is a <strong>second, separate experiment</strong>. We
+    score the probability each forecaster gave to the team that actually went
+    through (extra time and penalties included) with a binary Brier:</p>
+    <div class="formula">Brier = (p_adv_home − y)² + (p_adv_away − (1−y))²</div>
+    <ul>
+      <li>0 = perfect · <strong>0.50 = a coin-flip</strong> (½,½) · 2 = certain and wrong.</li>
+      <li>Each forecaster's advancement probability is
+      <code>p_home + ½·p_draw</code>, applied identically to everyone. Direct
+      picks (humans and the models from the Round of 32) carry no draw, so this
+      is just their advance %. The ½-split assumes extra time / penalties are a
+      coin toss — which the evidence supports (shootouts are ≈ 50/50).</li>
+      <li>The first played knockout match (md073) was frozen under the old 3-way
+      format before this metric was published; it is scored via the same ½-split
+      derivation and disclosed in the changelog. Every other knockout was
+      pre-registered before its result.</li>
+      <li>The group-stage board (3-way Brier, ⅔ coin-flip) and the knockout board
+      (advancement, ½ coin-flip) are kept as two distinct leaderboards. Group
+      results are never re-scored.</li>
     </ul>
 
     <h2>6. Qualification</h2>

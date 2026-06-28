@@ -119,6 +119,15 @@ Rules:
 - Store the raw response verbatim alongside the parsed triple (needed for the
   bias-lab and post-mortem analysis later).
 
+**Knockout phase (from md074, 2026-06-29):** the question changes to *who
+advances* — a separate frozen prompt (`_PROMPT_ENRICHED_KO`/`_PROMPT_FALLBACK_KO`
+in freeze.py) asks for `{"p_home_advance","p_away_advance"}` (no draw; extra
+time/penalties decide a tie; venue neutral except hosts). Same enriched context
+block — only the question differs. The reply is stored as a draw-less triple
+`(p_home_advance, 0, p_away_advance)`, so the schema, clamp and storage are
+unchanged. The group-stage prompt above is frozen and untouched. See §7 and
+CHANGELOG 2026-06-29.
+
 ## 6. Data schemas (JSON, committed to repo)
 
 `data/fixtures/fixtures.json` — all 104 matches:
@@ -167,8 +176,17 @@ personal cards.
   since the forecaster's first submission. Unqualified rows shown greyed out.
 - Reference rows always shown: `market`, `crowd`, and a `uniform` baseline
   (1/3,1/3,1/3 -> Brier 0.667) for context.
-- Knockout matches: scored on 90-minute result (draw possible). State this on
-  the site to avoid confusion.
+- **TWO-PHASE scoring (revised 2026-06-29 — pre-registered, see CHANGELOG):**
+  - **Group stage (72 matches): unchanged** — the 3-way 90-min multiclass Brier
+    above. `leaderboard.json`, knockouts excluded. This phase is complete.
+  - **Knockouts (32 matches): "who advances" experiment.** Binary advancement
+    Brier `(p_adv_home − y)² + (p_adv_away − (1−y))²` (same [0,2] range; coin-flip
+    line **0.50**). Each forecaster's advancement prob = `p_home + ½·p_draw`
+    (direct picks from md074 carry draw≈0 → ≈p_home; md073 and the market split
+    their draw mass). `advanced` = who won after extra time/penalties
+    (`leaderboard_knockouts.json`, `metric:"advancement"`). The original
+    single-metric pre-registration is deliberately superseded for this phase;
+    group results are never re-scored.
 - Abandoned/postponed matches: excluded from scoring entirely.
 
 ## 8. Repo layout

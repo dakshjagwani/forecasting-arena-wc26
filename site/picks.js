@@ -95,6 +95,12 @@ function teamFlag(code) {
   return [...iso].map(c => String.fromCodePoint(c.charCodeAt(0) + 127397)).join('');
 }
 
+// Knockout matches (anything past the group stage) are forecast as "who
+// advances" — a 2-way tug-of-war, no draw. Mirrors is_knockout() in score.py.
+function isKnockout(match) {
+  return !!match.stage && !match.stage.startsWith('Group');
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Fun facts (per team, fallback from home → away)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -439,13 +445,39 @@ function buildMatchCard(match, idx) {
   const awayFlag    = placeholder ? '⏳' : teamFlag(match.away_code);
   const fact        = getMatchFact(match);
 
-  const sliderHtml = placeholder
-    ? `<div class="tbd-panel">
+  const knockout = !placeholder && isKnockout(match);
+  // Knockout default leans 50/50 (a toss-up); group default 40/30/30.
+  const kh0 = saved ? Math.round(saved.p_home * 100) : 50;
+  const ka0 = 100 - kh0;
+
+  const tbdHtml = `<div class="tbd-panel">
          <div class="tbd-title">Opponent not confirmed yet</div>
          <div class="tbd-sub">This match opens for picks once the team is decided.
          It doesn't count towards your total.</div>
-       </div>`
-    : `<div class="slider-section">
+       </div>`;
+
+  // Knockout = "who advances?" tug-of-war (single handle, no draw).
+  const tugHtml = `<div class="ko-note">🏆 Knockout — <b>who goes through?</b>
+         Extra time &amp; penalties decide a tie; there's no draw.</div>
+       <div class="slider-section ko-slider">
+        <div class="ko-tug">
+          <div class="ko-side ko-home">
+            <span class="ko-flag">${homeFlag}</span>
+            <span class="ko-team" title="${match.home}">${match.home}</span>
+            <span class="ko-pct" id="ph-${match.match_id}">${kh0}%</span>
+          </div>
+          <div class="ko-mid">advances?</div>
+          <div class="ko-side ko-away">
+            <span class="ko-flag">${awayFlag}</span>
+            <span class="ko-team" title="${match.away}">${match.away}</span>
+            <span class="ko-pct" id="pa-${match.match_id}">${ka0}%</span>
+          </div>
+        </div>
+        <div class="slider-el ko-slider-el" id="sl-${match.match_id}"></div>
+        <div class="ko-backing" id="kb-${match.match_id}">← drag toward who you back to advance →</div>
+      </div>`;
+
+  const triadHtml = `<div class="slider-section">
         <div class="slider-el" id="sl-${match.match_id}"></div>
         <div class="pct-row">
           <div class="pct-col home-col">
@@ -462,6 +494,8 @@ function buildMatchCard(match, idx) {
           </div>
         </div>
       </div>`;
+
+  const sliderHtml = placeholder ? tbdHtml : knockout ? tugHtml : triadHtml;
 
   const card       = document.createElement('article');
   card.className   = 'card match-card';
@@ -531,9 +565,15 @@ function buildSubmitCard(matches, idx) {
 // Slider init
 // ─────────────────────────────────────────────────────────────────────────────
 
-function initSlider(matchId, frozen) {
+function initSlider(match, frozen) {
+  const matchId = match.match_id;
   const el = document.getElementById('sl-' + matchId);
   if (!el) return;
+
+  if (isKnockout(match)) {
+    initKnockoutSlider(match, el, frozen);
+    return;
+  }
 
   const saved = picks[matchId];
   const h     = saved ? Math.round(saved.p_home * 100) : 40;
@@ -585,6 +625,57 @@ function initSlider(matchId, frozen) {
   sl.on('slide', (values) => {
     const { home, draw, away } = readValues(values);
     savePick(matchId, home, draw, away);
+    refreshSubmitCount();
+    refreshFilledBadge(matchId);
+  });
+
+  sliders[matchId] = sl;
+}
+
+// Knockout "who advances?" tug-of-war: single handle, two segments, no draw.
+// The handle position = P(home advances); stored as a draw-less triple so it
+// flows through the same savePick/freeze/scoring path as everything else.
+function initKnockoutSlider(match, el, frozen) {
+  const matchId = match.match_id;
+  const saved   = picks[matchId];
+  const h0      = saved ? Math.round(saved.p_home * 100) : 50;
+
+  const sl = noUiSlider.create(el, {
+    start:     [h0],
+    connect:   [true, true],            // colour both sides of the handle
+    range:     { min: 1, max: 99 },
+    step:      1,
+    behaviour: 'drag',
+  });
+
+  if (frozen) { sl.disable(); return; }
+
+  sl.on('start', () => navigator.vibrate?.(3));
+
+  function paint(home) {
+    const away = 100 - home;
+    function setVal(id, val) {
+      const e = document.getElementById(id);
+      if (e && e.textContent !== val + '%') {
+        e.textContent = val + '%';
+        e.classList.remove('pop'); void e.offsetWidth; e.classList.add('pop');
+      }
+    }
+    setVal('ph-' + matchId, home);
+    setVal('pa-' + matchId, away);
+    const back = document.getElementById('kb-' + matchId);
+    if (back) {
+      back.textContent = home === away
+        ? "Too close to call — a coin-flip"
+        : `Backing ${home > away ? match.home : match.away} to go through`;
+    }
+  }
+
+  sl.on('update', (values) => paint(Math.round(+values[0])));
+
+  sl.on('slide', (values) => {
+    const home = Math.round(+values[0]);
+    savePick(matchId, home, 0, 100 - home);   // draw = 0 (clamped at freeze, like all picks)
     refreshSubmitCount();
     refreshFilledBadge(matchId);
   });
@@ -669,7 +760,7 @@ function renderCards() {
   // Init sliders on next frame (DOM must be painted); placeholders get none
   requestAnimationFrame(() => {
     matches.filter(m => !m.is_placeholder)
-           .forEach(m => initSlider(m.match_id, frozen));
+           .forEach(m => initSlider(m, frozen));
   });
 
   // Submit button
