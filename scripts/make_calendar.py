@@ -78,6 +78,13 @@ def build_ics(fixtures: list, now: datetime | None = None) -> str:
     now = now or datetime.now(timezone.utc)
     dtstamp = _fmt(now)
 
+    # Monotonic per-regeneration revision number. Calendar clients only apply an
+    # UPDATE to an already-imported event (same UID) when the incoming SEQUENCE is
+    # higher — without this, a re-downloaded .ics with corrected kickoff times is
+    # silently ignored. Day-based so it only ever increases (one bump/day max),
+    # which is what lets a re-download refresh times in place instead of duplicating.
+    seq = max(0, (now - datetime(2026, 6, 1, tzinfo=timezone.utc)).days)
+
     lines = [
         "BEGIN:VCALENDAR",
         "VERSION:2.0",
@@ -113,6 +120,8 @@ def build_ics(fixtures: list, now: datetime | None = None) -> str:
             "BEGIN:VEVENT",
             f"UID:md-{day}@forecasting-arena",      # stable per matchday → re-import updates, no dupes
             f"DTSTAMP:{dtstamp}",
+            f"SEQUENCE:{seq}",                      # bumped so re-downloads update times in place
+            f"LAST-MODIFIED:{dtstamp}",
             f"DTSTART:{_fmt(deadline)}",            # UTC → localises correctly worldwide
             f"DTEND:{_fmt(deadline + timedelta(minutes=15))}",
             f"SUMMARY:{_escape(SUMMARY)}",

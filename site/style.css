@@ -827,6 +827,17 @@ input[type="text"]:focus {
 }
 .reminder-landing a:hover { text-decoration: underline; }
 
+/* "Already added? times changed — re-add" note shown near every calendar CTA */
+.reminder-note {
+  font-size: .7rem;
+  color: var(--text-sub);
+  line-height: 1.45;
+  max-width: 30rem;
+  margin: .3rem auto 0;
+  text-align: center;
+}
+.reminder-note b { color: var(--text); font-weight: 700; }
+
 .confetti-piece {
   position: absolute;
   width: 9px;

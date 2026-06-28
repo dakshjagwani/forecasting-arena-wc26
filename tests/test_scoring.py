@@ -8,7 +8,8 @@ from pathlib import Path
 
 # Import from scripts/ via conftest.py sys.path manipulation
 import freeze
-from score import brier, outcome_from_score, is_qualified
+from score import (brier, outcome_from_score, is_qualified, is_knockout,
+                   build_leaderboard)
 from freeze import (normalise, parse_llm_response, to_slug, compute_crowd,
                     group_by_utc8, ingest_human_picks, match_odds,
                     split_remaining, _post_with_retries, _sleep_for,
@@ -340,6 +341,15 @@ def test_calendar_has_alarm_and_no_overlong_lines():
     for line in ics.split("\r\n"):
         assert len(line.encode("utf-8")) <= 75, f"line too long: {line!r}"
 
+def test_calendar_sequence_is_monotonic_for_inplace_updates():
+    import re
+    early = build_ics(_CAL_FIXTURES, now=datetime(2026, 6, 30, 12, 0, tzinfo=timezone.utc))
+    later = build_ics(_CAL_FIXTURES, now=datetime(2026, 7, 5, 12, 0, tzinfo=timezone.utc))
+    assert "SEQUENCE:" in early                       # present so re-imports update
+    seq_e = int(re.search(r"SEQUENCE:(\d+)", early).group(1))
+    seq_l = int(re.search(r"SEQUENCE:(\d+)", later).group(1))
+    assert seq_l > seq_e                              # later regen → higher seq → clients apply update
+
 # ── Retry / backoff for transient provider errors ────────────────────────────
 
 def _http_error(code):
@@ -511,6 +521,32 @@ def test_verify_cycle_json_shape():
         assert all({"level", "code", "message"} <= set(f) for f in data["findings"])
         assert isinstance(data["action_needed"], bool)
 
+# ── Knockouts-only leaderboard ───────────────────────────────────────────────
+@pytest.mark.parametrize("stage,expected", [
+    ("Group A", False), ("Group X", False),
+    ("Round of 32", True), ("Round of 16", True), ("Quarterfinals", True),
+    ("Semifinals", True), ("Third Place Playoff", True), ("Final", True),
+    ("", False),
+])
+def test_is_knockout(stage, expected):
+    assert is_knockout(stage) is expected
+
+def test_build_leaderboard_scopes_to_subset():
+    """The knockout board is build_leaderboard over only the knockout matches —
+    here we pass a 1-match subset and check it scores just that match, fresh
+    (n_available counted from index 0 within the subset)."""
+    fc = {"alice": {"p_home": 1.0, "p_draw": 0.0, "p_away": 0.0}}
+    all_preds = {"ko1": fc}
+    scoreable = [("ko1", {"outcome": "home", "score_home": 1, "score_away": 0})]
+    lb = build_leaderboard(scoreable, all_preds, "GOLDEN")
+    assert lb["matches_scored"] == 1
+    alice = next(r for r in lb["rows"] if r["forecaster"] == "alice")
+    assert alice["n_predicted"] == 1 and alice["n_available"] == 1
+    assert alice["mean_brier"] == 0.0          # perfect call
+    # empty subset (no knockouts scored yet) -> empty board, no crash
+    empty = build_leaderboard([], all_preds, "GOLDEN")
+    assert empty["matches_scored"] == 0 and empty["rows"] == []
+
 # ── Golden-file integration test (TESTING.md §3.3) ───────────────────────────
 
 GOLDEN_DIR = ROOT / "tests" / "golden"
@@ -544,6 +580,12 @@ def test_golden_score_pipeline(tmp_path):
     got_lb = json.loads((tmp_path / "data/scores/leaderboard.json").read_text())
     exp_lb = json.loads((GOLDEN_DIR / "expected_leaderboard.json").read_text())
     assert _strip_volatile(got_lb) == _strip_volatile(exp_lb)
+
+    # Knockouts-only board: golden tree is all group-stage, so it must be empty.
+    # (Regression net: if the knockout filter ever leaks group matches, this fails.)
+    got_ko = json.loads((tmp_path / "data/scores/leaderboard_knockouts.json").read_text())
+    exp_ko = json.loads((GOLDEN_DIR / "expected_leaderboard_knockouts.json").read_text())
+    assert _strip_volatile(got_ko) == _strip_volatile(exp_ko)
 
     got_cal = json.loads((tmp_path / "data/scores/calibration.json").read_text())
     exp_cal = json.loads((GOLDEN_DIR / "expected_calibration.json").read_text())

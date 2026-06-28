@@ -301,6 +301,7 @@
   <!-- Tabs -->
   <div class="lb-tabs" role="tablist">
     <button class="lb-tab" id="tab-overall" role="tab" aria-selected="true"  aria-controls="panel-overall">🏆 Overall</button>
+    <button class="lb-tab" id="tab-knockouts" role="tab" aria-selected="false" aria-controls="panel-knockouts">🏟️ Knockouts</button>
     <button class="lb-tab" id="tab-bymatch" role="tab" aria-selected="false" aria-controls="panel-bymatch">⚽ By match</button>
   </div>
 
@@ -312,6 +313,26 @@
           <div class="big">⏳</div>
           <p><strong>Loading leaderboard…</strong></p>
           <p>No matches scored yet — check back after the first matchday.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel: Knockouts (cumulative, but only knockout-stage matches) -->
+  <div class="lb-panel" id="panel-knockouts" role="tabpanel" aria-labelledby="tab-knockouts" hidden>
+    <div style="padding:0 1rem">
+      <div class="lb-explainer" style="margin-top:.6rem">
+        <b>Knockouts only.</b> A separate scoreboard that starts fresh at the
+        Round of 32 — group-stage results don't count here. Same Brier scoring,
+        same "since you joined" qualification, measured from each forecaster's
+        first knockout pick.
+      </div>
+    </div>
+    <div class="lb-table-wrap">
+      <div id="leaderboard-ko-container">
+        <div class="empty-state">
+          <div class="big">🏟️</div>
+          <p><strong>Loading…</strong></p>
         </div>
       </div>
     </div>
@@ -337,6 +358,7 @@
 
 <script>
 const LEADERBOARD_URL = '../data/scores/leaderboard.json';
+const KNOCKOUT_URL    = '../data/scores/leaderboard_knockouts.json';
 
 const TYPE_BADGE = {
   human:   ['HUM', 'badge-human'],
@@ -409,7 +431,7 @@ function render(data) {
   const rows = data.rows || [];
   const matched = data.matches_scored || 0;
 
-  // Stats
+  // Stats (driven by the OVERALL board only)
   document.getElementById('stat-scored').textContent = matched;
   document.getElementById('stat-forecasters').textContent = rows.length;
   document.getElementById('stat-humans').textContent =
@@ -417,14 +439,25 @@ function render(data) {
   document.getElementById('updated-time').textContent =
     `Updated ${new Date(data.updated_utc).toLocaleString('en-GB', {timeZoneName:'short'})}`;
 
+  document.getElementById('leaderboard-container').innerHTML =
+    leaderboardTableHTML(data, {
+      emptyIcon: '🏁',
+      emptyTitle: 'No matches scored yet.',
+      emptySub: 'Results appear here after each matchday.',
+    });
+}
+
+// Build the leaderboard table (or an empty state) as an HTML string. Shared by
+// the Overall and Knockouts panels — only the data source + empty copy differ.
+function leaderboardTableHTML(data, opts) {
+  const rows = data.rows || [];
   if (rows.length === 0) {
-    document.getElementById('leaderboard-container').innerHTML = `
+    return `
       <div class="empty-state">
-        <div class="big">🏁</div>
-        <p><strong>No matches scored yet.</strong></p>
-        <p>Results appear here after each matchday.</p>
+        <div class="big">${opts.emptyIcon}</div>
+        <p><strong>${opts.emptyTitle}</strong></p>
+        <p>${opts.emptySub}</p>
       </div>`;
-    return;
   }
 
   const qualifiedRows   = rows.filter(r => r.qualified);
@@ -479,7 +512,7 @@ function render(data) {
   });
   tableRows = tableRows.concat(unqualifiedRows.map(row => buildRow(row, 0, false)));
 
-  document.getElementById('leaderboard-container').innerHTML = `
+  return `
     <table>
       <thead>
         <tr>
@@ -556,14 +589,35 @@ async function loadMatchBoards() {
     ${html}`;
 }
 
+// ── Knockouts-only board (fresh from the Round of 32) ───────────────────────
+async function loadKnockouts() {
+  const opts = {
+    emptyIcon: '🏟️',
+    emptyTitle: 'No knockout matches scored yet.',
+    emptySub: 'The bracket begins at the Round of 32 — this board fills in as knockout matches are played.',
+  };
+  let data;
+  try {
+    const res = await fetch(KNOCKOUT_URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    data = await res.json();
+  } catch {
+    data = { rows: [] };  // file not generated yet → friendly empty state
+  }
+  document.getElementById('leaderboard-ko-container').innerHTML =
+    leaderboardTableHTML(data, opts);
+}
+
 loadLeaderboard();
+loadKnockouts();
 loadMatchBoards();
 
 // ── Overall / By-match tabs ─────────────────────────────────────────────────
 (function () {
   const tabs = {
-    overall: { btn: document.getElementById('tab-overall'), panel: document.getElementById('panel-overall') },
-    bymatch: { btn: document.getElementById('tab-bymatch'), panel: document.getElementById('panel-bymatch') },
+    overall:   { btn: document.getElementById('tab-overall'),   panel: document.getElementById('panel-overall') },
+    knockouts: { btn: document.getElementById('tab-knockouts'), panel: document.getElementById('panel-knockouts') },
+    bymatch:   { btn: document.getElementById('tab-bymatch'),   panel: document.getElementById('panel-bymatch') },
   };
   function select(key) {
     for (const [k, t] of Object.entries(tabs)) {
@@ -573,9 +627,11 @@ loadMatchBoards();
     }
     localStorage.setItem('fa_lb_tab', key);
   }
-  tabs.overall.btn.addEventListener('click', () => select('overall'));
-  tabs.bymatch.btn.addEventListener('click', () => select('bymatch'));
-  select(localStorage.getItem('fa_lb_tab') === 'bymatch' ? 'bymatch' : 'overall');
+  for (const [k, t] of Object.entries(tabs)) {
+    t.btn.addEventListener('click', () => select(k));
+  }
+  const saved = localStorage.getItem('fa_lb_tab');
+  select(tabs[saved] ? saved : 'overall');
 })();
 
 // Dark mode toggle

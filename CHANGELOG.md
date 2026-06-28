@@ -4,6 +4,27 @@ Every data correction and every decision that affects the experiment's
 integrity is logged here, newest first. Scores JSONs are never hand-edited;
 they are recomputed from raw data after any correction.
 
+## 2026-06-28 — Knockouts-only leaderboard tab + calendar re-download fix
+
+- **New "Knockouts" leaderboard tab** (index.html), alongside Overall and By
+  match. It's a separate cumulative board that starts fresh at the Round of 32 —
+  group-stage results don't count. `score.py` now factors the leaderboard build
+  into `build_leaderboard(scoreable, …)` and runs it twice: once over all scored
+  matches (→ `leaderboard.json`, byte-identical to before) and once over only
+  knockout matches (→ `leaderboard_knockouts.json`). Qualification's denominator
+  is measured *within* the subset, so the knockout board's "since you joined" is
+  counted from each forecaster's first knockout pick. Overall stats row stays
+  driven by the overall board; the front-end shares one table renderer.
+- **Calendar re-download fix.** Because the 2026-06-28 fixture resolution
+  corrected knockout kickoff times, reminders already downloaded from the old
+  `picks.ics` were stale. `make_calendar.py` now emits a monotonic `SEQUENCE`
+  (+ `LAST-MODIFIED`) per VEVENT, so a re-downloaded/re-subscribed calendar
+  *updates events in place* (same stable UID) instead of being ignored or
+  duplicated. Added a plain-English "already added these? times changed — re-add
+  to refresh" note by every calendar CTA on picks.html.
+- 98 tests (11 new: `is_knockout`, `build_leaderboard` subset scoping, golden
+  empty-knockout-board assertion, calendar SEQUENCE monotonicity).
+
 ## 2026-06-28 — Knockout fixtures auto-resolve from football-data.org
 
 - The knockout bracket shipped as placeholders (`home/away` null), so the picks

@@ -42,6 +42,11 @@ def forecaster_type(name: str) -> str:
         return "human"
     return "ai"
 
+def is_knockout(stage: str) -> bool:
+    """Any stage that isn't a group is a knockout (Round of 32 … Final, plus the
+    Third Place Playoff). Avoids enumerating the exact knockout labels."""
+    return bool(stage) and not stage.startswith("Group")
+
 # ── Per-match boards (display-only; the cumulative leaderboard is the
 #    official pre-registered ranking) ─────────────────────────────────────────
 def build_match_scores(scoreable: list, all_preds: dict, fixture_map: dict) -> dict:
@@ -147,6 +152,79 @@ def build_calibration(all_preds: dict, results: dict) -> dict:
         for f, buckets in cal.items()
     }
 
+# ── Cumulative leaderboard (overall + knockouts share this) ──────────────────
+def build_leaderboard(scoreable: list, all_preds: dict, updated_utc: str) -> dict:
+    """Cumulative multiclass-Brier leaderboard over `scoreable` (match_id, result)
+    pairs already sorted in kickoff order. Called for both the overall board and
+    the knockouts-only subset — qualification's denominator (n_available) is
+    measured *within* whatever subset is passed, so the knockout board genuinely
+    starts fresh (a forecaster's first knockout pick is index 0 there)."""
+    total_scored = len(scoreable)
+
+    forecaster_stats: dict[str, dict] = defaultdict(
+        lambda: {"n": 0, "sum_brier": 0.0, "first_idx": None}
+    )
+
+    for idx, (match_id, result) in enumerate(scoreable):
+        for forecaster, fc in all_preds[match_id].items():
+            if fc.get("status") == "failed":
+                continue
+            b = brier(fc["p_home"], fc["p_draw"], fc["p_away"], result["outcome"])
+            s = forecaster_stats[forecaster]
+            s["n"] += 1
+            s["sum_brier"] += b
+            if s["first_idx"] is None:
+                s["first_idx"] = idx
+
+    # Uniform baseline scored over the same matches as everyone else
+    uni = forecaster_stats["uniform"]
+    uni["first_idx"] = 0
+    for _, result in scoreable:
+        uni["n"] += 1
+        uni["sum_brier"] += brier(1 / 3, 1 / 3, 1 / 3, result["outcome"])
+
+    rows = []
+    market_brier = None
+    REFERENCE = {"market", "crowd", "uniform"}
+
+    for forecaster, s in sorted(forecaster_stats.items()):
+        n = s["n"]
+        if n == 0:
+            continue
+        mean_b = round(s["sum_brier"] / n, 4)
+
+        ftype = forecaster_type(forecaster)
+        if forecaster == "market":
+            market_brier = mean_b
+
+        n_available = total_scored - (s["first_idx"] or 0)
+        qualified = (
+            True if forecaster in REFERENCE
+            else is_qualified(n, n_available)
+        )
+
+        rows.append({
+            "forecaster": forecaster,
+            "type": ftype,
+            "n_predicted": n,
+            "n_available": n_available,  # matches scored since this forecaster's first prediction
+            "mean_brier": mean_b,
+            "vs_market": None,
+            "qualified": qualified,
+        })
+
+    for row in rows:
+        if market_brier is not None and row["forecaster"] != "market":
+            row["vs_market"] = round(row["mean_brier"] - market_brier, 4)
+
+    rows.sort(key=lambda r: (not r["qualified"], r["mean_brier"]))
+
+    return {
+        "updated_utc": updated_utc,
+        "matches_scored": total_scored,
+        "rows": rows,
+    }
+
 # ── Post-score gate ───────────────────────────────────────────────────────────
 def validate_leaderboard(leaderboard: dict, all_preds: dict) -> None:
     rows = leaderboard["rows"]
@@ -190,83 +268,24 @@ def main() -> None:
         ),
         key=lambda t: kickoff_of.get(t[0], ""),
     )
-    total_scored = len(scoreable)
+    updated_utc = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    forecaster_stats: dict[str, dict] = defaultdict(
-        lambda: {"n": 0, "sum_brier": 0.0, "first_idx": None}
-    )
-
-    for idx, (match_id, result) in enumerate(scoreable):
-        for forecaster, fc in all_preds[match_id].items():
-            if fc.get("status") == "failed":
-                continue
-            b = brier(fc["p_home"], fc["p_draw"], fc["p_away"], result["outcome"])
-            s = forecaster_stats[forecaster]
-            s["n"] += 1
-            s["sum_brier"] += b
-            if s["first_idx"] is None:
-                s["first_idx"] = idx
-
-    # Uniform baseline scored over the same matches as everyone else
-    uni = forecaster_stats["uniform"]
-    uni["first_idx"] = 0
-    for _, result in scoreable:
-        uni["n"] += 1
-        uni["sum_brier"] += brier(1 / 3, 1 / 3, 1 / 3, result["outcome"])
-
-    # Build leaderboard rows
-    rows = []
-    market_brier = None
-
-    REFERENCE = {"market", "crowd", "uniform"}
-
-    for forecaster, s in sorted(forecaster_stats.items()):
-        n = s["n"]
-        if n == 0:
-            continue
-        mean_b = round(s["sum_brier"] / n, 4)
-
-        ftype = forecaster_type(forecaster)
-        if forecaster == "market":
-            market_brier = mean_b
-
-        n_available = total_scored - (s["first_idx"] or 0)
-        qualified = (
-            True if forecaster in REFERENCE
-            else is_qualified(n, n_available)
-        )
-
-        rows.append({
-            "forecaster": forecaster,
-            "type": ftype,
-            "n_predicted": n,
-            "n_available": n_available,  # matches scored since this forecaster's first prediction
-            "mean_brier": mean_b,
-            "vs_market": None,
-            "qualified": qualified,
-        })
-
-    # Fill vs_market
-    for row in rows:
-        if market_brier is not None and row["forecaster"] != "market":
-            row["vs_market"] = round(row["mean_brier"] - market_brier, 4)
-
-    # Sort: qualified first, then ascending Brier
-    rows.sort(key=lambda r: (not r["qualified"], r["mean_brier"]))
-
-    leaderboard = {
-        "updated_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "matches_scored": total_scored,
-        "rows": rows,
-    }
-
+    # Overall (cumulative — the official ranking) and a knockouts-only board that
+    # starts fresh at the first knockout match (group results don't count there).
+    leaderboard = build_leaderboard(scoreable, all_preds, updated_utc)
     validate_leaderboard(leaderboard, all_preds)
+
+    stage_of = {m["match_id"]: m.get("stage", "") for m in fixtures}
+    ko_scoreable = [t for t in scoreable if is_knockout(stage_of.get(t[0], ""))]
+    ko_leaderboard = build_leaderboard(ko_scoreable, all_preds, updated_utc)
+    validate_leaderboard(ko_leaderboard, all_preds)
+    total_scored = leaderboard["matches_scored"]
 
     # Build calibration + per-match boards
     calibration = build_calibration(all_preds, results)
     fixture_map = {m["match_id"]: m for m in fixtures}
     match_scores = {
-        "updated_utc": leaderboard["updated_utc"],
+        "updated_utc": updated_utc,
         "days": build_match_scores(scoreable, all_preds, fixture_map),
     }
 
@@ -275,13 +294,15 @@ def main() -> None:
     scores_dir.mkdir(parents=True, exist_ok=True)
 
     (scores_dir / "leaderboard.json").write_text(json.dumps(leaderboard, indent=2))
+    (scores_dir / "leaderboard_knockouts.json").write_text(json.dumps(ko_leaderboard, indent=2))
     (scores_dir / "calibration.json").write_text(json.dumps(calibration, indent=2))
     (scores_dir / "match_scores.json").write_text(json.dumps(match_scores, indent=2))
 
     print(
-        f"Scored {total_scored} matches | "
-        f"{len(rows)} forecasters | "
-        f"leaderboard + calibration + match boards written"
+        f"Scored {total_scored} matches "
+        f"({ko_leaderboard['matches_scored']} knockout) | "
+        f"{len(leaderboard['rows'])} forecasters | "
+        f"leaderboard + knockouts + calibration + match boards written"
     )
 
 
