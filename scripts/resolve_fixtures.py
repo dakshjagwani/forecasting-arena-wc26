@@ -283,6 +283,15 @@ def main() -> int:
 
     FIXTURES_PATH.write_text(json.dumps(updated, indent=2) + "\n")
     print(f"\nWrote {FIXTURES_PATH.relative_to(ROOT)} ({len(changes)} change(s)).")
+
+    # Rebuild the picks-UI Intel data (Elo/form/H2H) now that teams are known —
+    # otherwise the card shows default 1500s until the next freeze regenerates it.
+    try:
+        from context_builder import build_match_contexts_json
+        build_match_contexts_json(updated)
+        print("Rebuilt data/reference/match_contexts.json for the picks UI.")
+    except Exception as e:  # noqa: BLE001 — non-fatal; freeze.py also rebuilds it
+        print(f"Could not rebuild match_contexts.json: {e}", file=sys.stderr)
     return 0
 
 

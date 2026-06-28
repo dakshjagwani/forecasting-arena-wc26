@@ -462,13 +462,11 @@ function buildMatchCard(match, idx) {
        <div class="slider-section ko-slider">
         <div class="ko-tug">
           <div class="ko-side ko-home">
-            <span class="ko-flag">${homeFlag}</span>
             <span class="ko-team" title="${match.home}">${match.home}</span>
             <span class="ko-pct" id="ph-${match.match_id}">${kh0}%</span>
           </div>
           <div class="ko-mid">advances?</div>
           <div class="ko-side ko-away">
-            <span class="ko-flag">${awayFlag}</span>
             <span class="ko-team" title="${match.away}">${match.away}</span>
             <span class="ko-pct" id="pa-${match.match_id}">${ka0}%</span>
           </div>

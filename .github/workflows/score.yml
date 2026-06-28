@@ -60,7 +60,7 @@ jobs:
         run: |
           git config user.name  "Forecasting Arena Bot"
           git config user.email "bot@forecasting-arena.com"
-          git add data/results/ data/scores/ data/fixtures/ site/picks.ics
+          git add data/results/ data/scores/ data/fixtures/ data/reference/ site/picks.ics
           git diff --staged --quiet || \
             git commit -m "score: $(date -u +%Y-%m-%d) [skip ci]"
           git push || (git pull --rebase --autostash && git push)

@@ -75,7 +75,7 @@ jobs:
           else
             python scripts/make_calendar.py        # times/teams changed
             python scripts/validate_data.py        # never commit a broken tree
-            git add data/fixtures/fixtures.json site/picks.ics
+            git add data/fixtures/fixtures.json site/picks.ics data/reference/
             git commit -m "fixtures: resolve knockout teams/times $(date -u +%Y-%m-%d) [skip ci]"
             git push || (git pull --rebase --autostash && git push)
             echo "resolved=true" >> "$GITHUB_OUTPUT"
@@ -107,7 +107,7 @@ jobs:
         run: |
           git config user.name  "Forecasting Arena Bot"
           git config user.email "bot@forecasting-arena.com"
-          git add data/predictions/
+          git add data/predictions/ data/reference/
           if git diff --staged --quiet; then
             echo "froze=false" >> "$GITHUB_OUTPUT"
           else
