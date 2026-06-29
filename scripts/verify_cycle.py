@@ -142,16 +142,39 @@ def run_checks(day_arg: str | None = None) -> dict:
         all_pred_ids = set()
         for p in sorted((ROOT / "data" / "predictions").glob("*.json")):
             all_pred_ids |= {m["match_id"] for m in json.loads(p.read_text())["matches"]}
-        expected_scored = sum(
+        # Two boards since the knockout phase (CLAUDE.md §7): the group board
+        # (leaderboard.json) is 3-way over GROUP matches only; knockouts go to the
+        # advancement board. Count each against its own board, else the split
+        # false-alarms ("70 vs 71" = the 1 knockout match on the other board).
+        stage_of = {m["match_id"]: m.get("stage", "")
+                    for m in json.loads((ROOT / "data/fixtures/fixtures.json").read_text())}
+        def _is_ko(mid: str) -> bool:
+            s = stage_of.get(mid, "")
+            return bool(s) and not s.startswith("Group")
+        expected_group = sum(
             1 for mid, r in results.items()
             if r.get("status") == "FT" and r.get("outcome") in ("home", "draw", "away")
-            and mid in all_pred_ids
+            and mid in all_pred_ids and not _is_ko(mid)
         )
-        if lb["matches_scored"] == expected_scored:
-            report(OK, f"scores: matches_scored = {expected_scored} (matches raw data exactly)", "scored_ok")
+        if lb["matches_scored"] == expected_group:
+            report(OK, f"scores: group matches_scored = {expected_group} (matches raw data)", "scored_ok")
         else:
-            report(FAIL, f"scores: leaderboard says {lb['matches_scored']} scored but raw data "
-                         f"implies {expected_scored} — re-run score.py", "scored_mismatch")
+            report(FAIL, f"scores: group leaderboard says {lb['matches_scored']} scored but raw data "
+                         f"implies {expected_group} — re-run score.py", "scored_mismatch")
+        # Knockout advancement board: scored matches need an `advanced` result.
+        ko_path = ROOT / "data" / "scores" / "leaderboard_knockouts.json"
+        expected_ko = sum(
+            1 for mid, r in results.items()
+            if r.get("status") == "FT" and r.get("advanced") in ("home", "away")
+            and mid in all_pred_ids and _is_ko(mid)
+        )
+        if ko_path.exists():
+            ko_scored = json.loads(ko_path.read_text()).get("matches_scored", 0)
+            if ko_scored == expected_ko:
+                report(OK, f"scores: knockout advancement board = {expected_ko}", "ko_scored_ok")
+            else:
+                report(FAIL, f"scores: knockout board says {ko_scored} but raw data implies "
+                             f"{expected_ko} — re-run score.py", "ko_scored_mismatch")
         day_results = [results.get(m["match_id"]) for m in matches]
         day_ft = [r for r in day_results if r and r.get("status") == "FT"]
         if day_ft:

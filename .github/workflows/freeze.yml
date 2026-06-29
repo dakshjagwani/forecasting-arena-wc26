@@ -109,12 +109,34 @@ jobs:
           git config user.email "bot@forecasting-arena.com"
           git add data/predictions/ data/reference/
           if git diff --staged --quiet; then
+            echo "froze=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          # Concurrency guard: cron-job.org polls every 3 min, so two runs can
+          # overlap near the window and BOTH freeze the same day — a checkout
+          # that predates the winner's push re-freezes, then collides on an
+          # add/add rebase (false "Freeze FAILED", seen 2026-06-29). If the
+          # predictions file we'd commit already exists on origin, a concurrent
+          # run won — stand down quietly instead of racing.
+          NEWPRED=$(git diff --staged --name-only -- data/predictions/ | head -1)
+          git fetch origin main -q || true
+          if [ -n "$NEWPRED" ] && git cat-file -e "origin/main:$NEWPRED" 2>/dev/null; then
+            echo "Already frozen on origin ($NEWPRED) by a concurrent run — standing down."
+            git reset --hard origin/main
+            echo "froze=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          git commit -m "freeze: $(date -u +%Y-%m-%d) predictions [skip ci]"
+          if git push; then
+            echo "froze=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          # Lost a race after our check: if origin now has today's freeze, stand
+          # down; otherwise origin advanced on OTHER files — rebase and retry.
+          git fetch origin main -q || true
+          if [ -n "$NEWPRED" ] && git cat-file -e "origin/main:$NEWPRED" 2>/dev/null; then
+            echo "Concurrent run froze today — discarding our duplicate."
+            git reset --hard origin/main
             echo "froze=false" >> "$GITHUB_OUTPUT"
           else
-            git commit -m "freeze: $(date -u +%Y-%m-%d) predictions [skip ci]"
-            # Self-healing push: if origin advanced via a benign concurrent
-            # commit (different files), rebase and retry rather than false-fail.
-            git push || (git pull --rebase --autostash && git push)
+            git pull --rebase --autostash && git push
             echo "froze=true" >> "$GITHUB_OUTPUT"
           fi
 

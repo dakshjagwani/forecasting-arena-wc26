@@ -21,7 +21,8 @@ PLAYBOOK: dict = {
     "freeze_ok":        ("healthy", "Predictions frozen before kickoff.", ""),
     "humans_ok":        ("healthy", "Human picks were ingested.", ""),
     "result_ok":        ("healthy", "Final score recorded.", ""),
-    "scored_ok":        ("healthy", "Leaderboard count matches the raw data.", ""),
+    "scored_ok":        ("healthy", "Group leaderboard count matches the raw data.", ""),
+    "ko_scored_ok":     ("healthy", "Knockout advancement board count matches the raw data.", ""),
     "leaderboard_fresh":("healthy", "Leaderboard updated after the last kickoff.", ""),
     "calibration_ok":   ("healthy", "Calibration covers every scored forecaster.", ""),
 
@@ -60,8 +61,11 @@ PLAYBOOK: dict = {
                          "score.py (or trigger Daily score)."),
     "leaderboard_missing":  ("action", "leaderboard.json is missing.",
                          "Run score.py / trigger Daily score."),
-    "scored_mismatch":  ("action", "The leaderboard's match count disagrees with the "
-                         "raw results — scoring is out of date.",
+    "scored_mismatch":  ("action", "The group leaderboard's match count disagrees with "
+                         "the raw results — scoring is out of date.",
+                         "Rerun score.py / trigger Daily score."),
+    "ko_scored_mismatch": ("action", "The knockout advancement board's match count "
+                         "disagrees with the raw results — scoring is out of date.",
                          "Rerun score.py / trigger Daily score."),
     "leaderboard_stale":("action", "The leaderboard timestamp predates today's "
                          "matches — scoring hasn't run since.",
