@@ -502,5 +502,14 @@
     "score_away": 3,
     "outcome": "away",
     "status": "FT"
+  },
+  {
+    "match_id": "md073-2A-2B",
+    "score_home": 0,
+    "score_away": 1,
+    "outcome": "away",
+    "status": "FT",
+    "advanced": "away",
+    "decided_by": "regular"
   }
 ]
