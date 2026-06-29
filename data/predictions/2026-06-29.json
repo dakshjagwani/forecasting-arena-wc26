@@ -1,0 +1,279 @@
+{
+  "date": "2026-06-29",
+  "freeze_utc": "2026-06-29T14:00:59Z",
+  "matches": [
+    {
+      "match_id": "md074-1C-2F",
+      "forecasts": {
+        "market": {
+          "p_home": 0.534884,
+          "p_draw": 0.267442,
+          "p_away": 0.197674,
+          "raw_odds": [
+            1.7,
+            3.4,
+            4.6
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.643564,
+          "p_draw": 0.009901,
+          "p_away": 0.346535,
+          "reasoning": "Brazil's higher Elo and strong H2H record give them an edge. Japan's recent form and Kirin Cup win show they are competitive, but Brazil is favored in a knockout match.",
+          "raw": "{\"p_home_advance\": 0.65, \"p_away_advance\": 0.35, \"reasoning\": \"Brazil's higher Elo and strong H2H record give them an edge. Japan's recent form and Kirin Cup win show they are competitive, but Brazil is favored in a knockout match.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.613861,
+          "p_draw": 0.009901,
+          "p_away": 0.376238,
+          "reasoning": "Elo ratings and head-to-head favor Brazil",
+          "raw": "{\"p_home_advance\": 0.62, \"p_away_advance\": 0.38, \"reasoning\": \"Elo ratings and head-to-head favor Brazil\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.673267,
+          "p_draw": 0.009901,
+          "p_away": 0.316832,
+          "reasoning": "Brazil holds a significant Elo advantage and dominant historical head-to-head record. However, Japan's perfect recent form and a 2025 victory suggest they are highly competitive. Brazil remains the fa",
+          "raw": "```json\n{\"p_home_advance\": 0.68, \"p_away_advance\": 0.32, \"reasoning\": \"Brazil holds a significant Elo advantage and dominant historical head-to-head record. However, Japan's perfect recent form and a 2025 victory suggest they are highly competitive. Brazil remains the favorite, but Japan's tactical discipline in knockout stages keeps their probability significant.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.574257,
+          "p_draw": 0.009901,
+          "p_away": 0.415842,
+          "reasoning": "Elo diff (86) gives ~62% win chance; adjust down for Japan's 5\u2011game winning streak, recent upset, and knockout draw\u2011penalty variance, yielding ~58% Brazil, 42% Japan.",
+          "raw": "{\"p_home_advance\": 0.58, \"p_away_advance\": 0.42, \"reasoning\": \"Elo diff (86) gives ~62% win chance; adjust down for Japan's 5\u2011game winning streak, recent upset, and knockout draw\u2011penalty variance, yielding ~58% Brazil, 42% Japan.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.643564,
+          "p_draw": 0.009901,
+          "p_away": 0.346535,
+          "reasoning": "Brazil's higher Elo rating and historical dominance in head-to-head matches suggest a strong advantage, despite Japan's recent form. The knockout format adds pressure, but Brazil's experience in high-",
+          "raw": "{\"p_home_advance\": 0.65, \"p_away_advance\": 0.35, \"reasoning\": \"Brazil's higher Elo rating and historical dominance in head-to-head matches suggest a strong advantage, despite Japan's recent form. The knockout format adds pressure, but Brazil's experience in high-stakes matches likely gives them the edge.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.742574,
+          "p_draw": 0.009901,
+          "p_away": 0.247525,
+          "name": "Ned"
+        },
+        "human:football": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Football"
+        },
+        "human:sakshi": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Sakshi"
+        },
+        "human:daksh": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "crowd": {
+          "p_home": 0.544504,
+          "p_draw": 0.01,
+          "p_away": 0.445496,
+          "n": 5
+        }
+      }
+    },
+    {
+      "match_id": "md075-1E-3ABCDF",
+      "forecasts": {
+        "market": {
+          "p_home": 0.690354,
+          "p_draw": 0.196601,
+          "p_away": 0.113045,
+          "raw_odds": [
+            1.31,
+            4.6,
+            8.0
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.693069,
+          "p_draw": 0.009901,
+          "p_away": 0.29703,
+          "reasoning": "Germany has a higher Elo and perfect recent form. Paraguay's form is mixed. Germany also won their only World Cup encounter. This suggests a clear advantage for Germany.",
+          "raw": "{\"p_home_advance\": 0.70, \"p_away_advance\": 0.30, \"reasoning\": \"Germany has a higher Elo and perfect recent form. Paraguay's form is mixed. Germany also won their only World Cup encounter. This suggests a clear advantage for Germany.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.574257,
+          "p_draw": 0.009901,
+          "p_away": 0.415842,
+          "reasoning": "Elo difference and recent form favor Germany",
+          "raw": "{\"p_home_advance\": 0.58, \"p_away_advance\": 0.42, \"reasoning\": \"Elo difference and recent form favor Germany\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.673267,
+          "p_draw": 0.009901,
+          "p_away": 0.316832,
+          "reasoning": "Germany enters as the clear favorite based on a significantly higher Elo rating and a perfect recent form (5W). Paraguay's inconsistent form and Germany's historical edge in head-to-head matchups sugg",
+          "raw": "```json\n{\"p_home_advance\": 0.68, \"p_away_advance\": 0.32, \"reasoning\": \"Germany enters as the clear favorite based on a significantly higher Elo rating and a perfect recent form (5W). Paraguay's inconsistent form and Germany's historical edge in head-to-head matchups suggest a high probability of German progression, though Paraguay's defensive resilience keeps them competitive.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.633663,
+          "p_draw": 0.009901,
+          "p_away": 0.356436,
+          "reasoning": "Germany\u2019s higher Elo (+76), unbeaten recent form and favorable head\u2011to\u2011head give ~60\u201165% chance to advance; Paraguay\u2019s lower rating and mixed form lower its odds.",
+          "raw": "{\"p_home_advance\": 0.64, \"p_away_advance\": 0.36, \"reasoning\": \"Germany\u2019s higher Elo (+76), unbeaten recent form and favorable head\u2011to\u2011head give ~60\u201165% chance to advance; Paraguay\u2019s lower rating and mixed form lower its odds.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.643564,
+          "p_draw": 0.009901,
+          "p_away": 0.346535,
+          "reasoning": "Germany's higher Elo rating and recent form suggest a strong advantage. Paraguay's inconsistent performance and historical head-to-head record further support Germany's likelihood of advancing.",
+          "raw": "{\"p_home_advance\": 0.65, \"p_away_advance\": 0.35, \"reasoning\": \"Germany's higher Elo rating and recent form suggest a strong advantage. Paraguay's inconsistent performance and historical head-to-head record further support Germany's likelihood of advancing.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.891089,
+          "p_draw": 0.009901,
+          "p_away": 0.09901,
+          "name": "Ned"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:sakshi": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Sakshi"
+        },
+        "human:daksh": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "crowd": {
+          "p_home": 0.962199,
+          "p_draw": 0.01,
+          "p_away": 0.027801,
+          "n": 5
+        }
+      }
+    },
+    {
+      "match_id": "md076-1F-2C",
+      "forecasts": {
+        "market": {
+          "p_home": 0.416667,
+          "p_draw": 0.305556,
+          "p_away": 0.277778,
+          "raw_odds": [
+            2.2,
+            3.0,
+            3.3
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.524752,
+          "p_draw": 0.009901,
+          "p_away": 0.465347,
+          "reasoning": "Netherlands has a slight Elo advantage and better recent form. However, Morocco's strong performance in the last World Cup and the significant heat stress for the Dutch team in Monterrey narrow the ga",
+          "raw": "{\"p_home_advance\": 0.53, \"p_away_advance\": 0.47, \"reasoning\": \"Netherlands has a slight Elo advantage and better recent form. However, Morocco's strong performance in the last World Cup and the significant heat stress for the Dutch team in Monterrey narrow the gap considerably.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.531683,
+          "p_draw": 0.009901,
+          "p_away": 0.458416,
+          "reasoning": "Netherlands' slight Elo edge",
+          "raw": "{\"p_home_advance\": 0.537, \"p_away_advance\": 0.463, \"reasoning\": \"Netherlands' slight Elo edge\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.514851,
+          "p_draw": 0.009901,
+          "p_away": 0.475248,
+          "reasoning": "Elo ratings are nearly identical, suggesting a toss-up. Netherlands has a slight historical edge and higher Elo, but Morocco's superior recent form and the extreme heat/humidity in Monterrey favor the",
+          "raw": "```json\n{\"p_home_advance\": 0.52, \"p_away_advance\": 0.48, \"reasoning\": \"Elo ratings are nearly identical, suggesting a toss-up. Netherlands has a slight historical edge and higher Elo, but Morocco's superior recent form and the extreme heat/humidity in Monterrey favor the North African side's climate adaptation, narrowing the gap significantly.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.544554,
+          "p_draw": 0.009901,
+          "p_away": 0.445545,
+          "reasoning": "Netherlands' 22\u2011point Elo edge implies ~53% win chance; subtract ~2% for heat stress, add ~4% for extra\u2011time/penalty variance favoring the underdog, resulting in roughly 55% vs 45%.",
+          "raw": "{\"p_home_advance\":0.55,\"p_away_advance\":0.45,\"reasoning\":\"Netherlands' 22\u2011point Elo edge implies ~53% win chance; subtract ~2% for heat stress, add ~4% for extra\u2011time/penalty variance favoring the underdog, resulting in roughly 55% vs 45%.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.544554,
+          "p_draw": 0.009901,
+          "p_away": 0.445545,
+          "reasoning": "The Netherlands has a slight historical edge and higher Elo rating, but the extreme heat may disadvantage them. Morocco's recent form is strong, making the match competitive.",
+          "raw": "{\"p_home_advance\": 0.55, \"p_away_advance\": 0.45, \"reasoning\": \"The Netherlands has a slight historical edge and higher Elo rating, but the extreme heat may disadvantage them. Morocco's recent form is strong, making the match competitive.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.643564,
+          "p_draw": 0.009901,
+          "p_away": 0.346535,
+          "name": "Ned"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:sakshi": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Sakshi"
+        },
+        "human:daksh": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "crowd": {
+          "p_home": 0.718699,
+          "p_draw": 0.01,
+          "p_away": 0.271302,
+          "n": 5
+        }
+      }
+    }
+  ]
+}
