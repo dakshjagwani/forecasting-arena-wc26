@@ -511,5 +511,32 @@
     "status": "FT",
     "advanced": "away",
     "decided_by": "regular"
+  },
+  {
+    "match_id": "md074-1C-2F",
+    "score_home": 2,
+    "score_away": 1,
+    "outcome": "home",
+    "status": "FT",
+    "advanced": "home",
+    "decided_by": "regular"
+  },
+  {
+    "match_id": "md075-1E-3ABCDF",
+    "score_home": 1,
+    "score_away": 1,
+    "outcome": "draw",
+    "status": "FT",
+    "decided_by": "penalties",
+    "pens": "4-4"
+  },
+  {
+    "match_id": "md076-1F-2C",
+    "score_home": 1,
+    "score_away": 1,
+    "outcome": "draw",
+    "status": "FT",
+    "decided_by": "penalties",
+    "pens": "3-3"
   }
 ]

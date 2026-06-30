@@ -11,43 +11,43 @@
       {
         "lo": 0.1,
         "hi": 0.2,
-        "n": 43,
-        "actual_freq": 0.1395,
+        "n": 46,
+        "actual_freq": 0.1522,
         "predicted_mid": 0.15
       },
       {
         "lo": 0.2,
         "hi": 0.3,
-        "n": 61,
-        "actual_freq": 0.2295,
+        "n": 63,
+        "actual_freq": 0.2222,
         "predicted_mid": 0.25
       },
       {
         "lo": 0.3,
         "hi": 0.4,
-        "n": 14,
-        "actual_freq": 0.2857,
+        "n": 15,
+        "actual_freq": 0.3333,
         "predicted_mid": 0.35
       },
       {
         "lo": 0.4,
         "hi": 0.5,
-        "n": 17,
-        "actual_freq": 0.5294,
+        "n": 18,
+        "actual_freq": 0.5,
         "predicted_mid": 0.45
       },
       {
         "lo": 0.5,
         "hi": 0.6,
-        "n": 19,
-        "actual_freq": 0.5263,
+        "n": 20,
+        "actual_freq": 0.55,
         "predicted_mid": 0.55
       },
       {
         "lo": 0.6,
         "hi": 0.7,
-        "n": 14,
-        "actual_freq": 0.9286,
+        "n": 15,
+        "actual_freq": 0.8667,
         "predicted_mid": 0.65
       },
       {
@@ -78,8 +78,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 21,
-        "actual_freq": 0.0,
+        "n": 24,
+        "actual_freq": 0.0833,
         "predicted_mid": 0.05
       },
       {
@@ -92,36 +92,36 @@
       {
         "lo": 0.2,
         "hi": 0.3,
-        "n": 63,
-        "actual_freq": 0.2063,
+        "n": 64,
+        "actual_freq": 0.2031,
         "predicted_mid": 0.25
       },
       {
         "lo": 0.3,
         "hi": 0.4,
-        "n": 20,
-        "actual_freq": 0.4,
+        "n": 21,
+        "actual_freq": 0.381,
         "predicted_mid": 0.35
       },
       {
         "lo": 0.4,
         "hi": 0.5,
-        "n": 13,
-        "actual_freq": 0.6154,
+        "n": 14,
+        "actual_freq": 0.5714,
         "predicted_mid": 0.45
       },
       {
         "lo": 0.5,
         "hi": 0.6,
-        "n": 14,
-        "actual_freq": 0.5714,
+        "n": 15,
+        "actual_freq": 0.5333,
         "predicted_mid": 0.55
       },
       {
         "lo": 0.6,
         "hi": 0.7,
-        "n": 13,
-        "actual_freq": 0.7692,
+        "n": 15,
+        "actual_freq": 0.7333,
         "predicted_mid": 0.65
       },
       {
@@ -152,8 +152,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 5,
-        "actual_freq": 0.0,
+        "n": 8,
+        "actual_freq": 0.25,
         "predicted_mid": 0.05
       },
       {
@@ -173,29 +173,29 @@
       {
         "lo": 0.3,
         "hi": 0.4,
-        "n": 24,
-        "actual_freq": 0.25,
+        "n": 25,
+        "actual_freq": 0.24,
         "predicted_mid": 0.35
       },
       {
         "lo": 0.4,
         "hi": 0.5,
-        "n": 19,
-        "actual_freq": 0.4737,
+        "n": 21,
+        "actual_freq": 0.4286,
         "predicted_mid": 0.45
       },
       {
         "lo": 0.5,
         "hi": 0.6,
-        "n": 22,
-        "actual_freq": 0.6364,
+        "n": 24,
+        "actual_freq": 0.5833,
         "predicted_mid": 0.55
       },
       {
         "lo": 0.6,
         "hi": 0.7,
-        "n": 16,
-        "actual_freq": 0.75,
+        "n": 17,
+        "actual_freq": 0.7647,
         "predicted_mid": 0.65
       },
       {
@@ -226,8 +226,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 15,
-        "actual_freq": 0.0,
+        "n": 18,
+        "actual_freq": 0.1111,
         "predicted_mid": 0.05
       },
       {
@@ -247,29 +247,29 @@
       {
         "lo": 0.3,
         "hi": 0.4,
-        "n": 21,
-        "actual_freq": 0.2857,
+        "n": 23,
+        "actual_freq": 0.2609,
         "predicted_mid": 0.35
       },
       {
         "lo": 0.4,
         "hi": 0.5,
-        "n": 10,
-        "actual_freq": 0.3,
+        "n": 11,
+        "actual_freq": 0.2727,
         "predicted_mid": 0.45
       },
       {
         "lo": 0.5,
         "hi": 0.6,
-        "n": 23,
-        "actual_freq": 0.6522,
+        "n": 24,
+        "actual_freq": 0.625,
         "predicted_mid": 0.55
       },
       {
         "lo": 0.6,
         "hi": 0.7,
-        "n": 19,
-        "actual_freq": 0.7895,
+        "n": 21,
+        "actual_freq": 0.7619,
         "predicted_mid": 0.65
       },
       {
@@ -300,8 +300,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 17,
-        "actual_freq": 0.1176,
+        "n": 20,
+        "actual_freq": 0.2,
         "predicted_mid": 0.05
       },
       {
@@ -321,29 +321,29 @@
       {
         "lo": 0.3,
         "hi": 0.4,
-        "n": 28,
-        "actual_freq": 0.25,
+        "n": 29,
+        "actual_freq": 0.2414,
         "predicted_mid": 0.35
       },
       {
         "lo": 0.4,
         "hi": 0.5,
-        "n": 10,
-        "actual_freq": 0.5,
+        "n": 12,
+        "actual_freq": 0.4167,
         "predicted_mid": 0.45
       },
       {
         "lo": 0.5,
         "hi": 0.6,
-        "n": 16,
-        "actual_freq": 0.6875,
+        "n": 18,
+        "actual_freq": 0.6667,
         "predicted_mid": 0.55
       },
       {
         "lo": 0.6,
         "hi": 0.7,
-        "n": 17,
-        "actual_freq": 0.6471,
+        "n": 18,
+        "actual_freq": 0.6111,
         "predicted_mid": 0.65
       },
       {
@@ -374,8 +374,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 1,
-        "actual_freq": 0.0,
+        "n": 4,
+        "actual_freq": 0.5,
         "predicted_mid": 0.05
       },
       {
@@ -395,29 +395,29 @@
       {
         "lo": 0.3,
         "hi": 0.4,
-        "n": 38,
-        "actual_freq": 0.2368,
+        "n": 40,
+        "actual_freq": 0.225,
         "predicted_mid": 0.35
       },
       {
         "lo": 0.4,
         "hi": 0.5,
-        "n": 32,
-        "actual_freq": 0.5,
+        "n": 33,
+        "actual_freq": 0.4848,
         "predicted_mid": 0.45
       },
       {
         "lo": 0.5,
         "hi": 0.6,
-        "n": 18,
-        "actual_freq": 0.5556,
+        "n": 19,
+        "actual_freq": 0.5263,
         "predicted_mid": 0.55
       },
       {
         "lo": 0.6,
         "hi": 0.7,
-        "n": 14,
-        "actual_freq": 0.7143,
+        "n": 16,
+        "actual_freq": 0.6875,
         "predicted_mid": 0.65
       },
       {
@@ -522,8 +522,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 46,
-        "actual_freq": 0.1739,
+        "n": 52,
+        "actual_freq": 0.2115,
         "predicted_mid": 0.05
       },
       {
@@ -585,8 +585,8 @@
       {
         "lo": 0.9,
         "hi": 1.0,
-        "n": 19,
-        "actual_freq": 0.6842,
+        "n": 22,
+        "actual_freq": 0.5909,
         "predicted_mid": 0.95
       }
     ]
@@ -670,8 +670,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 98,
-        "actual_freq": 0.1224,
+        "n": 104,
+        "actual_freq": 0.1442,
         "predicted_mid": 0.05
       },
       {
@@ -733,8 +733,8 @@
       {
         "lo": 0.9,
         "hi": 1.0,
-        "n": 48,
-        "actual_freq": 0.75,
+        "n": 51,
+        "actual_freq": 0.7059,
         "predicted_mid": 0.95
       }
     ]
@@ -818,8 +818,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 35,
-        "actual_freq": 0.1143,
+        "n": 39,
+        "actual_freq": 0.1538,
         "predicted_mid": 0.05
       },
       {
@@ -832,15 +832,15 @@
       {
         "lo": 0.2,
         "hi": 0.3,
-        "n": 37,
-        "actual_freq": 0.1892,
+        "n": 38,
+        "actual_freq": 0.1842,
         "predicted_mid": 0.25
       },
       {
         "lo": 0.3,
         "hi": 0.4,
-        "n": 28,
-        "actual_freq": 0.3571,
+        "n": 29,
+        "actual_freq": 0.3448,
         "predicted_mid": 0.35
       },
       {
@@ -860,22 +860,22 @@
       {
         "lo": 0.6,
         "hi": 0.7,
-        "n": 4,
-        "actual_freq": 0.75,
+        "n": 5,
+        "actual_freq": 0.6,
         "predicted_mid": 0.65
       },
       {
         "lo": 0.7,
         "hi": 0.8,
-        "n": 9,
-        "actual_freq": 0.7778,
+        "n": 10,
+        "actual_freq": 0.8,
         "predicted_mid": 0.75
       },
       {
         "lo": 0.8,
         "hi": 0.9,
-        "n": 6,
-        "actual_freq": 0.6667,
+        "n": 7,
+        "actual_freq": 0.5714,
         "predicted_mid": 0.85
       },
       {
@@ -892,8 +892,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 65,
-        "actual_freq": 0.1077,
+        "n": 71,
+        "actual_freq": 0.1268,
         "predicted_mid": 0.05
       },
       {
@@ -955,8 +955,8 @@
       {
         "lo": 0.9,
         "hi": 1.0,
-        "n": 29,
-        "actual_freq": 0.7931,
+        "n": 32,
+        "actual_freq": 0.75,
         "predicted_mid": 0.95
       }
     ]
@@ -1114,8 +1114,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 39,
-        "actual_freq": 0.0513,
+        "n": 43,
+        "actual_freq": 0.093,
         "predicted_mid": 0.05
       },
       {
@@ -1128,8 +1128,8 @@
       {
         "lo": 0.2,
         "hi": 0.3,
-        "n": 37,
-        "actual_freq": 0.2162,
+        "n": 38,
+        "actual_freq": 0.2105,
         "predicted_mid": 0.25
       },
       {
@@ -1142,15 +1142,15 @@
       {
         "lo": 0.4,
         "hi": 0.5,
-        "n": 14,
-        "actual_freq": 0.3571,
+        "n": 15,
+        "actual_freq": 0.3333,
         "predicted_mid": 0.45
       },
       {
         "lo": 0.5,
         "hi": 0.6,
-        "n": 17,
-        "actual_freq": 0.5294,
+        "n": 18,
+        "actual_freq": 0.5556,
         "predicted_mid": 0.55
       },
       {
@@ -1163,8 +1163,8 @@
       {
         "lo": 0.7,
         "hi": 0.8,
-        "n": 6,
-        "actual_freq": 0.6667,
+        "n": 7,
+        "actual_freq": 0.5714,
         "predicted_mid": 0.75
       },
       {
@@ -1177,8 +1177,8 @@
       {
         "lo": 0.9,
         "hi": 1.0,
-        "n": 6,
-        "actual_freq": 0.8333,
+        "n": 7,
+        "actual_freq": 0.7143,
         "predicted_mid": 0.95
       }
     ]
@@ -1484,8 +1484,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 58,
-        "actual_freq": 0.2414,
+        "n": 64,
+        "actual_freq": 0.25,
         "predicted_mid": 0.05
       },
       {
@@ -1547,8 +1547,8 @@
       {
         "lo": 0.9,
         "hi": 1.0,
-        "n": 22,
-        "actual_freq": 0.5455,
+        "n": 25,
+        "actual_freq": 0.52,
         "predicted_mid": 0.95
       }
     ]

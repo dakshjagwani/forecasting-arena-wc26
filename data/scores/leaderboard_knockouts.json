@@ -1,123 +1,132 @@
 {
-  "updated_utc": "2026-06-29T13:50:24Z",
-  "matches_scored": 1,
+  "updated_utc": "2026-06-30T05:16:46Z",
+  "matches_scored": 2,
   "rows": [
     {
       "forecaster": "human:ned",
       "type": "human",
-      "n_predicted": 1,
-      "n_available": 1,
-      "mean_brier": 0.0005,
-      "vs_market": -0.1876,
-      "qualified": true
-    },
-    {
-      "forecaster": "human:sakshi",
-      "type": "human",
-      "n_predicted": 1,
-      "n_available": 1,
-      "mean_brier": 0.0005,
-      "vs_market": -0.1876,
-      "qualified": true
-    },
-    {
-      "forecaster": "gpt-oss-120b",
-      "type": "ai",
-      "n_predicted": 1,
-      "n_available": 1,
-      "mean_brier": 0.1625,
-      "vs_market": -0.0256,
-      "qualified": true
-    },
-    {
-      "forecaster": "gemma",
-      "type": "ai",
-      "n_predicted": 1,
-      "n_available": 1,
-      "mean_brier": 0.18,
-      "vs_market": -0.0081,
+      "n_predicted": 2,
+      "n_available": 2,
+      "mean_brier": 0.064,
+      "vs_market": -0.1399,
       "qualified": true
     },
     {
       "forecaster": "human:daksh",
       "type": "human",
-      "n_predicted": 1,
-      "n_available": 1,
-      "mean_brier": 0.1824,
-      "vs_market": -0.0057,
+      "n_predicted": 2,
+      "n_available": 2,
+      "mean_brier": 0.0914,
+      "vs_market": -0.1125,
+      "qualified": true
+    },
+    {
+      "forecaster": "gemma",
+      "type": "ai",
+      "n_predicted": 2,
+      "n_available": 2,
+      "mean_brier": 0.1935,
+      "vs_market": -0.0104,
       "qualified": true
     },
     {
       "forecaster": "market",
       "type": "market",
-      "n_predicted": 1,
-      "n_available": 1,
-      "mean_brier": 0.1881,
+      "n_predicted": 2,
+      "n_available": 2,
+      "mean_brier": 0.2039,
       "vs_market": null,
       "qualified": true
     },
     {
       "forecaster": "gemini-flash",
       "type": "ai",
-      "n_predicted": 1,
-      "n_available": 1,
-      "mean_brier": 0.2244,
-      "vs_market": 0.0363,
+      "n_predicted": 2,
+      "n_available": 2,
+      "mean_brier": 0.2358,
+      "vs_market": 0.0319,
       "qualified": true
     },
     {
-      "forecaster": "crowd",
-      "type": "crowd",
-      "n_predicted": 1,
-      "n_available": 1,
-      "mean_brier": 0.2335,
-      "vs_market": 0.0454,
+      "forecaster": "gpt-oss-120b",
+      "type": "ai",
+      "n_predicted": 2,
+      "n_available": 2,
+      "mean_brier": 0.2583,
+      "vs_market": 0.0544,
       "qualified": true
     },
     {
       "forecaster": "gpt-4o-mini",
       "type": "ai",
-      "n_predicted": 1,
-      "n_available": 1,
-      "mean_brier": 0.32,
-      "vs_market": 0.1319,
+      "n_predicted": 2,
+      "n_available": 2,
+      "mean_brier": 0.2835,
+      "vs_market": 0.0796,
       "qualified": true
     },
     {
       "forecaster": "llama-70b",
       "type": "ai",
+      "n_predicted": 2,
+      "n_available": 2,
+      "mean_brier": 0.3053,
+      "vs_market": 0.1014,
+      "qualified": true
+    },
+    {
+      "forecaster": "crowd",
+      "type": "crowd",
+      "n_predicted": 2,
+      "n_available": 2,
+      "mean_brier": 0.3197,
+      "vs_market": 0.1158,
+      "qualified": true
+    },
+    {
+      "forecaster": "uniform",
+      "type": "baseline",
+      "n_predicted": 2,
+      "n_available": 2,
+      "mean_brier": 0.5,
+      "vs_market": 0.2961,
+      "qualified": true
+    },
+    {
+      "forecaster": "human:praneet",
+      "type": "human",
+      "n_predicted": 2,
+      "n_available": 2,
+      "mean_brier": 0.9321,
+      "vs_market": 0.7282,
+      "qualified": true
+    },
+    {
+      "forecaster": "human:sakshi",
+      "type": "human",
+      "n_predicted": 2,
+      "n_available": 2,
+      "mean_brier": 0.9705,
+      "vs_market": 0.7666,
+      "qualified": true
+    },
+    {
+      "forecaster": "human:football",
+      "type": "human",
       "n_predicted": 1,
       "n_available": 1,
-      "mean_brier": 0.32,
-      "vs_market": 0.1319,
+      "mean_brier": 1.9405,
+      "vs_market": 1.7366,
       "qualified": true
     },
     {
       "forecaster": "human:shreekhand",
       "type": "human",
       "n_predicted": 1,
-      "n_available": 1,
+      "n_available": 2,
       "mean_brier": 0.3377,
-      "vs_market": 0.1496,
-      "qualified": true
-    },
-    {
-      "forecaster": "uniform",
-      "type": "baseline",
-      "n_predicted": 1,
-      "n_available": 1,
-      "mean_brier": 0.5,
-      "vs_market": 0.3119,
-      "qualified": true
-    },
-    {
-      "forecaster": "human:praneet",
-      "type": "human",
-      "n_predicted": 1,
-      "n_available": 1,
-      "mean_brier": 1.8638,
-      "vs_market": 1.6757,
-      "qualified": true
+      "vs_market": 0.1338,
+      "qualified": false
     }
   ],
   "metric": "advancement",
