@@ -1,0 +1,275 @@
+{
+  "date": "2026-06-30",
+  "freeze_utc": "2026-06-30T14:00:59Z",
+  "matches": [
+    {
+      "match_id": "md077-2E-2I",
+      "forecasts": {
+        "market": {
+          "p_home": 0.280717,
+          "p_draw": 0.275613,
+          "p_away": 0.44367,
+          "raw_odds": [
+            3.24,
+            3.3,
+            2.05
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.415842,
+          "p_draw": 0.009901,
+          "p_away": 0.574257,
+          "reasoning": "Norway has a significantly higher Elo. However, the extreme heat and humidity in Dallas will heavily favor C\u00f4te d'Ivoire, mitigating Norway's Elo advantage in this knockout match.",
+          "raw": "{\"p_home_advance\": 0.42, \"p_away_advance\": 0.58, \"reasoning\": \"Norway has a significantly higher Elo. However, the extreme heat and humidity in Dallas will heavily favor C\u00f4te d'Ivoire, mitigating Norway's Elo advantage in this knockout match.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.415842,
+          "p_draw": 0.009901,
+          "p_away": 0.574257,
+          "reasoning": "Norway's higher Elo rating outweighs C\u00f4te d'Ivoire's recent form and heat advantage.",
+          "raw": "{\"p_home_advance\": 0.42, \"p_away_advance\": 0.58, \"reasoning\": \"Norway's higher Elo rating outweighs C\u00f4te d'Ivoire's recent form and heat advantage.\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.415842,
+          "p_draw": 0.009901,
+          "p_away": 0.574257,
+          "reasoning": "Norway holds a significant Elo advantage (+161), suggesting higher technical quality. However, the extreme heat and humidity in Dallas favor the Ivorians' physiological adaptation, narrowing the gap. ",
+          "raw": "```json\n{\"p_home_advance\": 0.42, \"p_away_advance\": 0.58, \"reasoning\": \"Norway holds a significant Elo advantage (+161), suggesting higher technical quality. However, the extreme heat and humidity in Dallas favor the Ivorians' physiological adaptation, narrowing the gap. Norway remains the favorite, but the environmental conditions provide a substantial equalizer for C\u00f4te d'Ivoire.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.316832,
+          "p_draw": 0.009901,
+          "p_away": 0.673267,
+          "reasoning": "Norway's 161\u2011point Elo edge gives ~71.5% win expectancy; hot, humid conditions likely cost ~30 Elo, lowering it to ~68% expected score (advance probability). Ivory thus ~32%.",
+          "raw": "{\"p_home_advance\": 0.32, \"p_away_advance\": 0.68, \"reasoning\": \"Norway's 161\u2011point Elo edge gives ~71.5% win expectancy; hot, humid conditions likely cost ~30 Elo, lowering it to ~68% expected score (advance probability). Ivory thus ~32%.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.445545,
+          "p_draw": 0.009901,
+          "p_away": 0.544554,
+          "reasoning": "Norway's higher Elo rating suggests they are stronger overall, but the hot and humid conditions may disadvantage them. C\u00f4te d'Ivoire's recent form is solid, but Norway's consistency gives them a sligh",
+          "raw": "{\"p_home_advance\": 0.45, \"p_away_advance\": 0.55, \"reasoning\": \"Norway's higher Elo rating suggests they are stronger overall, but the hot and humid conditions may disadvantage them. C\u00f4te d'Ivoire's recent form is solid, but Norway's consistency gives them a slight edge.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.207921,
+          "p_draw": 0.009901,
+          "p_away": 0.782178,
+          "name": "Ned"
+        },
+        "human:football": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Football"
+        },
+        "human:daksh": {
+          "p_home": 0.19802,
+          "p_draw": 0.009901,
+          "p_away": 0.792079,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Praneet"
+        },
+        "human:shreekhand": {
+          "p_home": 0.29703,
+          "p_draw": 0.009901,
+          "p_away": 0.693069,
+          "name": "Shreekhand"
+        },
+        "crowd": {
+          "p_home": 0.144586,
+          "p_draw": 0.009999,
+          "p_away": 0.845415,
+          "n": 5
+        }
+      }
+    },
+    {
+      "match_id": "md078-1I-3CDFGH",
+      "forecasts": {
+        "market": {
+          "p_home": 0.723077,
+          "p_draw": 0.180769,
+          "p_away": 0.096154,
+          "raw_odds": [
+            1.25,
+            5.0,
+            9.4
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.841584,
+          "p_draw": 0.009901,
+          "p_away": 0.148515,
+          "reasoning": "France's significantly higher Elo (2128 vs 1749) and strong recent form, coupled with a favorable head-to-head record, make them clear favorites despite Sweden's resilience. The knockout format amplif",
+          "raw": "{\"p_home_advance\": 0.85, \"p_away_advance\": 0.15, \"reasoning\": \"France's significantly higher Elo (2128 vs 1749) and strong recent form, coupled with a favorable head-to-head record, make them clear favorites despite Sweden's resilience. The knockout format amplifies the Elo difference.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.821782,
+          "p_draw": 0.009901,
+          "p_away": 0.168317,
+          "reasoning": "Elo difference and recent form favor France",
+          "raw": "{\"p_home_advance\": 0.83, \"p_away_advance\": 0.17, \"reasoning\": \"Elo difference and recent form favor France\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.772277,
+          "p_draw": 0.009901,
+          "p_away": 0.217822,
+          "reasoning": "France holds a significant Elo advantage (+379) and superior recent form. While Sweden is competitive, France's depth and historical dominance in recent head-to-heads make them heavy favorites to adva",
+          "raw": "```json\n{\"p_home_advance\": 0.78, \"p_away_advance\": 0.22, \"reasoning\": \"France holds a significant Elo advantage (+379) and superior recent form. While Sweden is competitive, France's depth and historical dominance in recent head-to-heads make them heavy favorites to advance in a knockout setting.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.908911,
+          "p_draw": 0.009901,
+          "p_away": 0.081188,
+          "reasoning": "Elo diff 379 gives ~90% expected score for France. Assuming ~12% draw chance, extra\u2011time/penalties favor France (\u224860% then 55%). Combined yields ~91.8% chance France advances, ~8.2% Sweden.",
+          "raw": "{\"p_home_advance\": 0.918, \"p_away_advance\": 0.082, \"reasoning\": \"Elo diff 379 gives ~90% expected score for France. Assuming ~12% draw chance, extra\u2011time/penalties favor France (\u224860% then 55%). Combined yields ~91.8% chance France advances, ~8.2% Sweden.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.673267,
+          "p_draw": 0.009901,
+          "p_away": 0.316832,
+          "reasoning": "France's higher Elo rating and recent form suggest a strong advantage. Historical head-to-head results also favor France, though Sweden's resilience in knockout matches could provide a challenge.",
+          "raw": "{\"p_home_advance\": 0.68, \"p_away_advance\": 0.32, \"reasoning\": \"France's higher Elo rating and recent form suggest a strong advantage. Historical head-to-head results also favor France, though Sweden's resilience in knockout matches could provide a challenge.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Ned"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:daksh": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "human:shreekhand": {
+          "p_home": 0.742574,
+          "p_draw": 0.009901,
+          "p_away": 0.247525,
+          "name": "Shreekhand"
+        },
+        "crowd": {
+          "p_home": 0.932496,
+          "p_draw": 0.01,
+          "p_away": 0.057504,
+          "n": 5
+        }
+      }
+    },
+    {
+      "match_id": "md079-1A-3CEFHI",
+      "forecasts": {
+        "market": {
+          "p_home": 0.422819,
+          "p_draw": 0.324664,
+          "p_away": 0.252517,
+          "raw_odds": [
+            2.15,
+            2.8,
+            3.6
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.574257,
+          "p_draw": 0.009901,
+          "p_away": 0.415842,
+          "reasoning": "Mexico has a strong home advantage at altitude, supported by a favorable head-to-head record. Ecuador's higher Elo is offset by these factors in a knockout setting.",
+          "raw": "{\"p_home_advance\": 0.58, \"p_away_advance\": 0.42, \"reasoning\": \"Mexico has a strong home advantage at altitude, supported by a favorable head-to-head record. Ecuador's higher Elo is offset by these factors in a knockout setting.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.574257,
+          "p_draw": 0.009901,
+          "p_away": 0.415842,
+          "reasoning": "Mexico's home advantage at high altitude outweighs Ecuador's slight Elo edge.",
+          "raw": "{\"p_home_advance\": 0.58, \"p_away_advance\": 0.42, \"reasoning\": \"Mexico's home advantage at high altitude outweighs Ecuador's slight Elo edge.\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "status": "failed",
+          "error": "HTTP Error 429: Too Many Requests"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.534653,
+          "p_draw": 0.009901,
+          "p_away": 0.455446,
+          "reasoning": "Ecuador's 42\u2011point Elo edge implies ~56% win chance on neutral ground. Mexico gains ~10% boost from high\u2011altitude home advantage and host status, flipping the edge to roughly 54% for Mexico to advance",
+          "raw": "{\"p_home_advance\": 0.54, \"p_away_advance\": 0.46, \"reasoning\": \"Ecuador's 42\u2011point Elo edge implies ~56% win chance on neutral ground. Mexico gains ~10% boost from high\u2011altitude home advantage and host status, flipping the edge to roughly 54% for Mexico to advance.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.544554,
+          "p_draw": 0.009901,
+          "p_away": 0.445545,
+          "reasoning": "Mexico benefits from home advantage at high altitude, while Ecuador's recent form is strong. Historical head-to-head favors Mexico, but the match's knockout nature adds unpredictability.",
+          "raw": "{\"p_home_advance\": 0.55, \"p_away_advance\": 0.45, \"reasoning\": \"Mexico benefits from home advantage at high altitude, while Ecuador's recent form is strong. Historical head-to-head favors Mexico, but the match's knockout nature adds unpredictability.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.39604,
+          "p_draw": 0.009901,
+          "p_away": 0.594059,
+          "name": "Ned"
+        },
+        "human:football": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Football"
+        },
+        "human:daksh": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "human:shreekhand": {
+          "p_home": 0.29703,
+          "p_draw": 0.009901,
+          "p_away": 0.693069,
+          "name": "Shreekhand"
+        },
+        "crowd": {
+          "p_home": 0.532593,
+          "p_draw": 0.01,
+          "p_away": 0.457407,
+          "n": 5
+        }
+      }
+    }
+  ]
+}
