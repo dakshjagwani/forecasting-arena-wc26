@@ -1,0 +1,297 @@
+{
+  "date": "2026-07-01",
+  "freeze_utc": "2026-07-01T13:00:57Z",
+  "matches": [
+    {
+      "match_id": "md080-1L-3EHIJK",
+      "forecasts": {
+        "market": {
+          "p_home": 0.7304,
+          "p_draw": 0.190208,
+          "p_away": 0.079391,
+          "raw_odds": [
+            1.25,
+            4.8,
+            11.5
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.821782,
+          "p_draw": 0.009901,
+          "p_away": 0.168317,
+          "reasoning": "England's significantly higher Elo rating (2072 vs 1758) makes them strong favorites. While DR Congo has shown some form, the Elo difference is substantial for a knockout match. The heat might slightl",
+          "raw": "{\"p_home_advance\": 0.83, \"p_away_advance\": 0.17, \"reasoning\": \"England's significantly higher Elo rating (2072 vs 1758) makes them strong favorites. While DR Congo has shown some form, the Elo difference is substantial for a knockout match. The heat might slightly impact both teams, but England's quality should prevail.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.821782,
+          "p_draw": 0.009901,
+          "p_away": 0.168317,
+          "reasoning": "Elo difference favors England",
+          "raw": "{\"p_home_advance\": 0.83, \"p_away_advance\": 0.17, \"reasoning\": \"Elo difference favors England\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.871287,
+          "p_draw": 0.009901,
+          "p_away": 0.118812,
+          "reasoning": "England holds a massive Elo advantage (+314), indicating a significant gap in squad quality and tactical depth. While DR Congo is competitive, England's historical performance in knockout stages and s",
+          "raw": "```json\n{\"p_home_advance\": 0.88, \"p_away_advance\": 0.12, \"reasoning\": \"England holds a massive Elo advantage (+314), indicating a significant gap in squad quality and tactical depth. While DR Congo is competitive, England's historical performance in knockout stages and superior rating make them heavy favorites to advance despite the humid Atlanta conditions.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.80198,
+          "p_draw": 0.009901,
+          "p_away": 0.188119,
+          "reasoning": "Elo diff 314 gives ~86% win expectancy for England; adjust ~5% down for heat/humidity favoring DR\u202fCongo and knockout extra\u2011time dynamics, yielding ~81% chance England advances.",
+          "raw": "{\"p_home_advance\":0.81,\"p_away_advance\":0.19,\"reasoning\":\"Elo diff 314 gives ~86% win expectancy for England; adjust ~5% down for heat/humidity favoring DR\u202fCongo and knockout extra\u2011time dynamics, yielding ~81% chance England advances.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.673267,
+          "p_draw": 0.009901,
+          "p_away": 0.316832,
+          "reasoning": "England's higher Elo rating and recent form suggest a strong advantage. DR Congo's lower Elo and mixed results indicate a tougher challenge, especially in knockout conditions.",
+          "raw": "{\"p_home_advance\": 0.68, \"p_away_advance\": 0.32, \"reasoning\": \"England's higher Elo rating and recent form suggest a strong advantage. DR Congo's lower Elo and mixed results indicate a tougher challenge, especially in knockout conditions.\"}",
+          "status": "ok"
+        },
+        "human:shreekhand": {
+          "p_home": 0.792079,
+          "p_draw": 0.009901,
+          "p_away": 0.19802,
+          "name": "Shreekhand"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:ned": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Ned"
+        },
+        "human:daksh": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Daksh"
+        },
+        "human:sakshi": {
+          "p_home": 0.693069,
+          "p_draw": 0.009901,
+          "p_away": 0.29703,
+          "name": "Sakshi"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "crowd": {
+          "p_home": 0.900828,
+          "p_draw": 0.01,
+          "p_away": 0.089172,
+          "n": 6
+        }
+      }
+    },
+    {
+      "match_id": "md081-1G-3AEHIJ",
+      "forecasts": {
+        "market": {
+          "p_home": 0.445719,
+          "p_draw": 0.285539,
+          "p_away": 0.268742,
+          "raw_odds": [
+            2.05,
+            3.2,
+            3.4
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.574257,
+          "p_draw": 0.009901,
+          "p_away": 0.415842,
+          "reasoning": "Belgium has a higher Elo rating (1948 vs 1908) and better recent form (4W 1D vs 2W 1D 2L). This gives them a slight edge in a neutral knockout match.",
+          "raw": "```json\n{\n  \"p_home_advance\": 0.58,\n  \"p_away_advance\": 0.42,\n  \"reasoning\": \"Belgium has a higher Elo rating (1948 vs 1908) and better recent form (4W 1D vs 2W 1D 2L). This gives them a slight edge in a neutral knockout match.\"\n}\n```",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.567327,
+          "p_draw": 0.009901,
+          "p_away": 0.422772,
+          "reasoning": "Elo difference favors Belgium",
+          "raw": "{\"p_home_advance\": 0.573, \"p_away_advance\": 0.427, \"reasoning\": \"Elo difference favors Belgium\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.574257,
+          "p_draw": 0.009901,
+          "p_away": 0.415842,
+          "reasoning": "Belgium holds a slight Elo advantage (+40) and superior recent form (undefeated in 5) compared to Senegal's inconsistent run. In a neutral venue knockout setting, Belgium's higher rating and momentum ",
+          "raw": "```json\n{\"p_home_advance\": 0.58, \"p_away_advance\": 0.42, \"reasoning\": \"Belgium holds a slight Elo advantage (+40) and superior recent form (undefeated in 5) compared to Senegal's inconsistent run. In a neutral venue knockout setting, Belgium's higher rating and momentum make them slight favorites to advance.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.554455,
+          "p_draw": 0.009901,
+          "p_away": 0.435644,
+          "reasoning": "Belgium's Elo is 40 points higher; using the standard Elo win expectancy formula gives ~55.7% chance to win (or advance) versus Senegal's ~44.3% in a neutral venue.",
+          "raw": "{\"p_home_advance\": 0.56, \"p_away_advance\": 0.44, \"reasoning\": \"Belgium's Elo is 40 points higher; using the standard Elo win expectancy formula gives ~55.7% chance to win (or advance) versus Senegal's ~44.3% in a neutral venue.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.544554,
+          "p_draw": 0.009901,
+          "p_away": 0.445545,
+          "reasoning": "Belgium has a higher Elo rating and better recent form, suggesting a stronger likelihood of advancing. Senegal's recent performance is less consistent, impacting their chances in this knockout match.",
+          "raw": "{\"p_home_advance\": 0.55, \"p_away_advance\": 0.45, \"reasoning\": \"Belgium has a higher Elo rating and better recent form, suggesting a stronger likelihood of advancing. Senegal's recent performance is less consistent, impacting their chances in this knockout match.\"}",
+          "status": "ok"
+        },
+        "human:shreekhand": {
+          "p_home": 0.554455,
+          "p_draw": 0.009901,
+          "p_away": 0.435644,
+          "name": "Shreekhand"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:ned": {
+          "p_home": 0.39604,
+          "p_draw": 0.009901,
+          "p_away": 0.594059,
+          "name": "Ned"
+        },
+        "human:daksh": {
+          "p_home": 0.594059,
+          "p_draw": 0.009901,
+          "p_away": 0.39604,
+          "name": "Daksh"
+        },
+        "human:sakshi": {
+          "p_home": 0.247525,
+          "p_draw": 0.009901,
+          "p_away": 0.742574,
+          "name": "Sakshi"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "crowd": {
+          "p_home": 0.625305,
+          "p_draw": 0.009999,
+          "p_away": 0.364695,
+          "n": 6
+        }
+      }
+    },
+    {
+      "match_id": "md082-1D-3BEFIJ",
+      "forecasts": {
+        "market": {
+          "p_home": 0.675856,
+          "p_draw": 0.204293,
+          "p_away": 0.119852,
+          "raw_odds": [
+            1.33,
+            4.4,
+            7.5
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.722772,
+          "p_draw": 0.009901,
+          "p_away": 0.267327,
+          "reasoning": "USA has a significantly higher Elo rating (1818 vs 1624) and a strong head-to-head record. While recent form is mixed for USA, Bosnia's draws suggest difficulty securing wins. Home advantage further b",
+          "raw": "{\"p_home_advance\": 0.73, \"p_away_advance\": 0.27, \"reasoning\": \"USA has a significantly higher Elo rating (1818 vs 1624) and a strong head-to-head record. While recent form is mixed for USA, Bosnia's draws suggest difficulty securing wins. Home advantage further boosts USA's chances.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.722772,
+          "p_draw": 0.009901,
+          "p_away": 0.267327,
+          "reasoning": "Elo difference and head-to-head favor USA",
+          "raw": "{\"p_home_advance\": 0.73, \"p_away_advance\": 0.27, \"reasoning\": \"Elo difference and head-to-head favor USA\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.712871,
+          "p_draw": 0.009901,
+          "p_away": 0.277228,
+          "reasoning": "USA holds a significant Elo advantage (+194) and home-field advantage as hosts. Bosnia's recent form is stagnant (5 draws), while USA has a superior head-to-head record. The gap in quality and crowd s",
+          "raw": "```json\n{\"p_home_advance\": 0.72, \"p_away_advance\": 0.28, \"reasoning\": \"USA holds a significant Elo advantage (+194) and home-field advantage as hosts. Bosnia's recent form is stagnant (5 draws), while USA has a superior head-to-head record. The gap in quality and crowd support makes USA strong favorites to advance.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.816832,
+          "p_draw": 0.009901,
+          "p_away": 0.173267,
+          "reasoning": "USA\u2019s 194\u2011point Elo edge gives ~75% win chance; Bosnia ~10%. Draws (~15%) are split 50\u201150 after extra time/penalties, yielding 0.825 vs 0.175 overall.",
+          "raw": "{\"p_home_advance\":0.825,\"p_away_advance\":0.175,\"reasoning\":\"USA\u2019s 194\u2011point Elo edge gives ~75% win chance; Bosnia ~10%. Draws (~15%) are split 50\u201150 after extra time/penalties, yielding 0.825 vs 0.175 overall.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.643564,
+          "p_draw": 0.009901,
+          "p_away": 0.346535,
+          "reasoning": "USA has a higher Elo rating and a better recent form compared to Bosnia and Herzegovina, who are struggling with five consecutive draws. Historical head-to-head results also favor the USA.",
+          "raw": "{\"p_home_advance\": 0.65, \"p_away_advance\": 0.35, \"reasoning\": \"USA has a higher Elo rating and a better recent form compared to Bosnia and Herzegovina, who are struggling with five consecutive draws. Historical head-to-head results also favor the USA.\"}",
+          "status": "ok"
+        },
+        "human:shreekhand": {
+          "p_home": 0.742574,
+          "p_draw": 0.009901,
+          "p_away": 0.247525,
+          "name": "Shreekhand"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:ned": {
+          "p_home": 0.831683,
+          "p_draw": 0.009901,
+          "p_away": 0.158416,
+          "name": "Ned"
+        },
+        "human:daksh": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Daksh"
+        },
+        "human:sakshi": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Sakshi"
+        },
+        "human:praneet": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Praneet"
+        },
+        "crowd": {
+          "p_home": 0.754018,
+          "p_draw": 0.01,
+          "p_away": 0.235982,
+          "n": 6
+        }
+      }
+    }
+  ]
+}
