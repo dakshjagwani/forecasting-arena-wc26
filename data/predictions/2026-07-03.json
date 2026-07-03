@@ -1,0 +1,311 @@
+{
+  "date": "2026-07-03",
+  "freeze_utc": "2026-07-03T15:01:01Z",
+  "matches": [
+    {
+      "match_id": "md086-2D-2G",
+      "forecasts": {
+        "market": {
+          "p_home": 0.266846,
+          "p_draw": 0.329919,
+          "p_away": 0.403235,
+          "raw_odds": [
+            3.4,
+            2.75,
+            2.25
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.554455,
+          "p_draw": 0.009901,
+          "p_away": 0.435644,
+          "reasoning": "Australia has a higher Elo rating and better recent form. While head-to-head favors Egypt, the Elo difference and Australia's recent wins give them a slight edge. Heat may affect both, but Egypt is mo",
+          "raw": "{\"p_home_advance\": 0.56, \"p_away_advance\": 0.44, \"reasoning\": \"Australia has a higher Elo rating and better recent form. While head-to-head favors Egypt, the Elo difference and Australia's recent wins give them a slight edge. Heat may affect both, but Egypt is more accustomed to it.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.554455,
+          "p_draw": 0.009901,
+          "p_away": 0.435644,
+          "reasoning": "Elo ratings and recent form slightly favor Australia",
+          "raw": "{\"p_home_advance\": 0.56, \"p_away_advance\": 0.44, \"reasoning\": \"Elo ratings and recent form slightly favor Australia\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.534653,
+          "p_draw": 0.009901,
+          "p_away": 0.455446,
+          "reasoning": "Australia holds a slight Elo advantage (1876 vs 1814). While Egypt has a superior head-to-head record, those matches are outdated. In a neutral knockout setting, the Elo gap suggests a marginal edge f",
+          "raw": "```json\n{\"p_home_advance\": 0.54, \"p_away_advance\": 0.46, \"reasoning\": \"Australia holds a slight Elo advantage (1876 vs 1814). While Egypt has a superior head-to-head record, those matches are outdated. In a neutral knockout setting, the Elo gap suggests a marginal edge for Australia, though Egypt's recent form is slightly more stable.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.594059,
+          "p_draw": 0.009901,
+          "p_away": 0.39604,
+          "reasoning": "Australia's Elo advantage (~62 points) gives ~58% win expectancy; adjust for similar climate and Egypt's slightly better recent form, yielding ~60% chance to advance versus 40% for Egypt.",
+          "raw": "{\"p_home_advance\": 0.60, \"p_away_advance\": 0.40, \"reasoning\": \"Australia's Elo advantage (~62 points) gives ~58% win expectancy; adjust for similar climate and Egypt's slightly better recent form, yielding ~60% chance to advance versus 40% for Egypt.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.544554,
+          "p_draw": 0.009901,
+          "p_away": 0.445545,
+          "reasoning": "Australia has a slight Elo advantage and is playing in hot conditions, which may favor them. However, Egypt's historical performance against Australia and their recent form keeps the match competitive",
+          "raw": "{\"p_home_advance\": 0.55, \"p_away_advance\": 0.45, \"reasoning\": \"Australia has a slight Elo advantage and is playing in hot conditions, which may favor them. However, Egypt's historical performance against Australia and their recent form keeps the match competitive.\"}",
+          "status": "ok"
+        },
+        "human:sakshi": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Sakshi"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:vijay": {
+          "p_home": 0.633663,
+          "p_draw": 0.009901,
+          "p_away": 0.356436,
+          "name": "Vijay"
+        },
+        "human:sd": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "SD"
+        },
+        "human:ned": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Ned"
+        },
+        "human:praneet": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Praneet"
+        },
+        "human:daksh": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Daksh"
+        },
+        "crowd": {
+          "p_home": 0.376232,
+          "p_draw": 0.01,
+          "p_away": 0.613768,
+          "n": 7
+        }
+      }
+    },
+    {
+      "match_id": "md087-1J-2H",
+      "forecasts": {
+        "market": {
+          "p_home": 0.826681,
+          "p_draw": 0.118855,
+          "p_away": 0.054464,
+          "raw_odds": [
+            1.12,
+            7.79,
+            17.0
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.940594,
+          "p_draw": 0.009901,
+          "p_away": 0.049505,
+          "reasoning": "Argentina's significantly higher Elo rating (2175 vs 1634) and perfect recent form (5 wins) make them overwhelming favorites against Cabo Verde, despite the challenging weather conditions.",
+          "raw": "{\"p_home_advance\": 0.95, \"p_away_advance\": 0.05, \"reasoning\": \"Argentina's significantly higher Elo rating (2175 vs 1634) and perfect recent form (5 wins) make them overwhelming favorites against Cabo Verde, despite the challenging weather conditions.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.910891,
+          "p_draw": 0.009901,
+          "p_away": 0.079208,
+          "reasoning": "Elo difference and Argentina's form dominate",
+          "raw": "{\"p_home_advance\": 0.92, \"p_away_advance\": 0.08, \"reasoning\": \"Elo difference and Argentina's form dominate\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.950495,
+          "p_draw": 0.009901,
+          "p_away": 0.039604,
+          "reasoning": "Argentina possesses a massive Elo advantage (+541) and perfect recent form. While Miami's heat is demanding, Argentina's squad depth and technical superiority make an upset by Cabo Verde highly improb",
+          "raw": "```json\n{\"p_home_advance\": 0.96, \"p_away_advance\": 0.04, \"reasoning\": \"Argentina possesses a massive Elo advantage (+541) and perfect recent form. While Miami's heat is demanding, Argentina's squad depth and technical superiority make an upset by Cabo Verde highly improbable in a knockout setting.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.940594,
+          "p_draw": 0.009901,
+          "p_away": 0.049505,
+          "reasoning": "Argentina's 541\u2011point Elo advantage translates to ~96% win probability; heat affects both similarly, and knockout extra\u2011time/penalties rarely overturn such a gap. Thus Argentina ~95% chance to advance",
+          "raw": "{\"p_home_advance\": 0.95, \"p_away_advance\": 0.05, \"reasoning\": \"Argentina's 541\u2011point Elo advantage translates to ~96% win probability; heat affects both similarly, and knockout extra\u2011time/penalties rarely overturn such a gap. Thus Argentina ~95% chance to advance, Cabo Verde ~5%.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.742574,
+          "p_draw": 0.009901,
+          "p_away": 0.247525,
+          "reasoning": "Argentina's higher Elo rating and recent form suggest a strong advantage. Cabo Verde's lower Elo and inconsistent performance reduce their chances, especially in demanding conditions.",
+          "raw": "{\"p_home_advance\": 0.75, \"p_away_advance\": 0.25, \"reasoning\": \"Argentina's higher Elo rating and recent form suggest a strong advantage. Cabo Verde's lower Elo and inconsistent performance reduce their chances, especially in demanding conditions.\"}",
+          "status": "ok"
+        },
+        "human:sakshi": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Sakshi"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:vijay": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Vijay"
+        },
+        "human:sd": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "SD"
+        },
+        "human:ned": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Ned"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "human:daksh": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Daksh"
+        },
+        "crowd": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "n": 7
+        }
+      }
+    },
+    {
+      "match_id": "md088-1K-3DEIJL",
+      "forecasts": {
+        "market": {
+          "p_home": 0.657318,
+          "p_draw": 0.223488,
+          "p_away": 0.119194,
+          "raw_odds": [
+            1.36,
+            4.0,
+            7.5
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.891089,
+          "p_draw": 0.009901,
+          "p_away": 0.09901,
+          "reasoning": "Colombia has a significantly higher Elo rating (2050 vs 1600) and better recent form (3W 2L vs 1D 4L). This substantial Elo difference strongly favors Colombia in a knockout match.",
+          "raw": "{\"p_home_advance\": 0.90, \"p_away_advance\": 0.10, \"reasoning\": \"Colombia has a significantly higher Elo rating (2050 vs 1600) and better recent form (3W 2L vs 1D 4L). This substantial Elo difference strongly favors Colombia in a knockout match.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.821782,
+          "p_draw": 0.009901,
+          "p_away": 0.168317,
+          "reasoning": "Elo difference favors Colombia",
+          "raw": "{\"p_home_advance\": 0.83, \"p_away_advance\": 0.17, \"reasoning\": \"Elo difference favors Colombia\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "status": "failed",
+          "error": "HTTP Error 429: Too Many Requests"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.891089,
+          "p_draw": 0.009901,
+          "p_away": 0.09901,
+          "reasoning": "Colombia\u2019s 450\u2011point Elo advantage translates to ~93% win probability; extra\u2011time/penalties in a knockout add variance, slightly boosting Ghana\u2019s odds, yielding roughly a 90/10 split.",
+          "raw": "{\"p_home_advance\":0.90,\"p_away_advance\":0.10,\"reasoning\":\"Colombia\u2019s 450\u2011point Elo advantage translates to ~93% win probability; extra\u2011time/penalties in a knockout add variance, slightly boosting Ghana\u2019s odds, yielding roughly a 90/10 split.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.742574,
+          "p_draw": 0.009901,
+          "p_away": 0.247525,
+          "reasoning": "Colombia's higher Elo rating and recent form suggest a strong advantage over Ghana, who are struggling with four consecutive losses. The warm conditions may favor the more experienced Colombian squad.",
+          "raw": "{\"p_home_advance\": 0.75, \"p_away_advance\": 0.25, \"reasoning\": \"Colombia's higher Elo rating and recent form suggest a strong advantage over Ghana, who are struggling with four consecutive losses. The warm conditions may favor the more experienced Colombian squad.\"}",
+          "status": "ok"
+        },
+        "human:sakshi": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Sakshi"
+        },
+        "human:football": {
+          "p_home": 0.960396,
+          "p_draw": 0.009901,
+          "p_away": 0.029703,
+          "name": "Football"
+        },
+        "human:vijay": {
+          "p_home": 0.693069,
+          "p_draw": 0.009901,
+          "p_away": 0.29703,
+          "name": "Vijay"
+        },
+        "human:sd": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "SD"
+        },
+        "human:ned": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Ned"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "human:daksh": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Daksh"
+        },
+        "crowd": {
+          "p_home": 0.936183,
+          "p_draw": 0.01,
+          "p_away": 0.053817,
+          "n": 7
+        }
+      }
+    }
+  ]
+}
