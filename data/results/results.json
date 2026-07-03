@@ -592,5 +592,23 @@
     "status": "FT",
     "advanced": "home",
     "decided_by": "regular"
+  },
+  {
+    "match_id": "md083-2A-2B",
+    "score_home": 3,
+    "score_away": 0,
+    "outcome": "home",
+    "status": "FT",
+    "advanced": "home",
+    "decided_by": "regular"
+  },
+  {
+    "match_id": "md084-2K-2L",
+    "score_home": 2,
+    "score_away": 1,
+    "outcome": "home",
+    "status": "FT",
+    "advanced": "home",
+    "decided_by": "regular"
   }
 ]
