@@ -235,6 +235,7 @@
       margin: .6rem 0;
     }
     .md-match-head { font-size: .9rem; font-weight: 800; margin-bottom: .1rem; }
+    .md-match-head .aet { font-size: .62rem; font-weight: 700; color: var(--text-sub); text-transform: uppercase; letter-spacing: .03em; vertical-align: middle; }
     .md-match-sub  { font-size: .72rem; color: var(--text-sub); margin-bottom: .55rem; }
     .md-match table { min-width: 0; font-size: .8rem; }
     .md-match td, .md-match th { padding: .4rem .5rem; }
@@ -583,14 +584,24 @@ async function loadMatchBoards() {
         </tr>`;
       }).join('');
       const predHeader = adv ? `${m.home} / ${m.away} advance` : 'Home/Draw/Away';
-      const decided = m.decided_by === 'penalties'
-          ? ` on penalties${m.pens ? ` (${m.pens})` : ''}`
-          : m.decided_by === 'extra_time' ? ' after extra time' : '';
+      // Headline shows the REAL result: extra-time score (e.g. 3–2 a.e.t.),
+      // or the 90-min score + shootout for penalties. Scoring is still the
+      // 90-min result, clarified in the sub-line.
+      const nd = s => (s || '').replace('-', '–');
+      let headScore = nd(m.score), resultTag = '';
+      if (adv && m.decided_by === 'extra_time' && m.final_score) {
+        headScore = nd(m.final_score);
+        resultTag = ' <span class="aet">a.e.t.</span>';
+      } else if (adv && m.decided_by === 'penalties') {
+        resultTag = m.pens ? ` <span class="aet">${nd(m.pens)} pens</span>` : ' <span class="aet">pens</span>';
+      }
+      const basis = adv && (m.decided_by === 'extra_time' || m.decided_by === 'penalties')
+        ? ` · scored on the ${nd(m.score)} at 90'` : '';
       const sub = adv
-        ? `${m.stage} · ${m.score.replace('-', '–')} after 90' · <strong>${homeAdvanced ? m.home : m.away}</strong> advanced${decided}`
+        ? `${m.stage} · <strong>${homeAdvanced ? m.home : m.away}</strong> advances${basis}`
         : `${m.stage} · result: ${m.outcome === 'draw' ? 'draw' : m.outcome + ' win'}`;
       return `<div class="md-match">
-        <div class="md-match-head">${m.home} ${m.score.replace('-', '–')} ${m.away}</div>
+        <div class="md-match-head">${m.home} ${headScore} ${m.away}${resultTag}</div>
         <div class="md-match-sub">${sub}</div>
         <table>
           <thead><tr><th>#</th><th></th><th>Forecaster</th><th>${predHeader}</th><th>Score ↓</th></tr></thead>

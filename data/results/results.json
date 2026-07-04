@@ -579,12 +579,13 @@
   },
   {
     "match_id": "md081-1G-3AEHIJ",
-    "score_home": 3,
+    "score_home": 2,
     "score_away": 2,
-    "outcome": "home",
+    "outcome": "draw",
     "status": "FT",
     "advanced": "home",
-    "decided_by": "regular"
+    "decided_by": "extra_time",
+    "final_score": "3-2"
   },
   {
     "match_id": "md082-1D-3BEFIJ",
@@ -639,7 +640,8 @@
     "outcome": "draw",
     "status": "FT",
     "advanced": "home",
-    "decided_by": "extra_time"
+    "decided_by": "extra_time",
+    "final_score": "3-2"
   },
   {
     "match_id": "md088-1K-3DEIJL",

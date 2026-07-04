@@ -92,6 +92,8 @@ def build_match_scores(scoreable: list, all_preds: dict, fixture_map: dict) -> d
             block["decided_by"] = result.get("decided_by", "regular")
             if result.get("pens"):
                 block["pens"] = result["pens"]
+            if result.get("final_score"):         # real result incl. ET (e.g. 3-2)
+                block["final_score"] = result["final_score"]
         days.setdefault(day, []).append(block)
     for day in days:
         days[day].sort(key=lambda m: m["kickoff_utc"])

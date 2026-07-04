@@ -48,6 +48,25 @@ _WINNER_SIDE = {"HOME_TEAM": "home", "AWAY_TEAM": "away"}
 _DECIDED_BY = {"REGULAR": "regular", "EXTRA_TIME": "extra_time",
                "PENALTY_SHOOTOUT": "penalties"}
 
+def knockout_fields(score_obj: dict) -> dict:
+    """Display + advancement fields for a knockout result: who advanced, how it
+    was decided, the shootout score, and — when it went to extra time — the REAL
+    final score (e.g. 3-2 a.e.t.). Scoring still uses the 90-min result recorded
+    separately; these fields only make the result line accurate on the card."""
+    out: dict = {}
+    side = _WINNER_SIDE.get(score_obj.get("winner"))
+    if side:
+        out["advanced"] = side
+    dur = score_obj.get("duration", "REGULAR")
+    out["decided_by"] = _DECIDED_BY.get(dur, "regular")
+    pens = score_obj.get("penalties") or {}
+    if dur == "PENALTY_SHOOTOUT" and pens.get("home") is not None and pens.get("away") is not None:
+        out["pens"] = f"{int(pens['home'])}-{int(pens['away'])}"
+    ft = score_obj.get("fullTime") or {}
+    if dur == "EXTRA_TIME" and ft.get("home") is not None and ft.get("away") is not None:
+        out["final_score"] = f"{int(ft['home'])}-{int(ft['away'])}"
+    return out
+
 def find_fixture(home_api: str, away_api: str, fixture_by_teams: dict) -> dict | None:
     for (h, a), f in fixture_by_teams.items():
         if _names_match(h, home_api) and _names_match(a, away_api):
@@ -124,29 +143,9 @@ def main() -> None:
                     continue
 
                 mid = fixture["match_id"]
-                if mid in existing and existing[mid].get("status") == "FT":
-                    # Never overwrite the confirmed 90-min score — but DO backfill
-                    # advancement on a knockout result that was recorded before the
-                    # shootout winner landed. A penalty match can be caught in a
-                    # data-lag window where duration=PENALTY_SHOOTOUT but `winner`
-                    # is still null (its `pens` even show an impossible tie); the
-                    # guard then froze it without `advanced`. Refresh only the
-                    # advancement fields from the now-complete API.
-                    ex = existing[mid]
-                    if is_knockout(fixture.get("stage", "")) and not ex.get("advanced"):
-                        side = _WINNER_SIDE.get(score_obj.get("winner"))
-                        if side:
-                            ex["advanced"] = side
-                            ex["decided_by"] = _DECIDED_BY.get(
-                                score_obj.get("duration", "REGULAR"), "regular")
-                            pens = score_obj.get("penalties") or {}
-                            if pens.get("home") is not None and pens.get("away") is not None:
-                                ex["pens"] = f"{int(pens['home'])}-{int(pens['away'])}"
-                            print(f"Backfilled advancement for {mid}: {side}", file=sys.stderr)
-                            new_count += 1
-                    continue  # 90-min score already confirmed
-
-                result = {
+                ko = is_knockout(fixture.get("stage", ""))
+                ko_fields = knockout_fields(score_obj) if ko else {}
+                base = {
                     "match_id": mid,
                     "score_home": int(sh),
                     "score_away": int(sa),
@@ -154,19 +153,28 @@ def main() -> None:
                     "status": "FT",
                 }
 
-                # Knockouts: also record who ADVANCED (after extra time /
-                # penalties) — display-only for the result line, and the scored
-                # outcome for the advancement leaderboard. The 90-min `outcome`
-                # above is unchanged (kept for the record + group-style display).
-                if is_knockout(fixture.get("stage", "")):
-                    side = _WINNER_SIDE.get(score_obj.get("winner"))
-                    if side:
-                        result["advanced"] = side
-                    result["decided_by"] = _DECIDED_BY.get(
-                        score_obj.get("duration", "REGULAR"), "regular")
-                    pens = score_obj.get("penalties") or {}
-                    if pens.get("home") is not None and pens.get("away") is not None:
-                        result["pens"] = f"{int(pens['home'])}-{int(pens['away'])}"
+                if mid in existing and existing[mid].get("status") == "FT":
+                    # Group results are immutable once FT. Knockout results, though,
+                    # can be captured wrong during the FINISHED-transition lag: the
+                    # API briefly shows duration=REGULAR with the ET/shootout score,
+                    # so we store that as the 90-min score + decided_by=regular
+                    # (e.g. md081 stored 3-2/home when 90' was 2-2/draw). The API is
+                    # authoritative and stable once a knockout is fully finished, so
+                    # reconcile knockout fields to it — self-healing on the next run.
+                    if ko:
+                        ex = existing[mid]
+                        fixed = {**base, **ko_fields}
+                        changed = [k for k, v in fixed.items() if ex.get(k) != v]
+                        if changed:
+                            ex.update(fixed)
+                            print(f"Corrected {mid}: {', '.join(changed)}", file=sys.stderr)
+                            new_count += 1
+                    continue  # group 90-min result is immutable
+
+                result = base
+                # Knockouts: record who ADVANCED + the real result beyond 90 min
+                # (display-only). The 90-min score/outcome above is what's scored.
+                result.update(ko_fields)
 
                 existing[mid] = result
                 new_count += 1

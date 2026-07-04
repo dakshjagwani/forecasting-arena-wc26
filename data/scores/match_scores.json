@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-07-04T11:05:15Z",
+  "updated_utc": "2026-07-04T15:34:47Z",
   "days": {
     "2026-06-12": [
       {
@@ -9050,8 +9050,8 @@
         "away": "Senegal",
         "stage": "Round of 32",
         "kickoff_utc": "2026-07-01T20:00:00Z",
-        "score": "3-2",
-        "outcome": "home",
+        "score": "2-2",
+        "outcome": "draw",
         "rows": [
           {
             "forecaster": "human:football",
@@ -9173,7 +9173,8 @@
         ],
         "metric": "advancement",
         "advanced": "home",
-        "decided_by": "regular"
+        "decided_by": "extra_time",
+        "final_score": "3-2"
       },
       {
         "match_id": "md082-1D-3BEFIJ",
@@ -9991,7 +9992,8 @@
         ],
         "metric": "advancement",
         "advanced": "home",
-        "decided_by": "extra_time"
+        "decided_by": "extra_time",
+        "final_score": "3-2"
       },
       {
         "match_id": "md088-1K-3DEIJL",

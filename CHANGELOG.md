@@ -4,6 +4,25 @@ Every data correction and every decision that affects the experiment's
 integrity is logged here, newest first. Scores JSONs are never hand-edited;
 they are recomputed from raw data after any correction.
 
+## 2026-07-04 — Accurate knockout result display + self-healing lag correction
+
+- **Extra-time/penalty results now show the real score.** We score the 90-min
+  result (correct + pre-registered), but the card was showing only that — e.g.
+  Argentina–Cabo Verde displayed "1–1" though it finished **3–2 a.e.t.**
+  fetch_results.py now also captures `final_score` (the extra-time score) and
+  the shootout `pens`; the per-match board headlines the real result
+  (`3–2 a.e.t.`, or `1–1 · 3–4 pens`) and the sub-line clarifies "scored on the
+  1–1 at 90'". Display-only — scoring/advancement unchanged.
+- **Data correction (self-healing):** md081 (Belgium–Senegal) was **2–2 at 90'**,
+  Belgium winning 3–2 in extra time, but was stored as `3–2 / home / regular` —
+  captured during the FINISHED-transition lag when the API briefly reports the ET
+  score as "regular", then frozen by the idempotency guard. Its **advancement**
+  score was always correct (Belgium advanced); only the 90-min score/display were
+  wrong. fetch_results.py now reconciles knockout results to the authoritative,
+  post-match-stable API each run, so this class of lag error auto-corrects
+  (md081 fixed to 2–2/draw/extra_time). Group results remain immutable once FT.
+- 104 tests green; leaderboards recomputed.
+
 ## 2026-06-29 — KNOCKOUT PHASE: scoring switches to "who advances" (pre-registered)
 
 **Experiment-defining change. Pre-registered before the md074 freeze (≈14:00 UTC

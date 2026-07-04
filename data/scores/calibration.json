@@ -19,7 +19,7 @@
         "lo": 0.2,
         "hi": 0.3,
         "n": 74,
-        "actual_freq": 0.1892,
+        "actual_freq": 0.2027,
         "predicted_mid": 0.25
       },
       {
@@ -33,7 +33,7 @@
         "lo": 0.4,
         "hi": 0.5,
         "n": 25,
-        "actual_freq": 0.56,
+        "actual_freq": 0.52,
         "predicted_mid": 0.45
       },
       {
@@ -79,7 +79,7 @@
         "lo": 0.0,
         "hi": 0.1,
         "n": 38,
-        "actual_freq": 0.1053,
+        "actual_freq": 0.1316,
         "predicted_mid": 0.05
       },
       {
@@ -114,7 +114,7 @@
         "lo": 0.5,
         "hi": 0.6,
         "n": 20,
-        "actual_freq": 0.6,
+        "actual_freq": 0.55,
         "predicted_mid": 0.55
       },
       {
@@ -153,7 +153,7 @@
         "lo": 0.0,
         "hi": 0.1,
         "n": 21,
-        "actual_freq": 0.1905,
+        "actual_freq": 0.2381,
         "predicted_mid": 0.05
       },
       {
@@ -188,7 +188,7 @@
         "lo": 0.5,
         "hi": 0.6,
         "n": 30,
-        "actual_freq": 0.6333,
+        "actual_freq": 0.6,
         "predicted_mid": 0.55
       },
       {
@@ -227,7 +227,7 @@
         "lo": 0.0,
         "hi": 0.1,
         "n": 29,
-        "actual_freq": 0.1379,
+        "actual_freq": 0.1724,
         "predicted_mid": 0.05
       },
       {
@@ -262,7 +262,7 @@
         "lo": 0.5,
         "hi": 0.6,
         "n": 28,
-        "actual_freq": 0.6429,
+        "actual_freq": 0.6071,
         "predicted_mid": 0.55
       },
       {
@@ -301,7 +301,7 @@
         "lo": 0.0,
         "hi": 0.1,
         "n": 35,
-        "actual_freq": 0.1714,
+        "actual_freq": 0.2,
         "predicted_mid": 0.05
       },
       {
@@ -336,7 +336,7 @@
         "lo": 0.5,
         "hi": 0.6,
         "n": 22,
-        "actual_freq": 0.6818,
+        "actual_freq": 0.6364,
         "predicted_mid": 0.55
       },
       {
@@ -375,7 +375,7 @@
         "lo": 0.0,
         "hi": 0.1,
         "n": 16,
-        "actual_freq": 0.25,
+        "actual_freq": 0.3125,
         "predicted_mid": 0.05
       },
       {
@@ -410,7 +410,7 @@
         "lo": 0.5,
         "hi": 0.6,
         "n": 25,
-        "actual_freq": 0.6,
+        "actual_freq": 0.56,
         "predicted_mid": 0.55
       },
       {
@@ -523,7 +523,7 @@
         "lo": 0.0,
         "hi": 0.1,
         "n": 68,
-        "actual_freq": 0.2059,
+        "actual_freq": 0.2206,
         "predicted_mid": 0.05
       },
       {
@@ -537,7 +537,7 @@
         "lo": 0.2,
         "hi": 0.3,
         "n": 21,
-        "actual_freq": 0.381,
+        "actual_freq": 0.3333,
         "predicted_mid": 0.25
       },
       {
@@ -671,7 +671,7 @@
         "lo": 0.0,
         "hi": 0.1,
         "n": 128,
-        "actual_freq": 0.1406,
+        "actual_freq": 0.1484,
         "predicted_mid": 0.05
       },
       {
@@ -734,7 +734,7 @@
         "lo": 0.9,
         "hi": 1.0,
         "n": 63,
-        "actual_freq": 0.7143,
+        "actual_freq": 0.6984,
         "predicted_mid": 0.95
       }
     ]
@@ -819,7 +819,7 @@
         "lo": 0.0,
         "hi": 0.1,
         "n": 57,
-        "actual_freq": 0.1404,
+        "actual_freq": 0.1579,
         "predicted_mid": 0.05
       },
       {
@@ -840,7 +840,7 @@
         "lo": 0.3,
         "hi": 0.4,
         "n": 32,
-        "actual_freq": 0.375,
+        "actual_freq": 0.3438,
         "predicted_mid": 0.35
       },
       {
@@ -893,7 +893,7 @@
         "lo": 0.0,
         "hi": 0.1,
         "n": 93,
-        "actual_freq": 0.1183,
+        "actual_freq": 0.129,
         "predicted_mid": 0.05
       },
       {
@@ -928,7 +928,7 @@
         "lo": 0.5,
         "hi": 0.6,
         "n": 7,
-        "actual_freq": 0.4286,
+        "actual_freq": 0.2857,
         "predicted_mid": 0.55
       },
       {
@@ -1115,7 +1115,7 @@
         "lo": 0.0,
         "hi": 0.1,
         "n": 60,
-        "actual_freq": 0.1,
+        "actual_freq": 0.1167,
         "predicted_mid": 0.05
       },
       {
@@ -1157,7 +1157,7 @@
         "lo": 0.6,
         "hi": 0.7,
         "n": 15,
-        "actual_freq": 0.6667,
+        "actual_freq": 0.6,
         "predicted_mid": 0.65
       },
       {
@@ -1485,7 +1485,7 @@
         "lo": 0.0,
         "hi": 0.1,
         "n": 88,
-        "actual_freq": 0.2273,
+        "actual_freq": 0.2386,
         "predicted_mid": 0.05
       },
       {
@@ -1548,7 +1548,7 @@
         "lo": 0.9,
         "hi": 1.0,
         "n": 37,
-        "actual_freq": 0.5676,
+        "actual_freq": 0.5405,
         "predicted_mid": 0.95
       }
     ]
@@ -1559,7 +1559,7 @@
         "lo": 0.0,
         "hi": 0.1,
         "n": 9,
-        "actual_freq": 0.0,
+        "actual_freq": 0.1111,
         "predicted_mid": 0.05
       },
       {
@@ -1594,7 +1594,7 @@
         "lo": 0.5,
         "hi": 0.6,
         "n": 4,
-        "actual_freq": 0.5,
+        "actual_freq": 0.25,
         "predicted_mid": 0.55
       },
       {
