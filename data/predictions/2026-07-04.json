@@ -1,0 +1,196 @@
+{
+  "date": "2026-07-04",
+  "freeze_utc": "2026-07-04T14:01:07Z",
+  "matches": [
+    {
+      "match_id": "md089-W73-W75",
+      "forecasts": {
+        "market": {
+          "p_home": 0.181817,
+          "p_draw": 0.273821,
+          "p_away": 0.544362,
+          "raw_odds": [
+            5.0,
+            3.32,
+            1.67
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.376238,
+          "p_draw": 0.009901,
+          "p_away": 0.613861,
+          "reasoning": "Morocco has a higher Elo and a strong head-to-head record, including a recent World Cup win. Canada's home advantage is somewhat mitigated by the indoor stadium. Morocco's recent form is also slightly",
+          "raw": "{\"p_home_advance\": 0.38, \"p_away_advance\": 0.62, \"reasoning\": \"Morocco has a higher Elo and a strong head-to-head record, including a recent World Cup win. Canada's home advantage is somewhat mitigated by the indoor stadium. Morocco's recent form is also slightly better.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.415842,
+          "p_draw": 0.009901,
+          "p_away": 0.574257,
+          "reasoning": "Elo ratings and head-to-head favor Morocco",
+          "raw": "{\"p_home_advance\": 0.42, \"p_away_advance\": 0.58, \"reasoning\": \"Elo ratings and head-to-head favor Morocco\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.376238,
+          "p_draw": 0.009901,
+          "p_away": 0.613861,
+          "reasoning": "Morocco holds a significant Elo advantage (+82) and a dominant head-to-head record (3W, 1D). While Canada has home-continent support and decent recent form, Morocco's superior technical quality and hi",
+          "raw": "```json\n{\"p_home_advance\": 0.38, \"p_away_advance\": 0.62, \"reasoning\": \"Morocco holds a significant Elo advantage (+82) and a dominant head-to-head record (3W, 1D). While Canada has home-continent support and decent recent form, Morocco's superior technical quality and historical edge make them clear favorites to advance in a knockout setting.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.376238,
+          "p_draw": 0.009901,
+          "p_away": 0.613861,
+          "reasoning": "Morocco's 82\u2011point Elo edge gives ~61.6% win expectancy; recent form slightly favors them. Neutral venue and heat affect both equally, so adjust modestly for knockout variance, yielding ~38% chance fo",
+          "raw": "{\"p_home_advance\": 0.38, \"p_away_advance\": 0.62, \"reasoning\": \"Morocco's 82\u2011point Elo edge gives ~61.6% win expectancy; recent form slightly favors them. Neutral venue and heat affect both equally, so adjust modestly for knockout variance, yielding ~38% chance for Canada.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.346535,
+          "p_draw": 0.009901,
+          "p_away": 0.643564,
+          "reasoning": "Morocco has a higher Elo rating and a better recent form. Canada's historical performance against Morocco also favors the away team, despite the neutral venue.",
+          "raw": "{\"p_home_advance\": 0.35, \"p_away_advance\": 0.65, \"reasoning\": \"Morocco has a higher Elo rating and a better recent form. Canada's historical performance against Morocco also favors the away team, despite the neutral venue.\"}",
+          "status": "ok"
+        },
+        "human:football": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Football"
+        },
+        "human:ned": {
+          "p_home": 0.148515,
+          "p_draw": 0.009901,
+          "p_away": 0.841584,
+          "name": "Ned"
+        },
+        "human:vijay": {
+          "p_home": 0.29703,
+          "p_draw": 0.009901,
+          "p_away": 0.693069,
+          "name": "Vijay"
+        },
+        "human:daksh": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Praneet"
+        },
+        "human:sd": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "SD"
+        },
+        "crowd": {
+          "p_home": 0.080921,
+          "p_draw": 0.01,
+          "p_away": 0.909079,
+          "n": 6
+        }
+      }
+    },
+    {
+      "match_id": "md090-W74-W77",
+      "forecasts": {
+        "market": {
+          "p_home": 0.070234,
+          "p_draw": 0.142663,
+          "p_away": 0.787104,
+          "raw_odds": [
+            13.0,
+            6.4,
+            1.16
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.188119,
+          "p_draw": 0.009901,
+          "p_away": 0.80198,
+          "reasoning": "France has a significantly higher Elo rating (2128 vs 1906) and a dominant head-to-head record. While Paraguay's recent form is decent, France's overall quality and experience in knockout stages make ",
+          "raw": "```json\n{\n  \"p_home_advance\": 0.19,\n  \"p_away_advance\": 0.81,\n  \"reasoning\": \"France has a significantly higher Elo rating (2128 vs 1906) and a dominant head-to-head record. While Paraguay's recent form is decent, France's overall quality and experience in knockout stages make them strong favorites.\"\n}\n```",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.237624,
+          "p_draw": 0.009901,
+          "p_away": 0.752475,
+          "reasoning": "Elo ratings and head-to-head favor France",
+          "raw": "{\"p_home_advance\": 0.24, \"p_away_advance\": 0.76, \"reasoning\": \"Elo ratings and head-to-head favor France\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "status": "failed",
+          "error": "HTTP Error 429: Too Many Requests"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.19802,
+          "p_draw": 0.009901,
+          "p_away": 0.792079,
+          "reasoning": "France's 222\u2011point Elo advantage gives ~78% win odds; recent form and perfect head\u2011to\u2011head record boost it to ~80%, leaving Paraguay ~20%.",
+          "raw": "{\"p_home_advance\": 0.20, \"p_away_advance\": 0.80, \"reasoning\": \"France's 222\u2011point Elo advantage gives ~78% win odds; recent form and perfect head\u2011to\u2011head record boost it to ~80%, leaving Paraguay ~20%.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.247525,
+          "p_draw": 0.009901,
+          "p_away": 0.742574,
+          "reasoning": "France's higher Elo rating and recent form suggest a strong advantage. Paraguay's historical struggles against France further support a lower probability of advancement.",
+          "raw": "{\"p_home_advance\": 0.25, \"p_away_advance\": 0.75, \"reasoning\": \"France's higher Elo rating and recent form suggest a strong advantage. Paraguay's historical struggles against France further support a lower probability of advancement.\"}",
+          "status": "ok"
+        },
+        "human:football": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Football"
+        },
+        "human:ned": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Ned"
+        },
+        "human:vijay": {
+          "p_home": 0.019802,
+          "p_draw": 0.009901,
+          "p_away": 0.970297,
+          "name": "Vijay"
+        },
+        "human:daksh": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Praneet"
+        },
+        "human:sd": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "SD"
+        },
+        "crowd": {
+          "p_home": 0.011633,
+          "p_draw": 0.01,
+          "p_away": 0.978367,
+          "n": 6
+        }
+      }
+    }
+  ]
+}
