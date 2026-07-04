@@ -619,5 +619,23 @@
     "status": "FT",
     "advanced": "home",
     "decided_by": "regular"
+  },
+  {
+    "match_id": "md086-2D-2G",
+    "score_home": 1,
+    "score_away": 1,
+    "outcome": "draw",
+    "status": "FT",
+    "decided_by": "penalties",
+    "pens": "4-4"
+  },
+  {
+    "match_id": "md088-1K-3DEIJL",
+    "score_home": 1,
+    "score_away": 0,
+    "outcome": "home",
+    "status": "FT",
+    "advanced": "home",
+    "decided_by": "regular"
   }
 ]
