@@ -170,6 +170,14 @@ def test_golden_real_bracket():
     Asserts the whole bracket pins 1:1 and the R32 resolves with canonical names."""
     api = json.loads((GOLDEN / "wc_matches_sample.json").read_text())
     fixtures = json.loads((ROOT / "data" / "fixtures" / "fixtures.json").read_text())
+    # Reset knockouts to their placeholder state so this test is deterministic and
+    # independent of live tournament progress (R16+ resolve as the real bracket
+    # advances; the golden API snapshot still has them null).
+    for f in fixtures:
+        if f["stage"] in rf.KNOCKOUT_STAGES:
+            f["home"] = f["away"] = f["home_code"] = f["away_code"] = None
+            f["is_placeholder"] = True
+            f.pop("fd_id", None)
 
     out, changes = rf.resolve_fixtures(fixtures, api, NOW, frozen_ids=set())
 

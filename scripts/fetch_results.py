@@ -125,7 +125,26 @@ def main() -> None:
 
                 mid = fixture["match_id"]
                 if mid in existing and existing[mid].get("status") == "FT":
-                    continue  # never overwrite confirmed FT result
+                    # Never overwrite the confirmed 90-min score — but DO backfill
+                    # advancement on a knockout result that was recorded before the
+                    # shootout winner landed. A penalty match can be caught in a
+                    # data-lag window where duration=PENALTY_SHOOTOUT but `winner`
+                    # is still null (its `pens` even show an impossible tie); the
+                    # guard then froze it without `advanced`. Refresh only the
+                    # advancement fields from the now-complete API.
+                    ex = existing[mid]
+                    if is_knockout(fixture.get("stage", "")) and not ex.get("advanced"):
+                        side = _WINNER_SIDE.get(score_obj.get("winner"))
+                        if side:
+                            ex["advanced"] = side
+                            ex["decided_by"] = _DECIDED_BY.get(
+                                score_obj.get("duration", "REGULAR"), "regular")
+                            pens = score_obj.get("penalties") or {}
+                            if pens.get("home") is not None and pens.get("away") is not None:
+                                ex["pens"] = f"{int(pens['home'])}-{int(pens['away'])}"
+                            print(f"Backfilled advancement for {mid}: {side}", file=sys.stderr)
+                            new_count += 1
+                    continue  # 90-min score already confirmed
 
                 result = {
                     "match_id": mid,
