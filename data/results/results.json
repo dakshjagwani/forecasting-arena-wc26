@@ -651,5 +651,23 @@
     "status": "FT",
     "advanced": "home",
     "decided_by": "regular"
+  },
+  {
+    "match_id": "md089-W73-W75",
+    "score_home": 0,
+    "score_away": 3,
+    "outcome": "away",
+    "status": "FT",
+    "advanced": "away",
+    "decided_by": "regular"
+  },
+  {
+    "match_id": "md090-W74-W77",
+    "score_home": 0,
+    "score_away": 1,
+    "outcome": "away",
+    "status": "FT",
+    "advanced": "away",
+    "decided_by": "regular"
   }
 ]
