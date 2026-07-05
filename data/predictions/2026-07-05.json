@@ -1,0 +1,196 @@
+{
+  "date": "2026-07-05",
+  "freeze_utc": "2026-07-05T17:01:07Z",
+  "matches": [
+    {
+      "match_id": "md091-W76-W78",
+      "forecasts": {
+        "market": {
+          "p_home": 0.519443,
+          "p_draw": 0.2546,
+          "p_away": 0.225957,
+          "raw_odds": [
+            1.74,
+            3.55,
+            4.0
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.673267,
+          "p_draw": 0.009901,
+          "p_away": 0.316832,
+          "reasoning": "Brazil's higher Elo (2060 vs 1966) gives them a significant advantage. While head-to-head favors Norway, it's historical. Brazil's recent form is stronger, making them favorites to advance.",
+          "raw": "{\"p_home_advance\": 0.68, \"p_away_advance\": 0.32, \"reasoning\": \"Brazil's higher Elo (2060 vs 1966) gives them a significant advantage. While head-to-head favors Norway, it's historical. Brazil's recent form is stronger, making them favorites to advance.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.574257,
+          "p_draw": 0.009901,
+          "p_away": 0.415842,
+          "reasoning": "Elo difference favors Brazil",
+          "raw": "{\"p_home_advance\": 0.58, \"p_away_advance\": 0.42, \"reasoning\": \"Elo difference favors Brazil\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.613861,
+          "p_draw": 0.009901,
+          "p_away": 0.376238,
+          "reasoning": "Brazil holds a significant Elo advantage (+94) and superior recent form. While Norway has a strong historical head-to-head record, those matches are outdated. Brazil's overall squad depth and tourname",
+          "raw": "```json\n{\"p_home_advance\": 0.62, \"p_away_advance\": 0.38, \"reasoning\": \"Brazil holds a significant Elo advantage (+94) and superior recent form. While Norway has a strong historical head-to-head record, those matches are outdated. Brazil's overall squad depth and tournament pedigree make them favorites to advance in a knockout setting.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.60396,
+          "p_draw": 0.009901,
+          "p_away": 0.386139,
+          "reasoning": "Elo diff 94 gives Brazil ~63% win chance; recent form favors Brazil, venue neutral. Norway's unbeaten record vs Brazil adds slight upset potential, so adjust to roughly 61% Brazil, 39% Norway.",
+          "raw": "{\"p_home_advance\": 0.61, \"p_away_advance\": 0.39, \"reasoning\": \"Elo diff 94 gives Brazil ~63% win chance; recent form favors Brazil, venue neutral. Norway's unbeaten record vs Brazil adds slight upset potential, so adjust to roughly 61% Brazil, 39% Norway.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.544554,
+          "p_draw": 0.009901,
+          "p_away": 0.445545,
+          "reasoning": "Brazil has a higher Elo rating and recent form, but Norway's historical performance against Brazil suggests a competitive match. The knockout format adds unpredictability, slightly favoring Brazil.",
+          "raw": "{\"p_home_advance\": 0.55, \"p_away_advance\": 0.45, \"reasoning\": \"Brazil has a higher Elo rating and recent form, but Norway's historical performance against Brazil suggests a competitive match. The knockout format adds unpredictability, slightly favoring Brazil.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.742574,
+          "p_draw": 0.009901,
+          "p_away": 0.247525,
+          "name": "Ned"
+        },
+        "human:sakshi": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Sakshi"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:daksh": {
+          "p_home": 0.594059,
+          "p_draw": 0.009901,
+          "p_away": 0.39604,
+          "name": "Daksh"
+        },
+        "human:vijay": {
+          "p_home": 0.70297,
+          "p_draw": 0.009901,
+          "p_away": 0.287129,
+          "name": "Vijay"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "crowd": {
+          "p_home": 0.829893,
+          "p_draw": 0.01,
+          "p_away": 0.160108,
+          "n": 6
+        }
+      }
+    },
+    {
+      "match_id": "md092-W79-W80",
+      "forecasts": {
+        "market": {
+          "p_home": 0.305195,
+          "p_draw": 0.305195,
+          "p_away": 0.38961,
+          "raw_odds": [
+            3.0,
+            3.0,
+            2.35
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.415842,
+          "p_draw": 0.009901,
+          "p_away": 0.574257,
+          "reasoning": "England's higher Elo and stronger recent form are slightly offset by Mexico's significant home advantage at high altitude in a knockout match.",
+          "raw": "{\"p_home_advance\": 0.42, \"p_away_advance\": 0.58, \"reasoning\": \"England's higher Elo and stronger recent form are slightly offset by Mexico's significant home advantage at high altitude in a knockout match.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.574257,
+          "p_draw": 0.009901,
+          "p_away": 0.415842,
+          "reasoning": "Mexico's home advantage at high altitude outweighs England's Elo rating edge.",
+          "raw": "{\"p_home_advance\": 0.58, \"p_away_advance\": 0.42, \"reasoning\": \"Mexico's home advantage at high altitude outweighs England's Elo rating edge.\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "status": "failed",
+          "error": "HTTP Error 429: Too Many Requests"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.594059,
+          "p_draw": 0.009901,
+          "p_away": 0.39604,
+          "reasoning": "England\u2019s +98 Elo gives ~64% win at neutral. Mexico\u2019s home\u2011field and 2240\u202fm altitude add ~+150 Elo, flipping advantage to ~+52, yielding ~57% win; adjust for form \u2192 ~60% advance.",
+          "raw": "{\"p_home_advance\": 0.60, \"p_away_advance\": 0.40, \"reasoning\": \"England\u2019s +98 Elo gives ~64% win at neutral. Mexico\u2019s home\u2011field and 2240\u202fm altitude add ~+150 Elo, flipping advantage to ~+52, yielding ~57% win; adjust for form \u2192 ~60% advance.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.445545,
+          "p_draw": 0.009901,
+          "p_away": 0.544554,
+          "reasoning": "England's higher Elo rating and recent form suggest they are stronger, but Mexico's home advantage at high altitude could level the playing field, making it a competitive match.",
+          "raw": "{\"p_home_advance\": 0.45, \"p_away_advance\": 0.55, \"reasoning\": \"England's higher Elo rating and recent form suggest they are stronger, but Mexico's home advantage at high altitude could level the playing field, making it a competitive match.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.237624,
+          "p_draw": 0.009901,
+          "p_away": 0.752475,
+          "name": "Ned"
+        },
+        "human:sakshi": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Sakshi"
+        },
+        "human:football": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Football"
+        },
+        "human:daksh": {
+          "p_home": 0.39604,
+          "p_draw": 0.009901,
+          "p_away": 0.594059,
+          "name": "Daksh"
+        },
+        "human:vijay": {
+          "p_home": 0.643564,
+          "p_draw": 0.009901,
+          "p_away": 0.346535,
+          "name": "Vijay"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "crowd": {
+          "p_home": 0.379519,
+          "p_draw": 0.01,
+          "p_away": 0.610481,
+          "n": 6
+        }
+      }
+    }
+  ]
+}
