@@ -630,7 +630,7 @@
     "outcome": "draw",
     "status": "FT",
     "decided_by": "penalties",
-    "pens": "4-4",
+    "pens": "2-4",
     "advanced": "away"
   },
   {
@@ -665,6 +665,24 @@
     "match_id": "md090-W74-W77",
     "score_home": 0,
     "score_away": 1,
+    "outcome": "away",
+    "status": "FT",
+    "advanced": "away",
+    "decided_by": "regular"
+  },
+  {
+    "match_id": "md091-W76-W78",
+    "score_home": 1,
+    "score_away": 2,
+    "outcome": "away",
+    "status": "FT",
+    "advanced": "away",
+    "decided_by": "regular"
+  },
+  {
+    "match_id": "md092-W79-W80",
+    "score_home": 2,
+    "score_away": 3,
     "outcome": "away",
     "status": "FT",
     "advanced": "away",
