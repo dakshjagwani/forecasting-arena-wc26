@@ -1,0 +1,200 @@
+{
+  "date": "2026-07-06",
+  "freeze_utc": "2026-07-06T16:01:15Z",
+  "matches": [
+    {
+      "match_id": "md093-W83-W84",
+      "forecasts": {
+        "market": {
+          "p_home": 0.233104,
+          "p_draw": 0.275487,
+          "p_away": 0.491409,
+          "raw_odds": [
+            3.9,
+            3.3,
+            1.85
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.415842,
+          "p_draw": 0.009901,
+          "p_away": 0.574257,
+          "reasoning": "Spain's higher Elo and better H2H record give them an edge. Portugal's recent form is strong, but the heat could impact both European teams. Spain is slightly favored to advance.",
+          "raw": "{\"p_home_advance\": 0.42, \"p_away_advance\": 0.58, \"reasoning\": \"Spain's higher Elo and better H2H record give them an edge. Portugal's recent form is strong, but the heat could impact both European teams. Spain is slightly favored to advance.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.415842,
+          "p_draw": 0.009901,
+          "p_away": 0.574257,
+          "reasoning": "Spain's higher Elo rating outweighs Portugal's recent form.",
+          "raw": "{\"p_home_advance\": 0.42, \"p_away_advance\": 0.58, \"reasoning\": \"Spain's higher Elo rating outweighs Portugal's recent form.\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.415842,
+          "p_draw": 0.009901,
+          "p_away": 0.574257,
+          "reasoning": "Spain holds a significant Elo advantage (+115) and a superior head-to-head record. While Portugal is in better recent form, Spain's technical control typically mitigates heat fatigue. In a knockout se",
+          "raw": "```json\n{\"p_home_advance\": 0.42, \"p_away_advance\": 0.58, \"reasoning\": \"Spain holds a significant Elo advantage (+115) and a superior head-to-head record. While Portugal is in better recent form, Spain's technical control typically mitigates heat fatigue. In a knockout setting, Spain's quality edge makes them slight favorites to advance.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.386139,
+          "p_draw": 0.009901,
+          "p_away": 0.60396,
+          "reasoning": "Spain\u2019s 115\u2011point Elo edge gives ~66% win chance; assuming 25% draw, stronger side wins penalties ~55%. Heat equalises slightly, nudging Portugal up a bit.",
+          "raw": "{\"p_home_advance\":0.39,\"p_away_advance\":0.61,\"reasoning\":\"Spain\u2019s 115\u2011point Elo edge gives ~66% win chance; assuming 25% draw, stronger side wins penalties ~55%. Heat equalises slightly, nudging Portugal up a bit.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.445545,
+          "p_draw": 0.009901,
+          "p_away": 0.544554,
+          "reasoning": "Spain's higher Elo rating and recent form give them an edge, despite the challenging conditions. Portugal's home advantage is mitigated by the heat, making Spain slightly more likely to advance.",
+          "raw": "{\"p_home_advance\": 0.45, \"p_away_advance\": 0.55, \"reasoning\": \"Spain's higher Elo rating and recent form give them an edge, despite the challenging conditions. Portugal's home advantage is mitigated by the heat, making Spain slightly more likely to advance.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.09901,
+          "p_draw": 0.009901,
+          "p_away": 0.891089,
+          "name": "Ned"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:praneet": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Praneet"
+        },
+        "human:vijay": {
+          "p_home": 0.594059,
+          "p_draw": 0.009901,
+          "p_away": 0.39604,
+          "name": "Vijay"
+        },
+        "human:daksh": {
+          "p_home": 0.39604,
+          "p_draw": 0.009901,
+          "p_away": 0.594059,
+          "name": "Daksh"
+        },
+        "human:sakshi": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Sakshi"
+        },
+        "crowd": {
+          "p_home": 0.509826,
+          "p_draw": 0.01,
+          "p_away": 0.480174,
+          "n": 6
+        }
+      }
+    },
+    {
+      "match_id": "md094-W81-W82",
+      "forecasts": {
+        "market": {
+          "p_home": 0.378947,
+          "p_draw": 0.284211,
+          "p_away": 0.336842,
+          "raw_odds": [
+            2.4,
+            3.2,
+            2.7
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.316832,
+          "p_draw": 0.009901,
+          "p_away": 0.673267,
+          "reasoning": "Belgium's higher Elo (1948 vs 1818) and strong recent form (4W 1D) give them an edge. Head-to-head also heavily favors Belgium, including a recent friendly and a World Cup win.",
+          "raw": "{\"p_home_advance\": 0.32, \"p_away_advance\": 0.68, \"reasoning\": \"Belgium's higher Elo (1948 vs 1818) and strong recent form (4W 1D) give them an edge. Head-to-head also heavily favors Belgium, including a recent friendly and a World Cup win.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.316832,
+          "p_draw": 0.009901,
+          "p_away": 0.673267,
+          "reasoning": "Elo ratings and head-to-head favor Belgium",
+          "raw": "{\"p_home_advance\": 0.32, \"p_away_advance\": 0.68, \"reasoning\": \"Elo ratings and head-to-head favor Belgium\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.316832,
+          "p_draw": 0.009901,
+          "p_away": 0.673267,
+          "reasoning": "Belgium holds a significant Elo advantage (+130) and a dominant head-to-head record, including a recent 5-2 win. While USA has home-field advantage as hosts, Belgium's superior form (unbeaten in 5) ma",
+          "raw": "```json\n{\"p_home_advance\": 0.32, \"p_away_advance\": 0.68, \"reasoning\": \"Belgium holds a significant Elo advantage (+130) and a dominant head-to-head record, including a recent 5-2 win. While USA has home-field advantage as hosts, Belgium's superior form (unbeaten in 5) makes them strong favorites to advance.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.308911,
+          "p_draw": 0.009901,
+          "p_away": 0.681188,
+          "reasoning": "Elo diff 130 gives USA expected 0.321. Assuming ~18% draw chance, USA win \u224823%, Belgium win \u224859%. In draws, stronger side wins ~55% in extra time/penalties, yielding ~31% USA, ~69% Belgium.",
+          "raw": "{\"p_home_advance\": 0.312, \"p_away_advance\": 0.688, \"reasoning\": \"Elo diff 130 gives USA expected 0.321. Assuming ~18% draw chance, USA win \u224823%, Belgium win \u224859%. In draws, stronger side wins ~55% in extra time/penalties, yielding ~31% USA, ~69% Belgium.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.346535,
+          "p_draw": 0.009901,
+          "p_away": 0.643564,
+          "reasoning": "Belgium's higher Elo rating and recent form suggest a stronger team. The USA's poor head-to-head record and inconsistent performance further favor Belgium in this knockout match.",
+          "raw": "{\"p_home_advance\": 0.35, \"p_away_advance\": 0.65, \"reasoning\": \"Belgium's higher Elo rating and recent form suggest a stronger team. The USA's poor head-to-head record and inconsistent performance further favor Belgium in this knockout match.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.594059,
+          "p_draw": 0.009901,
+          "p_away": 0.39604,
+          "name": "Ned"
+        },
+        "human:football": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Football"
+        },
+        "human:praneet": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Praneet"
+        },
+        "human:vijay": {
+          "p_home": 0.39604,
+          "p_draw": 0.009901,
+          "p_away": 0.594059,
+          "name": "Vijay"
+        },
+        "human:daksh": {
+          "p_home": 0.594059,
+          "p_draw": 0.009901,
+          "p_away": 0.39604,
+          "name": "Daksh"
+        },
+        "human:sakshi": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Sakshi"
+        },
+        "crowd": {
+          "p_home": 0.269013,
+          "p_draw": 0.01,
+          "p_away": 0.720987,
+          "n": 6
+        }
+      }
+    }
+  ]
+}
