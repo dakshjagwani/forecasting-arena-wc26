@@ -1,0 +1,180 @@
+{
+  "date": "2026-07-07",
+  "freeze_utc": "2026-07-07T13:01:14Z",
+  "matches": [
+    {
+      "match_id": "md095-W86-W88",
+      "forecasts": {
+        "market": {
+          "p_home": 0.704777,
+          "p_draw": 0.203602,
+          "p_away": 0.091621,
+          "raw_odds": [
+            1.3,
+            4.5,
+            10.0
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.881188,
+          "p_draw": 0.009901,
+          "p_away": 0.108911,
+          "reasoning": "Argentina's significantly higher Elo (2175 vs 1814) and perfect recent form (5W) make them strong favorites. Head-to-head also favors Argentina. Egypt's mixed form and the heat are minor factors.",
+          "raw": "{\"p_home_advance\": 0.89, \"p_away_advance\": 0.11, \"reasoning\": \"Argentina's significantly higher Elo (2175 vs 1814) and perfect recent form (5W) make them strong favorites. Head-to-head also favors Argentina. Egypt's mixed form and the heat are minor factors.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.821782,
+          "p_draw": 0.009901,
+          "p_away": 0.168317,
+          "reasoning": "Elo difference and head-to-head favor Argentina",
+          "raw": "{\"p_home_advance\": 0.83, \"p_away_advance\": 0.17, \"reasoning\": \"Elo difference and head-to-head favor Argentina\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "status": "failed",
+          "error": "HTTP Error 429: Too Many Requests"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.851485,
+          "p_draw": 0.009901,
+          "p_away": 0.138614,
+          "reasoning": "Argentina's 361\u2011point Elo edge translates to ~89% win odds; recent 5\u2011game winning streak and 2\u20110 head\u2011to\u2011head reinforce dominance. Adjusted for knockout variance, estimate ~86% chance to advance.",
+          "raw": "{\"p_home_advance\": 0.86, \"p_away_advance\": 0.14, \"reasoning\": \"Argentina's 361\u2011point Elo edge translates to ~89% win odds; recent 5\u2011game winning streak and 2\u20110 head\u2011to\u2011head reinforce dominance. Adjusted for knockout variance, estimate ~86% chance to advance.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.742574,
+          "p_draw": 0.009901,
+          "p_away": 0.247525,
+          "reasoning": "Argentina's higher Elo rating, recent form, and historical dominance over Egypt suggest a strong likelihood of advancement, despite the knockout format which can introduce unpredictability.",
+          "raw": "{\"p_home_advance\": 0.75, \"p_away_advance\": 0.25, \"reasoning\": \"Argentina's higher Elo rating, recent form, and historical dominance over Egypt suggest a strong likelihood of advancement, despite the knockout format which can introduce unpredictability.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Ned"
+        },
+        "human:vijay": {
+          "p_home": 0.792079,
+          "p_draw": 0.009901,
+          "p_away": 0.19802,
+          "name": "Vijay"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:sakshi": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Sakshi"
+        },
+        "crowd": {
+          "p_home": 0.942397,
+          "p_draw": 0.01,
+          "p_away": 0.047603,
+          "n": 5
+        }
+      }
+    },
+    {
+      "match_id": "md096-W85-W87",
+      "forecasts": {
+        "market": {
+          "p_home": 0.266396,
+          "p_draw": 0.312326,
+          "p_away": 0.421278,
+          "raw_odds": [
+            3.4,
+            2.9,
+            2.15
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.346535,
+          "p_draw": 0.009901,
+          "p_away": 0.643564,
+          "reasoning": "Colombia has a significantly higher Elo rating and better recent form. While head-to-head is mixed, the Elo difference is the strongest indicator for this knockout match.",
+          "raw": "{\"p_home_advance\": 0.35, \"p_away_advance\": 0.65, \"reasoning\": \"Colombia has a significantly higher Elo rating and better recent form. While head-to-head is mixed, the Elo difference is the strongest indicator for this knockout match.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.321782,
+          "p_draw": 0.009901,
+          "p_away": 0.668317,
+          "reasoning": "Elo ratings favor Colombia",
+          "raw": "{\"p_home_advance\": 0.325, \"p_away_advance\": 0.675, \"reasoning\": \"Elo ratings favor Colombia\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "status": "failed",
+          "error": "HTTP Error 429: Too Many Requests"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.267327,
+          "p_draw": 0.009901,
+          "p_away": 0.722772,
+          "reasoning": "Colombia's higher Elo (+146), better recent form and 2\u20111\u20111 head\u2011to\u2011head give them ~73% chance; Switzerland ~27%.",
+          "raw": "{\"p_home_advance\": 0.27, \"p_away_advance\": 0.73, \"reasoning\": \"Colombia's higher Elo (+146), better recent form and 2\u20111\u20111 head\u2011to\u2011head give them ~73% chance; Switzerland ~27%.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.415842,
+          "p_draw": 0.009901,
+          "p_away": 0.574257,
+          "reasoning": "Colombia has a higher Elo rating and recent form, suggesting a stronger team. Switzerland's inconsistent performance in the last five matches may hinder their chances, despite a competitive history.",
+          "raw": "{\"p_home_advance\": 0.42, \"p_away_advance\": 0.58, \"reasoning\": \"Colombia has a higher Elo rating and recent form, suggesting a stronger team. Switzerland's inconsistent performance in the last five matches may hinder their chances, despite a competitive history.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.148515,
+          "p_draw": 0.009901,
+          "p_away": 0.841584,
+          "name": "Ned"
+        },
+        "human:vijay": {
+          "p_home": 0.247525,
+          "p_draw": 0.009901,
+          "p_away": 0.742574,
+          "name": "Vijay"
+        },
+        "human:praneet": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Praneet"
+        },
+        "human:football": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Football"
+        },
+        "human:sakshi": {
+          "p_home": 0.019802,
+          "p_draw": 0.009901,
+          "p_away": 0.970297,
+          "name": "Sakshi"
+        },
+        "crowd": {
+          "p_home": 0.087163,
+          "p_draw": 0.009999,
+          "p_away": 0.902837,
+          "n": 5
+        }
+      }
+    }
+  ]
+}
