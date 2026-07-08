@@ -722,6 +722,7 @@
     "outcome": "draw",
     "status": "FT",
     "decided_by": "penalties",
-    "pens": "3-3"
+    "pens": "4-3",
+    "advanced": "home"
   }
 ]

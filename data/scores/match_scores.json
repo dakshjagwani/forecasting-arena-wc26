@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-07-08T04:29:58Z",
+  "updated_utc": "2026-07-08T09:20:08Z",
   "days": {
     "2026-06-12": [
       {
@@ -11030,7 +11030,8 @@
             "p_home": 0.266396,
             "p_draw": 0.312326,
             "p_away": 0.421278,
-            "brier": 0.7213
+            "p_advance": 0.4226,
+            "brier": 0.6669
           },
           {
             "forecaster": "gpt-4o-mini",
@@ -11038,7 +11039,8 @@
             "p_home": 0.415842,
             "p_draw": 0.009901,
             "p_away": 0.574257,
-            "brier": 1.483
+            "p_advance": 0.4208,
+            "brier": 0.671
           },
           {
             "forecaster": "gemini-flash",
@@ -11046,7 +11048,8 @@
             "p_home": 0.346535,
             "p_draw": 0.009901,
             "p_away": 0.643564,
-            "brier": 1.5146
+            "p_advance": 0.3515,
+            "brier": 0.8411
           },
           {
             "forecaster": "llama-70b",
@@ -11054,7 +11057,8 @@
             "p_home": 0.321782,
             "p_draw": 0.009901,
             "p_away": 0.668317,
-            "brier": 1.5305
+            "p_advance": 0.3267,
+            "brier": 0.9066
           },
           {
             "forecaster": "gpt-oss-120b",
@@ -11062,7 +11066,8 @@
             "p_home": 0.267327,
             "p_draw": 0.009901,
             "p_away": 0.722772,
-            "brier": 1.5742
+            "p_advance": 0.2723,
+            "brier": 1.0592
           },
           {
             "forecaster": "human:vijay",
@@ -11070,7 +11075,8 @@
             "p_home": 0.247525,
             "p_draw": 0.009901,
             "p_away": 0.742574,
-            "brier": 1.593
+            "p_advance": 0.2525,
+            "brier": 1.1176
           },
           {
             "forecaster": "human:ned",
@@ -11078,7 +11084,8 @@
             "p_home": 0.148515,
             "p_draw": 0.009901,
             "p_away": 0.841584,
-            "brier": 1.7106
+            "p_advance": 0.1535,
+            "brier": 1.4332
           },
           {
             "forecaster": "crowd",
@@ -11086,7 +11093,8 @@
             "p_home": 0.087163,
             "p_draw": 0.009999,
             "p_away": 0.902837,
-            "brier": 1.8028
+            "p_advance": 0.0922,
+            "brier": 1.6483
           },
           {
             "forecaster": "human:sakshi",
@@ -11094,7 +11102,8 @@
             "p_home": 0.019802,
             "p_draw": 0.009901,
             "p_away": 0.970297,
-            "brier": 1.9222
+            "p_advance": 0.0248,
+            "brier": 1.9022
           },
           {
             "forecaster": "human:football",
@@ -11102,7 +11111,8 @@
             "p_home": 0.01,
             "p_draw": 0.01,
             "p_away": 0.98,
-            "brier": 1.9406
+            "p_advance": 0.015,
+            "brier": 1.9405
           },
           {
             "forecaster": "human:praneet",
@@ -11110,9 +11120,14 @@
             "p_home": 0.01,
             "p_draw": 0.01,
             "p_away": 0.98,
-            "brier": 1.9406
+            "p_advance": 0.015,
+            "brier": 1.9405
           }
-        ]
+        ],
+        "metric": "advancement",
+        "advanced": "home",
+        "decided_by": "penalties",
+        "pens": "4-3"
       }
     ]
   }
