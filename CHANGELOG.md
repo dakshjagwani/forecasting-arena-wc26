@@ -4,6 +4,25 @@ Every data correction and every decision that affects the experiment's
 integrity is logged here, newest first. Scores JSONs are never hand-edited;
 they are recomputed from raw data after any correction.
 
+## 2026-07-08 — gemma 429 resilience: patient retries over the 3h freeze window
+
+- gemma reached only **18/24** knockout forecasts — all 6 misses were HTTP 429
+  from OpenRouter's free tier (20 req/min + 50/day; gemma is our only OpenRouter
+  model). Pattern (some matches succeed, others fail the *same day*) = the
+  per-minute limit / upstream free-capacity, not daily exhaustion. Root cause: we
+  gave gemma only ~1 minute to recover (4 in-call attempts + a single 40s sweep)
+  despite the freeze running **3 hours** pre-kickoff.
+- Fix (freeze.py, £0 — lineup unchanged): the retry sweep is now an **escalating**
+  schedule (30→90→180→300…s, ~20 min total, bounded) re-querying only stragglers
+  until they recover; Retry-After is honoured up to 5 min; the in-call backoff
+  floor is ≥4s so we stop bursting the per-minute limit; and the 429 **response
+  body** is captured into the stored reason (OpenRouter states per-minute vs
+  per-day there) for future diagnosis. Only incurred when a model actually fails,
+  so clean freezes stay fast. A residual miss (hard daily cap / full provider
+  outage) is still absorbed by the 60% qualification rule.
+- 107 tests (3 new: escalating-sweep recovery + boundedness with a fake clock,
+  429-body capture).
+
 ## 2026-07-04 — Accurate knockout result display + self-healing lag correction
 
 - **Extra-time/penalty results now show the real score.** We score the 90-min

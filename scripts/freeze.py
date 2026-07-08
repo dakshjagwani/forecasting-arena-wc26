@@ -135,47 +135,92 @@ def http_post(url: str, headers: dict, body: dict, timeout: int = 30) -> dict:
 # temperature=0 makes each model deterministic, so retrying only affects
 # WHETHER we receive the model's one fixed answer, never what it is.
 _RETRYABLE_STATUS = {429, 500, 502, 503, 504}
-# Backoff is bounded on purpose: a genuinely-dead endpoint must not balloon the
-# freeze (a local dry-run with an unreachable provider burned ~30 min before we
-# capped this). 4 attempts with an 8s cap → ≤ ~14s of waits per call, so even
-# every model failing every match + the sweep stays a few minutes, inside 3h.
-_BACKOFF_CAP = 8.0
+# Per-call backoff between the few in-call attempts. The heavy lifting for a
+# rate-limited free tier (gemma on OpenRouter: 20/min + 50/day) is the escalating
+# sweep below — it uses the 3h freeze budget. Retry-After is honoured up to 5 min
+# (we can afford to wait as long as the provider asks); the exponential floor is
+# ≥4s so a single failing call never bursts past the per-minute limit.
+_BACKOFF_CAP = 16.0
+_RETRY_AFTER_CAP = 300.0
 
 def _sleep_for(attempt: int, retry_after: float | None) -> float:
-    """Backoff for a given 0-based attempt: honour Retry-After, else
-    exponential (2,4,8…) capped, with jitter. Pure → unit-testable."""
+    """Backoff for a given 0-based attempt: honour Retry-After (capped), else
+    exponential (4,8,16…) capped, with jitter. Pure → unit-testable."""
     if retry_after is not None and retry_after > 0:
-        return min(retry_after, 30.0)
-    base = min(2.0 * (2 ** attempt), _BACKOFF_CAP)
+        return min(retry_after, _RETRY_AFTER_CAP)
+    base = min(4.0 * (2 ** attempt), _BACKOFF_CAP)
     return base + random.uniform(0, base * 0.25)
+
+def _retry_after_secs(e: "urllib.error.HTTPError") -> float | None:
+    try:
+        ra = e.headers.get("Retry-After") if e.headers else None
+        return float(ra) if ra and str(ra).strip().replace(".", "", 1).isdigit() else None
+    except Exception:
+        return None
+
+# Escalating sweep waits (seconds). A rate-limited free tier often needs the full
+# rolling minute (or an upstream-capacity dip) to clear — longer than the in-call
+# backoff. We have ~3h, so we re-query stragglers at growing gaps until they
+# recover or this schedule is exhausted (~20 min total, still ≥2.5h pre-kickoff).
+# Only incurred when something actually failed; a clean freeze never waits.
+_SWEEP_WAITS = (30, 90, 180, 300, 300, 300)
+
+def run_retry_sweeps(stragglers, query_fn, forecasts_by_id,
+                     waits=_SWEEP_WAITS, sleep=time.sleep) -> int:
+    """Re-query failed (match_id, forecaster_id) slots at escalating waits until
+    all recover or `waits` is exhausted. `query_fn(match_id, fid) -> result dict`;
+    successful results are written into forecasts_by_id[match_id][fid]. Returns
+    the number recovered. Control-flow is pure — `sleep` is injectable for tests."""
+    remaining = list(stragglers)
+    recovered = 0
+    for wait in waits:
+        if not remaining:
+            break
+        log.info(f"Retry sweep: {len(remaining)} straggler(s) — waiting {wait}s "
+                 f"for rate limits/capacity to clear...")
+        sleep(wait)
+        still = []
+        for match_id, fid in remaining:
+            log.info(f"  Retrying {fid} for {match_id}...")
+            res = query_fn(match_id, fid)
+            forecasts_by_id[match_id][fid] = res
+            if res.get("status") == "ok":
+                recovered += 1
+            else:
+                still.append((match_id, fid))
+        remaining = still
+    return recovered
 
 def _post_with_retries(url: str, headers: dict, body: dict, label: str,
                        max_attempts: int = 4) -> dict:
     """POST with retries on transient errors. Returns parsed JSON, or raises
-    the last error after exhausting attempts. Fails fast on non-retryable 4xx."""
-    last_err: Exception = RuntimeError("no attempt made")
+    RuntimeError (carrying the HTTP status + response body) after exhausting
+    attempts. Fails fast on non-retryable 4xx. The body is captured so a stored
+    'failed' reason shows WHY (e.g. OpenRouter's per-minute vs per-day 429)."""
+    last_code: object = "?"
+    last_detail = ""
     for attempt in range(max_attempts):
+        retry_after = None
         try:
             return http_post(url, headers, body)
         except urllib.error.HTTPError as e:
-            last_err = e
+            last_code = e.code
+            try:
+                last_detail = e.read().decode("utf-8", "replace")[:300].strip()
+            except Exception:
+                last_detail = e.reason or ""
             if e.code not in _RETRYABLE_STATUS:
                 log.warning(f"  {label}: HTTP {e.code} (non-retryable) — giving up")
-                raise
-            retry_after = None
-            try:
-                ra = e.headers.get("Retry-After") if e.headers else None
-                retry_after = float(ra) if ra and ra.isdigit() else None
-            except Exception:
-                retry_after = None
-            log.warning(f"  {label} attempt {attempt + 1}/{max_attempts}: HTTP {e.code}")
+                raise RuntimeError(f"HTTP {e.code}: {last_detail}") from e
+            retry_after = _retry_after_secs(e)
+            log.warning(f"  {label} attempt {attempt + 1}/{max_attempts}: HTTP {e.code}"
+                        + (f" (Retry-After {retry_after:.0f}s)" if retry_after else ""))
         except (urllib.error.URLError, TimeoutError, OSError) as e:
-            last_err = e
+            last_code, last_detail = "network", str(e)[:300]
             log.warning(f"  {label} attempt {attempt + 1}/{max_attempts}: {e}")
-            retry_after = None
         if attempt < max_attempts - 1:
             time.sleep(_sleep_for(attempt, retry_after))
-    raise last_err
+    raise RuntimeError(f"HTTP {last_code} after {max_attempts} attempts: {last_detail}")
 
 # ── LLM prompt ───────────────────────────────────────────────────────────────
 _PROMPT_ENRICHED = (
@@ -734,11 +779,13 @@ def main() -> None:
     log.info(f"\n{'═'*50}")
 
     # ── Retry sweep: re-query any model that still failed ─────────────────────
-    # Transient free-tier blips (503/429) often clear within a minute. We have
-    # the whole 3h window, so wait once and retry only the failed (match, model)
-    # slots before committing — recovering them WITHIN the same freeze (one
-    # cutoff for everyone), rather than backfilling later. Same prompt, temp 0.
+    # Rate-limited free tiers (gemma on OpenRouter: 20/min + 50/day) and upstream
+    # capacity dips often need more than the in-call backoff to clear. We have the
+    # whole 3h window, so re-query only the failed (match, model) slots at
+    # ESCALATING waits until they recover — WITHIN the same freeze (one cutoff for
+    # everyone), never backfilled later. Same prompt, temp 0.
     by_id = {m["match_id"]: m for m in today_matches}
+    forecasts_by_id = {mr["match_id"]: mr["forecasts"] for mr in match_results}
     stragglers = [
         (mr["match_id"], fid)
         for mr in match_results
@@ -746,19 +793,12 @@ def main() -> None:
         if mr["forecasts"].get(fid, {}).get("status") == "failed"
     ]
     if stragglers:
-        log.info(f"Retry sweep: {len(stragglers)} failed forecast(s) — "
-                 f"waiting 40s for transient errors to clear...")
-        time.sleep(40)
-        recovered = 0
-        for match_id, fid in stragglers:
-            log.info(f"  Retrying {fid} for {match_id}...")
-            res = ai_queries[fid](by_id[match_id])
-            fc_map = next(mr["forecasts"] for mr in match_results
-                          if mr["match_id"] == match_id)
-            fc_map[fid] = res
-            if res.get("status") == "ok":
-                recovered += 1
-            time.sleep(1)
+        log.info(f"Retry sweep: {len(stragglers)} failed forecast(s) to recover")
+        recovered = run_retry_sweeps(
+            stragglers,
+            lambda mid, fid: ai_queries[fid](by_id[mid]),
+            forecasts_by_id,
+        )
         log.info(f"Retry sweep: recovered {recovered}/{len(stragglers)}")
 
     # ── Validate all triples ──────────────────────────────────────────────────

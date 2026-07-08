@@ -353,8 +353,13 @@ def test_calendar_sequence_is_monotonic_for_inplace_updates():
 
 # ── Retry / backoff for transient provider errors ────────────────────────────
 
-def _http_error(code):
-    return urllib.error.HTTPError("http://x", code, "err", hdrs=None, fp=None)
+import io, email.message
+
+def _http_error(code, body="err", retry_after=None):
+    hdrs = email.message.Message()
+    if retry_after is not None:
+        hdrs["Retry-After"] = str(retry_after)
+    return urllib.error.HTTPError("http://x", code, "err", hdrs, io.BytesIO(body.encode()))
 
 def test_retries_then_succeeds_on_503(monkeypatch):
     # 503 twice, then a good response → returns it
@@ -372,7 +377,7 @@ def test_retries_then_succeeds_on_503(monkeypatch):
 def test_raises_after_exhausting_attempts(monkeypatch):
     monkeypatch.setattr(freeze, "http_post", lambda *a, **k: (_ for _ in ()).throw(_http_error(503)))
     monkeypatch.setattr(freeze.time, "sleep", lambda s: None)
-    with pytest.raises(urllib.error.HTTPError):
+    with pytest.raises(RuntimeError, match="503"):  # raised with the status baked in
         _post_with_retries("u", {}, {}, "lbl", max_attempts=3)
 
 def test_fails_fast_on_non_retryable_4xx(monkeypatch):
@@ -382,24 +387,35 @@ def test_fails_fast_on_non_retryable_4xx(monkeypatch):
         raise _http_error(400)  # bad request — never retry
     monkeypatch.setattr(freeze, "http_post", fake_post)
     monkeypatch.setattr(freeze.time, "sleep", lambda s: None)
-    with pytest.raises(urllib.error.HTTPError):
+    with pytest.raises(RuntimeError, match="400"):
         _post_with_retries("u", {}, {}, "lbl", max_attempts=5)
     assert calls["n"] == 1  # one attempt only, no retries
 
+def test_error_captures_429_body(monkeypatch):
+    # OpenRouter's 429 body says per-minute vs per-day — it must survive into the
+    # stored reason so a recurrence is diagnosable (not a bare "HTTP 429").
+    body = '{"error":{"message":"Rate limit exceeded: free-models-per-min"}}'
+    monkeypatch.setattr(freeze, "http_post",
+                        lambda *a, **k: (_ for _ in ()).throw(_http_error(429, body=body)))
+    monkeypatch.setattr(freeze.time, "sleep", lambda s: None)
+    with pytest.raises(RuntimeError, match="free-models-per-min"):
+        _post_with_retries("u", {}, {}, "lbl", max_attempts=2)
+
 def test_sleep_honors_retry_after():
-    # Retry-After dominates the exponential schedule (capped at 30s)
     assert _sleep_for(0, retry_after=17) == 17
-    # without it, backoff grows and stays within cap+jitter
+    # large Retry-After honoured up to the 5-min cap (we have the 3h budget)
+    assert _sleep_for(0, retry_after=120) == 120
+    assert _sleep_for(0, retry_after=9999) == freeze._RETRY_AFTER_CAP
+    # without it, backoff grows (floor ≥4s so we don't burst the per-minute limit)
     s0 = _sleep_for(0, None)
-    assert 2.0 <= s0 <= 2.5
+    assert 4.0 <= s0 <= 5.0
     assert _sleep_for(10, None) <= freeze._BACKOFF_CAP * 1.25
 
 def test_backoff_is_bounded():
-    # A dead endpoint must not balloon the run: total wait across all retries
-    # of one call stays small (cap 8s, 4 attempts → 3 waits ≤ ~10s each).
+    # A dead endpoint's in-call waits stay bounded (cap 16s → tens of seconds).
     total = sum(_sleep_for(a, None) for a in range(3))  # waits before attempts 2,3,4
-    assert total <= 3 * freeze._BACKOFF_CAP * 1.25  # ≤ 30s, not minutes
-    assert freeze._BACKOFF_CAP <= 8.0
+    assert total <= 3 * freeze._BACKOFF_CAP * 1.25  # tens of seconds, not minutes
+    assert freeze._BACKOFF_CAP <= 16.0
 
 def test_provider_failure_carries_error_reason(monkeypatch):
     monkeypatch.setattr(freeze, "http_post", lambda *a, **k: (_ for _ in ()).throw(_http_error(503)))
@@ -409,6 +425,31 @@ def test_provider_failure_carries_error_reason(monkeypatch):
     res = query_gemini(match, "fake-key")
     assert res["status"] == "failed"
     assert "503" in res.get("error", "")   # reason stored, not a bare status
+
+def test_run_retry_sweeps_recovers_straggler():
+    # gemma fails the 1st sweep, succeeds the 2nd → recovered; stops immediately
+    from freeze import run_retry_sweeps
+    n = {"i": 0}
+    def query_fn(mid, fid):
+        n["i"] += 1
+        return ({"status": "ok", "p_home": .5, "p_draw": 0, "p_away": .5}
+                if n["i"] >= 2 else {"status": "failed", "error": "429"})
+    fbid = {"m1": {"gemma": {"status": "failed"}}}
+    slept = []
+    got = run_retry_sweeps([("m1", "gemma")], query_fn, fbid,
+                           waits=(1, 1, 1, 1), sleep=slept.append)
+    assert got == 1
+    assert fbid["m1"]["gemma"]["status"] == "ok"
+    assert len(slept) == 2   # stopped as soon as it recovered, didn't use whole schedule
+
+def test_run_retry_sweeps_is_bounded():
+    # never recovers → walks exactly the finite schedule then gives up (no loop)
+    from freeze import run_retry_sweeps
+    fbid = {"m1": {"gemma": {"status": "failed"}}}
+    slept = []
+    got = run_retry_sweeps([("m1", "gemma")], lambda mid, fid: {"status": "failed"},
+                           fbid, waits=(1, 2, 3), sleep=slept.append)
+    assert got == 0 and slept == [1, 2, 3]
 
 # ── Rescue mode (--remaining) ─────────────────────────────────────────────────
 
