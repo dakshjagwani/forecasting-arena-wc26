@@ -626,7 +626,15 @@ def main() -> None:
     target_date = args.date or (freeze_utc - _UTC8).strftime("%Y-%m-%d")
     all_today = day_map.get(target_date, [])
     if not all_today:
-        log.error(f"No fixtures found for {target_date}")
+        # A campaign day with no matches is a REST DAY (common between knockout
+        # rounds) — a benign no-op, NOT a failure. Every 3-min poll would else
+        # fire a false "Freeze FAILED". Only a totally empty day_map (fixtures.json
+        # missing/broken) is a real error. The dead-man's switch still catches a
+        # genuinely-missed freeze day.
+        if day_map:
+            log.info(f"No fixtures for {target_date} (rest day) — nothing to do")
+            sys.exit(0)
+        log.error("No fixtures found at all — fixtures.json missing or empty")
         sys.exit(1)
 
     # ── Placeholder gate: never forecast an unknown opponent ─────────────────

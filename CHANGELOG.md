@@ -22,6 +22,13 @@ they are recomputed from raw data after any correction.
   outage) is still absorbed by the 60% qualification rule.
 - 107 tests (3 new: escalating-sweep recovery + boundedness with a fake clock,
   429-body capture).
+- Also fixed a **rest-day false alarm**: 2026-07-08 is the tournament's first day
+  with no matches (R16 ended 7/7, QF starts 7/9), and freeze.py treated "no
+  fixtures for today" as a hard error (`exit 1`) → every 3-min poll fired a false
+  "Freeze FAILED". A rest day is now a benign no-op (`exit 0`), like the
+  "too-early" / "already-frozen" cases; only a totally empty fixtures.json is an
+  error. (Pre-existing bug, unrelated to the retry change — surfaced by the first
+  rest day.) The dead-man's switch still catches a genuinely-missed freeze day.
 
 ## 2026-07-04 — Accurate knockout result display + self-healing lag correction
 
