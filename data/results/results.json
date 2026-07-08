@@ -705,5 +705,23 @@
     "status": "FT",
     "advanced": "away",
     "decided_by": "regular"
+  },
+  {
+    "match_id": "md095-W86-W88",
+    "score_home": 3,
+    "score_away": 2,
+    "outcome": "home",
+    "status": "FT",
+    "advanced": "home",
+    "decided_by": "regular"
+  },
+  {
+    "match_id": "md096-W85-W87",
+    "score_home": 0,
+    "score_away": 0,
+    "outcome": "draw",
+    "status": "FT",
+    "decided_by": "penalties",
+    "pens": "3-3"
   }
 ]
