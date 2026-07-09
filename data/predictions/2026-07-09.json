@@ -1,0 +1,109 @@
+{
+  "date": "2026-07-09",
+  "freeze_utc": "2026-07-09T17:01:01Z",
+  "matches": [
+    {
+      "match_id": "md097-W89-W90",
+      "forecasts": {
+        "market": {
+          "p_home": 0.583199,
+          "p_draw": 0.25994,
+          "p_away": 0.15686,
+          "raw_odds": [
+            1.56,
+            3.5,
+            5.8
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.712871,
+          "p_draw": 0.009901,
+          "p_away": 0.277228,
+          "reasoning": "France has a significantly higher Elo and a dominant head-to-head record, including a recent World Cup win. Morocco's recent form is good, but France's quality and experience in knockout stages give t",
+          "raw": "{\"p_home_advance\": 0.72, \"p_away_advance\": 0.28, \"reasoning\": \"France has a significantly higher Elo and a dominant head-to-head record, including a recent World Cup win. Morocco's recent form is good, but France's quality and experience in knockout stages give them a strong advantage.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.673267,
+          "p_draw": 0.009901,
+          "p_away": 0.316832,
+          "reasoning": "Elo difference and head-to-head favor France",
+          "raw": "{\"p_home_advance\": 0.68, \"p_away_advance\": 0.32, \"reasoning\": \"Elo difference and head-to-head favor France\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.673267,
+          "p_draw": 0.009901,
+          "p_away": 0.316832,
+          "reasoning": "France holds a significant Elo advantage (+155) and a dominant head-to-head record, including a 2-0 win in the 2022 World Cup. While Morocco is in strong form, France's superior squad depth and histor",
+          "raw": "```json\n{\"p_home_advance\": 0.68, \"p_away_advance\": 0.32, \"reasoning\": \"France holds a significant Elo advantage (+155) and a dominant head-to-head record, including a 2-0 win in the 2022 World Cup. While Morocco is in strong form, France's superior squad depth and historical edge make them clear favorites in a knockout setting.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.732673,
+          "p_draw": 0.009901,
+          "p_away": 0.257426,
+          "reasoning": "Elo diff 155 gives ~71% win chance; France's superior recent form and unbeaten head\u2011to\u2011head add a few points, raising to ~74% for advancing, with Morocco covering the remainder.",
+          "raw": "{\"p_home_advance\": 0.74, \"p_away_advance\": 0.26, \"reasoning\": \"Elo diff 155 gives ~71% win chance; France's superior recent form and unbeaten head\u2011to\u2011head add a few points, raising to ~74% for advancing, with Morocco covering the remainder.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.643564,
+          "p_draw": 0.009901,
+          "p_away": 0.346535,
+          "reasoning": "France's higher Elo rating and recent form suggest a stronger team, while their historical dominance over Morocco adds to their advantage. However, Morocco's recent performances indicate resilience, j",
+          "raw": "{\"p_home_advance\": 0.65, \"p_away_advance\": 0.35, \"reasoning\": \"France's higher Elo rating and recent form suggest a stronger team, while their historical dominance over Morocco adds to their advantage. However, Morocco's recent performances indicate resilience, justifying a lower but non-negligible probability of advancement.\"}",
+          "status": "ok"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:vijay": {
+          "p_home": 0.623762,
+          "p_draw": 0.009901,
+          "p_away": 0.366337,
+          "name": "Vijay"
+        },
+        "human:ned": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Ned"
+        },
+        "human:daksh": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Daksh"
+        },
+        "human:max-furber": {
+          "p_home": 0.821782,
+          "p_draw": 0.009901,
+          "p_away": 0.168317,
+          "name": "Max Furber"
+        },
+        "human:tom-easton": {
+          "p_home": 0.891089,
+          "p_draw": 0.009901,
+          "p_away": 0.09901,
+          "name": "Tom Easton"
+        },
+        "human:sakshi": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Sakshi"
+        },
+        "crowd": {
+          "p_home": 0.893767,
+          "p_draw": 0.01,
+          "p_away": 0.096234,
+          "n": 7
+        }
+      }
+    }
+  ]
+}
