@@ -1,0 +1,109 @@
+{
+  "date": "2026-07-10",
+  "freeze_utc": "2026-07-10T16:01:11Z",
+  "matches": [
+    {
+      "match_id": "md098-W93-W94",
+      "forecasts": {
+        "market": {
+          "p_home": 0.577145,
+          "p_draw": 0.241631,
+          "p_away": 0.181224,
+          "raw_odds": [
+            1.57,
+            3.75,
+            5.0
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.742574,
+          "p_draw": 0.009901,
+          "p_away": 0.247525,
+          "reasoning": "Spain has a significantly higher Elo rating (2168 vs 1948) and a dominant head-to-head record against Belgium, including recent competitive wins. This strong statistical advantage makes them clear fav",
+          "raw": "{\"p_home_advance\": 0.75, \"p_away_advance\": 0.25, \"reasoning\": \"Spain has a significantly higher Elo rating (2168 vs 1948) and a dominant head-to-head record against Belgium, including recent competitive wins. This strong statistical advantage makes them clear favorites to advance.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.673267,
+          "p_draw": 0.009901,
+          "p_away": 0.316832,
+          "reasoning": "Elo difference and head-to-head favor Spain",
+          "raw": "{\"p_home_advance\": 0.68, \"p_away_advance\": 0.32, \"reasoning\": \"Elo difference and head-to-head favor Spain\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.633663,
+          "p_draw": 0.009901,
+          "p_away": 0.356436,
+          "reasoning": "Spain holds a significant Elo advantage (+220) and a dominant historical head-to-head record. While Belgium's recent form is slightly better, Spain's superior technical quality and Elo rating make the",
+          "raw": "```json\n{\"p_home_advance\": 0.64, \"p_away_advance\": 0.36, \"reasoning\": \"Spain holds a significant Elo advantage (+220) and a dominant historical head-to-head record. While Belgium's recent form is slightly better, Spain's superior technical quality and Elo rating make them strong favorites to advance in a neutral venue knockout setting.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.722772,
+          "p_draw": 0.009901,
+          "p_away": 0.267327,
+          "reasoning": "Spain's 220\u2011point Elo edge gives ~78% win chance; adjust down for Belgium's superior recent form and neutral venue, yielding ~73% for Spain and ~27% for Belgium.",
+          "raw": "{\"p_home_advance\": 0.73, \"p_away_advance\": 0.27, \"reasoning\": \"Spain's 220\u2011point Elo edge gives ~78% win chance; adjust down for Belgium's superior recent form and neutral venue, yielding ~73% for Spain and ~27% for Belgium.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.574257,
+          "p_draw": 0.009901,
+          "p_away": 0.415842,
+          "reasoning": "Spain's higher Elo rating and strong historical performance against Belgium suggest a slight advantage. However, Belgium's recent form and winning streak make them competitive, justifying a closer pro",
+          "raw": "{\"p_home_advance\": 0.58, \"p_away_advance\": 0.42, \"reasoning\": \"Spain's higher Elo rating and strong historical performance against Belgium suggest a slight advantage. However, Belgium's recent form and winning streak make them competitive, justifying a closer probability.\"}",
+          "status": "ok"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:ned": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Ned"
+        },
+        "human:sakshi": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Sakshi"
+        },
+        "human:tom-easton": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Tom Easton"
+        },
+        "human:max-furber": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Max Furber"
+        },
+        "human:daksh": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "crowd": {
+          "p_home": 0.841429,
+          "p_draw": 0.01,
+          "p_away": 0.148571,
+          "n": 7
+        }
+      }
+    }
+  ]
+}
