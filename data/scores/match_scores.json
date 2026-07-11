@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-07-10T12:12:57Z",
+  "updated_utc": "2026-07-11T04:25:45Z",
   "days": {
     "2026-06-12": [
       {
@@ -11265,6 +11265,148 @@
             "p_away": 0.366337,
             "p_advance": 0.6287,
             "brier": 0.2757
+          }
+        ],
+        "metric": "advancement",
+        "advanced": "home",
+        "decided_by": "regular"
+      }
+    ],
+    "2026-07-10": [
+      {
+        "match_id": "md098-W93-W94",
+        "home": "Spain",
+        "away": "Belgium",
+        "stage": "Quarterfinals",
+        "kickoff_utc": "2026-07-10T19:00:00Z",
+        "score": "2-1",
+        "outcome": "home",
+        "rows": [
+          {
+            "forecaster": "human:daksh",
+            "type": "human",
+            "p_home": 0.98,
+            "p_draw": 0.01,
+            "p_away": 0.01,
+            "p_advance": 0.985,
+            "brier": 0.0005
+          },
+          {
+            "forecaster": "human:football",
+            "type": "human",
+            "p_home": 0.98,
+            "p_draw": 0.01,
+            "p_away": 0.01,
+            "p_advance": 0.985,
+            "brier": 0.0005
+          },
+          {
+            "forecaster": "human:max-furber",
+            "type": "human",
+            "p_home": 0.98,
+            "p_draw": 0.01,
+            "p_away": 0.01,
+            "p_advance": 0.985,
+            "brier": 0.0005
+          },
+          {
+            "forecaster": "human:ned",
+            "type": "human",
+            "p_home": 0.98,
+            "p_draw": 0.01,
+            "p_away": 0.01,
+            "p_advance": 0.985,
+            "brier": 0.0005
+          },
+          {
+            "forecaster": "human:praneet",
+            "type": "human",
+            "p_home": 0.98,
+            "p_draw": 0.01,
+            "p_away": 0.01,
+            "p_advance": 0.985,
+            "brier": 0.0005
+          },
+          {
+            "forecaster": "human:tom-easton",
+            "type": "human",
+            "p_home": 0.98,
+            "p_draw": 0.01,
+            "p_away": 0.01,
+            "p_advance": 0.985,
+            "brier": 0.0005
+          },
+          {
+            "forecaster": "crowd",
+            "type": "crowd",
+            "p_home": 0.841429,
+            "p_draw": 0.01,
+            "p_away": 0.148571,
+            "p_advance": 0.8464,
+            "brier": 0.0472
+          },
+          {
+            "forecaster": "gemini-flash",
+            "type": "ai",
+            "p_home": 0.742574,
+            "p_draw": 0.009901,
+            "p_away": 0.247525,
+            "p_advance": 0.7475,
+            "brier": 0.1275
+          },
+          {
+            "forecaster": "gpt-oss-120b",
+            "type": "ai",
+            "p_home": 0.722772,
+            "p_draw": 0.009901,
+            "p_away": 0.267327,
+            "p_advance": 0.7277,
+            "brier": 0.1483
+          },
+          {
+            "forecaster": "market",
+            "type": "market",
+            "p_home": 0.577145,
+            "p_draw": 0.241631,
+            "p_away": 0.181224,
+            "p_advance": 0.698,
+            "brier": 0.1825
+          },
+          {
+            "forecaster": "llama-70b",
+            "type": "ai",
+            "p_home": 0.673267,
+            "p_draw": 0.009901,
+            "p_away": 0.316832,
+            "p_advance": 0.6782,
+            "brier": 0.2071
+          },
+          {
+            "forecaster": "gemma",
+            "type": "ai",
+            "p_home": 0.633663,
+            "p_draw": 0.009901,
+            "p_away": 0.356436,
+            "p_advance": 0.6386,
+            "brier": 0.2612
+          },
+          {
+            "forecaster": "gpt-4o-mini",
+            "type": "ai",
+            "p_home": 0.574257,
+            "p_draw": 0.009901,
+            "p_away": 0.415842,
+            "p_advance": 0.5792,
+            "brier": 0.3541
+          },
+          {
+            "forecaster": "human:sakshi",
+            "type": "human",
+            "p_home": 0.01,
+            "p_draw": 0.01,
+            "p_away": 0.98,
+            "p_advance": 0.015,
+            "brier": 1.9405
           }
         ],
         "metric": "advancement",

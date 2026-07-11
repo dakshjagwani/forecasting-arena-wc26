@@ -11,15 +11,15 @@
       {
         "lo": 0.1,
         "hi": 0.2,
-        "n": 55,
-        "actual_freq": 0.1455,
+        "n": 56,
+        "actual_freq": 0.1429,
         "predicted_mid": 0.15
       },
       {
         "lo": 0.2,
         "hi": 0.3,
-        "n": 83,
-        "actual_freq": 0.1928,
+        "n": 84,
+        "actual_freq": 0.1905,
         "predicted_mid": 0.25
       },
       {
@@ -39,8 +39,8 @@
       {
         "lo": 0.5,
         "hi": 0.6,
-        "n": 24,
-        "actual_freq": 0.5833,
+        "n": 25,
+        "actual_freq": 0.6,
         "predicted_mid": 0.55
       },
       {
@@ -78,8 +78,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 47,
-        "actual_freq": 0.1277,
+        "n": 48,
+        "actual_freq": 0.125,
         "predicted_mid": 0.05
       },
       {
@@ -92,8 +92,8 @@
       {
         "lo": 0.2,
         "hi": 0.3,
-        "n": 66,
-        "actual_freq": 0.197,
+        "n": 67,
+        "actual_freq": 0.194,
         "predicted_mid": 0.25
       },
       {
@@ -127,8 +127,8 @@
       {
         "lo": 0.7,
         "hi": 0.8,
-        "n": 16,
-        "actual_freq": 0.6875,
+        "n": 17,
+        "actual_freq": 0.7059,
         "predicted_mid": 0.75
       },
       {
@@ -152,8 +152,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 30,
-        "actual_freq": 0.2,
+        "n": 31,
+        "actual_freq": 0.1935,
         "predicted_mid": 0.05
       },
       {
@@ -173,8 +173,8 @@
       {
         "lo": 0.3,
         "hi": 0.4,
-        "n": 28,
-        "actual_freq": 0.2143,
+        "n": 29,
+        "actual_freq": 0.2069,
         "predicted_mid": 0.35
       },
       {
@@ -194,8 +194,8 @@
       {
         "lo": 0.6,
         "hi": 0.7,
-        "n": 20,
-        "actual_freq": 0.75,
+        "n": 21,
+        "actual_freq": 0.7619,
         "predicted_mid": 0.65
       },
       {
@@ -226,8 +226,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 34,
-        "actual_freq": 0.1471,
+        "n": 35,
+        "actual_freq": 0.1429,
         "predicted_mid": 0.05
       },
       {
@@ -247,8 +247,8 @@
       {
         "lo": 0.3,
         "hi": 0.4,
-        "n": 28,
-        "actual_freq": 0.25,
+        "n": 29,
+        "actual_freq": 0.2414,
         "predicted_mid": 0.35
       },
       {
@@ -268,8 +268,8 @@
       {
         "lo": 0.6,
         "hi": 0.7,
-        "n": 26,
-        "actual_freq": 0.7692,
+        "n": 27,
+        "actual_freq": 0.7778,
         "predicted_mid": 0.65
       },
       {
@@ -300,8 +300,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 44,
-        "actual_freq": 0.1818,
+        "n": 45,
+        "actual_freq": 0.1778,
         "predicted_mid": 0.05
       },
       {
@@ -314,8 +314,8 @@
       {
         "lo": 0.2,
         "hi": 0.3,
-        "n": 48,
-        "actual_freq": 0.1875,
+        "n": 49,
+        "actual_freq": 0.1837,
         "predicted_mid": 0.25
       },
       {
@@ -349,8 +349,8 @@
       {
         "lo": 0.7,
         "hi": 0.8,
-        "n": 18,
-        "actual_freq": 0.7222,
+        "n": 19,
+        "actual_freq": 0.7368,
         "predicted_mid": 0.75
       },
       {
@@ -374,8 +374,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 25,
-        "actual_freq": 0.24,
+        "n": 26,
+        "actual_freq": 0.2308,
         "predicted_mid": 0.05
       },
       {
@@ -402,15 +402,15 @@
       {
         "lo": 0.4,
         "hi": 0.5,
-        "n": 43,
-        "actual_freq": 0.3953,
+        "n": 44,
+        "actual_freq": 0.3864,
         "predicted_mid": 0.45
       },
       {
         "lo": 0.5,
         "hi": 0.6,
-        "n": 29,
-        "actual_freq": 0.5517,
+        "n": 30,
+        "actual_freq": 0.5667,
         "predicted_mid": 0.55
       },
       {
@@ -522,8 +522,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 82,
-        "actual_freq": 0.2195,
+        "n": 84,
+        "actual_freq": 0.2262,
         "predicted_mid": 0.05
       },
       {
@@ -585,8 +585,8 @@
       {
         "lo": 0.9,
         "hi": 1.0,
-        "n": 36,
-        "actual_freq": 0.5833,
+        "n": 37,
+        "actual_freq": 0.5676,
         "predicted_mid": 0.95
       }
     ]
@@ -670,8 +670,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 146,
-        "actual_freq": 0.1507,
+        "n": 148,
+        "actual_freq": 0.1486,
         "predicted_mid": 0.05
       },
       {
@@ -733,8 +733,8 @@
       {
         "lo": 0.9,
         "hi": 1.0,
-        "n": 72,
-        "actual_freq": 0.6944,
+        "n": 73,
+        "actual_freq": 0.6986,
         "predicted_mid": 0.95
       }
     ]
@@ -818,8 +818,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 70,
-        "actual_freq": 0.1429,
+        "n": 72,
+        "actual_freq": 0.1389,
         "predicted_mid": 0.05
       },
       {
@@ -881,8 +881,8 @@
       {
         "lo": 0.9,
         "hi": 1.0,
-        "n": 19,
-        "actual_freq": 0.7895,
+        "n": 20,
+        "actual_freq": 0.8,
         "predicted_mid": 0.95
       }
     ]
@@ -892,8 +892,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 103,
-        "actual_freq": 0.1165,
+        "n": 105,
+        "actual_freq": 0.1143,
         "predicted_mid": 0.05
       },
       {
@@ -955,8 +955,8 @@
       {
         "lo": 0.9,
         "hi": 1.0,
-        "n": 45,
-        "actual_freq": 0.7778,
+        "n": 46,
+        "actual_freq": 0.7826,
         "predicted_mid": 0.95
       }
     ]
@@ -1114,15 +1114,15 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 74,
-        "actual_freq": 0.1081,
+        "n": 75,
+        "actual_freq": 0.1067,
         "predicted_mid": 0.05
       },
       {
         "lo": 0.1,
         "hi": 0.2,
-        "n": 47,
-        "actual_freq": 0.2128,
+        "n": 48,
+        "actual_freq": 0.2083,
         "predicted_mid": 0.15
       },
       {
@@ -1170,8 +1170,8 @@
       {
         "lo": 0.8,
         "hi": 0.9,
-        "n": 17,
-        "actual_freq": 0.8235,
+        "n": 18,
+        "actual_freq": 0.8333,
         "predicted_mid": 0.85
       },
       {
@@ -1484,8 +1484,8 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 104,
-        "actual_freq": 0.2308,
+        "n": 106,
+        "actual_freq": 0.2264,
         "predicted_mid": 0.05
       },
       {
@@ -1547,8 +1547,8 @@
       {
         "lo": 0.9,
         "hi": 1.0,
-        "n": 45,
-        "actual_freq": 0.5556,
+        "n": 46,
+        "actual_freq": 0.5652,
         "predicted_mid": 0.95
       }
     ]
@@ -1632,7 +1632,7 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 1,
+        "n": 3,
         "actual_freq": 0.0,
         "predicted_mid": 0.05
       },
@@ -1695,8 +1695,8 @@
       {
         "lo": 0.9,
         "hi": 1.0,
-        "n": 0,
-        "actual_freq": null,
+        "n": 1,
+        "actual_freq": 1.0,
         "predicted_mid": 0.95
       }
     ]
@@ -1706,7 +1706,7 @@
       {
         "lo": 0.0,
         "hi": 0.1,
-        "n": 2,
+        "n": 4,
         "actual_freq": 0.0,
         "predicted_mid": 0.05
       },
@@ -1769,8 +1769,8 @@
       {
         "lo": 0.9,
         "hi": 1.0,
-        "n": 0,
-        "actual_freq": null,
+        "n": 1,
+        "actual_freq": 1.0,
         "predicted_mid": 0.95
       }
     ]
