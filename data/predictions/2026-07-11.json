@@ -1,0 +1,188 @@
+{
+  "date": "2026-07-11",
+  "freeze_utc": "2026-07-11T18:01:14Z",
+  "matches": [
+    {
+      "match_id": "md099-W91-W92",
+      "forecasts": {
+        "market": {
+          "p_home": 0.252937,
+          "p_draw": 0.267815,
+          "p_away": 0.479248,
+          "raw_odds": [
+            3.6,
+            3.4,
+            1.9
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.316832,
+          "p_draw": 0.009901,
+          "p_away": 0.673267,
+          "reasoning": "England's higher Elo (2072 vs 1966) and stronger head-to-head record make them favorites. The hot, humid conditions are a factor for both, but England's overall quality should prevail in a knockout ma",
+          "raw": "{\"p_home_advance\": 0.32, \"p_away_advance\": 0.68, \"reasoning\": \"England's higher Elo (2072 vs 1966) and stronger head-to-head record make them favorites. The hot, humid conditions are a factor for both, but England's overall quality should prevail in a knockout match.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.316832,
+          "p_draw": 0.009901,
+          "p_away": 0.673267,
+          "reasoning": "Elo ratings and head-to-head favor England",
+          "raw": "{\"p_home_advance\": 0.32, \"p_away_advance\": 0.68, \"reasoning\": \"Elo ratings and head-to-head favor England\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.336634,
+          "p_draw": 0.009901,
+          "p_away": 0.653465,
+          "reasoning": "England holds a significant Elo advantage (+106) and a dominant historical head-to-head record. While Norway's attacking threat is high, England's depth and tournament experience make them strong favo",
+          "raw": "```json\n{\"p_home_advance\": 0.34, \"p_away_advance\": 0.66, \"reasoning\": \"England holds a significant Elo advantage (+106) and a dominant historical head-to-head record. While Norway's attacking threat is high, England's depth and tournament experience make them strong favorites in a knockout setting, despite the demanding Miami heat affecting both sides equally.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.336634,
+          "p_draw": 0.009901,
+          "p_away": 0.653465,
+          "reasoning": "Elo diff gives 65% England win; adjust -3% for heat, +2% for England recent form, yielding ~66% England, 34% Norway.",
+          "raw": "{\"p_home_advance\": 0.34, \"p_away_advance\": 0.66, \"reasoning\": \"Elo diff gives 65% England win; adjust -3% for heat, +2% for England recent form, yielding ~66% England, 34% Norway.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.346535,
+          "p_draw": 0.009901,
+          "p_away": 0.643564,
+          "reasoning": "England's higher Elo rating and recent form suggest a stronger team. However, Norway's resilience in knockout matches and the challenging conditions may level the playing field slightly.",
+          "raw": "{\"p_home_advance\": 0.35, \"p_away_advance\": 0.65, \"reasoning\": \"England's higher Elo rating and recent form suggest a stronger team. However, Norway's resilience in knockout matches and the challenging conditions may level the playing field slightly.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.09901,
+          "p_draw": 0.009901,
+          "p_away": 0.891089,
+          "name": "Ned"
+        },
+        "human:football": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Football"
+        },
+        "human:daksh": {
+          "p_home": 0.29703,
+          "p_draw": 0.009901,
+          "p_away": 0.693069,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "human:sakshi": {
+          "p_home": 0.29703,
+          "p_draw": 0.009901,
+          "p_away": 0.693069,
+          "name": "Sakshi"
+        },
+        "crowd": {
+          "p_home": 0.336594,
+          "p_draw": 0.009999,
+          "p_away": 0.653407,
+          "n": 5
+        }
+      }
+    },
+    {
+      "match_id": "md100-W95-W100",
+      "forecasts": {
+        "market": {
+          "p_home": 0.546448,
+          "p_draw": 0.273224,
+          "p_away": 0.180328,
+          "raw_odds": [
+            1.65,
+            3.3,
+            5.0
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.841584,
+          "p_draw": 0.009901,
+          "p_away": 0.148515,
+          "reasoning": "Argentina has a significantly higher Elo rating, a perfect recent form, and a dominant head-to-head record against Switzerland. This strong statistical advantage makes them clear favorites to advance.",
+          "raw": "{\"p_home_advance\": 0.85, \"p_away_advance\": 0.15, \"reasoning\": \"Argentina has a significantly higher Elo rating, a perfect recent form, and a dominant head-to-head record against Switzerland. This strong statistical advantage makes them clear favorites to advance.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.821782,
+          "p_draw": 0.009901,
+          "p_away": 0.168317,
+          "reasoning": "Elo difference and head-to-head favor Argentina",
+          "raw": "{\"p_home_advance\": 0.83, \"p_away_advance\": 0.17, \"reasoning\": \"Elo difference and head-to-head favor Argentina\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.772277,
+          "p_draw": 0.009901,
+          "p_away": 0.217822,
+          "reasoning": "Argentina holds a significant Elo advantage (+271) and perfect recent form. Switzerland's struggle for wins and Argentina's historical dominance in head-to-head matchups make them heavy favorites to a",
+          "raw": "```json\n{\"p_home_advance\": 0.78, \"p_away_advance\": 0.22, \"reasoning\": \"Argentina holds a significant Elo advantage (+271) and perfect recent form. Switzerland's struggle for wins and Argentina's historical dominance in head-to-head matchups make them heavy favorites to advance, despite the neutral venue.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.889109,
+          "p_draw": 0.009901,
+          "p_away": 0.10099,
+          "reasoning": "Elo diff 271 gives 82.6% win chance. Assuming a 12% draw rate for such a mismatch and that the stronger side wins 60% of draws in extra time/penalties, Argentina\u2019s advance probability \u224889.8%.",
+          "raw": "{\"p_home_advance\":0.898,\"p_away_advance\":0.102,\"reasoning\":\"Elo diff 271 gives 82.6% win chance. Assuming a 12% draw rate for such a mismatch and that the stronger side wins 60% of draws in extra time/penalties, Argentina\u2019s advance probability \u224889.8%.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.643564,
+          "p_draw": 0.009901,
+          "p_away": 0.346535,
+          "reasoning": "Argentina's higher Elo rating, recent form, and strong historical performance against Switzerland suggest a significant advantage, despite the knockout format which can introduce unpredictability.",
+          "raw": "{\"p_home_advance\": 0.65, \"p_away_advance\": 0.35, \"reasoning\": \"Argentina's higher Elo rating, recent form, and strong historical performance against Switzerland suggest a significant advantage, despite the knockout format which can introduce unpredictability.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.792079,
+          "p_draw": 0.009901,
+          "p_away": 0.19802,
+          "name": "Ned"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:daksh": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "human:sakshi": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Sakshi"
+        },
+        "crowd": {
+          "p_home": 0.942397,
+          "p_draw": 0.01,
+          "p_away": 0.047603,
+          "n": 5
+        }
+      }
+    }
+  ]
+}
