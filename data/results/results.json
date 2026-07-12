@@ -742,5 +742,25 @@
     "status": "FT",
     "advanced": "home",
     "decided_by": "regular"
+  },
+  {
+    "match_id": "md099-W91-W92",
+    "score_home": 1,
+    "score_away": 1,
+    "outcome": "draw",
+    "status": "FT",
+    "advanced": "away",
+    "decided_by": "extra_time",
+    "final_score": "1-2"
+  },
+  {
+    "match_id": "md100-W95-W100",
+    "score_home": 1,
+    "score_away": 1,
+    "outcome": "draw",
+    "status": "FT",
+    "advanced": "home",
+    "decided_by": "extra_time",
+    "final_score": "3-1"
   }
 ]
