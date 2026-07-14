@@ -1,0 +1,103 @@
+{
+  "date": "2026-07-14",
+  "freeze_utc": "2026-07-14T16:01:15Z",
+  "matches": [
+    {
+      "match_id": "md101-W97-W98",
+      "forecasts": {
+        "market": {
+          "p_home": 0.392206,
+          "p_draw": 0.296735,
+          "p_away": 0.31106,
+          "raw_odds": [
+            2.3,
+            3.04,
+            2.9
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.455446,
+          "p_draw": 0.009901,
+          "p_away": 0.534653,
+          "reasoning": "Spain's higher Elo and recent H2H dominance, especially in high-scoring games, give them an edge. The hot conditions might slightly favor Spain's style, despite France's 'home' listing.",
+          "raw": "{\"p_home_advance\": 0.46, \"p_away_advance\": 0.54, \"reasoning\": \"Spain's higher Elo and recent H2H dominance, especially in high-scoring games, give them an edge. The hot conditions might slightly favor Spain's style, despite France's 'home' listing.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.415842,
+          "p_draw": 0.009901,
+          "p_away": 0.574257,
+          "reasoning": "Spain's higher Elo and recent head-to-head wins",
+          "raw": "{\"p_home_advance\": 0.42, \"p_away_advance\": 0.58, \"reasoning\": \"Spain's higher Elo and recent head-to-head wins\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.455446,
+          "p_draw": 0.009901,
+          "p_away": 0.534653,
+          "reasoning": "Spain holds a slight Elo advantage and a strong recent head-to-head record, including wins in 2024 and 2025. While France is highly competitive, Spain's current tactical dominance in recent meetings g",
+          "raw": "```json\n{\"p_home_advance\": 0.46, \"p_away_advance\": 0.54, \"reasoning\": \"Spain holds a slight Elo advantage and a strong recent head-to-head record, including wins in 2024 and 2025. While France is highly competitive, Spain's current tactical dominance in recent meetings gives them a marginal edge in a neutral venue.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.445545,
+          "p_draw": 0.009901,
+          "p_away": 0.544554,
+          "reasoning": "Spain\u2019s 40\u2011point Elo edge gives ~56% win chance; slight climate advantage (+2%) and France\u2019s stronger recent form (-3%) balance to ~55% for Spain, ~45% for France.",
+          "raw": "{\"p_home_advance\":0.45,\"p_away_advance\":0.55,\"reasoning\":\"Spain\u2019s 40\u2011point Elo edge gives ~56% win chance; slight climate advantage (+2%) and France\u2019s stronger recent form (-3%) balance to ~55% for Spain, ~45% for France.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.445545,
+          "p_draw": 0.009901,
+          "p_away": 0.544554,
+          "reasoning": "Spain's higher Elo rating and recent head-to-head success give them an edge, despite the challenging conditions for European teams. France's home advantage is mitigated by the neutral venue and heat.",
+          "raw": "{\"p_home_advance\": 0.45, \"p_away_advance\": 0.55, \"reasoning\": \"Spain's higher Elo rating and recent head-to-head success give them an edge, despite the challenging conditions for European teams. France's home advantage is mitigated by the neutral venue and heat.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.841584,
+          "p_draw": 0.009901,
+          "p_away": 0.148515,
+          "name": "Ned"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:vijay": {
+          "p_home": 0.623762,
+          "p_draw": 0.009901,
+          "p_away": 0.366337,
+          "name": "Vijay"
+        },
+        "human:daksh": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Daksh"
+        },
+        "human:praneet": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Praneet"
+        },
+        "human:sakshi": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Sakshi"
+        },
+        "crowd": {
+          "p_home": 0.897528,
+          "p_draw": 0.01,
+          "p_away": 0.092472,
+          "n": 6
+        }
+      }
+    }
+  ]
+}
