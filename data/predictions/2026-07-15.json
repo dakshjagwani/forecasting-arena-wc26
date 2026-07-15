@@ -1,0 +1,87 @@
+{
+  "date": "2026-07-15",
+  "freeze_utc": "2026-07-15T16:01:15Z",
+  "matches": [
+    {
+      "match_id": "md102-W99-W100",
+      "forecasts": {
+        "market": {
+          "p_home": 0.353967,
+          "p_draw": 0.328684,
+          "p_away": 0.31735,
+          "raw_odds": [
+            2.6,
+            2.8,
+            2.9
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.39604,
+          "p_draw": 0.009901,
+          "p_away": 0.594059,
+          "reasoning": "Argentina's higher Elo, perfect recent form, and strong historical performance in knockout stages give them an edge despite England's decent form and historical H2H. Heat could be a factor for both.",
+          "raw": "{\"p_home_advance\": 0.40, \"p_away_advance\": 0.60, \"reasoning\": \"Argentina's higher Elo, perfect recent form, and strong historical performance in knockout stages give them an edge despite England's decent form and historical H2H. Heat could be a factor for both.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.415842,
+          "p_draw": 0.009901,
+          "p_away": 0.574257,
+          "reasoning": "Argentina's higher Elo and recent wins give them an edge.",
+          "raw": "{\"p_home_advance\": 0.42, \"p_away_advance\": 0.58, \"reasoning\": \"Argentina's higher Elo and recent wins give them an edge.\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "status": "failed",
+          "error": "HTTP 429 after 4 attempts: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please retry shortly, or add you"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.336634,
+          "p_draw": 0.009901,
+          "p_away": 0.653465,
+          "reasoning": "Based on Elo diff (103 pts), Argentina win prob \u22480.64; recent form and stronger streak add ~0.02; head\u2011to\u2011head slight England edge subtract ~0.02; heat neutral. Result: England 0.34, Argentina 0.66.",
+          "raw": "{\"p_home_advance\": 0.34, \"p_away_advance\": 0.66, \"reasoning\": \"Based on Elo diff (103 pts), Argentina win prob \u22480.64; recent form and stronger streak add ~0.02; head\u2011to\u2011head slight England edge subtract ~0.02; heat neutral. Result: England 0.34, Argentina 0.66.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.445545,
+          "p_draw": 0.009901,
+          "p_away": 0.544554,
+          "reasoning": "Argentina's higher Elo rating and recent form give them an edge, despite England's strong historical performance. The heat may impact stamina, favoring the more consistent team.",
+          "raw": "{\"p_home_advance\": 0.45, \"p_away_advance\": 0.55, \"reasoning\": \"Argentina's higher Elo rating and recent form give them an edge, despite England's strong historical performance. The heat may impact stamina, favoring the more consistent team.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.752475,
+          "p_draw": 0.009901,
+          "p_away": 0.237624,
+          "name": "Ned"
+        },
+        "human:praneet": {
+          "p_home": 0.01,
+          "p_draw": 0.01,
+          "p_away": 0.98,
+          "name": "Praneet"
+        },
+        "human:football": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Football"
+        },
+        "human:daksh": {
+          "p_home": 0.594059,
+          "p_draw": 0.009901,
+          "p_away": 0.39604,
+          "name": "Daksh"
+        },
+        "crowd": {
+          "p_home": 0.584105,
+          "p_draw": 0.01,
+          "p_away": 0.405896,
+          "n": 4
+        }
+      }
+    }
+  ]
+}
