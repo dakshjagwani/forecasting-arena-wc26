@@ -1,0 +1,85 @@
+{
+  "date": "2026-07-18",
+  "freeze_utc": "2026-07-18T18:00:55Z",
+  "matches": [
+    {
+      "match_id": "md103-RU101-RU102",
+      "forecasts": {
+        "market": {
+          "p_home": 0.508431,
+          "p_draw": 0.240836,
+          "p_away": 0.250733,
+          "raw_odds": [
+            1.8,
+            3.8,
+            3.65
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.554455,
+          "p_draw": 0.009901,
+          "p_away": 0.435644,
+          "reasoning": "France has a higher Elo and won their last World Cup encounter. England's recent form is strong, but France's Elo advantage and head-to-head edge in recent competitive matches give them a slight lead.",
+          "raw": "{\"p_home_advance\": 0.56, \"p_away_advance\": 0.44, \"reasoning\": \"France has a higher Elo and won their last World Cup encounter. England's recent form is strong, but France's Elo advantage and head-to-head edge in recent competitive matches give them a slight lead.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.574257,
+          "p_draw": 0.009901,
+          "p_away": 0.415842,
+          "reasoning": "Elo ratings and recent form favor France",
+          "raw": "{\"p_home_advance\": 0.58, \"p_away_advance\": 0.42, \"reasoning\": \"Elo ratings and recent form favor France\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "p_home": 0.534653,
+          "p_draw": 0.009901,
+          "p_away": 0.455446,
+          "reasoning": "France holds a slight Elo advantage and a superior recent form (4W in 5). While England has a better all-time H2H, France won the most recent high-stakes encounter in 2022. In a neutral venue, the Elo",
+          "raw": "```json\n{\"p_home_advance\": 0.54, \"p_away_advance\": 0.46, \"reasoning\": \"France holds a slight Elo advantage and a superior recent form (4W in 5). While England has a better all-time H2H, France won the most recent high-stakes encounter in 2022. In a neutral venue, the Elo gap suggests a marginal edge for France.\"}\n```",
+          "status": "ok"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.584158,
+          "p_draw": 0.009901,
+          "p_away": 0.405941,
+          "reasoning": "France's 56\u2011point Elo edge gives ~58% expected points. Assuming a 25% draw rate, France wins 45.6% in regulation; if drawn, its extra\u2011time/penalties edge is ~55%, yielding ~59% total chance.",
+          "raw": "{\"p_home_advance\": 0.59, \"p_away_advance\": 0.41, \"reasoning\": \"France's 56\u2011point Elo edge gives ~58% expected points. Assuming a 25% draw rate, France wins 45.6% in regulation; if drawn, its extra\u2011time/penalties edge is ~55%, yielding ~59% total chance.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.544554,
+          "p_draw": 0.009901,
+          "p_away": 0.445545,
+          "reasoning": "France has a higher Elo rating and recent form, but England's historical head-to-head advantage and current momentum make it competitive. The humid conditions may favor the more physically fit team.",
+          "raw": "{\"p_home_advance\": 0.55, \"p_away_advance\": 0.45, \"reasoning\": \"France has a higher Elo rating and recent form, but England's historical head-to-head advantage and current momentum make it competitive. The humid conditions may favor the more physically fit team.\"}",
+          "status": "ok"
+        },
+        "human:ned": {
+          "p_home": 0.594059,
+          "p_draw": 0.009901,
+          "p_away": 0.39604,
+          "name": "Ned"
+        },
+        "human:daksh": {
+          "p_home": 0.693069,
+          "p_draw": 0.009901,
+          "p_away": 0.29703,
+          "name": "Daksh"
+        },
+        "human:sakshi": {
+          "p_home": 0.98,
+          "p_draw": 0.01,
+          "p_away": 0.01,
+          "name": "Sakshi"
+        },
+        "crowd": {
+          "p_home": 0.755659,
+          "p_draw": 0.009999,
+          "p_away": 0.234341,
+          "n": 3
+        }
+      }
+    }
+  ]
+}
