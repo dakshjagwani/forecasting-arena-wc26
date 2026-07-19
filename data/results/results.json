@@ -780,5 +780,14 @@
     "status": "FT",
     "advanced": "away",
     "decided_by": "regular"
+  },
+  {
+    "match_id": "md103-RU101-RU102",
+    "score_home": 4,
+    "score_away": 6,
+    "outcome": "away",
+    "status": "FT",
+    "advanced": "away",
+    "decided_by": "regular"
   }
 ]
