@@ -1,0 +1,81 @@
+{
+  "date": "2026-07-19",
+  "freeze_utc": "2026-07-19T16:01:00Z",
+  "matches": [
+    {
+      "match_id": "md104-W101-W102",
+      "forecasts": {
+        "market": {
+          "p_home": 0.409077,
+          "p_draw": 0.312008,
+          "p_away": 0.278916,
+          "raw_odds": [
+            2.25,
+            2.95,
+            3.3
+          ]
+        },
+        "gemini-flash": {
+          "p_home": 0.485149,
+          "p_draw": 0.009901,
+          "p_away": 0.50495,
+          "reasoning": "Argentina's superior recent form and slightly higher Elo rating give them a marginal edge. Head-to-head is even, and the final's pressure is high for both.",
+          "raw": "{\"p_home_advance\": 0.49, \"p_away_advance\": 0.51, \"reasoning\": \"Argentina's superior recent form and slightly higher Elo rating give them a marginal edge. Head-to-head is even, and the final's pressure is high for both.\"}",
+          "status": "ok"
+        },
+        "llama-70b": {
+          "p_home": 0.480198,
+          "p_draw": 0.009901,
+          "p_away": 0.509901,
+          "reasoning": "Argentina's stronger recent form slightly outweighs Spain's historical edge.",
+          "raw": "{\"p_home_advance\": 0.485, \"p_away_advance\": 0.515, \"reasoning\": \"Argentina's stronger recent form slightly outweighs Spain's historical edge.\"}",
+          "status": "ok"
+        },
+        "gemma": {
+          "status": "failed",
+          "error": "HTTP 429 after 4 attempts: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please retry shortly, or add you"
+        },
+        "gpt-oss-120b": {
+          "p_home": 0.445545,
+          "p_draw": 0.009901,
+          "p_away": 0.544554,
+          "reasoning": "Argentina\u2019s slight Elo edge, perfect recent form and comparable head\u2011to\u2011head balance give them a modest advantage; Spain\u2019s decent Elo and mixed recent results keep them competitive but slightly behind",
+          "raw": "{\"p_home_advance\":0.45,\"p_away_advance\":0.55,\"reasoning\":\"Argentina\u2019s slight Elo edge, perfect recent form and comparable head\u2011to\u2011head balance give them a modest advantage; Spain\u2019s decent Elo and mixed recent results keep them competitive but slightly behind.\"}",
+          "status": "ok"
+        },
+        "gpt-4o-mini": {
+          "p_home": 0.445545,
+          "p_draw": 0.009901,
+          "p_away": 0.544554,
+          "reasoning": "Argentina's recent form (5 wins) and slightly higher Elo rating suggest a stronger performance. Spain's mixed results may hinder their chances, making Argentina more likely to advance.",
+          "raw": "{\"p_home_advance\": 0.45, \"p_away_advance\": 0.55, \"reasoning\": \"Argentina's recent form (5 wins) and slightly higher Elo rating suggest a stronger performance. Spain's mixed results may hinder their chances, making Argentina more likely to advance.\"}",
+          "status": "ok"
+        },
+        "human:daksh": {
+          "p_home": 0.39604,
+          "p_draw": 0.009901,
+          "p_away": 0.594059,
+          "name": "Daksh"
+        },
+        "human:ned": {
+          "p_home": 0.841584,
+          "p_draw": 0.009901,
+          "p_away": 0.148515,
+          "name": "Ned"
+        },
+        "human:sakshi": {
+          "p_home": 0.465347,
+          "p_draw": 0.009901,
+          "p_away": 0.524752,
+          "name": "Sakshi"
+        },
+        "crowd": {
+          "p_home": 0.567601,
+          "p_draw": 0.009999,
+          "p_away": 0.4224,
+          "n": 3
+        }
+      }
+    }
+  ]
+}
