@@ -789,5 +789,15 @@
     "status": "FT",
     "advanced": "away",
     "decided_by": "regular"
+  },
+  {
+    "match_id": "md104-W101-W102",
+    "score_home": 0,
+    "score_away": 0,
+    "outcome": "draw",
+    "status": "FT",
+    "advanced": "home",
+    "decided_by": "extra_time",
+    "final_score": "1-0"
   }
 ]
